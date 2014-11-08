@@ -2,6 +2,25 @@
 
   "protons.readout": "Protons:",
   "neutrons.readout": "Neutrons:",
-  "electrons.readout": "Electrons:"
+  "electrons.readout": "Electrons:",
+
+  "element.hydrogen.name": "Hydrogen",
+  "element.helium.name": "Helium",
+  "element.lithium.name": "Lithium",
+  "element.beryllium.name": "Beryllium",
+  "element.boron.name": "Boron",
+  "element.carbon.name": "Carbon",
+  "element.nitrogen.name": "Nitrogen",
+  "element.oxygen.name": "Oxygen",
+  "element.fluorine.name": "Fluorine",
+  "element.neon.name": "Neon",
+  "element.sodium.name": "Sodium",
+  "element.magnesium.name": "Magnesium",
+  "element.aluminum.name": "Aluminum",
+  "element.silicon.name": "Silicon",
+  "element.phosphorus.name": "Phosphorus",
+  "element.sulfur.name": "Sulfur",
+  "element.chlorine.name": "Chlorine",
+  "element.argon.name": "argon"
 
 }

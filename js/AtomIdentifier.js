@@ -1,4 +1,6 @@
-// Copyright 2002-2013, University of Colorado Boulder
+/*
+ * //  Copyright 2002-2014, University of Colorado Boulder
+ */
 
 /**
  * Object that can be used to identify various things about an atom given its
@@ -11,24 +13,24 @@ define( function( require ) {
 
   var nameTable = [
     '',
-    require( 'string!BUILD_AN_ATOM/element.hydrogen.name' ),
-    require( 'string!BUILD_AN_ATOM/element.helium.name' ),
-    require( 'string!BUILD_AN_ATOM/element.lithium.name' ),
-    require( 'string!BUILD_AN_ATOM/element.beryllium.name' ),
-    require( 'string!BUILD_AN_ATOM/element.boron.name' ),
-    require( 'string!BUILD_AN_ATOM/element.carbon.name' ),
-    require( 'string!BUILD_AN_ATOM/element.nitrogen.name' ),
-    require( 'string!BUILD_AN_ATOM/element.oxygen.name' ),
-    require( 'string!BUILD_AN_ATOM/element.fluorine.name' ),
-    require( 'string!BUILD_AN_ATOM/element.neon.name' ),
-    require( 'string!BUILD_AN_ATOM/element.sodium.name' ),
-    require( 'string!BUILD_AN_ATOM/element.magnesium.name' ),
-    require( 'string!BUILD_AN_ATOM/element.aluminum.name' ),
-    require( 'string!BUILD_AN_ATOM/element.silicon.name' ),
-    require( 'string!BUILD_AN_ATOM/element.phosphorus.name' ),
-    require( 'string!BUILD_AN_ATOM/element.sulfur.name' ),
-    require( 'string!BUILD_AN_ATOM/element.chlorine.name' ),
-    require( 'string!BUILD_AN_ATOM/element.argon.name' ),
+    require( 'string!SHRED/element.hydrogen.name' ),
+    require( 'string!SHRED/element.helium.name' ),
+    require( 'string!SHRED/element.lithium.name' ),
+    require( 'string!SHRED/element.beryllium.name' ),
+    require( 'string!SHRED/element.boron.name' ),
+    require( 'string!SHRED/element.carbon.name' ),
+    require( 'string!SHRED/element.nitrogen.name' ),
+    require( 'string!SHRED/element.oxygen.name' ),
+    require( 'string!SHRED/element.fluorine.name' ),
+    require( 'string!SHRED/element.neon.name' ),
+    require( 'string!SHRED/element.sodium.name' ),
+    require( 'string!SHRED/element.magnesium.name' ),
+    require( 'string!SHRED/element.aluminum.name' ),
+    require( 'string!SHRED/element.silicon.name' ),
+    require( 'string!SHRED/element.phosphorus.name' ),
+    require( 'string!SHRED/element.sulfur.name' ),
+    require( 'string!SHRED/element.chlorine.name' ),
+    require( 'string!SHRED/element.argon.name' ),
     'Potassium',
     'Calcium',
     'Scandium',
@@ -390,6 +392,93 @@ define( function( require ) {
     161
   ];
 
+  var massTable = [
+    0, // 0, NO ELEMENT
+    1.00794, // 1, HYDROGEN
+    4.002602, // 2, HELIUM
+    6.941, // 3, LITHIUM
+    9.012182, // 4, BERYLLIUM
+    10.811, // 5, BORON
+    12.0107, // 6, CARBON
+    14.0067, // 7, NITROGEN
+    15.9994, // 8, OXYGEN
+    18.9984032, // 9, FLUORINE
+    20.1797, // 10, NEON
+    22.98976928, // 11, SODIUM
+    24.3050, // 12, MAGNESIUM
+    26.9815386, // 13, ALUMINUM
+    28.0855, // 14, SILICON
+    30.973762, // 15, PHOSPHORUS
+    32.065, // 16, SULFUR
+    35.453, // 17, CHLORINE
+    39.948, // 18, ARGON
+    39.0983, // 19, POTASSIUM
+    40.078, // 20, CALCIUM
+    44.955912, // 21, SCANDIUM
+    47.867, // 22, TITANIUM
+    50.9415, // 23, VANADIUM
+    51.9961, // 24, CHROMIUM
+    54.938045, // 25, MANGANESE
+    55.845, // 26, IRON
+    58.933195, // 27, COBALT
+    58.6934, // 28, NICKEL
+    63.546, // 29, COPPER
+    65.38, // 30, ZINC
+    69.723, // 31, GALLIUM
+    72.64, // 32, GERMANIUM
+    74.9216, // 33, ARSENIC
+    78.96, // 34, SELENIUM
+    79.904, // 35, BROMINE
+    83.798, // 36, KRYPTON
+    85.4678, // 37, RUBIDIUM
+    87.62, // 38, STRONTIUM
+    88.90585, // 39, YTTRIUM
+    91.224, // 40, ZIRCONIUM
+    92.90638, // 41, NIOBIUM
+    95.96, // 42, MOLYBDENUM
+    98, // 43, TECHNETIUM
+    101.07, // 44, RUTHENIUM
+    102.9055, // 45, RHODIUM
+    106.42, // 46, PALLADIUM
+    107.8682, // 47, SILVER
+    112.411, // 48, CADMIUM
+    114.818, // 49, INDIUM
+    118.71, // 50, TIN
+    121.76, // 51, ANTIMONY
+    127.6, // 52, TELLURIUM
+    126.90447, // 53, IODINE
+    131.293, // 54, XENON
+    132.9054519, // 55, CAESIUM
+    137.327, // 56, BARIUM
+    138.90547, // 57, LANTHANUM
+    140.116, // 58, CERIUM
+    140.90765, // 59, PRASEODYMIUM
+    144.242, // 60, NEODYMIUM
+    145, // 61, PROMETHIUM
+    150.36, // 62, SAMARIUM
+    151.964, // 63, EUROPIUM
+    157.25, // 64, GADOLINIUM
+    158.92535, // 65, TERBIUM
+    162.5, // 66, DYSPROSIUM
+    164.93032, // 67, HOLMIUM
+    167.259, // 68, ERBIUM
+    168.93421, // 69, THULIUM
+    173.054, // 70, YTTERBIUM
+    174.9668, // 71, LUTETIUM
+    178.49, // 72, HAFNIUM
+    180.94788, // 73, TANTALUM
+    183.84, // 74, TUNGSTEN
+    186.207, // 75, RHENIUM
+    190.23, // 76, OSMIUM
+    192.217, // 77, IRIDIUM
+    195.084, // 78, PLATINUM
+    196.966569, // 79, GOLD
+    200.59, // 80, MERCURY
+    204.3833, // 81, THALLIUM
+    207.2, // 82, LEAD
+    208.9804 // 83, BISMUTH
+  ];
+
   return {
     // Get the chemical symbol for an atom with the specified number of protons.
     getSymbol: function( numProtons ) {
@@ -412,6 +501,11 @@ define( function( require ) {
 
     getNumNeutronsInMostCommonIsotope: function( atomicNumber ) {
       return numNeutronsInMostStableIsotope[ atomicNumber ];
+    },
+
+    getAtomicMass: function( numProtons ) {
+      return massTable[numProtons];
     }
+
   };
 } );

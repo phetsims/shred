@@ -12,6 +12,7 @@ define( function( require ) {
 
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
+  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
 
   function NumberAtom( options ) {
 
@@ -47,6 +48,10 @@ define( function( require ) {
       return ( this.protonCount === otherAtom.protonCount &&
                this.neutronCount === otherAtom.neutronCount &&
                this.electronCount === otherAtom.electronCount );
+    },
+
+    getAtomicMass: function() {
+      return AtomIdentifier.getAtomicMass( this.protonCount );
     }
   } );
 } );
