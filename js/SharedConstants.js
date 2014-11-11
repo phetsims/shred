@@ -17,6 +17,10 @@ define( function( require ) {
     NUCLEON_RADIUS: 10, // In screen coordinates, which are roughly pixels.
     ELECTRON_RADIUS: 8, // In screen coordinates, which are roughly pixels.
 
+    // Placing this variable here will remove dependency on BuildAnAtom in shred repository. Max number of electrons
+    // for ElectronCloudView.
+    MAX_ELECTRONS: 10,
+
     // Background color used on several displays.
     DISPLAY_PANEL_BACKGROUND_COLOR: 'rgb( 254, 255, 153 )',
 

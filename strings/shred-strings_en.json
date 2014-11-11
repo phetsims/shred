@@ -21,6 +21,12 @@
   "element.phosphorus.name": "Phosphorus",
   "element.sulfur.name": "Sulfur",
   "element.chlorine.name": "Chlorine",
-  "element.argon.name": "argon"
+  "element.argon.name": "argon",
+
+  "negative.ion": "- Ion",
+  "neutral.atom": "Neutral Atom",
+  "positive.ion": "+ Ion",
+  "stable": "Stable",
+  "unstable": "Unstable"
 
 }
