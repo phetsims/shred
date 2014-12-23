@@ -14,8 +14,8 @@ define( function( require ) {
   return{
 
     // Sizes of the various particles.
-    NUCLEON_RADIUS: 5, // In screen coordinates, which are roughly pixels.
-    ELECTRON_RADIUS: 4, // In screen coordinates, which are roughly pixels.
+    NUCLEON_RADIUS: 10, // In screen coordinates, which are roughly pixels.
+    ELECTRON_RADIUS: 8, // In screen coordinates, which are roughly pixels.
 
     // Placing this variable here will remove dependency on BuildAnAtom in shred repository. Max number of electrons
     // for ElectronCloudView.
