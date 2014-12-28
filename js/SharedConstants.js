@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Shared constants used in various places.
+ * Shared constants used in various places in both 'Build an Atom' and 'Isotopes and Atomic Mass'.
  *
  * @author John Blanco
  */
