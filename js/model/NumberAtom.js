@@ -50,8 +50,12 @@ define( function( require ) {
                this.electronCount === otherAtom.electronCount );
     },
 
-    getAtomicMass: function() {
-      return AtomIdentifier.getAtomicMass( this.protonCount );
+    getStandardAtomicMass: function() {
+      return AtomIdentifier.getStandardAtomicMass( this.protonCount + this.neutronCount );
+    },
+
+    getIsotopeAtomicMass: function() {
+      return AtomIdentifier.getIsotopeAtomicMass( this.protonCount, this.neutronCount );
     }
   } );
 } );

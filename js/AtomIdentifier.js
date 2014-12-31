@@ -1,15 +1,18 @@
-/*
- * //  Copyright 2002-2014, University of Colorado Boulder
- */
+//  Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Object that can be used to identify various things about an atom given its
- * configuration, i.e. number of protons, neutrons, and/or electrons.
+ * Object that can be used to identify various things about an atom given its configuration, i.e. number of protons,
+ * neutrons, and/or electrons.
  *
  * @author John Blanco
+ * @author Jesse Greenberg
  */
 define( function( require ) {
   'use strict';
+
+  // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
+  // present on Earth.
+  var TRACE_ABUNDANCE = 0.000000000001;
 
   var nameTable = [
     '',
@@ -392,7 +395,228 @@ define( function( require ) {
     161
   ];
 
-  var massTable = [
+  // Table which contains information about various attributes of isotopes.  This data was obtained from the National
+  // Institute of Standards and Technology (NIST) at the URL
+  //
+  // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=html&isotype=some
+  //
+  // ...though manual post-processing was necessary to remove data and get it into the format below.  This table only
+  // contains isotope data for the first eighteen elemtns.  The original csv of this data can be found in
+  // buildanatom/model/AtomIdentifier.java.
+  //
+  // This table has the following format:
+  // keys of type atomic number
+  //  subkeys of type mass number
+  //    subkeys of type atomicMass and abundance, which hold the values for each isotope.
+
+  var ISOTOPE_INFO_TABLE = {
+    1: { // atomic number
+      1: { // massNumber
+        atomicMass: 1.00782503207,
+        abundance: 0.999885
+      },
+      2: {
+        atomicMass: 2.0141017778,
+        abundance: 0.000115
+      },
+      3: {
+        atomicMass: 3.0160492777,
+        // Use trace abundance, since Wikipedia just says "trace" and the NIST table contained it but didn't state
+        // abundance.
+        abundance: TRACE_ABUNDANCE
+      }
+    },
+    2: {
+      3: {
+        atomicMass: 3.0160293191,
+        abundance: 0.00000134
+      },
+      4: {
+        atomicMass: 4.00260325415,
+        abundance: 0.99999866
+      }
+    },
+    3: {
+      6: {
+        atomicMass: 6.015122795,
+        abundance: 0.0759
+      },
+      7: {
+        atomicMass: 7.01600455,
+        abundance: 0.9241
+      }
+    },
+    4: {
+      9: {
+        atomicMass: 9.0121822,
+        abundance: 1.0000
+      }
+    },
+    5: {
+      10: {
+        atomicMass: 10.0129370,
+        abundance: 0.199
+      },
+      11: {
+        atomicMass: 11.0093054,
+        abundance: 0.801
+      }
+    },
+    6: {
+      12: {
+        atomicMass: 12.0000000,
+        abundance: 0.9893
+      },
+      13: {
+        atomicMass: 13.0033548378,
+        abundance: 0.0107
+      },
+      14: {
+        atomicMass: 14.003241989,
+        // Use trace abundance, since Wikipedia just says "trace" and the NIST table contained it but didn't state
+        // abundance.
+        abundance: TRACE_ABUNDANCE
+      }
+    },
+    7: {
+      14: {
+        atomicMass: 14.0030740048,
+        abundance: 0.99636
+      },
+      15: {
+        atomicMass: 15.0001088982,
+        abundance: 0.00364
+      }
+    },
+    8: {
+      16: {
+        atomicMass: 15.99491461956,
+        abundance: 0.99757
+      },
+      17: {
+        atomicMass: 16.99913170,
+        abundance: 0.00038
+      },
+      18: {
+        atomicMass: 17.9991610,
+        abundance: 0.00205
+      }
+    },
+    9: {
+      19: {
+        atomicMass: 18.99840322,
+        abundance: 1.0000
+      }
+    },
+    10: {
+      20: {
+        atomicMass: 19.9924401754,
+        abundance: 0.9048
+      },
+      21: {
+        atomicMass: 20.99384668,
+        abundance: 0.0027
+      },
+      22: {
+        atomicMass: 21.991385114,
+        abundance: 0.0925
+      }
+    },
+    11: {
+      23: {
+        atomicMass: 22.9897692809,
+        abundance: 1.0000
+      }
+    },
+    12: {
+      24: {
+        atomicMass: 23.985041700,
+        abundance: 0.7899
+      },
+      25: {
+        atomicMass: 24.98583692,
+        abundance: 0.1000
+      },
+      26: {
+        atomicMass: 25.982592929,
+        abundance: 0.1101
+      }
+    },
+    13: {
+      27: {
+        atomicMass: 26.98153863,
+        abundance: 1.0000
+      }
+    },
+    14: {
+      28: {
+        atomicMass: 27.9769265325,
+        abundance: 0.92223
+      },
+      29: {
+        atomicMass: 28.976494700,
+        abundance: 0.92223
+      },
+      30: {
+        atomicMass: 29.97377017,
+        abundance: 0.03092
+      }
+    },
+    15: {
+      31: {
+        atomicMass: 30.97376163,
+        abundance: 1.0000
+      }
+    },
+    16: {
+      32: {
+        atomicMass: 31.97207100,
+        abundance: 0.9499
+      },
+      33: {
+        atomicMass: 32.97145876,
+        abundance: 0.0075
+      },
+      34: {
+        atomicMass: 33.96786690,
+        abundance: 0.0425
+      },
+      36: {
+        atomicMass: 35.96708076,
+        abundance: 0.0001
+      }
+    },
+    17: {
+      35: {
+        atomicMass: 34.96885268,
+        abundance: 0.7576
+      },
+      37: {
+        atomicMass: 36.96590259,
+        abundance: 0.2424
+      }
+    },
+    18: {
+      36: {
+        atomicMass: 35.967545106,
+        abundance: 0.003365
+      },
+      38: {
+        atomicMass: 37.9627324,
+        abundance: 0.000632
+      },
+      40: {
+        atomicMass: 39.9623831225,
+        abundance: 0.996003
+      }
+    }
+  };
+
+  // Table which maps atomic numbers to standard atomic mass (a.k.a. standard atomic weight).  This was obtained from
+  // the URL below and subsequently post-processed to remove unneeded data:
+  //
+  // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=ascii2&isotype=some
+  var standardMassTable = [
     0, // 0, NO ELEMENT
     1.00794, // 1, HYDROGEN
     4.002602, // 2, HELIUM
@@ -503,8 +727,24 @@ define( function( require ) {
       return numNeutronsInMostStableIsotope[ atomicNumber ];
     },
 
-    getAtomicMass: function( numProtons ) {
-      return massTable[numProtons];
+    getStandardAtomicMass: function( numProtons ) {
+      return standardMassTable[numProtons];
+    },
+
+    /**
+     * Get the atomic mass of an isotope fom an isotope key.   Input parameters are the number of protons and neutrons
+     * which hold the information necessary to determine isotope information.
+     *
+     * @param {number} protons
+     * @param {number} neutrons
+     */
+    getIsotopeAtomicMass: function( protons, neutrons ) {
+      var tableEntry = ISOTOPE_INFO_TABLE[protons][protons + neutrons];
+      if ( typeof( tableEntry ) === 'undefined' ) {
+        // Atom defined by that number of protons and neutrons is not stable, so return -1.
+        return -1;
+      }
+      return tableEntry.atomicMass;
     }
 
   };
