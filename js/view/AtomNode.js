@@ -14,6 +14,7 @@ define( function( require ) {
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var ElectronCloudView = require( 'SHRED/view/ElectronCloudView' );
   var ElectronShellView = require( 'SHRED/view/ElectronShellView' );
+  var IsotopeElectronCloudView = require( 'SHRED/view/IsotopeElectronCloudView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -86,9 +87,12 @@ define( function( require ) {
     this.addChild( electronShell );
     var electronCloud = new ElectronCloudView( particleAtom, mvt );
     this.addChild( electronCloud );
+    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, mvt );
+    this.addChild( isotopeElectronCloud );
     options.electronShellDepictionProperty.link( function( depiction ) {
       electronShell.visible = depiction === 'orbits';
       electronCloud.visible = depiction === 'cloud';
+      isotopeElectronCloud.visible = depiction === 'isotopeCloud';
     } );
 
     // Create the textual readout for the element name.
