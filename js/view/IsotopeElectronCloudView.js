@@ -15,17 +15,13 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var dot = require( 'DOT/dot' );
-  var LinearFunction = require( 'DOT/LinearFunction' );
   var Property = require( 'AXON/Property' );
 
   // class data
-  var CLOUD_BASE_COLOR = 'blue'; // Base color to use when drawing clouds.
   var MAX_ELECTRONS = 10; // For neon.
 
   /**
