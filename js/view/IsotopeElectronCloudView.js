@@ -22,6 +22,7 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var dot = require( 'DOT/dot' );
   var Property = require( 'AXON/Property' );
+  var LinearFunction = require( 'DOT/LinearFunction' );
 
   // class data
   var MAX_ELECTRONS = 10; // For neon.
