@@ -33,7 +33,7 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function IsotopeElectronCloudNode( atom, modelViewTransform ) {
+  function IsotopeElectronCloudView( atom, modelViewTransform ) {
 
     // Call super constructor.
     Node.call( this, { pickable: false } );
@@ -84,7 +84,7 @@ define( function( require ) {
   }
 
   // Inherit from Node.
-  return inherit( Node, IsotopeElectronCloudNode );
+  return inherit( Node, IsotopeElectronCloudView );
 
 } );
 
