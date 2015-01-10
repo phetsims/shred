@@ -3,7 +3,9 @@
 /**
  * Node that represents the electron shells in an isotope as a "cloud" that grows and shrinks depending on the number
  * of electrons that it contains.  This particular class implements behavior needed for the Isotopes simulation, which
- * is somewhat different from that needed for Build an Atom.
+ * is somewhat different from that needed for Build an Atom.  Note that the name 'IsotopeElectronCloudView' was chosen
+ * in order to keep up with electron cloud naming conventions in Build an Atom (i.e. ElectronCloudView,
+ * ElectronShellView).
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -25,7 +27,6 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   // class data
-  var CLOUD_BASE_COLOR = 'blue'; // Base color to use when drawing clouds.
   var MAX_ELECTRONS = 10; // For neon.
 
   /**
@@ -41,6 +42,7 @@ define( function( require ) {
     Node.call( this, { pickable: false } );
 
     // Make the cloud radius an observable property to keep track of when it changes.
+    // TODO: This may not need to be a property.
     var radiusProperty = new Property( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ) );
 
     var electronCloud = new Circle( radiusProperty.value,

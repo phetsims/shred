@@ -21,7 +21,7 @@ define( function( require ) {
   var Utils = require( 'SHRED/Utils' );
 
   function ParticleAtom( options ) {
-    PropertySet.call( this, { position: Vector2.ZERO, nucleusOffset: Vector2.ZERO } );
+    PropertySet.call( this, { position: new Vector2( 0, 0 ), nucleusOffset: Vector2.ZERO } );
 
     var thisAtom = this;
 
@@ -98,6 +98,18 @@ define( function( require ) {
 
     // When the nucleus offset changes, update all nucleon positions.
     this.nucleusOffsetProperty.link( function( newOffset, oldOffset ) {
+      var translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
+      thisAtom.protons.forEach( function( particle ) {
+        translateParticle( particle, translation );
+      } );
+      thisAtom.neutrons.forEach( function( particle ) {
+        translateParticle( particle, translation );
+      } );
+    } );
+
+    // When the particle position changes, update all nucleon positions.  This is to be used in Isotopes and Atomic
+    // Mass when a particle gets moved to sit at the correct spot on the scale.
+    this.positionProperty.link( function( newOffset, oldOffset ) {
       var translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
       thisAtom.protons.forEach( function( particle ) {
         translateParticle( particle, translation );
