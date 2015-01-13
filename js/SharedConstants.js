@@ -11,7 +11,7 @@ define( function( require ) {
   // Imports
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 
-  return{
+  return {
 
     // Sizes of the various particles.
     NUCLEON_RADIUS: 10, // In screen coordinates, which are roughly pixels.

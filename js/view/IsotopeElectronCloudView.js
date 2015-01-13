@@ -46,7 +46,7 @@ define( function( require ) {
     var electronCloud = new Circle( radiusProperty.value,
       {
         fill: 'pink',
-        translation: modelViewTransform.modelToViewPosition( {x: 0, y: 0 } )
+        translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
       }
     );
     this.addChild( electronCloud );

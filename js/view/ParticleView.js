@@ -1,4 +1,4 @@
-  /*
+/*
  * //  Copyright 2002-2014, University of Colorado Boulder
  */
 
@@ -18,11 +18,11 @@ define( function( require ) {
 
   function getParticleNode( particle, mvt ) {
     var id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius );
-    if ( !particleNodes[id] ) {
-      particleNodes[id] = new ParticleNode( particle.type, mvt.modelToViewDeltaX( particle.radius ) );
+    if ( !particleNodes[ id ] ) {
+      particleNodes[ id ] = new ParticleNode( particle.type, mvt.modelToViewDeltaX( particle.radius ) );
     }
 
-    return particleNodes[id];
+    return particleNodes[ id ];
 //    return new ParticleNode( particle.type, mvt.modelToViewDeltaX( particle.radius ) );
 
     // TODO: Below is an alternative way to create the particle nodes.  This
