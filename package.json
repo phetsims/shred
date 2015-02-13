@@ -1,9 +1,8 @@
 {
   "name": "shred",
-  "version": "1.0.0-dev.1",
-  "phetLibs": "shred axon dot kite phet-core phetcommon scenery scenery-phet",
-  "preload": "",
+  "version": "0.0.0",
   "license": "MIT",
+  "phetLibs": "shred axon dot kite phet-core phetcommon scenery scenery-phet",
   "repository": {
     "type": "git",
     "url": "https://github.com/phetsims/shred.git"
