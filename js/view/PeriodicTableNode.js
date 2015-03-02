@@ -33,7 +33,7 @@ define( function( require ) {
    * @param interactiveMax - Atomic number of the heaviest element that should be interactive.
    * @constructor
    */
-  function PeriodicTableNode( numberAtom, interactiveMax ) {
+  function PeriodicTableNode( numberAtom,  particleAtom, interactiveMax ) {
     Node.call( this, { renderer: 'svg' } ); // Call super constructor.
     var thisPeriodicTable = this;
 
@@ -43,7 +43,7 @@ define( function( require ) {
     for ( var i = 0; i < POPULATED_CELLS.length; i++ ) {
       var populatedCellsInRow = POPULATED_CELLS[ i ];
       for ( var j = 0; j < populatedCellsInRow.length; j++ ) {
-        var cell = new PeriodicTableCell( elementIndex, CELL_DIMENSION, interactiveMax >= elementIndex, numberAtom );
+        var cell = new PeriodicTableCell( elementIndex, CELL_DIMENSION, interactiveMax >= elementIndex, numberAtom, particleAtom );
         cell.translation = new Vector2( populatedCellsInRow[ j ] * CELL_DIMENSION, i * CELL_DIMENSION );
         this.addChild( cell );
         this.cells.push( cell );

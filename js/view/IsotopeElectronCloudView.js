@@ -30,20 +30,20 @@ define( function( require ) {
   /**
    * Constructor for the Isotope Electron Cloud.
    *
-   * @param {ParticleAtom} atom
+   * @param {NumberAtom} numberAtom
    * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function IsotopeElectronCloudView( atom, modelViewTransform ) {
+  function IsotopeElectronCloudView( numberAtom, modelViewTransform ) {
 
     // Call super constructor.
     Node.call( this, { pickable: false } );
 
     // Make the cloud radius an observable property to keep track of when it changes.
     // TODO: This may not need to be a property.
-    var radiusProperty = new Property( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ) );
+//    var radiusProperty = new Property( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ) );
 
-    var electronCloud = new Circle( radiusProperty.value,
+    var electronCloud = new Circle( 5,
       {
         fill: 'pink',
         translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
@@ -64,10 +64,11 @@ define( function( require ) {
 
       else {
         alpha = electronCountToAlphaMapping( numElectrons );
-        alpha /= 255; // Convert value to fraction of 255 for compliance with HTML5 radial gradient.  This could be done implicitly in the mapping.
+        alpha /= 255; // Convert value to fraction of 255 for compliance with HTML5 radial gradient.
+        // TODO: This should probably be done implicitly in the mapping.
 
-        var minRadius = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ) * 0.5;
-        var maxRadius = modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius );
+        var minRadius = modelViewTransform.modelToViewDeltaX( 90 ) * 0.5;
+        var maxRadius = modelViewTransform.modelToViewDeltaX( 150 );
         var radius = minRadius + ( ( maxRadius - minRadius ) / MAX_ELECTRONS ) * numElectrons;
         electronCloud.radius = radius;
         electronCloud.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
@@ -75,10 +76,10 @@ define( function( require ) {
           .addColorStop( 1, 'rgba( 0, 0, 255, ' + alpha + ' )' );
       }
     };
-    updateElectronCloud( atom.electrons.length );
+    updateElectronCloud( numberAtom.electronCount );
 
     // Update the cloud size as electrons come and go.
-    atom.electrons.lengthProperty.link( function( length ) {
+    numberAtom.electronCountProperty.link( function( length ) {
       updateElectronCloud( length );
     } );
 
