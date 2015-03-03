@@ -39,23 +39,18 @@ define( function( require ) {
     // Call super constructor.
     Node.call( this, { pickable: false } );
 
-    // Make the cloud radius an observable property to keep track of when it changes.
-    // TODO: This may not need to be a property.
-//    var radiusProperty = new Property( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ) );
+    // carry this through the scope
+    var thisNode = this;
 
-    var electronCloud = new Circle( 5,
-      {
-        fill: 'pink',
-        translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
-      }
-    );
+    // create the electron cloud as a circle - position, radius, and gradients updated below
+    var electronCloud = new Circle( 0 );
     this.addChild( electronCloud );
 
     var updateElectronCloud = function( numElectrons ) {
 
-      // Function that updates the size of the cloud based on the number of electrons.
+      // function that maps alpha color values to number of electrons in current atom
       var electronCountToAlphaMapping = new dot.LinearFunction( 0, MAX_ELECTRONS, 80, 110 );
-      var alpha = 0; // If there are no electrons, be transparent.
+      var alpha = 0; // if there are no electrons, be transparent.
 
       if ( numElectrons === 0 ) {
         electronCloud.radius = 1E-5; // Arbitrary non-zero value.
@@ -64,12 +59,10 @@ define( function( require ) {
 
       else {
         alpha = electronCountToAlphaMapping( numElectrons );
-        alpha /= 255; // Convert value to fraction of 255 for compliance with HTML5 radial gradient.
         // TODO: This should probably be done implicitly in the mapping.
+        alpha /= 255; // Convert value to fraction of 255 for compliance with HTML5 radial gradient.
 
-        var minRadius = modelViewTransform.modelToViewDeltaX( 90 ) * 0.5;
-        var maxRadius = modelViewTransform.modelToViewDeltaX( 150 );
-        var radius = minRadius + ( ( maxRadius - minRadius ) / MAX_ELECTRONS ) * numElectrons;
+        var radius = thisNode.getElectronShellDiameter( numElectrons ) / 2;
         electronCloud.radius = radius;
         electronCloud.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
           .addColorStop( 0.33, 'rgba( 0, 0, 255, 0 )' )
@@ -86,11 +79,71 @@ define( function( require ) {
   }
 
   // Inherit from Node.
-  return inherit( Node, IsotopeElectronCloudView );
+  return inherit( Node, IsotopeElectronCloudView, {
+
+    /**
+     * Maps a number of electrons to a diameter in screen coordinates for the electron shell.  This mapping function is
+     * based on the real size relationships between the various atoms, but has some tweakable parameters to reduce the
+     * range and scale to provide values that are usable for our needs on the canvas.
+     */
+    getElectronShellDiameter: function( numElectrons ) {
+
+      // This data structure maps atomic number of atomic radius.  The values are the covalent radii, and were taken from
+      // a Wikipedia entry entitled "Atomic radii of the elements".  Values are in picometers.
+      var mapElectronCountToRadius = {
+        1: 38,
+        2: 32,
+        3: 134,
+        4: 90,
+        5: 82,
+        6: 77,
+        7: 75,
+        8: 73,
+        9: 71,
+        10: 69
+      };
+
+      // Determine the min and max radii of the supported atoms.
+      var minShellRadius = Number.MAX_VALUE;
+      var maxShellRadius = 0;
+
+      for ( var radius in mapElectronCountToRadius ) {
+        if ( radius > maxShellRadius ) {
+          maxShellRadius = radius;
+        }
+        if ( radius < minShellRadius ) {
+          minShellRadius = radius;
+        }
+      }
+
+      // This method increases the value of the smaller radius values and decreases the value of the larger ones.
+      // This effectively reduces the range of radii values used.
+      // This is a very specialized function for the purposes of this class.
+      var reduceRadiusRange = function( value ) {
+        // The following two factors define the way in which an input value is increased or decreased.  These values
+        // can be adjusted as needed to make the cloud size appear as desired.
+        var minChangedRadius = 15;
+        var maxChangedRadius = 38;
+
+        var compressionFunction = new LinearFunction( minShellRadius, maxShellRadius, minChangedRadius, maxChangedRadius );
+        return compressionFunction( value );
+      };
+
+      if ( numElectrons in mapElectronCountToRadius ) {
+        return reduceRadiusRange( mapElectronCountToRadius[ numElectrons ] );
+      }
+      else {
+        if ( numElectrons > MAX_ELECTRONS ) {
+          console.error( "Warning: Atom has more than supported number of electrons, " + numElectrons );
+        }
+        return 0;
+      }
+    }
+  } );
 
 } );
 
-// TODO: The following may still need to be ported, keeping it here for reference.
+// TODO: Keeping it here for reference until the cloud diameter mapping looks good.
 //
 //  /**
 //   * Maps a number of electrons to a diameter in screen coordinates for the
