@@ -2,7 +2,7 @@
   "name": "shred",
   "version": "0.0.0",
   "license": "MIT",
-  "phetLibs": "shred axon chipper dot kite phet-core phetcommon scenery scenery-phet",
+  "phetLibs": "shred assert axon brand chipper dot joist kite phet-core phetcommon scenery scenery-phet sherpa sun vegas vibe",
   "repository": {
     "type": "git",
     "url": "https://github.com/phetsims/shred.git"

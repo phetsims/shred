@@ -26,7 +26,8 @@ require.config( {
     SHERPA: '../../sherpa',
     SUN: '../../sun/js',
     VEGAS: '../../vegas/js',
-    SHRED: '.'
+    SHRED: '.',
+    VIBE: '../../vibe/js'
   },
 
   // optional cache buster to make browser refresh load all included scripts, can be disabled with ?cacheBuster=false
