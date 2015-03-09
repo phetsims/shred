@@ -27,7 +27,6 @@ define( function( require ) {
     // Call super constructor.
     Node.call( this,
       {
-        renderer: 'svg', // This is necessary to get dotted lines on IE10, see Scenery issue #70.
         pickable: false
       }
     );
