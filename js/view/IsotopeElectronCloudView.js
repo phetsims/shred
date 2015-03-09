@@ -46,6 +46,9 @@ define( function( require ) {
     var electronCloud = new Circle( 0 );
     this.addChild( electronCloud );
 
+    // extend scope of radius so that isotope labels can be correctly placed
+    this.radius = electronCloud.radius;
+
     var updateElectronCloud = function( numElectrons ) {
 
       // function that maps alpha color values to number of electrons in current atom
@@ -62,9 +65,9 @@ define( function( require ) {
         // TODO: This should probably be done implicitly in the mapping.
         alpha /= 255; // Convert value to fraction of 255 for compliance with HTML5 radial gradient.
 
-        var radius = thisNode.getElectronShellDiameter( numElectrons ) / 2;
-        electronCloud.radius = radius;
-        electronCloud.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
+        thisNode.radius = thisNode.getElectronShellDiameter( numElectrons ) / 2;
+        electronCloud.radius = thisNode.radius;
+        electronCloud.fill = new RadialGradient( 0, 0, 0, 0, 0, thisNode.radius )
           .addColorStop( 0.33, 'rgba( 0, 0, 255, 0 )' )
           .addColorStop( 1, 'rgba( 0, 0, 255, ' + alpha + ' )' );
       }
@@ -72,7 +75,7 @@ define( function( require ) {
     updateElectronCloud( numberAtom.electronCount );
 
     // Update the cloud size as electrons come and go.
-    numberAtom.electronCountProperty.link( function( length ) {
+    numberAtom.protonCountProperty.link( function( length ) {
       updateElectronCloud( length );
     } );
 
