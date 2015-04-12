@@ -7,6 +7,9 @@
  * @author John Blanco
  * @author Jesse Greenberg
  */
+
+
+
 define( function( require ) {
   'use strict';
 
@@ -745,6 +748,55 @@ define( function( require ) {
         return -1;
       }
       return tableEntry.atomicMass;
+    },
+
+        /**
+         * Get a list of all isotopes for the given atomic number.
+         *
+         * @param atomicNumber
+         * @return
+         */
+    getAllIsotopesOfElement: function( atomicNumber ) {
+     // TODO May need to make immutable atom type
+        var isotopesList = [];
+
+        // TODO Document function
+        for (var massNumber in ISOTOPE_INFO_TABLE[atomicNumber]) {
+          var numNeutrons = massNumber - atomicNumber;
+          var moleculeNumberList = [atomicNumber, numNeutrons, atomicNumber];
+
+          isotopesList.push(moleculeNumberList);
+
+        };
+
+        return isotopesList;
+
+     },
+
+    /**
+         * Get a list of all isotopes that are considered stable.  This is needed
+         * because the complete list of isotopes used by this class includes some
+         * that exist on earth but are not stable, such as carbon-14.
+         *
+         * @param atomicNumber
+         * @return
+         */
+    getStableIsotopesOfElement: function( atomicNumber ) {
+        var isotopesList = this.getAllIsotopesOfElement( atomicNumber );
+      // TODO I believe this should be switched to an observable array to make the port of MixIsotopesModel less cumbersome.
+        var stableIsotopesList = [];
+
+        for ( var isotopeNumber in isotopesList) {
+          var numProtons = isotopesList[isotopeNumber][0];
+          var numNeutrons = isotopesList[isotopeNumber][1];
+
+          if ( this.isStable( numProtons, numNeutrons ) ) {
+            stableIsotopesList.push( [numProtons,numNeutrons, numProtons] );
+          };
+        };
+
+        return stableIsotopesList;
+
     }
 
   };
