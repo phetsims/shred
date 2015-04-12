@@ -783,15 +783,14 @@ define( function( require ) {
          */
     getStableIsotopesOfElement: function( atomicNumber ) {
         var isotopesList = this.getAllIsotopesOfElement( atomicNumber );
-      // TODO I believe this should be switched to an observable array to make the port of MixIsotopesModel less cumbersome.
         var stableIsotopesList = [];
 
-        for ( var isotopeNumber in isotopesList) {
-          var numProtons = isotopesList[isotopeNumber][0];
-          var numNeutrons = isotopesList[isotopeNumber][1];
+        for ( var isotopeIndex in isotopesList) {
+          var numProtons = isotopesList[ isotopeIndex ][0];
+          var numNeutrons = isotopesList[ isotopeIndex ][1];
 
           if ( this.isStable( numProtons, numNeutrons ) ) {
-            stableIsotopesList.push( [numProtons,numNeutrons, numProtons] );
+            stableIsotopesList.push( [ numProtons ,numNeutrons, numProtons] );
           };
         };
 
