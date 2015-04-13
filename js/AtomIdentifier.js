@@ -272,7 +272,23 @@ define( function( require ) {
     // Fluorine
     [ 10 ],
     // Neon
-    [ 10, 11, 12 ]
+    [ 10, 11, 12 ],
+    // Sodium
+    [ 12 ],
+    // Magnesium
+    [ 12, 13, 14 ],
+    //Aluminum
+    [ 14 ],
+    // Silicon
+    [ 14, 15, 16 ],
+    // Phosphorous
+    [ 16 ],
+    // Sulfur
+    [ 16, 17, 18, 20 ],
+    // Chlorine
+    [ 18, 20 ],
+    // Argon
+    [ 18, 20, 22 ],
   ];
 
   var numNeutronsInMostStableIsotope = [
@@ -750,51 +766,55 @@ define( function( require ) {
       return tableEntry.atomicMass;
     },
 
-        /**
-         * Get a list of all isotopes for the given atomic number.
-         *
-         * @param atomicNumber
-         * @return
-         */
+    /**
+     * Get a list of all isotopes for the given atomic number.
+     *
+     * @param atomicNumber
+     * @return
+     */
     getAllIsotopesOfElement: function( atomicNumber ) {
-     // TODO May need to make immutable atom type
-        var isotopesList = [];
+      // TODO May need to make immutable atom type
+      var isotopesList = [];
 
-        // TODO Document function
-        for (var massNumber in ISOTOPE_INFO_TABLE[atomicNumber]) {
-          var numNeutrons = massNumber - atomicNumber;
-          var moleculeNumberList = [atomicNumber, numNeutrons, atomicNumber];
+      // TODO Document function
+      for ( var massNumber in ISOTOPE_INFO_TABLE[ atomicNumber ] ) {
+        var numNeutrons = massNumber - atomicNumber;
+        var moleculeNumberList = [ atomicNumber, numNeutrons, atomicNumber ];
 
-          isotopesList.push(moleculeNumberList);
+        isotopesList.push( moleculeNumberList );
 
-        };
+      }
+      ;
 
-        return isotopesList;
+      return isotopesList;
 
-     },
+    },
 
     /**
-         * Get a list of all isotopes that are considered stable.  This is needed
-         * because the complete list of isotopes used by this class includes some
-         * that exist on earth but are not stable, such as carbon-14.
-         *
-         * @param atomicNumber
-         * @return
-         */
+     * Get a list of all isotopes that are considered stable.  This is needed
+     * because the complete list of isotopes used by this class includes some
+     * that exist on earth but are not stable, such as carbon-14.
+     *
+     * @param atomicNumber
+     * @return
+     */
     getStableIsotopesOfElement: function( atomicNumber ) {
-        var isotopesList = this.getAllIsotopesOfElement( atomicNumber );
-        var stableIsotopesList = [];
+      debugger;
+      var isotopesList = this.getAllIsotopesOfElement( atomicNumber );
+      var stableIsotopesList = [];
 
-        for ( var isotopeIndex in isotopesList) {
-          var numProtons = isotopesList[ isotopeIndex ][0];
-          var numNeutrons = isotopesList[ isotopeIndex ][1];
+      for ( var isotopeIndex in isotopesList ) {
+        var numProtons = isotopesList[ isotopeIndex ][ 0 ];
+        var numNeutrons = isotopesList[ isotopeIndex ][ 1 ];
 
-          if ( this.isStable( numProtons, numNeutrons ) ) {
-            stableIsotopesList.push( [ numProtons ,numNeutrons, numProtons] );
-          };
-        };
+        if ( this.isStable( numProtons, numNeutrons ) ) {
+          stableIsotopesList.push( [ numProtons, numNeutrons, numProtons ] );
+        }
+        ;
+      }
+      ;
 
-        return stableIsotopesList;
+      return stableIsotopesList;
 
     }
 
