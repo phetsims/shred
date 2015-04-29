@@ -12,6 +12,8 @@
 
 define( function( require ) {
   'use strict';
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Util = require( 'DOT/Util' );
 
   // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
   // present on Earth.
@@ -767,6 +769,31 @@ define( function( require ) {
     },
 
     /**
+     * Returns the natural abundance of a particular isotope.
+     *
+     * @param {NumberAtom} atom
+     * @return {Number}
+     * TODO Should we combine these two?
+     */
+
+    getNaturalAbundance: function( atom ) {
+      return this.getNaturalAbundancePreciseDecimal( atom );
+    },
+
+    /**
+     * Finds the precise value of the abundance and returns it.
+     * @param {NumberAtom} atom
+     * @returns {Number}
+     */
+    getNaturalAbundancePreciseDecimal: function( atom ) {
+      var defaultReturnValue =  Util.toFixedNumber( 0, 10 );
+      if ( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.neutronCount ].hasOwnProperty( 'abundance' ) ) {
+        return Util.toFixedNumber( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.neutronCount ][ 'abundance' ], 10 );
+      }
+       return defaultReturnValue;
+    },
+
+    /**
      * Get a list of all isotopes for the given atomic number.
      *
      * @param atomicNumber
@@ -784,7 +811,7 @@ define( function( require ) {
         isotopesList.push( moleculeNumberList );
 
       }
-      ;
+
 
       return isotopesList;
 
@@ -799,7 +826,6 @@ define( function( require ) {
      * @return
      */
     getStableIsotopesOfElement: function( atomicNumber ) {
-      debugger;
       var isotopesList = this.getAllIsotopesOfElement( atomicNumber );
       var stableIsotopesList = [];
 
@@ -810,9 +836,9 @@ define( function( require ) {
         if ( this.isStable( numProtons, numNeutrons ) ) {
           stableIsotopesList.push( [ numProtons, numNeutrons, numProtons ] );
         }
-        ;
+
       }
-      ;
+
 
       return stableIsotopesList;
 
