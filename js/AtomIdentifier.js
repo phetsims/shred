@@ -12,7 +12,6 @@
 
 define( function( require ) {
   'use strict';
-  var inherit = require( 'PHET_CORE/inherit' );
   var Util = require( 'DOT/Util' );
 
   // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
@@ -787,8 +786,8 @@ define( function( require ) {
      */
     getNaturalAbundancePreciseDecimal: function( atom ) {
       var defaultReturnValue =  Util.toFixedNumber( 0, 10 );
-      if ( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.neutronCount ].hasOwnProperty( 'abundance' ) ) {
-        return Util.toFixedNumber( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.neutronCount ][ 'abundance' ], 10 );
+      if ( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.massNumber ] !== undefined ) {
+        return Util.toFixedNumber( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.massNumber ].abundance, 10 );
       }
        return defaultReturnValue;
     },
