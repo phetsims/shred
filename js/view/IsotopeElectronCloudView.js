@@ -21,7 +21,6 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var dot = require( 'DOT/dot' );
-  var Property = require( 'AXON/Property' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
   // class data
