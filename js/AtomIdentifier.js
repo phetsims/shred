@@ -768,6 +768,33 @@ define( function( require ) {
     },
 
     /**
+     * Get a "precision decimal" that contains the value of the average atomic
+     * mass as well as an integer that represents the number of decimal digits
+     * to which the value is known.
+     *
+     * @param {NumberAtom} atom
+     * @return {number}
+     */
+  //  public static PrecisionDecimal getStandardAtomicMassPrecisionDecimal( int atomicNumber ) {
+  //  PrecisionDecimal precisionDecimal = new PrecisionDecimal( 0, 5 ); // Default value.
+  //  if ( MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS.containsKey( atomicNumber ) ) {
+  //    String massString = MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS.get( atomicNumber );
+  //    double value = Double.parseDouble( massString );
+  //    int precision = massString.indexOf( '.' ) >= 0 ? massString.substring( massString.indexOf( '.' ) + 1 ).length() : 0;
+  //    precisionDecimal = new PrecisionDecimal( value, precision );
+  //  }
+  //  return precisionDecimal;
+  //}
+
+    // TODO Finish porting this over
+  //  getStandardAtomicMassPrecisionDecimal: function( atom ) {
+  //    var precisionDecimal = new Util.toFixedNumber( 0, 5 );
+  //    if (ISOTOPE_INFO_TABLE[ atom.protonCount ] !== undefined ) {
+  //
+  //    }
+  //  },
+
+    /**
      * Returns the natural abundance of a particular isotope.
      *
      * @param {NumberAtom} atom
