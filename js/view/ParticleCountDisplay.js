@@ -20,7 +20,7 @@ define( function( require ) {
   var Panel = require( 'SUN/Panel' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
 
-  // Strings
+  // strings
   var protonsString = require( 'string!SHRED/protons.readout' );
   var neutronsString = require( 'string!SHRED/neutrons.readout' );
   var electronsString = require( 'string!SHRED/electrons.readout' );

@@ -25,7 +25,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
-  // Strings
+  // strings
   var negativeIonString = require( 'string!SHRED/negative.ion' );
   var neutralAtomString = require( 'string!SHRED/neutral.atom' );
   var positiveIonString = require( 'string!SHRED/positive.ion' );
