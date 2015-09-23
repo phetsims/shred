@@ -1,4 +1,14 @@
 shred
-=====
+======
 
-A library of JavaScript code that is used in PhET simulations that depict atoms, subatomic particles, and atomic structure.  This was originally created to contain the code that is shared between the "Build an Atom" and "Isotopes and Atomic Mass" simulations, though it may be applied to additional simulations in the future.
+Reusable components that are shared between isotopes-and-atomic-mass and build-an-atom.
+
+By PhET Interactive Simulations
+http://phet.colorado.edu/
+
+### Documentation
+The [PhET Development Overview](http://bit.ly/phet-development-overview) is the most complete guide to PhET Simulation Development. This guide includes how
+to obtain simulation code and its dependencies, notes about architecture & design, how to test and build the sims, as well as other important information.
+
+### License
+See the [license](LICENSE).
