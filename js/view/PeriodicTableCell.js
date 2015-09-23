@@ -15,6 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   var NOMINAL_CELL_DIMENSION = 25;
   var NOMINAL_FONT_SIZE = 14;
@@ -64,7 +65,7 @@ define( function( require ) {
   return inherit( Node, PeriodicTableCell, {
     setHighlighted: function( highLighted ) {
       this.cell.fill = highLighted ? this.highlightedFill : this.normalFill;
-      this.cell.stroke = highLighted ? 'red' : 'black';
+      this.cell.stroke = highLighted ? PhetColorScheme.RED_COLORBLIND : 'black';
       this.cell.lineWidth = highLighted ? 2 : 1;
       this.label.fontWeight = highLighted ? 'bold' : 'normal';
     }

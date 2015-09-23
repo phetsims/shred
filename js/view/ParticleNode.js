@@ -11,6 +11,7 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   /**
    * @param particleType - proton, neutron, or electron
@@ -22,7 +23,7 @@ define( function( require ) {
 
     Node.call( this, options ); // Call super constructor.
 
-    var colors = { proton: 'red', neutron: 'gray', electron: 'blue' };
+    var colors = { proton: PhetColorScheme.RED_COLORBLIND, neutron: 'gray', electron: 'blue' };
     var baseColor = colors[ particleType ];
     if ( baseColor === undefined ) {
       console.error( 'Unrecognized particle type: ' + particleType );

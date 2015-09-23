@@ -10,6 +10,7 @@ define( function( require ) {
 
   // Imports
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   return {
 
@@ -31,7 +32,7 @@ define( function( require ) {
     MAX_PROBLEM_ATTEMPTS: 2,
 
     // Function for choosing text color based on charge value.
-    CHARGE_TEXT_COLOR: function( charge ) { return charge > 0 ? 'red' : charge < 0 ? 'blue' : 'black'; },
+    CHARGE_TEXT_COLOR: function( charge ) { return charge > 0 ? PhetColorScheme.RED_COLORBLIND : charge < 0 ? 'blue' : 'black'; },
 
     // Names of the various game levels.
     LEVEL_NAMES: [ 'periodic-table-game', 'mass-and-charge-game', 'symbol-game', 'advanced-symbol-game' ],

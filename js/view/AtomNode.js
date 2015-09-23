@@ -23,6 +23,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // Strings
   var negativeIonString = require( 'string!SHRED/negative.ion' );
@@ -100,7 +101,7 @@ define( function( require ) {
     this.elementName = new Text( '',
       {
         font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
-        fill: 'red',
+        fill: PhetColorScheme.RED_COLORBLIND,
         center: elementNameCenterPos,
         pickable: false
       } );
@@ -149,7 +150,7 @@ define( function( require ) {
         }
         else if ( charge > 0 ) {
           thisAtomView.ionIndicator.text = positiveIonString;
-          thisAtomView.ionIndicator.fill = 'red';
+          thisAtomView.ionIndicator.fill = PhetColorScheme.RED_COLORBLIND;
         }
         else {
           thisAtomView.ionIndicator.text = neutralAtomString;
