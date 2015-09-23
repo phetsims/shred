@@ -8,7 +8,7 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 

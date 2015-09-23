@@ -10,7 +10,7 @@
 define( function( require ) {
   'use strict';
 
-  // Imports
+  // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var ElectronCloudView = require( 'SHRED/view/ElectronCloudView' );
   var ElectronShellView = require( 'SHRED/view/ElectronShellView' );
