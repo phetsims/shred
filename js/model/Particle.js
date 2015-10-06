@@ -1,6 +1,4 @@
-/*
- * // Copyright 2002-2014, University of Colorado Boulder
- */
+// Copyright 2002-2015, University of Colorado Boulder
 
 /**
  * Model representation of a particle.
@@ -61,7 +59,7 @@ define( function( require ) {
     },
 
     setPositionAndDestination: function( newPosition ) {
-      assert && assert( newPosition instanceof Vector2, "Attempt to set non-vector position." );
+      assert && assert( newPosition instanceof Vector2, 'Attempt to set non-vector position.' );
       if ( newPosition instanceof Vector2 ) {
         this.destination = newPosition;
         this.moveImmediatelyToDestination();

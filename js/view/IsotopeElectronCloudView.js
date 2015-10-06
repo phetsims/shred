@@ -136,7 +136,7 @@ define( function( require ) {
       }
       else {
         if ( numElectrons > MAX_ELECTRONS ) {
-          console.error( "Warning: Atom has more than supported number of electrons, " + numElectrons );
+          console.error( 'Warning: Atom has more than supported number of electrons, ' + numElectrons );
         }
         return 0;
       }

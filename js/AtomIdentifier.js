@@ -289,7 +289,7 @@ define( function( require ) {
     // Chlorine
     [ 18, 20 ],
     // Argon
-    [ 18, 20, 22 ],
+    [ 18, 20, 22 ]
   ];
 
   var numNeutronsInMostStableIsotope = [
