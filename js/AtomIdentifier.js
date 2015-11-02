@@ -38,6 +38,7 @@ define( function( require ) {
     require( 'string!SHRED/element.sulfur.name' ),
     require( 'string!SHRED/element.chlorine.name' ),
     require( 'string!SHRED/element.argon.name' ),
+    //TODO Should We just take these out
     'Potassium',
     'Calcium',
     'Scandium',

@@ -25,12 +25,11 @@ define( function( require ) {
       options );
 
     // Call the super constructor.
-    PropertySet.call( this,
-      {
-        protonCount: options.protonCount,
-        neutronCount: options.neutronCount,
-        electronCount: options.electronCount
-      } );
+    PropertySet.call( this, {
+      protonCount: options.protonCount,
+      neutronCount: options.neutronCount,
+      electronCount: options.electronCount
+    } );
 
     this.addDerivedProperty( 'charge', [ 'protonCount', 'electronCount' ], function( protonCount, electronCount ) {
       return protonCount - electronCount;

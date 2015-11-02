@@ -17,10 +17,23 @@ define( function( require ) {
   var ObservableArray = require( 'AXON/ObservableArray' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Utils = require( 'SHRED/Utils' );
+  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
 
   function ParticleAtom( options ) {
-    PropertySet.call( this, { position: new Vector2( 0, 0 ), nucleusOffset: Vector2.ZERO } );
-
+    PropertySet.call( this, {
+      position: new Vector2( 0, 0 ),
+      nucleusOffset: Vector2.ZERO,
+      protonCount: 0,
+      neutronCount: 0,
+      electronCount: 0
+    } );
+    this.addDerivedProperty( 'massNumber', [ 'protonCount', 'neutronCount' ], function( protonCount, neutronCount ) {
+      return protonCount + neutronCount;
+    } );
+    this.addDerivedProperty( 'particleCount', [ 'protonCount', 'neutronCount', 'electronCount' ], function( protonCount, neutronCount, electronCount ) {
+      return protonCount + neutronCount + electronCount;
+    } );
     var thisAtom = this;
 
     options = _.extend( {
@@ -128,14 +141,25 @@ define( function( require ) {
     // Add a particle to the atom.
     addParticle: function( particle ) {
       var thisAtom = this;
-
       if ( particle.type === 'proton' || particle.type === 'neutron' ) {
         var particleArray = particle.type === 'proton' ? this.protons : this.neutrons;
         particleArray.add( particle );
+        if ( particle.type === 'proton' ){
+          this.protonCount++;
+        }
+        else if ( particle.type === 'neutron' ){
+          this.neutronCount++;
+        }
         this.reconfigureNucleus();
         var nucleonRemovedListener = function( userControlled ) {
           if ( userControlled && particleArray.contains( particle ) ) {
             particleArray.remove( particle );
+            if ( particle.type === 'proton' ){
+              thisAtom.protonCount--;
+            }
+            else if ( particle.type === 'neutron' ){
+              thisAtom.neutronCount--;
+            }
             thisAtom.reconfigureNucleus();
             particle.zLayer = 0;
           }
@@ -147,6 +171,7 @@ define( function( require ) {
       }
       else if ( particle.type === 'electron' ) {
         this.electrons.add( particle );
+        this.electronCount++;
         // Find an open position in the electron shell.
         var openPositions = this.validElectronPositions.filter( function( electronPosition ) {
           return ( electronPosition.electron === null );
@@ -175,6 +200,7 @@ define( function( require ) {
         var electronRemovedListener = function( userControlled ) {
           if ( userControlled && thisAtom.electrons.contains( particle ) ) {
             thisAtom.electrons.remove( particle );
+            thisAtom.electronCount--;
             particle.zLayer = 0;
           }
           particle.userControlledProperty.unlink( electronRemovedListener );
@@ -193,12 +219,15 @@ define( function( require ) {
     removeParticle: function( particle ) {
       if ( this.protons.contains( particle ) ) {
         this.protons.remove( particle );
+        this.protonCount--;
       }
       else if ( this.neutrons.contains( particle ) ) {
         this.neutrons.remove( particle );
+        this.neutronCount--;
       }
       else if ( this.electrons.contains( particle ) ) {
         this.electrons.remove( particle );
+        this.electronCount--;
       }
       else {
         throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
@@ -264,6 +293,10 @@ define( function( require ) {
 
     getCharge: function() {
       return this.protons.length - this.electrons.length;
+    },
+
+    getIsotopeAtomicMass: function() {
+      return AtomIdentifier.getIsotopeAtomicMass( this.protonCount, this.neutronCount );
     },
 
     reconfigureNucleus: function() {
