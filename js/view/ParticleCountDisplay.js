@@ -25,6 +25,10 @@ define( function( require ) {
   var neutronsString = require( 'string!SHRED/neutrons.readout' );
   var electronsString = require( 'string!SHRED/electrons.readout' );
 
+  // constants
+  var TITLE_MAX_WIDTH_PROPORTION = 1/3;
+  var MIN_VERTICAL_SPACING = 10; // Empirically Determined
+
   /**
    * @param numberAtom Model representation of the atom
    * @param maxParticles The maximum number of particles to display
@@ -45,14 +49,20 @@ define( function( require ) {
     var electronTitle = new Text( electronsString, labelOptions );
     panelContents.addChild( electronTitle );
 
+    // Scale the title if more than allowed proportion width
+    var maxAllowableLabelWidth = maxWidth * TITLE_MAX_WIDTH_PROPORTION;
+    protonTitle.maxWidth = maxAllowableLabelWidth;
+    electronTitle.maxWidth = maxAllowableLabelWidth;
+    neutronTitle.maxWidth = maxAllowableLabelWidth;
+
     // Lay out the labels.
     var maxLabelWidth = Math.max( Math.max( protonTitle.width, neutronTitle.width ), electronTitle.width );
     protonTitle.right = maxLabelWidth;
     protonTitle.top = 0;
     neutronTitle.right = maxLabelWidth;
-    neutronTitle.top = protonTitle.bottom;
+    neutronTitle.bottom = protonTitle.bottom + Math.max( neutronTitle.height, MIN_VERTICAL_SPACING );
     electronTitle.right = maxLabelWidth;
-    electronTitle.top = neutronTitle.bottom;
+    electronTitle.bottom = neutronTitle.bottom + Math.max( electronTitle.height, MIN_VERTICAL_SPACING );
 
     // Figure out the sizes of the particles and the inter-particle
     // spacing based on the max width.
