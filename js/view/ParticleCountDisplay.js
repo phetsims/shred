@@ -147,7 +147,7 @@ define( function( require ) {
     updateParticles( numberAtom );
 
     // Add it all to a panel.
-    this.addChild( new Panel( panelContents, { fill: SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR } ) );
+    this.addChild( new Panel( panelContents, { fill: SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR, cornerRadius:5 } ) );
   }
 
   // Inherit from Node.

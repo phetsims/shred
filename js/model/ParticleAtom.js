@@ -18,7 +18,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Utils = require( 'SHRED/Utils' );
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
 
   function ParticleAtom( options ) {
     PropertySet.call( this, {
