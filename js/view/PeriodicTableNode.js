@@ -51,7 +51,7 @@ define( function( require ) {
 
     // Highlight the cell that corresponds to the atom.
     var highlightedCell = null;
-    numberAtom.protonCountProperty.link( function( protonCount ) {
+    particleAtom.protonCountProperty.link( function( protonCount ) {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
       }
