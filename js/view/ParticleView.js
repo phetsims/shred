@@ -52,8 +52,8 @@ define( function( require ) {
     var thisParticleView = this;
 
     // Set up fields.
-    this.particle = particle;
-    this.mvt = mvt;
+    this.particle = particle; // @public
+    this.mvt = mvt; // @private
 
     // Add the particle representation.
     this.addChild( getParticleNode( particle, mvt ) );

@@ -18,13 +18,13 @@ define( function( require ) {
 
     // Default configuration.
     options = _.extend( {
-        protonCount: 0,
-        neutronCount: 0,
-        electronCount: 0
-      },
-      options );
+      protonCount: 0,
+      neutronCount: 0,
+      electronCount: 0
+    }, options );
 
     // Call the super constructor.
+    // @public
     PropertySet.call( this, {
       protonCount: options.protonCount,
       neutronCount: options.neutronCount,

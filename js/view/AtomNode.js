@@ -57,6 +57,7 @@ define( function( require ) {
     Node.call( this, options ); // Call super constructor.
     var thisAtomView = this;
 
+    // @private
     this.atom = particleAtom;
     this.mvt = mvt;
 
@@ -96,8 +97,9 @@ define( function( require ) {
       isotopeElectronCloud.visible = depiction === 'isotopeCloud';
     } );
 
-    // Create the textual readout for the element name.
     var elementNameCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.55 ) ) );
+
+    // @private - Create the textual readout for the element name.
     this.elementName = new Text( '',
       {
         font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
@@ -129,8 +131,9 @@ define( function( require ) {
       thisAtomView.elementName.visible = visible;
     } );
 
-    // Create the textual readout for the ion indicator, set by trial and error.
     var ionIndicatorTranslation = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
+
+    // @private - Create the textual readout for the ion indicator, set by trial and error.
     this.ionIndicator = new Text( '',
       {
         font: new PhetFont( 24 ),
@@ -172,6 +175,8 @@ define( function( require ) {
 
     // Create the textual readout for the stability indicator.
     var stabilityIndicatorCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.55 ) ) );
+
+    // @private
     this.stabilityIndicator = new Text( '',
       {
         font: new PhetFont( 24 ),

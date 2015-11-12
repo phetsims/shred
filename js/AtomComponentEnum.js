@@ -1,7 +1,9 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * Created by Aadish on 02-Nov-15.
+ * Enumerable for the types of atomic particles.
+ *
+ * @author Aadish (02-Nov-15)
  */
 define( function( require ) {
   'use strict';

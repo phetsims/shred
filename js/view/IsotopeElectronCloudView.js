@@ -45,7 +45,7 @@ define( function( require ) {
     var electronCloud = new Circle( 0 );
     this.addChild( electronCloud );
 
-    // extend scope of radius so that isotope labels can be correctly placed
+    // @private - extend scope of radius so that isotope labels can be correctly placed
     this.radius = electronCloud.radius;
 
     var updateElectronCloud = function( numElectrons ) {

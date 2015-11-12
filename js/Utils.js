@@ -15,6 +15,7 @@ define( [], function() {
      * @param value1
      * @param value2
      * @param tolerance
+     * @public
      */
     roughlyEqual: function( value1, value2, tolerance ) {
       return Math.abs( value1 - value2 ) < tolerance;

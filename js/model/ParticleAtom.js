@@ -20,6 +20,8 @@ define( function( require ) {
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
 
   function ParticleAtom( options ) {
+
+    // @public
     PropertySet.call( this, {
       position: new Vector2( 0, 0 ),
       nucleusOffset: Vector2.ZERO,
@@ -143,20 +145,20 @@ define( function( require ) {
       if ( particle.type === 'proton' || particle.type === 'neutron' ) {
         var particleArray = particle.type === 'proton' ? this.protons : this.neutrons;
         particleArray.add( particle );
-        if ( particle.type === 'proton' ){
+        if ( particle.type === 'proton' ) {
           this.protonCount++;
         }
-        else if ( particle.type === 'neutron' ){
+        else if ( particle.type === 'neutron' ) {
           this.neutronCount++;
         }
         this.reconfigureNucleus();
         var nucleonRemovedListener = function( userControlled ) {
           if ( userControlled && particleArray.contains( particle ) ) {
             particleArray.remove( particle );
-            if ( particle.type === 'proton' ){
+            if ( particle.type === 'proton' ) {
               thisAtom.protonCount--;
             }
-            else if ( particle.type === 'neutron' ){
+            else if ( particle.type === 'neutron' ) {
               thisAtom.neutronCount--;
             }
             thisAtom.reconfigureNucleus();
