@@ -3,27 +3,25 @@
 /**
  * Node that represents the electron shells in an isotope as a "cloud" that grows and shrinks depending on the number
  * of electrons that it contains.  This particular class implements behavior needed for the Isotopes simulation, which
- * is somewhat different from that needed for Build an Atom.  Note that the name 'IsotopeElectronCloudView' was chosen
- * in order to keep up with electron cloud naming conventions in Build an Atom (i.e. ElectronCloudView,
+ * is somewhat different from that needed for Build an Atom.  Note that the name 'IsotopethisNodeView' was chosen
+ * in order to keep up with electron cloud naming conventions in Build an Atom (i.e. thisNodeView,
  * ElectronShellView).
  *
  * @author John Blanco
  * @author Jesse Greenberg
+ * @author Aadish Gupta
  */
-
-
 define( function( require ) {
   'use strict';
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var dot = require( 'DOT/dot' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
-  // class data
+  // constants
   var MAX_ELECTRONS = 10; // For neon.
 
   /**
@@ -33,30 +31,23 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function IsotopeElectronCloudView( numberAtom, modelViewTransform ) {
+  function IsotopeNodeView( numberAtom, modelViewTransform ) {
 
-    // Call super constructor.
-    Node.call( this, { pickable: false } );
+    // Call super constructor using dummy radius and actual is updated below.
+    Circle.call( this, 1, { pickable: false } );
 
     // carry this through the scope
     var thisNode = this;
 
-    // create the electron cloud as a circle - position, radius, and gradients updated below
-    var electronCloud = new Circle( 0 );
-    this.addChild( electronCloud );
-
-    // extend scope of radius so that isotope labels can be correctly placed
-    this.radius = electronCloud.radius;
-
-    var updateElectronCloud = function( numElectrons ) {
+    var updatethisNode = function( numElectrons ) {
 
       // function that maps alpha color values to number of electrons in current atom
       var electronCountToAlphaMapping = new dot.LinearFunction( 0, MAX_ELECTRONS, 80, 110 );
       var alpha = 0; // if there are no electrons, be transparent.
 
       if ( numElectrons === 0 ) {
-        electronCloud.radius = 1E-5; // Arbitrary non-zero value.
-        electronCloud.fill = 'transparent';
+        thisNode.radius = 1E-5; // Arbitrary non-zero value.
+        thisNode.fill = 'transparent';
       }
 
       else {
@@ -64,24 +55,23 @@ define( function( require ) {
         // TODO: This should probably be done implicitly in the mapping.
         alpha /= 255; // Convert value to fraction of 255 for compliance with HTML5 radial gradient.
 
-        thisNode.radius = thisNode.getElectronShellDiameter( numElectrons ) / 2;
-        electronCloud.radius = thisNode.radius;
-        electronCloud.fill = new RadialGradient( 0, 0, 0, 0, 0, thisNode.radius )
+        thisNode.radius = modelViewTransform.modelToViewDeltaX( thisNode.getElectronShellDiameter( numElectrons ) / 2 );
+        thisNode.radius = thisNode.radius * 1.2;
+        thisNode.fill = new RadialGradient( 0, 0, 0, 0, 0, thisNode.radius )
           .addColorStop( 0.33, 'rgba( 0, 0, 255, 0 )' )
           .addColorStop( 1, 'rgba( 0, 0, 255, ' + alpha + ' )' );
       }
     };
-    updateElectronCloud( numberAtom.electronCount );
+    updatethisNode( numberAtom.electronCount );
 
     // Update the cloud size as electrons come and go.
     numberAtom.protonCountProperty.link( function( length ) {
-      updateElectronCloud( length );
+      updatethisNode( length );
     } );
 
   }
 
-  // Inherit from Node.
-  return inherit( Node, IsotopeElectronCloudView, {
+  return inherit( Circle, IsotopeNodeView, {
 
     /**
      * Maps a number of electrons to a diameter in screen coordinates for the electron shell.  This mapping function is
