@@ -61,7 +61,7 @@ define( function( require ) {
     } );
 
     // If the user clicks on the cloud, extract an electron.
-    this.extractedElectron = null;
+    this.extractedElectron = null; // @private
     this.addInputListener( new SimpleDragHandler(
       {
         activeParticle: null,

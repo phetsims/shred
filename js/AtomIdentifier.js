@@ -760,7 +760,7 @@ define( function( require ) {
      * @param {number} neutrons
      */
     getIsotopeAtomicMass: function( protons, neutrons ) {
-      if ( protons != 0) {
+      if ( protons !== 0) {
         var tableEntry = ISOTOPE_INFO_TABLE[ protons ][ protons + neutrons ];
         if ( typeof( tableEntry ) === 'undefined' ) {
           // Atom defined by that number of protons and neutrons is not stable, so return -1.

@@ -39,8 +39,7 @@ define( function( require ) {
     // carry this through the scope
     var thisNode = this;
 
-    var updatethisNode = function( numElectrons ) {
-
+    var updateNode = function( numElectrons ) {
       // function that maps alpha color values to number of electrons in current atom
       var electronCountToAlphaMapping = new dot.LinearFunction( 0, MAX_ELECTRONS, 80, 110 );
       var alpha = 0; // if there are no electrons, be transparent.
@@ -62,11 +61,11 @@ define( function( require ) {
           .addColorStop( 1, 'rgba( 0, 0, 255, ' + alpha + ' )' );
       }
     };
-    updatethisNode( numberAtom.electronCount );
+    updateNode( numberAtom.electronCount );
 
     // Update the cloud size as electrons come and go.
     numberAtom.protonCountProperty.link( function( length ) {
-      updatethisNode( length );
+      updateNode( length );
     } );
 
   }

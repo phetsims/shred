@@ -30,9 +30,11 @@ define( function( require ) {
   function PeriodicTableCell( atomicNumber, length, interactive, numberAtom ) {
     Node.call( this ); // Call super constructor.
 
+    // @private
     this.normalFill = interactive ? new LinearGradient( 0, 0, 0, length ).addColorStop( 0, 'white' ).addColorStop( 1, 'rgb( 240, 240, 240 )' ) : 'white';
     this.highlightedFill = 'yellow';
 
+    // @pricate
     this.cell = new Rectangle( 0, 0, length, length, 0, 0,
       {
         stroke: 'black',
@@ -40,10 +42,13 @@ define( function( require ) {
         fill: this.normalFill,
         cursor: interactive ? 'pointer' : null
       } );
+
+    // @private
     this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
       font: new PhetFont( NOMINAL_FONT_SIZE * ( length / NOMINAL_CELL_DIMENSION ) ),
       center: this.cell.center
     } );
+
     this.cell.addChild( this.label );
     this.addChild( this.cell );
 

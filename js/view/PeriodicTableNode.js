@@ -36,7 +36,7 @@ define( function( require ) {
     var thisPeriodicTable = this;
 
     // Add the cells of the table.
-    this.cells = [];
+    this.cells = []; // @private
     var elementIndex = 1;
     for ( var i = 0; i < POPULATED_CELLS.length; i++ ) {
       var populatedCellsInRow = POPULATED_CELLS[ i ];

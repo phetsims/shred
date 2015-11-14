@@ -22,6 +22,8 @@ define( function( require ) {
    * @constructor
    */
   function Particle( type ) {
+
+    // @public
     PropertySet.call( this, {
       type: type,
       position: Vector2.ZERO,
