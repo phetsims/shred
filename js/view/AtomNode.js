@@ -26,9 +26,9 @@ define( function( require ) {
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // strings
-  var negativeIonString = require( 'string!SHRED/negative.ion' );
-  var neutralAtomString = require( 'string!SHRED/neutral.atom' );
-  var positiveIonString = require( 'string!SHRED/positive.ion' );
+  var minusSignIonString = require( 'string!SHRED/minusSignIon' );
+  var neutralAtomString = require( 'string!SHRED/neutralAtom' );
+  var positiveSignIonString = require( 'string!SHRED/positiveSignIon' );
   var stableString = require( 'string!SHRED/stable' );
   var unstableString = require( 'string!SHRED/unstable' );
 
