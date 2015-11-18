@@ -819,7 +819,7 @@ define( function( require ) {
      */
     getNaturalAbundancePreciseDecimal: function( atom ) {
       var defaultReturnValue =  Util.toFixedNumber( 0, 10 );
-      if ( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.massNumber ] !== undefined ) {
+      if ( atom.protonCount > 0 && ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.massNumber ] !== undefined ) {
         return Util.toFixedNumber( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.massNumber ].abundance, 10 );
       }
        return defaultReturnValue;
