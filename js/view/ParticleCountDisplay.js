@@ -21,9 +21,9 @@ define( function( require ) {
   var SharedConstants = require( 'SHRED/SharedConstants' );
 
   // strings
-  var protonsReadoutString = require( 'string!SHRED/protons.readout' );
-  var neutronsReadoutString = require( 'string!SHRED/neutrons.readout' );
-  var electronsReadoutString = require( 'string!SHRED/electrons.readout' );
+  var protonsColonString = require( 'string!SHRED/protonsColon' );
+  var neutronsColonString = require( 'string!SHRED/neutronsColon' );
+  var electronsColonString = require( 'string!SHRED/electronsColon' );
 
   // constants
   var TITLE_MAX_WIDTH_PROPORTION = 1/3;
@@ -42,11 +42,11 @@ define( function( require ) {
     var panelContents = new Node();
 
     var labelOptions = { font: new PhetFont( 14 ) };
-    var protonTitle = new Text( protonsReadoutString, labelOptions );
+    var protonTitle = new Text( protonsColonString, labelOptions );
     panelContents.addChild( protonTitle );
-    var neutronTitle = new Text( neutronsReadoutString, labelOptions );
+    var neutronTitle = new Text( neutronsColonString, labelOptions );
     panelContents.addChild( neutronTitle );
-    var electronTitle = new Text( electronsReadoutString, labelOptions );
+    var electronTitle = new Text( electronsColonString, labelOptions );
     panelContents.addChild( electronTitle );
 
     // Scale the title if more than allowed proportion width

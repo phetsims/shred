@@ -1,74 +1,74 @@
 {
-  "protons.readout": {
+  "protonsColon": {
     "value": "Protons:"
   },
-  "neutrons.readout": {
+  "neutronsColon": {
     "value": "Neutrons:"
   },
-  "electrons.readout": {
+  "electronsColon": {
     "value": "Electrons:"
   },
-  "element.hydrogen.name": {
+  "hydrogen": {
     "value": "Hydrogen"
   },
-  "element.helium.name": {
+  "helium": {
     "value": "Helium"
   },
-  "element.lithium.name": {
+  "lithium": {
     "value": "Lithium"
   },
-  "element.beryllium.name": {
+  "beryllium": {
     "value": "Beryllium"
   },
-  "element.boron.name": {
+  "boron": {
     "value": "Boron"
   },
-  "element.carbon.name": {
+  "carbon": {
     "value": "Carbon"
   },
-  "element.nitrogen.name": {
+  "nitrogen": {
     "value": "Nitrogen"
   },
-  "element.oxygen.name": {
+  "oxygen": {
     "value": "Oxygen"
   },
-  "element.fluorine.name": {
+  "fluorine": {
     "value": "Fluorine"
   },
-  "element.neon.name": {
+  "neon": {
     "value": "Neon"
   },
-  "element.sodium.name": {
+  "sodium": {
     "value": "Sodium"
   },
-  "element.magnesium.name": {
+  "magnesium": {
     "value": "Magnesium"
   },
-  "element.aluminum.name": {
+  "aluminum": {
     "value": "Aluminum"
   },
-  "element.silicon.name": {
+  "silicon": {
     "value": "Silicon"
   },
-  "element.phosphorus.name": {
+  "phosphorus": {
     "value": "Phosphorus"
   },
-  "element.sulfur.name": {
+  "sulfur": {
     "value": "Sulfur"
   },
-  "element.chlorine.name": {
+  "chlorine": {
     "value": "Chlorine"
   },
-  "element.argon.name": {
+  "argon": {
     "value": "argon"
   },
-  "negative.ion": {
+  "minusSignIon": {
     "value": "- Ion"
   },
-  "neutral.atom": {
+  "neutralAtom": {
     "value": "Neutral Atom"
   },
-  "positive.ion": {
+  "positiveSignIon": {
     "value": "+ Ion"
   },
   "stable": {
