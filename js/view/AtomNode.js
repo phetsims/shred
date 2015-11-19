@@ -148,11 +148,11 @@ define( function( require ) {
       if ( thisAtomView.atom.protons.length > 0 ) {
         var charge = thisAtomView.atom.getCharge();
         if ( charge < 0 ) {
-          thisAtomView.ionIndicator.text = negativeIonString;
+          thisAtomView.ionIndicator.text = minusSignIonString;
           thisAtomView.ionIndicator.fill = 'blue';
         }
         else if ( charge > 0 ) {
-          thisAtomView.ionIndicator.text = positiveIonString;
+          thisAtomView.ionIndicator.text = positiveSignIonString;
           thisAtomView.ionIndicator.fill = PhetColorScheme.RED_COLORBLIND;
         }
         else {
