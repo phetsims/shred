@@ -59,6 +59,7 @@ define( function( require ) {
           numberAtom.protonCount = atomicNumber;
           numberAtom.neutronCount = AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber );
           numberAtom.electronCount = atomicNumber;
+          numberAtom.trigger( 'atomUpdated' )
         }
       } );
     }
