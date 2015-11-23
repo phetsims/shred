@@ -309,7 +309,7 @@ define( function( require ) {
     // Carbon
     6,
     // Nitrogen
-    8,
+    7,
     // Oxygen
     8,
     // Fluorine
