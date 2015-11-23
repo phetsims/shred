@@ -2,10 +2,14 @@
 
 /**
  * Scenery node that defines a single cell in a periodic table.
+ * @author John Blanco
+ * @author Aadish Gupta
  */
 define( function( require ) {
   'use strict';
 
+  // modules
+  var Color = require( 'SCENERY/Util/Color' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -14,7 +18,12 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var SharedConstants = require( 'SHRED/SharedConstants' );
 
+  // constants
+  var ENABLED_CELL_COLOR = SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
+  var DISABLED_CELL_COLOR = '#EEEEEE';
+  var SELECTED_CELL_COLOR = '#FA8072'; //salmon
   var NOMINAL_CELL_DIMENSION = 25;
   var NOMINAL_FONT_SIZE = 14;
 
@@ -28,20 +37,20 @@ define( function( require ) {
    * @constructor
    */
   function PeriodicTableCell( atomicNumber, length, interactive, numberAtom ) {
+    var self = this;
     Node.call( this ); // Call super constructor.
 
     // @private
-    this.normalFill = interactive ? new LinearGradient( 0, 0, 0, length ).addColorStop( 0, 'white' ).addColorStop( 1, 'rgb( 240, 240, 240 )' ) : 'white';
-    this.highlightedFill = 'yellow';
+    this.normalFill = interactive ? ENABLED_CELL_COLOR : DISABLED_CELL_COLOR;
+    this.highlightedFill = SELECTED_CELL_COLOR;
 
-    // @pricate
-    this.cell = new Rectangle( 0, 0, length, length, 0, 0,
-      {
-        stroke: 'black',
-        lineWidth: 1,
-        fill: this.normalFill,
-        cursor: interactive ? 'pointer' : null
-      } );
+    // @private
+    this.cell = new Rectangle( 0, 0, length, length, 0, 0, {
+      stroke: 'black',
+      lineWidth: 1,
+      fill: this.normalFill,
+      cursor: interactive ? 'pointer' : null
+    } );
 
     // @private
     this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
