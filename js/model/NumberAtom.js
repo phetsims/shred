@@ -55,6 +55,13 @@ define( function( require ) {
 
     getIsotopeAtomicMass: function() {
       return AtomIdentifier.getIsotopeAtomicMass( this.protonCount, this.neutronCount );
+    },
+
+    setSubAtomicParticleCount: function( protonCount, neutronCount, electronCount ) {
+      this.protonCount = protonCount;
+      this.electronCount = electronCount;
+      this.neutronCount = neutronCount;
+      this.trigger( 'atomUpdated' );
     }
   } );
 } );

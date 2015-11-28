@@ -65,10 +65,16 @@ define( function( require ) {
     if ( interactive ) {
       this.cell.addInputListener( {
         up: function() {
-          numberAtom.protonCount = atomicNumber;
-          numberAtom.neutronCount = AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber );
-          numberAtom.electronCount = atomicNumber;
-          numberAtom.trigger( 'atomUpdated' )
+          numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber)
+        },
+        over: function() {
+          //self.cell.top = self.cell.top - NOMINAL_CELL_DIMENSION;
+          self.moveToFront();
+          self.cell.setScaleMagnitude(3.0);
+        },
+        exit: function() {
+          //self.cell.top = self.cell.top + NOMINAL_CELL_DIMENSION;
+          self.cell.setScaleMagnitude(1.0);
         }
       } );
     }
