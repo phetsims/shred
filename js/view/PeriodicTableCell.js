@@ -63,21 +63,22 @@ define( function( require ) {
         stroke: 'black',
         lineWidth: 1,
         fill: self.normalFill,
-        cursor: interactive ? 'pointer' : null
+        cursor: interactive ? 'pointer' : null,
+        pickable: false,
+        visible: false
       } );
+      this.addChild(rectangle);
+
       this.addInputListener( {
         up: function() {
           numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber)
         },
         over: function() {
-          //self.cell.top = self.cell.top - NOMINAL_CELL_DIMENSION;
-
           self.moveToFront();
-          self.setScaleMagnitude(2.0);
+          rectangle.visible = true;
         },
         exit: function() {
-          //self.cell.top = self.cell.top + NOMINAL_CELL_DIMENSION;
-          self.setScaleMagnitude(1.0);
+          rectangle.visible = false;
         }
       } );
     }
