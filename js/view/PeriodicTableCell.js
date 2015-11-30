@@ -9,10 +9,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Color = require( 'SCENERY/Util/Color' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
@@ -27,7 +25,6 @@ define( function( require ) {
   var SELECTED_CELL_COLOR = '#FA8072'; //salmon
   var NOMINAL_CELL_DIMENSION = 25;
   var NOMINAL_FONT_SIZE = 14;
-  var INFLATED_FONT_SIZE = 28;
 
   /**
    * Constructor.
@@ -62,7 +59,7 @@ define( function( require ) {
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     if ( interactive ) {
-      var popupInflation = 0.3 * length
+      var popupInflation = 0.5 * length;
       var popupShape = new Shape().
         moveTo( 0, 0 ).
         lineTo( 0, length ).
@@ -93,7 +90,7 @@ define( function( require ) {
 
       this.addInputListener( {
         up: function() {
-          numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber)
+          numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
         },
         over: function() {
           self.moveToFront();
