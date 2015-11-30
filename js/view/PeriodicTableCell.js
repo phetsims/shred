@@ -18,6 +18,8 @@ define( function( require ) {
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var Shape = require( 'KITE/Shape' );
 
   // constants
   var ENABLED_CELL_COLOR = SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
@@ -25,6 +27,7 @@ define( function( require ) {
   var SELECTED_CELL_COLOR = '#FA8072'; //salmon
   var NOMINAL_CELL_DIMENSION = 25;
   var NOMINAL_FONT_SIZE = 14;
+  var INFLATED_FONT_SIZE = 28;
 
   /**
    * Constructor.
@@ -59,7 +62,19 @@ define( function( require ) {
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     if ( interactive ) {
-      var rectangle = new Rectangle( 0, 0, 2 * length, 2 * length, 0, 0, {
+      var popupInflation = 0.3 * length
+      var popupShape = new Shape().
+        moveTo( 0, 0 ).
+        lineTo( 0, length ).
+        lineTo( length, length ).
+        lineTo( length, 0 ).
+        lineTo( 1.5 * length, -popupInflation ).
+        lineTo( 1.5 * length, -popupInflation - ( 2 * length ) ).
+        lineTo( -0.5 * length, -popupInflation - ( 2 * length ) ).
+        lineTo( -0.5 * length, -popupInflation ).
+        lineTo( 0, 0 );
+
+      var popup = new Path( popupShape, {
         stroke: 'black',
         lineWidth: 1,
         fill: self.normalFill,
@@ -67,7 +82,14 @@ define( function( require ) {
         pickable: false,
         visible: false
       } );
-      this.addChild(rectangle);
+
+      var popupLabel = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
+        font: new PhetFont( NOMINAL_FONT_SIZE * ( 2.5 * length / NOMINAL_CELL_DIMENSION ) ),
+        centerX: popup.centerX,
+        centerY: 0.5 * (-popupInflation - ( 2 * length ))
+      } );
+      popup.addChild( popupLabel );
+      this.addChild(popup);
 
       this.addInputListener( {
         up: function() {
@@ -75,10 +97,10 @@ define( function( require ) {
         },
         over: function() {
           self.moveToFront();
-          rectangle.visible = true;
+          popup.visible = true;
         },
         exit: function() {
-          rectangle.visible = false;
+          popup.visible = false;
         }
       } );
     }
