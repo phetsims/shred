@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   var Color = require( 'SCENERY/Util/Color' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Text = require( 'SCENERY/nodes/Text' );
   var LinearGradient = require( 'SCENERY/util/LinearGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -38,54 +37,57 @@ define( function( require ) {
    */
   function PeriodicTableCell( atomicNumber, length, interactive, numberAtom ) {
     var self = this;
-    Node.call( this ); // Call super constructor.
 
     // @private
     this.normalFill = interactive ? ENABLED_CELL_COLOR : DISABLED_CELL_COLOR;
     this.highlightedFill = SELECTED_CELL_COLOR;
 
-    // @private
-    this.cell = new Rectangle( 0, 0, length, length, 0, 0, {
+    Rectangle.call( this, 0, 0, length, length, 0, 0, {
       stroke: 'black',
       lineWidth: 1,
       fill: this.normalFill,
       cursor: interactive ? 'pointer' : null
-    } );
+    } ); // Call super constructor.
 
     // @private
     this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
       font: new PhetFont( NOMINAL_FONT_SIZE * ( length / NOMINAL_CELL_DIMENSION ) ),
-      center: this.cell.center
+      center: this.center
     } );
 
-    this.cell.addChild( this.label );
-    this.addChild( this.cell );
+    this.addChild( this.label );
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     if ( interactive ) {
-      this.cell.addInputListener( {
+      var rectangle = new Rectangle( 0, 0, 2 * length, 2 * length, 0, 0, {
+        stroke: 'black',
+        lineWidth: 1,
+        fill: self.normalFill,
+        cursor: interactive ? 'pointer' : null
+      } );
+      this.addInputListener( {
         up: function() {
           numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber)
         },
         over: function() {
           //self.cell.top = self.cell.top - NOMINAL_CELL_DIMENSION;
+
           self.moveToFront();
-          self.cell.setScaleMagnitude(3.0);
+          self.setScaleMagnitude(2.0);
         },
         exit: function() {
           //self.cell.top = self.cell.top + NOMINAL_CELL_DIMENSION;
-          self.cell.setScaleMagnitude(1.0);
+          self.setScaleMagnitude(1.0);
         }
       } );
     }
   }
 
-  // Inherit from Node.
-  return inherit( Node, PeriodicTableCell, {
+  return inherit( Rectangle, PeriodicTableCell, {
     setHighlighted: function( highLighted ) {
-      this.cell.fill = highLighted ? this.highlightedFill : this.normalFill;
-      this.cell.stroke = highLighted ? PhetColorScheme.RED_COLORBLIND : 'black';
-      this.cell.lineWidth = highLighted ? 2 : 1;
+      this.fill = highLighted ? this.highlightedFill : this.normalFill;
+      this.stroke = highLighted ? PhetColorScheme.RED_COLORBLIND : 'black';
+      this.lineWidth = highLighted ? 2 : 1;
       this.label.fontWeight = highLighted ? 'bold' : 'normal';
     }
   } );
