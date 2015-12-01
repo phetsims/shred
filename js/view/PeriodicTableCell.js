@@ -91,11 +91,12 @@ define( function( require ) {
       this.addInputListener( {
         up: function() {
           numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
-          popup.visible = false;
         },
-        down: function() {
-          self.moveToFront();
-          popup.visible = true;
+        over: function( event ) {
+          if ( event.pointer.type === 'touch' ) {
+            self.moveToFront();
+            popup.visible = true;
+          }
         },
         exit: function() {
           popup.visible = false;
