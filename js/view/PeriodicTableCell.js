@@ -91,8 +91,9 @@ define( function( require ) {
       this.addInputListener( {
         up: function() {
           numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
+          popup.visible = false;
         },
-        over: function() {
+        down: function() {
           self.moveToFront();
           popup.visible = true;
         },
