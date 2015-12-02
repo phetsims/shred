@@ -18,7 +18,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var dot = require( 'DOT/dot' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
   // constants
