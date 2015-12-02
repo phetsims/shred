@@ -40,25 +40,16 @@ define( function( require ) {
     var thisNode = this;
 
     var updateNode = function( numElectrons ) {
-      // function that maps alpha color values to number of electrons in current atom
-      var electronCountToAlphaMapping = new dot.LinearFunction( 0, MAX_ELECTRONS, 80, 110 );
-      var alpha = 0; // if there are no electrons, be transparent.
-
       if ( numElectrons === 0 ) {
         thisNode.radius = 1E-5; // Arbitrary non-zero value.
         thisNode.fill = 'transparent';
       }
-
       else {
-        alpha = electronCountToAlphaMapping( numElectrons );
-        // TODO: This should probably be done implicitly in the mapping.
-        alpha /= 255; // Convert value to fraction of 255 for compliance with HTML5 radial gradient.
-
         thisNode.radius = modelViewTransform.modelToViewDeltaX( thisNode.getElectronShellDiameter( numElectrons ) / 2 );
-        thisNode.radius = thisNode.radius * 1.2;
+        thisNode.radius = thisNode.radius * 1.2; // empirically determined adjustment factor according to the weighing scale
         thisNode.fill = new RadialGradient( 0, 0, 0, 0, 0, thisNode.radius )
-          .addColorStop( 0.33, 'rgba( 0, 0, 255, 0 )' )
-          .addColorStop( 1, 'rgba( 0, 0, 255, ' + alpha + ' )' );
+          .addColorStop( 0, 'rgba( 0, 0, 255, 0 )' )
+          .addColorStop( 1, 'rgba( 0, 0, 255, 0.4 )' );
       }
     };
     updateNode( numberAtom.electronCount );
