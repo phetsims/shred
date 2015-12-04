@@ -6,6 +6,7 @@
  * "bars" are actually lines of particles.
  *
  * @author John Blanco
+ * @author Aadish Gupta
  */
 define( function( require ) {
   'use strict';
@@ -27,7 +28,7 @@ define( function( require ) {
 
   // constants
   var TITLE_MAX_WIDTH_PROPORTION = 1/3;
-  var MIN_VERTICAL_SPACING = 10; // Empirically Determined
+  var MIN_VERTICAL_SPACING = 16; // Empirically Determined
 
   /**
    * @param numberAtom Model representation of the atom
@@ -41,7 +42,7 @@ define( function( require ) {
 
     var panelContents = new Node();
 
-    var labelOptions = { font: new PhetFont( 14 ) };
+    var labelOptions = { font: new PhetFont( 12 ) };
     var protonTitle = new Text( protonsColonString, labelOptions );
     panelContents.addChild( protonTitle );
     var neutronTitle = new Text( neutronsColonString, labelOptions );
