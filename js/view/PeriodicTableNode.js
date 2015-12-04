@@ -19,7 +19,7 @@ define( function( require ) {
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
-    [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+    [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
   ];
 
   var CELL_DIMENSION = 25;
@@ -46,6 +46,12 @@ define( function( require ) {
         this.addChild( cell );
         this.cells.push( cell );
         elementIndex++;
+        if ( elementIndex === 58 ){
+          elementIndex = 72;
+        }
+        if ( elementIndex === 90 ){
+          elementIndex = 104;
+        }
       }
     }
 
