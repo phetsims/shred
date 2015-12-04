@@ -6,6 +6,7 @@
 define( function( require ) {
   'use strict';
 
+  var shred = require( 'SHRED/shred' );
   var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -69,6 +70,7 @@ define( function( require ) {
     } );
   }
 
+  shred.register( "PeriodicTableNode", PeriodicTableNode );
   // Inherit from Node.
   return inherit( Node, PeriodicTableNode );
 } );

@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var shred = require( 'SHRED/shred' );
   var PropertySet = require( 'AXON/PropertySet' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -138,6 +139,7 @@ define( function( require ) {
     } );
   }
 
+  shred.register( 'ParticleAtom', ParticleAtom );
   return inherit( PropertySet, ParticleAtom, {
     // Add a particle to the atom.
     addParticle: function( particle ) {

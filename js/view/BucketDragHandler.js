@@ -13,6 +13,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var shred = require( 'SHRED/shred' );
   var inherit = require( 'PHET_CORE/inherit' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
@@ -49,5 +50,6 @@ define( function( require ) {
   }
 
   // Inherit from base class.
+  shred.register( 'BucketDragHandler', BucketDragHandler );
   return inherit( SimpleDragHandler, BucketDragHandler );
 } );

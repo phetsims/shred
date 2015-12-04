@@ -12,6 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var shred = require( 'SHRED/shred' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -151,6 +152,7 @@ define( function( require ) {
     this.addChild( new Panel( panelContents, { fill: SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR, cornerRadius:5 } ) );
   }
 
+  shred.register( 'ParticleCountDisplay', ParticleCountDisplay );
   // Inherit from Node.
   return inherit( Node, ParticleCountDisplay );
 } );

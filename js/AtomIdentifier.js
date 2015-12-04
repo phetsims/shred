@@ -12,6 +12,7 @@
 
 define( function( require ) {
   'use strict';
+  var shred = require( 'SHRED/shred' );
   var Util = require( 'DOT/Util' );
 
   // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
@@ -724,7 +725,7 @@ define( function( require ) {
     208.9804 // 83, BISMUTH
   ];
 
-  return {
+  var AtomIdentifier =  {
     // Get the chemical symbol for an atom with the specified number of protons.
     getSymbol: function( numProtons ) {
       return symbolTable[ numProtons ];
@@ -877,4 +878,7 @@ define( function( require ) {
     }
 
   };
+
+  shred.register( 'AtomIdentifier', AtomIdentifier);
+  return AtomIdentifier;
 } );

@@ -5,10 +5,11 @@
  *
  * @author John Blanco
  */
-define( [], function() {
+define( function( require ) {
   'use strict';
+  var shred = require( 'SHRED/shred' );
 
-  return {
+  var Utils = {
     /**
      * Determine if two values are equal within a tolerance.
      *
@@ -21,4 +22,6 @@ define( [], function() {
       return Math.abs( value1 - value2 ) < tolerance;
     }
   };
+  shred.register( 'Utils', Utils);
+  return Utils;
 } );

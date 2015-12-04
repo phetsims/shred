@@ -6,6 +6,7 @@
 define( function( require ) {
   'use strict';
 
+  var shred = require( 'SHRED/shred' );
   var Node = require( 'SCENERY/nodes/Node' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var ParticleNode = require( 'SHRED/view/ParticleNode' );
@@ -82,6 +83,7 @@ define( function( require ) {
     } ) );
   }
 
+  shred.register( 'ParticleView', ParticleView );
   // Inherit from Node.
   return inherit( Node, ParticleView );
 } );

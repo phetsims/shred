@@ -10,6 +10,7 @@
 define( function( require ) {
   'use strict';
 
+  var shred = require( 'SHRED/shred' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
@@ -42,6 +43,7 @@ define( function( require ) {
     } );
   }
 
+  shred.register( 'NumberAtom', NumberAtom);
   return inherit( PropertySet, NumberAtom, {
     equals: function( otherAtom ) {
       return ( this.protonCount === otherAtom.protonCount &&

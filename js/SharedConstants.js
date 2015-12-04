@@ -9,10 +9,11 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var shred = require( 'SHRED/shred' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
-  return {
+  var SharedConstants = {
 
     // Sizes of the various particles.
     NUCLEON_RADIUS: 10, // In screen coordinates, which are roughly pixels.
@@ -40,4 +41,6 @@ define( function( require ) {
     // Level name to level number converter.
     MAP_LEVEL_NAME_TO_NUMBER: function( levelName ) { return this.LEVEL_NAMES.indexOf( levelName ); }
   };
+  shred.register( 'SharedConstants', SharedConstants);
+  return SharedConstants
 } );

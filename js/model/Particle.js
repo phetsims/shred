@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var shred = require( 'SHRED/shred' );
   var PropertySet = require( 'AXON/PropertySet' );
   var Vector2 = require( 'DOT/Vector2' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
@@ -34,7 +35,7 @@ define( function( require ) {
       zLayer: 0 // Used in view, integer value, higher means further back.
     } );
   }
-
+  shred.register( 'Particle', Particle );
   return inherit( PropertySet, Particle, {
     step: function( dt ) {
       if ( !this.userControlled ) {

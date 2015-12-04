@@ -7,6 +7,7 @@
 define( function( require ) {
   'use strict';
 
+  var shred = require( 'SHRED/shred' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
@@ -40,6 +41,7 @@ define( function( require ) {
       } ) );
   }
 
+  shred.register( 'ParticleNode', ParticleNode );
   // Inherit from Node.
   return inherit( Node, ParticleNode );
 } );

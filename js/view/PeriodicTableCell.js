@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var shred = require( 'SHRED/shred' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -105,6 +106,7 @@ define( function( require ) {
     }
   }
 
+  shred.register( 'PeriodicTableCell', PeriodicTableCell );
   return inherit( Rectangle, PeriodicTableCell, {
     setHighlighted: function( highLighted ) {
       this.fill = highLighted ? this.highlightedFill : this.normalFill;

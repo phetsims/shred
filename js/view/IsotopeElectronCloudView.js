@@ -15,6 +15,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var shred = require( 'SHRED/shred' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
@@ -30,7 +31,7 @@ define( function( require ) {
    * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function IsotopeNodeView( numberAtom, modelViewTransform ) {
+  function IsotopeElectronCloudView( numberAtom, modelViewTransform ) {
 
     // Call super constructor using dummy radius and actual is updated below.
     Circle.call( this, 1, { pickable: false } );
@@ -60,7 +61,8 @@ define( function( require ) {
 
   }
 
-  return inherit( Circle, IsotopeNodeView, {
+  shred.register( 'IsotopeElectronCloudView', IsotopeElectronCloudView );
+  return inherit( Circle, IsotopeElectronCloudView, {
 
     /**
      * Maps a number of electrons to a diameter in screen coordinates for the electron shell.  This mapping function is
