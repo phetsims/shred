@@ -42,5 +42,5 @@ define( function( require ) {
     MAP_LEVEL_NAME_TO_NUMBER: function( levelName ) { return this.LEVEL_NAMES.indexOf( levelName ); }
   };
   shred.register( 'SharedConstants', SharedConstants);
-  return SharedConstants
+  return SharedConstants;
 } );

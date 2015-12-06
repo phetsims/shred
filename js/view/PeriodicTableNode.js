@@ -70,7 +70,7 @@ define( function( require ) {
     } );
   }
 
-  shred.register( "PeriodicTableNode", PeriodicTableNode );
+  shred.register( 'PeriodicTableNode', PeriodicTableNode );
   // Inherit from Node.
   return inherit( Node, PeriodicTableNode );
 } );
