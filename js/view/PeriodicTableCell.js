@@ -36,71 +36,85 @@ define( function( require ) {
    * @param numberAtom - Atom that is set if this cell is selected by the user.
    * @constructor
    */
-  function PeriodicTableCell( atomicNumber, length, interactive, numberAtom ) {
+  function PeriodicTableCell( atomicNumber, numberAtom, options ) {
+    options = _.extend( {
+      length: 25, //Width and height of cell (cells are square).
+      interactive: false, // Boolean flag that determines whether cell is interactive.
+      showLabels: true,
+      popOnTouch: false
+    }, options );
     var self = this;
+    this.options = options;
 
     // @private
-    this.normalFill = interactive ? ENABLED_CELL_COLOR : DISABLED_CELL_COLOR;
+    this.normalFill = options.interactive ? ENABLED_CELL_COLOR : DISABLED_CELL_COLOR;
     this.highlightedFill = SELECTED_CELL_COLOR;
 
-    Rectangle.call( this, 0, 0, length, length, 0, 0, {
+    Rectangle.call( this, 0, 0, options.length, options.length, 0, 0, {
       stroke: 'black',
       lineWidth: 1,
       fill: this.normalFill,
-      cursor: interactive ? 'pointer' : null
+      cursor: options.interactive ? 'pointer' : null
     } ); // Call super constructor.
 
-    // @private
-    this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
-      font: new PhetFont( NOMINAL_FONT_SIZE * ( length / NOMINAL_CELL_DIMENSION ) ),
-      center: this.center
-    } );
-
-    this.addChild( this.label );
+    if ( options.showLabels ) {
+      // @private
+      this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
+        font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
+        center: this.center
+      } );
+      this.addChild( this.label );
+    }
 
     // If interactive, add a listener to set the atom when this cell is pressed.
-    if ( interactive ) {
-      var popupInflation = 0.5 * length;
-      var popupShape = new Shape().
-        moveTo( 0, 0 ).
-        lineTo( 0, length ).
-        lineTo( length, length ).
-        lineTo( length, 0 ).
-        lineTo( 1.5 * length, -popupInflation ).
-        lineTo( 1.5 * length, -popupInflation - ( 2 * length ) ).
-        lineTo( -0.5 * length, -popupInflation - ( 2 * length ) ).
-        lineTo( -0.5 * length, -popupInflation ).
-        lineTo( 0, 0 );
+    if ( options.interactive ) {
+      if ( options.popOnTouch ) {
+        var popupInflation = 0.5 * options.length;
+        var popupShape = new Shape().
+          moveTo( 0, 0 ).
+          lineTo( 0, options.length ).
+          lineTo( options.length, options.length ).
+          lineTo( options.length, 0 ).
+          lineTo( 1.5 * options.length, -popupInflation ).
+          lineTo( 1.5 * options.length, -popupInflation - ( 2 * options.length ) ).
+          lineTo( -0.5 * options.length, -popupInflation - ( 2 * options.length ) ).
+          lineTo( -0.5 * options.length, -popupInflation ).
+          lineTo( 0, 0 );
 
-      var popup = new Path( popupShape, {
-        stroke: 'black',
-        lineWidth: 1,
-        fill: self.normalFill,
-        cursor: interactive ? 'pointer' : null,
-        pickable: false,
-        visible: false
-      } );
+        var popup = new Path( popupShape, {
+          stroke: 'black',
+          lineWidth: 1,
+          fill: self.normalFill,
+          cursor: options.interactive ? 'pointer' : null,
+          pickable: false,
+          visible: false
+        } );
 
-      var popupLabel = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
-        font: new PhetFont( NOMINAL_FONT_SIZE * ( 2.5 * length / NOMINAL_CELL_DIMENSION ) ),
-        centerX: popup.centerX,
-        centerY: 0.5 * (-popupInflation - ( 2 * length ))
-      } );
-      popup.addChild( popupLabel );
-      this.addChild(popup);
+        var popupLabel = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
+          font: new PhetFont( NOMINAL_FONT_SIZE * ( 2.5 * options.length / NOMINAL_CELL_DIMENSION ) ),
+          centerX: popup.centerX,
+          centerY: 0.5 * (-popupInflation - ( 2 * options.length ))
+        } );
+        popup.addChild( popupLabel );
+        this.addChild( popup );
+      }
 
       this.addInputListener( {
         up: function() {
           numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
         },
         over: function( event ) {
-          if ( event.pointer.type === 'touch' ) {
-            self.moveToFront();
-            popup.visible = true;
+          if ( options.popOnTouch ) {
+            if ( event.pointer.type === 'touch' ) {
+              self.moveToFront();
+              popup.visible = true;
+            }
           }
         },
         exit: function() {
-          popup.visible = false;
+          if ( options.popOnTouch ) {
+            popup.visible = false;
+          }
         }
       } );
     }
@@ -112,7 +126,9 @@ define( function( require ) {
       this.fill = highLighted ? this.highlightedFill : this.normalFill;
       this.stroke = highLighted ? PhetColorScheme.RED_COLORBLIND : 'black';
       this.lineWidth = highLighted ? 2 : 1;
-      this.label.fontWeight = highLighted ? 'bold' : 'normal';
+      if ( this.options.showLabels ) {
+        this.label.fontWeight = highLighted ? 'bold' : 'normal';
+      }
     }
   } );
 } );

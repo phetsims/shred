@@ -23,16 +23,19 @@ define( function( require ) {
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
   ];
 
-  var CELL_DIMENSION = 25;
-
   /**
    * Constructor.
    *
-   * @param numberAtom - Atom that defines which element is currently highlighted.
-   * @param interactiveMax - Atomic number of the heaviest element that should be interactive.
+   * @param {NumberAtom} numberAtom - Atom that defines which element is currently highlighted.
    * @constructor
    */
-  function PeriodicTableNode( numberAtom,  particleAtom, interactiveMax ) {
+  function PeriodicTableNode( numberAtom, options ) {
+    options = _.extend( {
+      interactiveMax: 0, //Atomic number of the heaviest element that should be interactive
+      cellDimension: 25,
+      showLabels: true
+    }, options );
+
     Node.call( this ); // Call super constructor.
     var thisPeriodicTable = this;
 
@@ -42,8 +45,11 @@ define( function( require ) {
     for ( var i = 0; i < POPULATED_CELLS.length; i++ ) {
       var populatedCellsInRow = POPULATED_CELLS[ i ];
       for ( var j = 0; j < populatedCellsInRow.length; j++ ) {
-        var cell = new PeriodicTableCell( elementIndex, CELL_DIMENSION, interactiveMax >= elementIndex, numberAtom, particleAtom );
-        cell.translation = new Vector2( populatedCellsInRow[ j ] * CELL_DIMENSION, i * CELL_DIMENSION );
+        var cell = new PeriodicTableCell( elementIndex, numberAtom, {
+          interactive: elementIndex <= options.interactiveMax,
+          showLabels: options.showLabels
+        });
+        cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );
         this.addChild( cell );
         this.cells.push( cell );
         elementIndex++;
@@ -58,7 +64,7 @@ define( function( require ) {
 
     // Highlight the cell that corresponds to the atom.
     var highlightedCell = null;
-    particleAtom.protonCountProperty.link( function( protonCount ) {
+    numberAtom.protonCountProperty.link( function( protonCount ) {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
       }
