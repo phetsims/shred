@@ -73,11 +73,12 @@ define( function( require ) {
 
       // This data structure maps atomic number of atomic radius.  The values are the covalent radii, and were taken from
       // a Wikipedia entry entitled "Atomic radii of the elements".  Values are in picometers.
+      // But the difference is too much so "tweaked" the radii
       var mapElectronCountToRadius = {
         1: 38,
         2: 32,
-        3: 134,
-        4: 90,
+        3: 134 * 0.75,
+        4: 90 * 0.97,
         5: 82,
         6: 77,
         7: 75,
