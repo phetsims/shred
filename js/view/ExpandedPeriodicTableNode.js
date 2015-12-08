@@ -75,18 +75,13 @@ define( function( require ) {
     periodicTableNode.centerX = expandedRowsNode.centerX;
     this.addChild(expandedRowsNode);
 
+    var connectingLineOptions = { stroke: 'black', lineDash: [ 9, 6 ] };
     var leftConnectingLine = new Line( periodicTableNode.left, periodicTableNode.top,
-      expandedRowsNode.left, expandedRowsNode.top, {
-        stroke: 'Black',
-        lineDash: [ 5, 2 ]
-      });
+      expandedRowsNode.left, expandedRowsNode.top, connectingLineOptions );
     this.addChild( leftConnectingLine );
 
     var rightConnectingLine = new Line( periodicTableNode.right, periodicTableNode.top,
-      expandedRowsNode.right, expandedRowsNode.top, {
-        stroke: 'Black',
-        lineDash: [ 5, 2 ]
-      });
+      expandedRowsNode.right, expandedRowsNode.top, connectingLineOptions );
     this.addChild( rightConnectingLine );
 
     // Highlight the cell that corresponds to the atom.
