@@ -71,9 +71,12 @@ define( function( require ) {
      */
     getElectronShellDiameter: function( numElectrons ) {
 
-      // This data structure maps atomic number of atomic radius.  The values are the covalent radii, and were taken from
-      // a Wikipedia entry entitled "Atomic radii of the elements".  Values are in picometers.
-      // But the difference is too much so "tweaked" the radii
+      // This data structure maps the number of electrons to a radius for an atom.  It assumes a stable, neutral atom.
+      // The basic values are the covalent radii, and were taken from a Wikipedia entry entitled "Atomic radii of the
+      // elements" which, at the time of this writing, can be found here:
+      // https://en.wikipedia.org/wiki/Atomic_radii_of_the_elements_(data_page).
+      // The values are in picometers.  In practice, the difference between the radii worked out to be a bit too much
+      // visually, so there are some 'tweak factors' for a few of the elements.
       var mapElectronCountToRadius = {
         1: 38,
         2: 32,
