@@ -8,7 +8,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Line = require( 'SCENERY/nodes/Line' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var PeriodicTableNode = require( 'SHRED/view/PeriodicTableNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
