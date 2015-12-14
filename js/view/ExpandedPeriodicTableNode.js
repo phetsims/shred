@@ -11,9 +11,11 @@ define( function( require ) {
   var PeriodicTableNode = require( 'SHRED/view/PeriodicTableNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
   var Vector2 = require( 'DOT/Vector2' );
 
+  // constants
   // 2D array that defines the table structure.
   var POPULATED_CELLS = [
     [ 0, 8 ],
@@ -24,6 +26,9 @@ define( function( require ) {
   var ENABLED_CELL_COLOR = SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
   var SELECTED_CELL_COLOR = '#FA8072'; //salmon
   var BUTTON_SIZE = 50;
+
+  // strings
+  var periodicTableString = require( 'string!SHRED/periodicTable' );
 
   function ExpandedPeriodicTableNode( numberAtom, interactiveMax ) {
     Node.call( this );
@@ -83,6 +88,10 @@ define( function( require ) {
       expandedRowsNode.right, expandedRowsNode.top, connectingLineOptions );
     this.addChild( rightConnectingLine );
 
+    var periodicTableTitle = new Text (periodicTableString, {font: new PhetFont( { size: 16, weight: 'bold' } ) });
+    periodicTableTitle.bottom = periodicTableNode.top - 5;
+    periodicTableTitle.centerX = periodicTableNode.centerX;
+    this.addChild(periodicTableTitle);
     // Highlight the cell that corresponds to the atom.
     var highlightedButton = null;
     numberAtom.protonCountProperty.link( function( protonCount ) {
