@@ -9,6 +9,7 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var Node = require( 'SCENERY/nodes/Node' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var IsotopeNode = require( 'SHRED/view/IsotopeNode' );
   var ParticleNode = require( 'SHRED/view/ParticleNode' );
   var inherit = require( 'PHET_CORE/inherit' );
 
@@ -16,9 +17,19 @@ define( function( require ) {
   var particleNodes = {};
 
   function getParticleNode( particle, mvt ) {
-    var id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius );
+    if ( particle.type === 'Isotope' ) {
+      var id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius ) + '-' + particle.color + '-' + particle.massNumber + '-' + particle.protonCount;
+    }
+    else{
+      var id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius );
+    }
     if ( !particleNodes[ id ] ) {
-      particleNodes[ id ] = new ParticleNode( particle.type, mvt.modelToViewDeltaX( particle.radius ) );
+      if ( particle.type === 'Isotope' ){
+        particleNodes[ id ] = new IsotopeNode( particle, mvt.modelToViewDeltaX( particle.radius ) );
+      }
+      else{
+        particleNodes[ id ] = new ParticleNode( particle.type, mvt.modelToViewDeltaX( particle.radius ) );
+      }
     }
 
     return particleNodes[ id ];
