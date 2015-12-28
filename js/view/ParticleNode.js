@@ -24,7 +24,7 @@ define( function( require ) {
 
     Node.call( this, options ); // Call super constructor.
 
-    var colors = { proton: PhetColorScheme.RED_COLORBLIND, neutron: 'gray', electron: 'blue', Isotope: 'green' };
+    var colors = { proton: PhetColorScheme.RED_COLORBLIND, neutron: 'gray', electron: 'blue' };
     var baseColor = colors[ particleType ];
     if ( baseColor === undefined ) {
       console.error( 'Unrecognized particle type: ' + particleType );
