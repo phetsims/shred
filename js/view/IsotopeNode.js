@@ -24,6 +24,9 @@ define( function( require ) {
    * @constructor
    */
   function IsotopeNode( isotope, radius, options ) {
+    options = _.extend( {
+      showLabel: true
+    }, options );
 
     Node.call( this, options ); // Call super constructor.
 
@@ -42,10 +45,12 @@ define( function( require ) {
       });
     this.addChild( isotopeSphere );
 
-    var label = new SubSupText( ' <sup>' + isotope.massNumber + '</sup>' + AtomIdentifier.getSymbol( isotope.protonCount ),
-      {font: new PhetFont(10)} );
-    label.center = isotopeSphere.center;
-    isotopeSphere.addChild( label );
+    if (options.showLabel) {
+      var label = new SubSupText( ' <sup>' + isotope.massNumber + '</sup>' + AtomIdentifier.getSymbol( isotope.protonCount ),
+        { font: new PhetFont( 10 ) } );
+      label.center = isotopeSphere.center;
+      isotopeSphere.addChild( label );
+    }
   }
 
   shred.register( 'IsotopeNode', IsotopeNode );

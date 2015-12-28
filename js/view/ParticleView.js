@@ -25,7 +25,7 @@ define( function( require ) {
     }
     if ( !particleNodes[ id ] ) {
       if ( particle.type === 'Isotope' ){
-        particleNodes[ id ] = new IsotopeNode( particle, mvt.modelToViewDeltaX( particle.radius ) );
+        particleNodes[ id ] = new IsotopeNode( particle, mvt.modelToViewDeltaX( particle.radius ), {showLabel: particle.showLabel} );
       }
       else{
         particleNodes[ id ] = new ParticleNode( particle.type, mvt.modelToViewDeltaX( particle.radius ) );
