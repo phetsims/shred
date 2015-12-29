@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Emitter = require( 'AXON/Emitter' );
   var shred = require( 'SHRED/shred' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -34,9 +35,10 @@ define( function( require ) {
    * @param length - Width and height of cell (cells are square).
    * @param interactive - Boolean flag that determines whether cell is interactive.
    * @param numberAtom - Atom that is set if this cell is selected by the user.
+   * @param {Tandem} tandem
    * @constructor
    */
-  function PeriodicTableCell( atomicNumber, numberAtom, options ) {
+  function PeriodicTableCell( atomicNumber, numberAtom, tandem, options ) {
     options = _.extend( {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
@@ -45,6 +47,9 @@ define( function( require ) {
     }, options );
     var self = this;
     this.options = options;
+
+    // @public (together) send a message when this button is pressed (only occurs when interactive===true)
+    this.cellPressedEmitter = new Emitter();
 
     // @private
     this.normalFill = options.interactive ? ENABLED_CELL_COLOR : DISABLED_CELL_COLOR;
@@ -102,6 +107,7 @@ define( function( require ) {
       this.addInputListener( {
         up: function() {
           numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
+          self.cellPressedEmitter.emit();
         },
         over: function( event ) {
           if ( options.popOnTouch ) {
@@ -118,6 +124,7 @@ define( function( require ) {
         }
       } );
     }
+    tandem.addInstance( this );
   }
 
   shred.register( 'PeriodicTableCell', PeriodicTableCell );

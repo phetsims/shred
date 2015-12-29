@@ -27,9 +27,10 @@ define( function( require ) {
    * Constructor.
    *
    * @param {NumberAtom} numberAtom - Atom that defines which element is currently highlighted.
+   * @param {Tandem} tandem
    * @constructor
    */
-  function PeriodicTableNode( numberAtom, options ) {
+  function PeriodicTableNode( numberAtom, tandem, options ) {
     options = _.extend( {
       interactiveMax: 0, //Atomic number of the heaviest element that should be interactive
       cellDimension: 25,
@@ -44,8 +45,9 @@ define( function( require ) {
     var elementIndex = 1;
     for ( var i = 0; i < POPULATED_CELLS.length; i++ ) {
       var populatedCellsInRow = POPULATED_CELLS[ i ];
+      var rowTandem = tandem.createPoolElementTandem( 'row' );
       for ( var j = 0; j < populatedCellsInRow.length; j++ ) {
-        var cell = new PeriodicTableCell( elementIndex, numberAtom, {
+        var cell = new PeriodicTableCell( elementIndex, numberAtom, rowTandem.createPoolElementTandem( 'column' ), {
           interactive: elementIndex <= options.interactiveMax,
           showLabels: options.showLabels
         });

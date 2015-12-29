@@ -30,10 +30,10 @@ define( function( require ) {
   // strings
   var periodicTableString = require( 'string!SHRED/periodicTable' );
 
-  function ExpandedPeriodicTableNode( numberAtom, interactiveMax ) {
+  function ExpandedPeriodicTableNode( numberAtom, interactiveMax, tandem ) {
     Node.call( this );
     var self = this;
-    var periodicTableNode = new PeriodicTableNode( numberAtom,
+    var periodicTableNode = new PeriodicTableNode( numberAtom, tandem.createTandem( 'periodicTable' ),
       { interactiveMax: interactiveMax,
         showLabels: false
       });
