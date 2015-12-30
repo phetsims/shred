@@ -9,11 +9,14 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var shred = require( 'SHRED/shred' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   var SharedConstants = {
+
+    LAYOUT_BOUNDS: new Bounds2( 0, 0, 768, 504 ),
 
     // Sizes of the various particles.
     NUCLEON_RADIUS: 10, // In screen coordinates, which are roughly pixels.
