@@ -43,11 +43,13 @@ define( function( require ) {
     // Add the cells of the table.
     this.cells = []; // @private
     var elementIndex = 1;
+    var rowGroupTandem = tandem.createGroupTandem( 'row' );
     for ( var i = 0; i < POPULATED_CELLS.length; i++ ) {
       var populatedCellsInRow = POPULATED_CELLS[ i ];
-      var rowTandem = tandem.createPoolElementTandem( 'row' );
+      var rowTandem = rowGroupTandem.createNextTandem();
+      var columnGroupTandem = rowTandem.createGroupTandem( 'column' );
       for ( var j = 0; j < populatedCellsInRow.length; j++ ) {
-        var cell = new PeriodicTableCell( elementIndex, numberAtom, rowTandem.createPoolElementTandem( 'column' ), {
+        var cell = new PeriodicTableCell( elementIndex, numberAtom, columnGroupTandem.createNextTandem(), {
           interactive: elementIndex <= options.interactiveMax,
           showLabels: options.showLabels
         });
