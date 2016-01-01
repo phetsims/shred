@@ -72,8 +72,15 @@ define( function( require ) {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
       }
-      if ( protonCount > 0 && protonCount <= thisPeriodicTable.cells.length ) {
-        highlightedCell = thisPeriodicTable.cells[ protonCount - 1 ];
+      if ( protonCount > 0 && protonCount <= 112 ) {
+        var elementIndex = protonCount;
+        if ( protonCount >= 72 ){
+          elementIndex = elementIndex - 14;
+        }
+        if ( protonCount >= 104 && protonCount < 112){
+          elementIndex = elementIndex - 14;
+        }
+        highlightedCell = thisPeriodicTable.cells[ elementIndex - 1 ];
         highlightedCell.moveToFront();
         highlightedCell.setHighlighted( true );
       }
