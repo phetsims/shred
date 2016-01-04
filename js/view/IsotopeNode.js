@@ -13,7 +13,6 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var SubSupText = require( 'SCENERY_PHET/SubSupText' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
 

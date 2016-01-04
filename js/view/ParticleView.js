@@ -17,11 +17,12 @@ define( function( require ) {
   var particleNodes = {};
 
   function getParticleNode( particle, mvt ) {
+    var id;
     if ( particle.type === 'Isotope' ) {
-      var id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius ) + '-' + particle.color + '-' + particle.massNumber + '-' + particle.protonCount;
+      id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius ) + '-' + particle.color + '-' + particle.massNumber + '-' + particle.protonCount;
     }
     else{
-      var id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius );
+      id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius );
     }
     if ( !particleNodes[ id ] ) {
       if ( particle.type === 'Isotope' ){
