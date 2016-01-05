@@ -577,7 +577,7 @@ define( function( require ) {
       },
       29: {
         atomicMass: 28.976494700,
-        abundance: 0.92223
+        abundance: 0.04685
       },
       30: {
         atomicMass: 29.97377017,
