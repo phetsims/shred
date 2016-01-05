@@ -11,7 +11,9 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Vector2 = require( 'DOT/Vector2' );
   var PeriodicTableCell = require( 'SHRED/view/PeriodicTableCell' );
+  var SharedConstants = require( 'SHRED/SharedConstants' );
 
+  // constants
   // 2D array that defines the table structure.
   var POPULATED_CELLS = [
     [ 0, 17 ],
@@ -22,6 +24,9 @@ define( function( require ) {
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
   ];
+  var ENABLED_CELL_COLOR = SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
+  var DISABLED_CELL_COLOR = '#EEEEEE';
+  var SELECTED_CELL_COLOR = '#FA8072'; //salmon
 
   /**
    * Constructor.
@@ -34,7 +39,10 @@ define( function( require ) {
     options = _.extend( {
       interactiveMax: 0, //Atomic number of the heaviest element that should be interactive
       cellDimension: 25,
-      showLabels: true
+      showLabels: true,
+      enabledCellColor: ENABLED_CELL_COLOR,
+      disabledCellColor: DISABLED_CELL_COLOR,
+      selectedCellColor: SELECTED_CELL_COLOR
     }, options );
 
     Node.call( this ); // Call super constructor.
@@ -48,10 +56,16 @@ define( function( require ) {
       var populatedCellsInRow = POPULATED_CELLS[ i ];
       var rowTandem = rowGroupTandem.createNextTandem();
       var columnGroupTandem = rowTandem.createGroupTandem( 'column' );
+      var cellColor = {
+        'enabled': options.enabledCellColor,
+        'disabled': options.disabledCellColor,
+        'selected': options.selectedCellColor
+      };
       for ( var j = 0; j < populatedCellsInRow.length; j++ ) {
-        var cell = new PeriodicTableCell( elementIndex, numberAtom, columnGroupTandem.createNextTandem(), {
+        var cell = new PeriodicTableCell( elementIndex, numberAtom, cellColor, columnGroupTandem.createNextTandem(), {
           interactive: elementIndex <= options.interactiveMax,
-          showLabels: options.showLabels
+          showLabels: options.showLabels,
+          length: options.cellDimension
         });
         cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );
         this.addChild( cell );

@@ -17,14 +17,10 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var SharedConstants = require( 'SHRED/SharedConstants' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
   // constants
-  var ENABLED_CELL_COLOR = SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
-  var DISABLED_CELL_COLOR = '#EEEEEE';
-  var SELECTED_CELL_COLOR = '#FA8072'; //salmon
   var NOMINAL_CELL_DIMENSION = 25;
   var NOMINAL_FONT_SIZE = 14;
 
@@ -32,13 +28,12 @@ define( function( require ) {
    * Constructor.
    *
    * @param atomicNumber - Atomic number of atom represented by this cell.
-   * @param length - Width and height of cell (cells are square).
-   * @param interactive - Boolean flag that determines whether cell is interactive.
    * @param numberAtom - Atom that is set if this cell is selected by the user.
+   * @param cellColor - Color to be used for selected enabled and disabled cell
    * @param {Tandem} tandem
    * @constructor
    */
-  function PeriodicTableCell( atomicNumber, numberAtom, tandem, options ) {
+  function PeriodicTableCell( atomicNumber, numberAtom, cellColor, tandem, options ) {
     options = _.extend( {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
@@ -52,8 +47,8 @@ define( function( require ) {
     this.cellPressedEmitter = new Emitter();
 
     // @private
-    this.normalFill = options.interactive ? ENABLED_CELL_COLOR : DISABLED_CELL_COLOR;
-    this.highlightedFill = SELECTED_CELL_COLOR;
+    this.normalFill = options.interactive ? cellColor.enabled : cellColor.disabled;
+    this.highlightedFill = cellColor.selected;
 
     Rectangle.call( this, 0, 0, options.length, options.length, 0, 0, {
       stroke: 'black',
