@@ -86,12 +86,12 @@ define( function( require ) {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
       }
-      if ( protonCount > 0 && protonCount <= 112 ) {
+      if ( protonCount > 0 && protonCount <= 118 ) {
         var elementIndex = protonCount;
         if ( protonCount >= 72 ){
           elementIndex = elementIndex - 14;
         }
-        if ( protonCount >= 104 && protonCount < 112){
+        if ( protonCount >= 104 && protonCount <= 118){
           elementIndex = elementIndex - 14;
         }
         highlightedCell = thisPeriodicTable.cells[ elementIndex - 1 ];
