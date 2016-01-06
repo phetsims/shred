@@ -61,7 +61,8 @@ define( function( require ) {
       // @private
       this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
         font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
-        center: this.center
+        center: this.center,
+        maxWidth: options.length - 5
       } );
       this.addChild( this.label );
     }

@@ -133,7 +133,13 @@ define( function( require ) {
     'Meitnerium',
     'Darmstadtium',
     'Roentgenium',
-    'Ununbium'
+    'Ununbium',
+    'Ununtrium',
+    'Flerovium',
+    'Ununpentium',
+    'Livermorium',
+    'Ununseptium',
+    'Ununoctium'
   ];
 
   var symbolTable = [
@@ -249,7 +255,14 @@ define( function( require ) {
     'Mt', // 109, MEITNERIUM
     'Ds', // 110, DARMSTADTIUM
     'Rg', // 111, ROENTGENIUM
-    'Cn' // 112, UNUNBIUM
+    'Cn', // 112, UNUNBIUM
+    'Uut', // 113, UNUTRIUM
+    'Fl', // 114, FLEROVIUM
+    'Uup', // 115, UNUNPENTIUM
+    'Lv', // 116, LIVERMORIUM
+    'Uus', // 117, UNUNSEPTIUM
+    'Uuo', // 118, UNUNOCTIUM
+
   ];
 
   // Table of stable elements, indexed by atomic number to a list of viable numbers of neutrons.
