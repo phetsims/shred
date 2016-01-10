@@ -25,12 +25,11 @@ define( function( require ) {
   var NOMINAL_FONT_SIZE = 14;
 
   /**
-   * Constructor.
-   *
    * @param atomicNumber - Atomic number of atom represented by this cell.
    * @param numberAtom - Atom that is set if this cell is selected by the user.
    * @param cellColor - Color to be used for selected enabled and disabled cell
    * @param {Tandem} tandem
+   * @param {Object} [options]
    * @constructor
    */
   function PeriodicTableCell( atomicNumber, numberAtom, cellColor, tandem, options ) {
