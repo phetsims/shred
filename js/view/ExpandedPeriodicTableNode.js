@@ -1,5 +1,9 @@
 // Copyright 2015, University of Colorado Boulder
 
+/**
+ *
+ * @author Aadish Gupta (PhET Interactive Simulations)
+ */
 define( function( require ) {
   'use strict';
 
@@ -33,21 +37,21 @@ define( function( require ) {
   function ExpandedPeriodicTableNode( numberAtom, interactiveMax, tandem ) {
     Node.call( this );
     var self = this;
-    var periodicTableNode = new PeriodicTableNode( numberAtom, tandem.createTandem( 'periodicTable' ),
-      { interactiveMax: interactiveMax,
-        showLabels: false
-      });
-    periodicTableNode.scale(0.5);
+    var periodicTableNode = new PeriodicTableNode( numberAtom, tandem.createTandem( 'periodicTable' ), {
+      interactiveMax: interactiveMax,
+      showLabels: false
+    } );
+    periodicTableNode.scale( 0.5 );
     this.addChild( periodicTableNode );
 
     this.cells = [];
     var expandedRowsNode = new Node();
     var elementIndex = 1;
     var rows = 1;
-    if ( interactiveMax > 2 && interactiveMax <= 10 ){
+    if ( interactiveMax > 2 && interactiveMax <= 10 ) {
       rows = 2;
     }
-    else if ( interactiveMax > 10 ){
+    else if ( interactiveMax > 10 ) {
       rows = 3;
     }
     for ( var i = 0; i < rows; i++ ) {
@@ -57,7 +61,7 @@ define( function( require ) {
         var atomicNumber = elementIndex;
         var button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
           listener: function() {
-            numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
+            numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber );
           },
           baseColor: ENABLED_CELL_COLOR,
           cornerRadius: 0,
@@ -66,18 +70,18 @@ define( function( require ) {
           minHeight: BUTTON_SIZE,
           maxHeight: BUTTON_SIZE,
           font: new PhetFont( 24 )
-        });
+        } );
         button.translation = new Vector2( populatedCellsInRow[ j ] * BUTTON_SIZE, i * BUTTON_SIZE );
         self.cells.push( button );
         expandedRowsNode.addChild( button );
         j++;
         elementIndex++;
 
-      });
+      } );
     }
     expandedRowsNode.top = periodicTableNode.bottom - 30;
     periodicTableNode.centerX = expandedRowsNode.centerX;
-    this.addChild(expandedRowsNode);
+    this.addChild( expandedRowsNode );
 
     var connectingLineOptions = { stroke: 'black', lineDash: [ 9, 6 ] };
     var leftConnectingLine = new Line( periodicTableNode.left, periodicTableNode.top,
@@ -88,10 +92,10 @@ define( function( require ) {
       expandedRowsNode.right, expandedRowsNode.top, connectingLineOptions );
     this.addChild( rightConnectingLine );
 
-    var periodicTableTitle = new Text (periodicTableString, {font: new PhetFont( { size: 16, weight: 'bold' } ) });
+    var periodicTableTitle = new Text( periodicTableString, { font: new PhetFont( { size: 16, weight: 'bold' } ) } );
     periodicTableTitle.bottom = periodicTableNode.top - 5;
     periodicTableTitle.centerX = periodicTableNode.centerX;
-    this.addChild(periodicTableTitle);
+    this.addChild( periodicTableTitle );
     // Highlight the cell that corresponds to the atom.
     var highlightedButton = null;
     numberAtom.protonCountProperty.link( function( protonCount ) {
