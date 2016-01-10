@@ -21,7 +21,8 @@ define( function( require ) {
     options = _.extend( {
       protonCount: 0,
       neutronCount: 0,
-      electronCount: 0
+      electronCount: 0,
+      tandem: null
     }, options );
 
     // Call the super constructor.
@@ -30,6 +31,12 @@ define( function( require ) {
       protonCount: options.protonCount,
       neutronCount: options.neutronCount,
       electronCount: options.electronCount
+    }, {
+      tandemSet: {
+        protonCount: options.tandem && options.tandem.createTandem( 'protonCount' ),
+        neutronCount: options.tandem && options.tandem.createTandem( 'neutronCount' ),
+        electronCount: options.tandem && options.tandem.createTandem( 'electronCount' )
+      }
     } );
 
     this.addDerivedProperty( 'charge', [ 'protonCount', 'electronCount' ], function( protonCount, electronCount ) {
@@ -43,7 +50,7 @@ define( function( require ) {
     } );
   }
 
-  shred.register( 'NumberAtom', NumberAtom);
+  shred.register( 'NumberAtom', NumberAtom );
   return inherit( PropertySet, NumberAtom, {
     equals: function( otherAtom ) {
       return ( this.protonCount === otherAtom.protonCount &&
