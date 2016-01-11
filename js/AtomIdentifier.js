@@ -261,7 +261,7 @@ define( function( require ) {
     'Uup', // 115, UNUNPENTIUM
     'Lv', // 116, LIVERMORIUM
     'Uus', // 117, UNUNSEPTIUM
-    'Uuo', // 118, UNUNOCTIUM
+    'Uuo' // 118, UNUNOCTIUM
 
   ];
 
