@@ -83,7 +83,7 @@ define( function( require ) {
     periodicTableNode.centerX = expandedRowsNode.centerX;
     this.addChild( expandedRowsNode );
 
-    var connectingLineOptions = { stroke: 'black', lineDash: [ 9, 6 ] };
+    var connectingLineOptions = { stroke: 'gray', lineDash: [ 9, 6 ] };
     var leftConnectingLine = new Line( periodicTableNode.left, periodicTableNode.top,
       expandedRowsNode.left, expandedRowsNode.top, connectingLineOptions );
     this.addChild( leftConnectingLine );
