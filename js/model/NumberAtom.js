@@ -33,9 +33,9 @@ define( function( require ) {
       electronCount: options.electronCount
     }, {
       tandemSet: {
-        protonCount: options.tandem && options.tandem.createTandem( 'protonCount' ),
-        neutronCount: options.tandem && options.tandem.createTandem( 'neutronCount' ),
-        electronCount: options.tandem && options.tandem.createTandem( 'electronCount' )
+        protonCount: options.tandem && options.tandem.createTandem( 'protonCountProperty' ),
+        neutronCount: options.tandem && options.tandem.createTandem( 'neutronCountProperty' ),
+        electronCount: options.tandem && options.tandem.createTandem( 'electronCountProperty' )
       }
     } );
 

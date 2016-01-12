@@ -42,8 +42,9 @@ define( function( require ) {
     var self = this;
     this.options = options;
 
-    // @public (together) send a message when this button is pressed (only occurs when interactive===true)
-    this.cellPressedEmitter = new Emitter();
+    // @private (together) send a message when this button is pressed (only occurs when interactive===true)
+    this.startedCallbacksForPressedEmitter = new Emitter();
+    this.endedCallbacksForPressedEmitter = new Emitter();
 
     // @private
     this.normalFill = options.interactive ? cellColor.enabled : cellColor.disabled;
@@ -101,8 +102,9 @@ define( function( require ) {
 
       this.addInputListener( {
         up: function() {
+          self.startedCallbacksForPressedEmitter.emit();
           numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
-          self.cellPressedEmitter.emit();
+          self.endedCallbacksForPressedEmitter.emit();
         },
         over: function( event ) {
           if ( options.popOnTouch ) {
