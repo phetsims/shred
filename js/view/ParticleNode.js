@@ -41,6 +41,7 @@ define( function( require ) {
   }
 
   shred.register( 'ParticleNode', ParticleNode );
+
   // Inherit from Node.
   return inherit( Node, ParticleNode );
 } );
