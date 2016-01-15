@@ -41,12 +41,14 @@ define( function( require ) {
         .addColorStop( 0, 'white' )
         .addColorStop( 1, baseColor ),
       cursor: 'pointer'
-      });
+    } );
     this.addChild( isotopeSphere );
 
-    if (options.showLabel) {
-      var label = new SubSupText( ' <sup>' + isotope.massNumber + '</sup>' + AtomIdentifier.getSymbol( isotope.protonCount ),
-        { font: new PhetFont( 10 ) } );
+    if ( options.showLabel ) {
+      var symbol = AtomIdentifier.getSymbol( isotope.protonCount );
+      var label = new SubSupText( ' <sup>' + isotope.massNumber + '</sup>' + symbol, {
+        font: new PhetFont( 10 )
+      } );
       label.center = isotopeSphere.center;
       isotopeSphere.addChild( label );
     }

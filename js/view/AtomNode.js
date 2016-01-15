@@ -43,8 +43,7 @@ define( function( require ) {
    */
   function AtomNode( particleAtom, mvt, options ) {
 
-    options = _.extend(
-      {
+    options = _.extend( {
         showCenterX: true,
         showElementNameProperty: new Property( true ),
         showNeutralOrIonProperty: new Property( true ),
@@ -100,13 +99,12 @@ define( function( require ) {
     var elementNameCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.55 ) ) );
 
     // @private - Create the textual readout for the element name.
-    this.elementName = new Text( '',
-      {
-        font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
-        fill: PhetColorScheme.RED_COLORBLIND,
-        center: elementNameCenterPos,
-        pickable: false
-      } );
+    this.elementName = new Text( '', {
+      font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
+      fill: PhetColorScheme.RED_COLORBLIND,
+      center: elementNameCenterPos,
+      pickable: false
+    } );
     this.addChild( this.elementName );
 
     // Define the update function for the element name.
@@ -134,13 +132,12 @@ define( function( require ) {
     var ionIndicatorTranslation = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
     // @private - Create the textual readout for the ion indicator, set by trial and error.
-    this.ionIndicator = new Text( '',
-      {
-        font: new PhetFont( 24 ),
-        fill: 'black',
-        translation: ionIndicatorTranslation,
-        pickable: false
-      } );
+    this.ionIndicator = new Text( '', {
+      font: new PhetFont( 24 ),
+      fill: 'black',
+      translation: ionIndicatorTranslation,
+      pickable: false
+    } );
     this.addChild( this.ionIndicator );
 
     // Define the update function for the ion indicator.
@@ -177,13 +174,12 @@ define( function( require ) {
     var stabilityIndicatorCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.55 ) ) );
 
     // @private
-    this.stabilityIndicator = new Text( '',
-      {
-        font: new PhetFont( 24 ),
-        fill: 'black',
-        center: stabilityIndicatorCenterPos,
-        pickable: false
-      } );
+    this.stabilityIndicator = new Text( '', {
+      font: new PhetFont( 24 ),
+      fill: 'black',
+      center: stabilityIndicatorCenterPos,
+      pickable: false
+    } );
     this.addChild( this.stabilityIndicator );
 
     // Define the update function for the stability indicator.

@@ -25,30 +25,24 @@ define( function( require ) {
   function ElectronShellView( atom, mvt ) {
 
     // Call super constructor.
-    Node.call( this,
-      {
-        pickable: false
-      }
-    );
+    Node.call( this, {
+      pickable: false
+    } );
 
-    var outerRing = new Circle( mvt.modelToViewDeltaX( atom.outerElectronShellRadius ),
-      {
-        stroke: 'blue',
-        lineWidth: 1.5,
-        lineDash: LINE_DASH,
-        translation: mvt.modelToViewPosition( { x: 0, y: 0 } )
-      }
-    );
+    var outerRing = new Circle( mvt.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+      stroke: 'blue',
+      lineWidth: 1.5,
+      lineDash: LINE_DASH,
+      translation: mvt.modelToViewPosition( { x: 0, y: 0 } )
+    } );
     this.addChild( outerRing );
 
-    var innerRing = new Circle( mvt.modelToViewDeltaX( atom.innerElectronShellRadius ),
-      {
-        stroke: 'blue',
-        lineWidth: 1.5,
-        lineDash: LINE_DASH,
-        translation: mvt.modelToViewPosition( { x: 0, y: 0 } )
-      }
-    );
+    var innerRing = new Circle( mvt.modelToViewDeltaX( atom.innerElectronShellRadius ), {
+      stroke: 'blue',
+      lineWidth: 1.5,
+      lineDash: LINE_DASH,
+      translation: mvt.modelToViewPosition( { x: 0, y: 0 } )
+    } );
     this.addChild( innerRing );
   }
 

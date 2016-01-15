@@ -32,13 +32,12 @@ define( function( require ) {
     }
 
     // Create the node a circle with a gradient.
-    this.addChild( new Circle( radius,
-      {
-        fill: new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
-          .addColorStop( 0, 'white' )
-          .addColorStop( 1, baseColor ),
-        cursor: 'pointer'
-      } ) );
+    this.addChild( new Circle( radius, {
+      fill: new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
+        .addColorStop( 0, 'white' )
+        .addColorStop( 1, baseColor ),
+      cursor: 'pointer'
+    } ) );
   }
 
   shred.register( 'ParticleNode', ParticleNode );

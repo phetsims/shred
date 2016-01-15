@@ -738,7 +738,7 @@ define( function( require ) {
     208.9804 // 83, BISMUTH
   ];
 
-  var AtomIdentifier =  {
+  var AtomIdentifier = {
     // Get the chemical symbol for an atom with the specified number of protons.
     getSymbol: function( numProtons ) {
       return symbolTable[ numProtons ];
@@ -774,7 +774,7 @@ define( function( require ) {
      * @param {number} neutrons
      */
     getIsotopeAtomicMass: function( protons, neutrons ) {
-      if ( protons !== 0) {
+      if ( protons !== 0 ) {
         var tableEntry = ISOTOPE_INFO_TABLE[ protons ][ protons + neutrons ];
         if ( typeof( tableEntry ) === 'undefined' ) {
           // Atom defined by that number of protons and neutrons is not stable, so return -1.
@@ -805,11 +805,11 @@ define( function( require ) {
      * @returns {Number}
      */
     getNaturalAbundancePreciseDecimal: function( atom ) {
-      var defaultReturnValue =  Util.toFixedNumber( 0, 10 );
+      var defaultReturnValue = Util.toFixedNumber( 0, 10 );
       if ( atom.protonCount > 0 && ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.massNumber ] !== undefined ) {
         return Util.toFixedNumber( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.massNumber ].abundance, 10 );
       }
-       return defaultReturnValue;
+      return defaultReturnValue;
     },
 
     /**
@@ -865,6 +865,6 @@ define( function( require ) {
 
   };
 
-  shred.register( 'AtomIdentifier', AtomIdentifier);
+  shred.register( 'AtomIdentifier', AtomIdentifier );
   return AtomIdentifier;
 } );
