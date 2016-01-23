@@ -30,7 +30,7 @@ define( function( require ) {
     DISPLAY_PANEL_BACKGROUND_COLOR: 'rgb( 254, 255, 153 )',
 
     // Font used in accordion box titles throughout the sim.
-    ACCORDION_BOX_TITLE_FONT: new PhetFont( 18 ),
+    ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
     // Max attempts for each problem on the game tab.
     MAX_PROBLEM_ATTEMPTS: 2,

@@ -47,9 +47,11 @@ define( function( require ) {
     if ( options.showLabel ) {
       var symbol = AtomIdentifier.getSymbol( isotope.protonCount );
       var label = new SubSupText( ' <sup>' + isotope.massNumber + '</sup>' + symbol, {
-        font: new PhetFont( 10 )
+        font: new PhetFont( 10 ),
+        maxWidth: 2 * radius - 2 // making sure that text doesn't goes beyond the sphere boundaries, -2 is empirically determined
       } );
-      label.center = isotopeSphere.center;
+      label.centerX = isotopeSphere.centerX - 1; // empirically determined -1 to make it appear centered
+      label.centerY = isotopeSphere.centerY;
       isotopeSphere.addChild( label );
     }
   }
