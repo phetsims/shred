@@ -37,9 +37,7 @@ define( function( require ) {
 
     // Create the node a circle with a gradient.
     var isotopeSphere = new Circle( radius, {
-      fill: new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
-        .addColorStop( 0, 'white' )
-        .addColorStop( 1, baseColor ),
+      fill: baseColor,
       cursor: 'pointer'
     } );
     this.addChild( isotopeSphere );
@@ -53,6 +51,9 @@ define( function( require ) {
       label.centerX = isotopeSphere.centerX - 1; // empirically determined -1 to make it appear centered
       label.centerY = isotopeSphere.centerY;
       isotopeSphere.addChild( label );
+      isotopeSphere.fill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
+        .addColorStop( 0, 'white' )
+        .addColorStop( 1, baseColor );
     }
   }
 
