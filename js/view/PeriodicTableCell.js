@@ -42,7 +42,7 @@ define( function( require ) {
     var self = this;
     this.options = options;
 
-    // @private (together) send a message when this button is pressed (only occurs when interactive===true)
+    // @private (phet-io) send a message when this button is pressed (only occurs when interactive===true)
     this.startedCallbacksForPressedEmitter = new Emitter();
     this.endedCallbacksForPressedEmitter = new Emitter();
 
