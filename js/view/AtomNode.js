@@ -33,7 +33,7 @@ define( function( require ) {
   var unstableString = require( 'string!SHRED/unstable' );
 
   // constants
-  var ELEMENT_NAME_FONT_SIZE = 26;
+  var ELEMENT_NAME_FONT_SIZE = 22;
 
   /**
    * @param particleAtom Model that represents the atom, including particle positions
@@ -96,7 +96,7 @@ define( function( require ) {
       isotopeElectronCloud.visible = depiction === 'isotopeCloud';
     } );
 
-    var elementNameCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.55 ) ) );
+    var elementNameCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private - Create the textual readout for the element name.
     this.elementName = new Text( '', {
@@ -133,7 +133,7 @@ define( function( require ) {
 
     // @private - Create the textual readout for the ion indicator, set by trial and error.
     this.ionIndicator = new Text( '', {
-      font: new PhetFont( 24 ),
+      font: new PhetFont( 20 ),
       fill: 'black',
       translation: ionIndicatorTranslation,
       pickable: false
@@ -171,11 +171,11 @@ define( function( require ) {
     } );
 
     // Create the textual readout for the stability indicator.
-    var stabilityIndicatorCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.55 ) ) );
+    var stabilityIndicatorCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private
     this.stabilityIndicator = new Text( '', {
-      font: new PhetFont( 24 ),
+      font: new PhetFont( 20 ),
       fill: 'black',
       center: stabilityIndicatorCenterPos,
       pickable: false

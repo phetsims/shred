@@ -16,7 +16,7 @@ define( function( require ) {
 
   var SharedConstants = {
 
-    LAYOUT_BOUNDS: new Bounds2( 0, 0, 768, 504 ),
+    LAYOUT_BOUNDS: new Bounds2( 0, 0, 768, 464 ),
 
     // Sizes of the various particles.
     NUCLEON_RADIUS: 10, // In screen coordinates, which are roughly pixels.
@@ -32,7 +32,7 @@ define( function( require ) {
     // Font used in accordion box titles throughout the sim.
     ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
-    ACCORDION_BOX_TITLE_MAX_WIDTH: 250,
+    ACCORDION_BOX_TITLE_MAX_WIDTH: 225,
 
     // Max attempts for each problem on the game tab.
     MAX_PROBLEM_ATTEMPTS: 2,

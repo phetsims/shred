@@ -39,8 +39,8 @@ define( function( require ) {
     var thisAtom = this;
 
     options = _.extend( {
-      innerElectronShellRadius: 90,
-      outerElectronShellRadius: 150
+      innerElectronShellRadius: 85,
+      outerElectronShellRadius: 130
     }, options );
 
     // Create the particle collections.
