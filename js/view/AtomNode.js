@@ -136,7 +136,8 @@ define( function( require ) {
       font: new PhetFont( 20 ),
       fill: 'black',
       translation: ionIndicatorTranslation,
-      pickable: false
+      pickable: false,
+      maxWidth: 150
     } );
     this.addChild( this.ionIndicator );
 
@@ -178,7 +179,8 @@ define( function( require ) {
       font: new PhetFont( 20 ),
       fill: 'black',
       center: stabilityIndicatorCenterPos,
-      pickable: false
+      pickable: false,
+      maxWidth: mvt.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 )
     } );
     this.addChild( this.stabilityIndicator );
 
