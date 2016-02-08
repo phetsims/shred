@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Emitter = require( 'AXON/Emitter' );
   var shred = require( 'SHRED/shred' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -36,8 +37,7 @@ define( function( require ) {
     options = _.extend( {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
-      showLabels: true,
-      popOnTouch: false
+      showLabels: true
     }, options );
     var self = this;
     this.options = options;
@@ -69,57 +69,15 @@ define( function( require ) {
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     if ( options.interactive ) {
-      if ( options.popOnTouch ) {
-        var popupInflation = 0.5 * options.length;
-        var popupShape = new Shape().
-          moveTo( 0, 0 ).
-          lineTo( 0, options.length ).
-          lineTo( options.length, options.length ).
-          lineTo( options.length, 0 ).
-          lineTo( 1.5 * options.length, -popupInflation ).
-          lineTo( 1.5 * options.length, -popupInflation - ( 2 * options.length ) ).
-          lineTo( -0.5 * options.length, -popupInflation - ( 2 * options.length ) ).
-          lineTo( -0.5 * options.length, -popupInflation ).
-          lineTo( 0, 0 );
-
-        var popup = new Path( popupShape, {
-          stroke: 'black',
-          lineWidth: 1,
-          fill: self.normalFill,
-          cursor: options.interactive ? 'pointer' : null,
-          pickable: false,
-          visible: false
-        } );
-
-        var popupLabel = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
-          font: new PhetFont( NOMINAL_FONT_SIZE * ( 2.5 * options.length / NOMINAL_CELL_DIMENSION ) ),
-          centerX: popup.centerX,
-          centerY: 0.5 * (-popupInflation - ( 2 * options.length ))
-        } );
-        popup.addChild( popupLabel );
-        this.addChild( popup );
-      }
-
-      this.addInputListener( {
-        up: function() {
-          self.startedCallbacksForPressedEmitter.emit();
-          numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
-          self.endedCallbacksForPressedEmitter.emit();
-        },
-        over: function( event ) {
-          if ( options.popOnTouch ) {
-            if ( event.pointer.type === 'touch' ) {
-              self.moveToFront();
-              popup.visible = true;
+      this.addInputListener(
+        new ButtonListener( {
+            fire: function( evt ) {
+              self.startedCallbacksForPressedEmitter.emit();
+              numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
+              self.endedCallbacksForPressedEmitter.emit();
             }
-          }
-        },
-        exit: function() {
-          if ( options.popOnTouch ) {
-            popup.visible = false;
-          }
-        }
-      } );
+        } )
+      );
     }
     tandem.addInstance( this );
   }
