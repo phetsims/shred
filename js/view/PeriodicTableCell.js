@@ -18,8 +18,6 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
 
   // constants
   var NOMINAL_CELL_DIMENSION = 25;
