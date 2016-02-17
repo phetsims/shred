@@ -8,7 +8,7 @@ define( function( require ) {
 
   var shred = require( 'SHRED/shred' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var TandemDragHandler = require( 'SUN/TandemDragHandler' );
   var IsotopeNode = require( 'SHRED/view/IsotopeNode' );
   var ParticleNode = require( 'SHRED/view/ParticleNode' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -21,14 +21,14 @@ define( function( require ) {
     if ( particle.type === 'Isotope' ) {
       id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius ) + '-' + particle.color + '-' + particle.massNumber + '-' + particle.protonCount;
     }
-    else{
+    else {
       id = 'id-' + particle.type + '-' + particle.radius + '-' + mvt.modelToViewDeltaX( particle.radius );
     }
     if ( !particleNodes[ id ] ) {
-      if ( particle.type === 'Isotope' ){
-        particleNodes[ id ] = new IsotopeNode( particle, mvt.modelToViewDeltaX( particle.radius ), {showLabel: particle.showLabel} );
+      if ( particle.type === 'Isotope' ) {
+        particleNodes[ id ] = new IsotopeNode( particle, mvt.modelToViewDeltaX( particle.radius ), { showLabel: particle.showLabel } );
       }
-      else{
+      else {
         particleNodes[ id ] = new ParticleNode( particle.type, mvt.modelToViewDeltaX( particle.radius ) );
       }
     }
@@ -59,7 +59,14 @@ define( function( require ) {
 //    return node;
   }
 
-  function ParticleView( particle, mvt ) {
+  /**
+   *
+   * @param particle
+   * @param {ModelViewTransform2} mvt
+   * @param {Tandem} tandem
+   * @constructor
+   */
+  function ParticleView( particle, mvt, tandem ) {
 
     Node.call( this ); // Call super constructor.
     var thisParticleView = this;
@@ -77,7 +84,9 @@ define( function( require ) {
     } );
 
     // Add a drag handler
-    this.addInputListener( new SimpleDragHandler( {
+    this.addInputListener( new TandemDragHandler( {
+      tandem: tandem.createTandem( 'inputListener' ),
+
       // Allow moving a finger (touch) across a node to pick it up.
       allowTouchSnag: true,
 

@@ -15,14 +15,18 @@ define( function( require ) {
   // modules
   var shred = require( 'SHRED/shred' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var TandemDragHandler = require( 'SUN/TandemDragHandler' );
 
   /**
    * @constructor
    */
-  function BucketDragHandler( bucket, bucketView, mvt ) {
+  function BucketDragHandler( bucket, bucketView, mvt, options ) {
+    options = _.extend( {
+      tandem: null
+    }, options );
     var activeParticle = null;
-    var options = {
+    var inputListenerOptions = {
+      tandem: options.tandem,
       start: function( event, trail ) {
         // Note: The following transform works, but it is a bit obscure, and
         // relies on the topology of the scene graph.  JB, SR, and JO
@@ -46,10 +50,10 @@ define( function( require ) {
         }
       }
     };
-    SimpleDragHandler.call( this, options ); // Call super constructor.
+    TandemDragHandler.call( this, inputListenerOptions ); // Call super constructor.
   }
 
   // Inherit from base class.
   shred.register( 'BucketDragHandler', BucketDragHandler );
-  return inherit( SimpleDragHandler, BucketDragHandler );
+  return inherit( TandemDragHandler, BucketDragHandler );
 } );
