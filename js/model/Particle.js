@@ -22,8 +22,13 @@ define( function( require ) {
    * @param type
    * @constructor
    */
-  function Particle( type ) {
+  function Particle( type, options ) {
 
+    options = _.extend( { tandem: null }, options );
+
+    var propertySetOptions = options.tandem ? {
+      tandemSet: { position: options.tandem.createTandem( 'positionProperty' ) }
+    } : {};
     // @public
     PropertySet.call( this, {
       type: type,
@@ -33,8 +38,9 @@ define( function( require ) {
       velocity: DEFAULT_PARTICLE_VELOCITY,
       userControlled: false,
       zLayer: 0 // Used in view, integer value, higher means further back.
-    } );
+    }, propertySetOptions );
   }
+
   shred.register( 'Particle', Particle );
   return inherit( PropertySet, Particle, {
     step: function( dt ) {
