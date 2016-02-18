@@ -85,7 +85,7 @@ define( function( require ) {
 
     // Add a drag handler
     this.addInputListener( new TandemDragHandler( {
-      tandem: tandem.createTandem( 'inputListener' ),
+      tandem: tandem ? tandem.createTandem( 'inputListener' ) : null,
 
       // Allow moving a finger (touch) across a node to pick it up.
       allowTouchSnag: true,
