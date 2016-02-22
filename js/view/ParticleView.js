@@ -63,11 +63,14 @@ define( function( require ) {
    *
    * @param particle
    * @param {ModelViewTransform2} mvt
-   * @param {Tandem} tandem
+   * @param {Object} [options]
    * @constructor
    */
-  function ParticleView( particle, mvt, tandem ) {
+  function ParticleView( particle, mvt, options ) {
 
+    options = _.extend( {
+      tandem: null
+    }, options );
     Node.call( this ); // Call super constructor.
     var thisParticleView = this;
 
@@ -85,7 +88,7 @@ define( function( require ) {
 
     // Add a drag handler
     this.addInputListener( new TandemDragHandler( {
-      tandem: tandem ? tandem.createTandem( 'inputListener' ) : null,
+      tandem: options.tandem ? options.tandem.createTandem( 'inputListener' ) : null,
 
       // Allow moving a finger (touch) across a node to pick it up.
       allowTouchSnag: true,
@@ -102,6 +105,7 @@ define( function( require ) {
         thisParticleView.particle.userControlled = false;
       }
     } ) );
+    this.mutate( options );
   }
 
   shred.register( 'ParticleView', ParticleView );

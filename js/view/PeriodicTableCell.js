@@ -27,15 +27,15 @@ define( function( require ) {
    * @param atomicNumber - Atomic number of atom represented by this cell.
    * @param numberAtom - Atom that is set if this cell is selected by the user.
    * @param cellColor - Color to be used for selected enabled and disabled cell
-   * @param {Tandem} tandem
    * @param {Object} [options]
    * @constructor
    */
-  function PeriodicTableCell( atomicNumber, numberAtom, cellColor, tandem, options ) {
+  function PeriodicTableCell( atomicNumber, numberAtom, cellColor, options ) {
     options = _.extend( {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
-      showLabels: true
+      showLabels: true,
+      tandem: null
     }, options );
     var self = this;
     this.options = options;
@@ -69,15 +69,15 @@ define( function( require ) {
     if ( options.interactive ) {
       this.addInputListener(
         new ButtonListener( {
-            fire: function( evt ) {
-              self.startedCallbacksForPressedEmitter.emit();
-              numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber);
-              self.endedCallbacksForPressedEmitter.emit();
-            }
+          fire: function( evt ) {
+            self.startedCallbacksForPressedEmitter.emit();
+            numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber );
+            self.endedCallbacksForPressedEmitter.emit();
+          }
         } )
       );
     }
-    tandem.addInstance( this );
+    options.tandem && options.tandem.addInstance( this );
   }
 
   shred.register( 'PeriodicTableCell', PeriodicTableCell );

@@ -24,7 +24,9 @@ define( function( require ) {
    */
   function Particle( type, options ) {
 
-    options = _.extend( { tandem: null }, options );
+    options = _.extend( {
+      tandem: null
+    }, options );
 
     var propertySetOptions = options.tandem ? {
       tandemSet: { position: options.tandem.createTandem( 'positionProperty' ) }

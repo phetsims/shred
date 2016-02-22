@@ -34,10 +34,14 @@ define( function( require ) {
   // strings
   var periodicTableString = require( 'string!SHRED/periodicTable' );
 
-  function ExpandedPeriodicTableNode( numberAtom, interactiveMax, tandem ) {
+  function ExpandedPeriodicTableNode( numberAtom, interactiveMax, options ) {
+    options = _.extend( {
+      tandem: null
+    }, options );
     Node.call( this );
     var self = this;
-    var periodicTableNode = new PeriodicTableNode( numberAtom, tandem.createTandem( 'periodicTable' ), {
+    var periodicTableNode = new PeriodicTableNode( numberAtom, {
+      tandem: options.tandem && options.tandem.createTandem( 'periodicTable' ),
       interactiveMax: interactiveMax,
       showLabels: false
     } );
