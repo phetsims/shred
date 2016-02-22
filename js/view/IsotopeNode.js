@@ -55,6 +55,9 @@ define( function( require ) {
         .addColorStop( 0, 'white' )
         .addColorStop( 1, baseColor );
     }
+    else{
+      isotopeSphere.stroke = 'black';
+    }
   }
 
   shred.register( 'IsotopeNode', IsotopeNode );
