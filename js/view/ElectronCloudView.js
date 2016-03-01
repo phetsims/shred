@@ -20,18 +20,18 @@ define( function( require ) {
 
   /**
    * @param {ParticleAtom} atom
-   * @param {ModelViewTransform2} mvt
+   * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function ElectronCloudView( atom, mvt ) {
+  function ElectronCloudView( atom, modelViewTransform ) {
 
     // Call super constructor.
     Node.call( this, { cursor: 'pointer' } );
     var thisNode = this;
 
-    var electronCloud = new Circle( mvt.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+    var electronCloud = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
         fill: 'pink',
-        translation: mvt.modelToViewPosition( { x: 0, y: 0 } )
+        translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
       }
     );
     this.addChild( electronCloud );
@@ -43,8 +43,8 @@ define( function( require ) {
         electronCloud.fill = 'transparent';
       }
       else {
-        var minRadius = mvt.modelToViewDeltaX( atom.innerElectronShellRadius ) * 0.5;
-        var maxRadius = mvt.modelToViewDeltaX( atom.outerElectronShellRadius );
+        var minRadius = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ) * 0.5;
+        var maxRadius = modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius );
         var radius = minRadius + ( ( maxRadius - minRadius ) / SharedConstants.MAX_ELECTRONS ) * numElectrons;
         electronCloud.radius = radius;
         electronCloud.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
@@ -68,7 +68,7 @@ define( function( require ) {
         // relies on the topology of the scene graph.  JB, SR, and JO
         // discussed potentially better ways to do it.  If this code is
         // leveraged, revisit this line for potential improvement.
-        var positionInModelSpace = mvt.viewToModelPosition( thisNode.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
+        var positionInModelSpace = modelViewTransform.viewToModelPosition( thisNode.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
 
         var electron = atom.extractParticle( 'electron' );
         if ( electron !== null ) {
@@ -79,7 +79,7 @@ define( function( require ) {
       },
       translate: function( translationParams ) {
         if ( thisNode.extractedElectron !== null ) {
-          thisNode.extractedElectron.setPositionAndDestination( thisNode.extractedElectron.position.plus( mvt.viewToModelDelta( translationParams.delta ) ) );
+          thisNode.extractedElectron.setPositionAndDestination( thisNode.extractedElectron.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
         }
       },
       end: function( event ) {

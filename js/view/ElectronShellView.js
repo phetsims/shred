@@ -19,29 +19,29 @@ define( function( require ) {
 
   /**
    * @param {ParticleAtom} atom
-   * @param {ModelViewTransform2} mvt
+   * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function ElectronShellView( atom, mvt ) {
+  function ElectronShellView( atom, modelViewTransform ) {
 
     // Call super constructor.
     Node.call( this, {
       pickable: false
     } );
 
-    var outerRing = new Circle( mvt.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+    var outerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
       stroke: 'blue',
       lineWidth: 1.5,
       lineDash: LINE_DASH,
-      translation: mvt.modelToViewPosition( { x: 0, y: 0 } )
+      translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
     } );
     this.addChild( outerRing );
 
-    var innerRing = new Circle( mvt.modelToViewDeltaX( atom.innerElectronShellRadius ), {
+    var innerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
       stroke: 'blue',
       lineWidth: 1.5,
       lineDash: LINE_DASH,
-      translation: mvt.modelToViewPosition( { x: 0, y: 0 } )
+      translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
     } );
     this.addChild( innerRing );
   }

@@ -37,11 +37,11 @@ define( function( require ) {
 
   /**
    * @param particleAtom Model that represents the atom, including particle positions
-   * @param mvt Model-View transform
+   * @param modelViewTransform Model-View transform
    * @param {Object} [options]
    * @constructor
    */
-  function AtomNode( particleAtom, mvt, options ) {
+  function AtomNode( particleAtom, modelViewTransform, options ) {
 
     options = _.extend( {
         showCenterX: true,
@@ -58,12 +58,12 @@ define( function( require ) {
 
     // @private
     this.atom = particleAtom;
-    this.mvt = mvt;
+    this.modelViewTransform = modelViewTransform;
 
     // Create the X where the nucleus goes.
     if ( options.showCenterX ) {
-      var sizeInPixels = mvt.modelToViewDeltaX( 20 );
-      var center = mvt.modelToViewPosition( particleAtom.position );
+      var sizeInPixels = modelViewTransform.modelToViewDeltaX( 20 );
+      var center = modelViewTransform.modelToViewPosition( particleAtom.position );
       var centerMarker = new Shape();
       centerMarker.moveTo( center.x - sizeInPixels / 2, center.y - sizeInPixels / 2 );
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y + sizeInPixels / 2 );
@@ -84,11 +84,11 @@ define( function( require ) {
     }
 
     // Add the electron shells and cloud.
-    var electronShell = new ElectronShellView( particleAtom, mvt );
+    var electronShell = new ElectronShellView( particleAtom, modelViewTransform );
     this.addChild( electronShell );
-    var electronCloud = new ElectronCloudView( particleAtom, mvt );
+    var electronCloud = new ElectronCloudView( particleAtom, modelViewTransform );
     this.addChild( electronCloud );
-    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, mvt );
+    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform );
     this.addChild( isotopeElectronCloud );
     options.electronShellDepictionProperty.link( function( depiction ) {
       electronShell.visible = depiction === 'orbits';
@@ -96,7 +96,7 @@ define( function( require ) {
       isotopeElectronCloud.visible = depiction === 'isotopeCloud';
     } );
 
-    var elementNameCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
+    var elementNameCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private - Create the textual readout for the element name.
     this.elementName = new Text( '', {
@@ -115,7 +115,7 @@ define( function( require ) {
       }
       thisAtomView.elementName.text = name;
       thisAtomView.elementName.setScaleMagnitude( 1 );
-      var maxLabelWidth = mvt.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 );
+      var maxLabelWidth = modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 );
       thisAtomView.elementName.setScaleMagnitude( Math.min( maxLabelWidth / thisAtomView.elementName.width, 1 ) );
       thisAtomView.elementName.center = elementNameCenterPos;
     };
@@ -129,7 +129,7 @@ define( function( require ) {
       thisAtomView.elementName.visible = visible;
     } );
 
-    var ionIndicatorTranslation = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
+    var ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
     // @private - Create the textual readout for the ion indicator, set by trial and error.
     this.ionIndicator = new Text( '', {
@@ -172,7 +172,7 @@ define( function( require ) {
     } );
 
     // Create the textual readout for the stability indicator.
-    var stabilityIndicatorCenterPos = mvt.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
+    var stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private
     this.stabilityIndicator = new Text( '', {
@@ -180,7 +180,7 @@ define( function( require ) {
       fill: 'black',
       center: stabilityIndicatorCenterPos,
       pickable: false,
-      maxWidth: mvt.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 )
+      maxWidth: modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 )
     } );
     this.addChild( this.stabilityIndicator );
 
