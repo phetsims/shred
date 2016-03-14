@@ -15,6 +15,7 @@ define( function( require ) {
   var PeriodicTableNode = require( 'SHRED/view/PeriodicTableNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
+  var shred = require( 'SHRED/shred' );
   var Text = require( 'SCENERY/nodes/Text' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -112,6 +113,8 @@ define( function( require ) {
       }
     } );
   }
+
+  shred.register( 'ExpandedPeriodicTableNode', ExpandedPeriodicTableNode );
 
   return inherit( Node, ExpandedPeriodicTableNode, {
     //TODO prototypes
