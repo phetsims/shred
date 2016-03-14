@@ -14,6 +14,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var shred = require( 'SHRED/shred' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var inherit = require( 'PHET_CORE/inherit' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
@@ -89,6 +90,8 @@ define( function( require ) {
       }
     } ) );
   }
+
+  shred.register( 'ElectronCloudView', ElectronCloudView );
 
   // Inherit from Node.
   return inherit( Node, ElectronCloudView );

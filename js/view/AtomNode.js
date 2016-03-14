@@ -21,6 +21,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
+  var shred = require( 'SHRED/shred' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -213,6 +214,8 @@ define( function( require ) {
       thisAtomView.stabilityIndicator.visible = visible;
     } );
   }
+
+  shred.register( 'AtomNode', AtomNode );
 
   // Inherit from Node.
   return inherit( Node, AtomNode );

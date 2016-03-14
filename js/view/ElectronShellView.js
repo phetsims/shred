@@ -13,6 +13,7 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var shred = require( 'SHRED/shred' );
 
   // constants
   var LINE_DASH = [ 4, 5 ];
@@ -45,6 +46,8 @@ define( function( require ) {
     } );
     this.addChild( innerRing );
   }
+
+  shred.register( 'ElectronShellView', ElectronShellView );
 
   // Inherit from Node.
   return inherit( Node, ElectronShellView );
