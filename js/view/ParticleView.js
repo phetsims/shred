@@ -6,12 +6,12 @@
 define( function( require ) {
   'use strict';
 
-  var shred = require( 'SHRED/shred' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var TandemDragHandler = require( 'SUN/TandemDragHandler' );
-  var IsotopeNode = require( 'SHRED/view/IsotopeNode' );
-  var ParticleNode = require( 'SHRED/view/ParticleNode' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IsotopeNode = require( 'SHRED/view/IsotopeNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var ParticleNode = require( 'SHRED/view/ParticleNode' );
+  var shred = require( 'SHRED/shred' );
+  var TandemDragHandler = require( 'SUN/TandemDragHandler' );
 
   // Optimization - create a sort of cache for particle nodes.
   var particleNodes = {};
@@ -34,7 +34,6 @@ define( function( require ) {
     }
 
     return particleNodes[ id ];
-//    return new ParticleNode( particle.type, modelViewTransform.modelToViewDeltaX( particle.radius ) );
 
     // TODO: Below is an alternative way to create the particle nodes.  This
     // approach converts the node to an image.  It was used for a while, but
@@ -61,7 +60,7 @@ define( function( require ) {
 
   /**
    *
-   * @param particle
+   * @param {Particle} particle
    * @param {ModelViewTransform2} modelViewTransform
    * @param {Object} [options]
    * @constructor

@@ -13,9 +13,9 @@ define( function( require ) {
     /**
      * Determine if two values are equal within a tolerance.
      *
-     * @param value1
-     * @param value2
-     * @param tolerance
+     * @param {number} value1
+     * @param {number} value2
+     * @param {number} tolerance
      * @public
      */
     roughlyEqual: function( value1, value2, tolerance ) {

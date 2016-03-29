@@ -1,9 +1,8 @@
 // Copyright 2014-2015, University of Colorado Boulder
 
 /**
- * View representation of the atom.  Mostly, this is responsible for displaying
- * and updating the labels, since the atom itself is represented by particles,
- * which take care of themselves in the view.
+ * View representation of the atom. Mostly, this is responsible for displaying and updating the labels, since the atom
+ * itself is represented by particles, which take care of themselves in the view.
  *
  * @author John Blanco
  */
@@ -18,13 +17,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var shred = require( 'SHRED/shred' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // strings
   var minusSignIonString = require( 'string!SHRED/minusSignIon' );
@@ -37,8 +36,8 @@ define( function( require ) {
   var ELEMENT_NAME_FONT_SIZE = 22;
 
   /**
-   * @param particleAtom Model that represents the atom, including particle positions
-   * @param modelViewTransform Model-View transform
+   * @param {ParticleAtom} particleAtom Model that represents the atom, including particle positions
+   * @param {ModelViewTransform2} modelViewTransform Model-View transform
    * @param {Object} [options]
    * @constructor
    */

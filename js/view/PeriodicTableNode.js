@@ -6,12 +6,12 @@
 define( function( require ) {
   'use strict';
 
-  var shred = require( 'SHRED/shred' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Vector2 = require( 'DOT/Vector2' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var PeriodicTableCell = require( 'SHRED/view/PeriodicTableCell' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
+  var shred = require( 'SHRED/shred' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   // 2D array that defines the table structure.

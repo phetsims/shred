@@ -8,8 +8,6 @@
  * @author Jesse Greenberg
  */
 
-
-
 define( function( require ) {
   'use strict';
   var shred = require( 'SHRED/shred' );

@@ -1,11 +1,9 @@
 // Copyright 2015, University of Colorado Boulder
 
 /**
- * A drag handler specifically tailored for the particle buckets.  This
- * handler extracts a particle from a bucket and manages it as though the
- * user had clicked directly on the particle.  This exists to make it easier
- * for the users to get particles out of the buckets when using a touch-based
- * device.
+ * A drag handler specifically tailored for the particle buckets. This handler extracts a particle from a bucket and
+ * manages it as though the user had clicked directly on the particle. This exists to make it easier for the users to
+ * get particles out of the buckets when using a touch-based device.
  *
  * @author John Blanco
  */
@@ -13,11 +11,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var shred = require( 'SHRED/shred' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var shred = require( 'SHRED/shred' );
   var TandemDragHandler = require( 'SUN/TandemDragHandler' );
 
   /**
+   * @param {Bucket} bucket
+   * @param {BucketFront} bucketView
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param {Object} options
    * @constructor
    */
   function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {
@@ -28,10 +30,9 @@ define( function( require ) {
     var inputListenerOptions = {
       tandem: options.tandem,
       start: function( event, trail ) {
-        // Note: The following transform works, but it is a bit obscure, and
-        // relies on the topology of the scene graph.  JB, SR, and JO
-        // discussed potentially better ways to do it.  If this code is
-        // leveraged, revisit this line for potential improvement.
+        // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
+        // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
+        // potential improvement.
         var positionInModelSpace = modelViewTransform.viewToModelPosition( bucketView.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
 
         activeParticle = bucket.extractClosestParticle( positionInModelSpace );

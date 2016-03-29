@@ -35,6 +35,12 @@ define( function( require ) {
   // strings
   var periodicTableString = require( 'string!SHRED/periodicTable' );
 
+  /**
+   * @param {NumberAtom} numberAtom
+   * @param {number} interactiveMax
+   * @param {Object} options
+   * @constructor
+   */
   function ExpandedPeriodicTableNode( numberAtom, interactiveMax, options ) {
     options = _.extend( {
       tandem: null

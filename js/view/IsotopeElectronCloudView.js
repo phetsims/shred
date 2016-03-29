@@ -15,11 +15,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var shred = require( 'SHRED/shred' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var shred = require( 'SHRED/shred' );
 
   // constants
   var MAX_ELECTRONS = 10; // For neon.
@@ -126,8 +126,5 @@ define( function( require ) {
         return 0;
       }
     }
-
-
   } );
-
 } );

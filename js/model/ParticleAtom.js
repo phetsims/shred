@@ -1,9 +1,8 @@
 // Copyright 2014-2015, University of Colorado Boulder
 
 /**
- * A model element that represents an atom that is comprised of a set of
- * modeled subatomic particles.  This model element manages the positions and
- * motion of all particles that are a part of the atom.
+ * A model element that represents an atom that is comprised of a set of modeled subatomic particles. This model element
+ * manages the positions and motion of all particles that are a part of the atom.
  *
  * @author John Blanco
  */
@@ -11,14 +10,14 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var shred = require( 'SHRED/shred' );
+  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
   var PropertySet = require( 'AXON/PropertySet' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var inherit = require( 'PHET_CORE/inherit' );
+  var shred = require( 'SHRED/shred' );
   var Utils = require( 'SHRED/Utils' );
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   function ParticleAtom( options ) {
 

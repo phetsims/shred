@@ -7,16 +7,16 @@
 define( function( require ) {
   'use strict';
 
-  var shred = require( 'SHRED/shred' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var shred = require( 'SHRED/shred' );
 
   /**
-   * @param particleType - proton, neutron, or electron
-   * @param radius
+   * @param {String} particleType - proton, neutron, or electron
+   * @param {number} radius
    * @param {Object} [options]
    * @constructor
    */

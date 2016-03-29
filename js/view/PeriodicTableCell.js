@@ -9,24 +9,24 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Emitter = require( 'AXON/Emitter' );
-  var shred = require( 'SHRED/shred' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var shred = require( 'SHRED/shred' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   // constants
   var NOMINAL_CELL_DIMENSION = 25;
   var NOMINAL_FONT_SIZE = 14;
 
   /**
-   * @param atomicNumber - Atomic number of atom represented by this cell.
-   * @param numberAtom - Atom that is set if this cell is selected by the user.
-   * @param cellColor - Color to be used for selected enabled and disabled cell
+   * @param {number} atomicNumber - Atomic number of atom represented by this cell.
+   * @param {NumberAtom} numberAtom - Atom that is set if this cell is selected by the user.
+   * @param {Color} cellColor - Color to be used for selected enabled and disabled cell
    * @param {Object} [options]
    * @constructor
    */

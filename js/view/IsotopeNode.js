@@ -8,17 +8,17 @@ define( function( require ) {
   'use strict';
 
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var shred = require( 'SHRED/shred' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var SubSupText = require( 'SCENERY_PHET/SubSupText' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var shred = require( 'SHRED/shred' );
+  var SubSupText = require( 'SCENERY_PHET/SubSupText' );
 
   /**
-   * @param particleType - proton, neutron, or electron
-   * @param radius
+   * @param {Particle} isotope
+   * @param {number} radius
    * @param {Object} [options]
    * @constructor
    */

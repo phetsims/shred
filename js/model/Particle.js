@@ -9,17 +9,18 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var shred = require( 'SHRED/shred' );
-  var PropertySet = require( 'AXON/PropertySet' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var SharedConstants = require( 'SHRED/SharedConstants' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var PropertySet = require( 'AXON/PropertySet' );
+  var SharedConstants = require( 'SHRED/SharedConstants' );
+  var shred = require( 'SHRED/shred' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   var DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
 
   /**
-   * @param type
+   * @param {String} type
+   * @param {Object} options
    * @constructor
    */
   function Particle( type, options ) {
@@ -49,8 +50,8 @@ define( function( require ) {
       if ( !this.userControlled ) {
         var distanceToDestination = this.position.distance( this.destination );
         if ( distanceToDestination > dt * this.velocity ) {
-          // This was broken up into individual steps in an attempt to solve
-          // an issue where complex vector operations sometimes didn't work.
+          // This was broken up into individual steps in an attempt to solve an issue where complex vector operations
+          // sometimes didn't work.
           var stepMagnitude = this.velocity * dt;
           var stepAngle = Math.atan2( this.destination.y - this.position.y, this.destination.x - this.position.x );
           var stepVector = Vector2.createPolar( stepMagnitude, stepAngle );

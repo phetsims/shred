@@ -1,9 +1,8 @@
 // Copyright 2014-2015, University of Colorado Boulder
 
 /**
- * A node that presents a graphical representation of an atom's configuration.
- * It looks somewhat like a bar graph that grows to the right except that the
- * "bars" are actually lines of particles.
+ * A node that presents a graphical representation of an atom's configuration. It looks somewhat like a bar graph that
+ * grows to the right except that the "bars" are actually lines of particles.
  *
  * @author John Blanco
  * @author Aadish Gupta
@@ -12,15 +11,15 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var shred = require( 'SHRED/shred' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var ParticleNode = require( 'SHRED/view/ParticleNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Panel = require( 'SUN/Panel' );
+  var ParticleNode = require( 'SHRED/view/ParticleNode' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var SharedConstants = require( 'SHRED/SharedConstants' );
+  var shred = require( 'SHRED/shred' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   // strings
   var protonsColonString = require( 'string!SHRED/protonsColon' );
@@ -32,9 +31,9 @@ define( function( require ) {
   var MIN_VERTICAL_SPACING = 16; // Empirically Determined
 
   /**
-   * @param numberAtom Model representation of the atom
-   * @param maxParticles The maximum number of particles to display
-   * @param maxWidth The maximum width that this display should reach
+   * @param {NumberAtom}numberAtom Model representation of the atom
+   * @param {number} maxParticles The maximum number of particles to display
+   * @param {number} maxWidth The maximum width that this display should reach
    * @constructor
    */
   function ParticleCountDisplay( numberAtom, maxParticles, maxWidth ) {

@@ -11,13 +11,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Node = require( 'SCENERY/nodes/Node' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  var SharedConstants = require( 'SHRED/SharedConstants' );
   var shred = require( 'SHRED/shred' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var SharedConstants = require( 'SHRED/SharedConstants' );
 
   /**
    * @param {ParticleAtom} atom
@@ -65,10 +65,9 @@ define( function( require ) {
     this.addInputListener( new SimpleDragHandler( {
       activeParticle: null,
       start: function( event, trail ) {
-        // Note: The following transform works, but it is a bit obscure, and
-        // relies on the topology of the scene graph.  JB, SR, and JO
-        // discussed potentially better ways to do it.  If this code is
-        // leveraged, revisit this line for potential improvement.
+        // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
+        // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
+        // potential improvement.
         var positionInModelSpace = modelViewTransform.viewToModelPosition( thisNode.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
 
         var electron = atom.extractParticle( 'electron' );

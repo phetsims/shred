@@ -1,19 +1,18 @@
 // Copyright 2014-2015, University of Colorado Boulder
 
 /**
- * Model of an atom that represents the atom as a set of numbers which
- * represent the quantity of the various subatomic particles (i.e. protons,
- * neutrons, and electrons).
+ * Model of an atom that represents the atom as a set of numbers which represent the quantity of the various subatomic
+ * particles (i.e. protons, neutrons and electrons).
  *
  * @author John Blanco
  */
 define( function( require ) {
   'use strict';
 
-  var shred = require( 'SHRED/shred' );
+  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  var shred = require( 'SHRED/shred' );
 
   function NumberAtom( options ) {
 

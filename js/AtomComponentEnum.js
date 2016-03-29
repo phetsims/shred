@@ -3,7 +3,7 @@
 /**
  * Enumerable for the types of atomic particles.
  *
- * @author Aadish (02-Nov-15)
+ * @author Aadish
  */
 define( function( require ) {
   'use strict';
