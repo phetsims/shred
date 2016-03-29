@@ -32,7 +32,7 @@ define( function( require ) {
     // Font used in accordion box titles throughout the sim.
     ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
-    ACCORDION_BOX_TITLE_MAX_WIDTH: 225,
+    ACCORDION_BOX_TITLE_MAX_WIDTH: 225, // empirically determined
 
     // Max attempts for each problem on the game tab.
     MAX_PROBLEM_ATTEMPTS: 2,
