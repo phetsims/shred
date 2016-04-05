@@ -31,7 +31,7 @@ define( function( require ) {
 
     var baseColor = isotope.color;
     if ( baseColor === undefined ) {
-      console.error( 'Unrecognized particle: ' + isotope.type );
+      assert && assert( false, 'Unrecognized Isotope' );
       baseColor = 'black';
     }
 

@@ -27,7 +27,7 @@ define( function( require ) {
     var colors = { proton: PhetColorScheme.RED_COLORBLIND, neutron: 'gray', electron: 'blue' };
     var baseColor = colors[ particleType ];
     if ( baseColor === undefined ) {
-      console.error( 'Unrecognized particle type: ' + particleType );
+      assert && assert( false, 'Unrecognized particle type: ' + particleType );
       baseColor = 'black';
     }
 

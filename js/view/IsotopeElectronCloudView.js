@@ -120,9 +120,7 @@ define( function( require ) {
         return reduceRadiusRange( mapElectronCountToRadius[ numElectrons ] );
       }
       else {
-        if ( numElectrons > MAX_ELECTRONS ) {
-          console.error( 'Warning: Atom has more than supported number of electrons, ' + numElectrons );
-        }
+        assert && assert( numElectrons <= MAX_ELECTRONS, 'Atom has more than supported number of electrons, ' + numElectrons );
         return 0;
       }
     }
