@@ -90,11 +90,13 @@ define( function( require ) {
     this.addChild( electronCloud );
     var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform );
     this.addChild( isotopeElectronCloud );
-    options.electronShellDepictionProperty.link( function( depiction ) {
+
+    var depiction = function( depiction ) {
       electronShell.visible = depiction === 'orbits';
       electronCloud.visible = depiction === 'cloud';
       isotopeElectronCloud.visible = depiction === 'isotopeCloud';
-    } );
+    };
+    options.electronShellDepictionProperty.link( depiction );
 
     var elementNameCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
@@ -122,12 +124,12 @@ define( function( require ) {
     updateElementName(); // Do the initial update.
 
     // Hook up update listeners.
-    particleAtom.protons.lengthProperty.link( function() {
-      updateElementName();
-    } );
-    options.showElementNameProperty.link( function( visible ) {
+    particleAtom.protons.lengthProperty.link( updateElementName );
+
+    var visibility = function( visible ) {
       thisAtomView.elementName.visible = visible;
-    } );
+    };
+    options.showElementNameProperty.link( visibility );
 
     var ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
@@ -167,9 +169,10 @@ define( function( require ) {
 
     particleAtom.protons.lengthProperty.link( updateIonIndicator );
     particleAtom.electrons.lengthProperty.link( updateIonIndicator );
-    options.showNeutralOrIonProperty.link( function( visible ) {
+    var ionIndicatorVisibility = function( visible ) {
       thisAtomView.ionIndicator.visible = visible;
-    } );
+    };
+    options.showNeutralOrIonProperty.link( ionIndicatorVisibility );
 
     // Create the textual readout for the stability indicator.
     var stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
@@ -202,20 +205,42 @@ define( function( require ) {
     updateStabilityIndicator(); // Do initial update.
 
     // Add the listeners that control the label content and visibility.
-    particleAtom.protons.lengthProperty.link( function() {
-      updateElementName();
-      updateIonIndicator();
-      updateStabilityIndicator();
-    } );
-    particleAtom.electrons.lengthProperty.link( updateIonIndicator );
+    particleAtom.protons.lengthProperty.link( updateStabilityIndicator );
     particleAtom.neutrons.lengthProperty.link( updateStabilityIndicator );
-    options.showStableOrUnstableProperty.link( function( visible ) {
+    var stabilityIndicatorVisibility = function( visible ) {
       thisAtomView.stabilityIndicator.visible = visible;
-    } );
+    };
+    options.showStableOrUnstableProperty.link( stabilityIndicatorVisibility );
+
+    this.atomNodeDispose = function(){
+      electronCloud.dispose();
+      isotopeElectronCloud.dispose();
+      if ( options.showCenterX ) {
+        particleAtom.electrons.lengthProperty.unlink( listener );
+        particleAtom.neutrons.lengthProperty.unlink( listener );
+        particleAtom.protons.lengthProperty.unlink( listener );
+      }
+
+      options.electronShellDepictionProperty.unlink( depiction );
+      particleAtom.protons.lengthProperty.unlink( updateElementName );
+      options.showElementNameProperty.unlink( visibility );
+      particleAtom.protons.lengthProperty.unlink( updateIonIndicator );
+      particleAtom.electrons.lengthProperty.unlink( updateIonIndicator );
+      options.showNeutralOrIonProperty.unlink( ionIndicatorVisibility );
+      particleAtom.protons.lengthProperty.unlink( updateStabilityIndicator );
+      particleAtom.neutrons.lengthProperty.unlink( updateStabilityIndicator );
+      options.showStableOrUnstableProperty.unlink( stabilityIndicatorVisibility );
+
+    };
   }
 
   shred.register( 'AtomNode', AtomNode );
 
   // Inherit from Node.
-  return inherit( Node, AtomNode );
+  return inherit( Node, AtomNode, {
+    dispose: function(){
+      this.atomNodeDispose();
+    }
+
+  } );
 } );

@@ -55,14 +55,19 @@ define( function( require ) {
     updateNode( numberAtom.electronCount );
 
     // Update the cloud size as electrons come and go.
-    numberAtom.protonCountProperty.link( function( length ) {
-      updateNode( length );
-    } );
+    numberAtom.protonCountProperty.link( updateNode );
+
+    this.isotopeElectronCloudViewDispose = function(){
+      numberAtom.protonCountProperty.unlink( updateNode );
+    };
 
   }
 
   shred.register( 'IsotopeElectronCloudView', IsotopeElectronCloudView );
   return inherit( Circle, IsotopeElectronCloudView, {
+    dispose: function(){
+      this.isotopeElectronCloudViewDispose();
+    },
 
     /**
      * Maps a number of electrons to a diameter in screen coordinates for the electron shell.  This mapping function is

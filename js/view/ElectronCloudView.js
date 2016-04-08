@@ -56,9 +56,7 @@ define( function( require ) {
     updateElectronCloud( atom.electrons.length );
 
     // Update the cloud size as electrons come and go.
-    atom.electrons.lengthProperty.link( function( length ) {
-      updateElectronCloud( length );
-    } );
+    atom.electrons.lengthProperty.link( updateElectronCloud );
 
     // If the user clicks on the cloud, extract an electron.
     this.extractedElectron = null; // @private
@@ -88,10 +86,18 @@ define( function( require ) {
         }
       }
     } ) );
+
+    this.electronCloudViewDispose = function() {
+      atom.electrons.lengthProperty.unlink( updateElectronCloud );
+    };
   }
 
   shred.register( 'ElectronCloudView', ElectronCloudView );
 
   // Inherit from Node.
-  return inherit( Node, ElectronCloudView );
+  return inherit( Node, ElectronCloudView, {
+    dispose: function(){
+      this.electronCloudViewDispose();
+    }
+  } );
 } );

@@ -83,8 +83,7 @@ define( function( require ) {
     }
 
     // Highlight the cell that corresponds to the atom.
-    var highlightedCell = null;
-    numberAtom.protonCountProperty.link( function( protonCount ) {
+    var highlightCell = function( protonCount ) {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
       }
@@ -100,10 +99,20 @@ define( function( require ) {
         highlightedCell.moveToFront();
         highlightedCell.setHighlighted( true );
       }
-    } );
+    };
+    var highlightedCell = null;
+    numberAtom.protonCountProperty.link( highlightCell );
+    // unlink from Properties
+    this.periodicTableNodeDispose = function() {
+      numberAtom.protonCountProperty.unlink( highlightCell );
+    };
   }
 
   shred.register( 'PeriodicTableNode', PeriodicTableNode );
   // Inherit from Node.
-  return inherit( Node, PeriodicTableNode );
+  return inherit( Node, PeriodicTableNode, {
+    dispose: function(){
+      this.periodicTableNodeDispose();
+    }
+  } );
 } );

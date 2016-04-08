@@ -13,27 +13,15 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var TandemDragHandler = require( 'SUN/TandemDragHandler' );
 
-  // Optimization - create a sort of cache for particle nodes.
-  var particleNodes = {};
-
   function getParticleNode( particle, modelViewTransform ) {
-    var id;
+    var particleNode;
     if ( particle.type === 'Isotope' ) {
-      id = 'id-' + particle.type + '-' + particle.radius + '-' + modelViewTransform.modelToViewDeltaX( particle.radius ) + '-' + particle.color + '-' + particle.massNumber + '-' + particle.protonCount;
+      particleNode = new IsotopeNode( particle, modelViewTransform.modelToViewDeltaX( particle.radius ), { showLabel: particle.showLabel } );
     }
     else {
-      id = 'id-' + particle.type + '-' + particle.radius + '-' + modelViewTransform.modelToViewDeltaX( particle.radius );
+      particleNode = new ParticleNode( particle.type, modelViewTransform.modelToViewDeltaX( particle.radius ) );
     }
-    if ( !particleNodes[ id ] ) {
-      if ( particle.type === 'Isotope' ) {
-        particleNodes[ id ] = new IsotopeNode( particle, modelViewTransform.modelToViewDeltaX( particle.radius ), { showLabel: particle.showLabel } );
-      }
-      else {
-        particleNodes[ id ] = new ParticleNode( particle.type, modelViewTransform.modelToViewDeltaX( particle.radius ) );
-      }
-    }
-
-    return particleNodes[ id ];
+    return particleNode;
 
     // TODO: Below is an alternative way to create the particle nodes.  This
     // approach converts the node to an image.  It was used for a while, but
@@ -81,9 +69,10 @@ define( function( require ) {
     this.addChild( getParticleNode( particle, modelViewTransform ) );
 
     // Listen to the model position and update.
-    particle.positionProperty.link( function( position ) {
+    var particlePosition = function( position ) {
       thisParticleView.translation = thisParticleView.modelViewTransform.modelToViewPosition( position );
-    } );
+    };
+    particle.positionProperty.link( particlePosition );
 
     // Add a drag handler
     this.addInputListener( new TandemDragHandler( {
@@ -105,9 +94,17 @@ define( function( require ) {
       }
     } ) );
     this.mutate( options );
+
+    this.particleViewDispose = function(){
+      particle.positionProperty.unlink( particlePosition );
+    };
   }
 
   shred.register( 'ParticleView', ParticleView );
   // Inherit from Node.
-  return inherit( Node, ParticleView );
+  return inherit( Node, ParticleView, {
+    dispose: function(){
+      this.particleViewDispose();
+    }
+  } );
 } );
