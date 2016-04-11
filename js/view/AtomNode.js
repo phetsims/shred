@@ -91,12 +91,12 @@ define( function( require ) {
     var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform );
     this.addChild( isotopeElectronCloud );
 
-    var depiction = function( depiction ) {
+    var updateElectronShellDepictionVisiblity = function( depiction ) {
       electronShell.visible = depiction === 'orbits';
       electronCloud.visible = depiction === 'cloud';
       isotopeElectronCloud.visible = depiction === 'isotopeCloud';
     };
-    options.electronShellDepictionProperty.link( depiction );
+    options.electronShellDepictionProperty.link( updateElectronShellDepictionVisiblity );
 
     var elementNameCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
@@ -126,10 +126,10 @@ define( function( require ) {
     // Hook up update listeners.
     particleAtom.protons.lengthProperty.link( updateElementName );
 
-    var visibility = function( visible ) {
+    var updateElementNameVisibility = function( visible ) {
       thisAtomView.elementName.visible = visible;
     };
-    options.showElementNameProperty.link( visibility );
+    options.showElementNameProperty.link( updateElementNameVisibility );
 
     var ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
@@ -169,10 +169,10 @@ define( function( require ) {
 
     particleAtom.protons.lengthProperty.link( updateIonIndicator );
     particleAtom.electrons.lengthProperty.link( updateIonIndicator );
-    var ionIndicatorVisibility = function( visible ) {
+    var updateIonIndicatorVisibility = function( visible ) {
       thisAtomView.ionIndicator.visible = visible;
     };
-    options.showNeutralOrIonProperty.link( ionIndicatorVisibility );
+    options.showNeutralOrIonProperty.link( updateIonIndicatorVisibility );
 
     // Create the textual readout for the stability indicator.
     var stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
@@ -207,10 +207,10 @@ define( function( require ) {
     // Add the listeners that control the label content and visibility.
     particleAtom.protons.lengthProperty.link( updateStabilityIndicator );
     particleAtom.neutrons.lengthProperty.link( updateStabilityIndicator );
-    var stabilityIndicatorVisibility = function( visible ) {
+    var updateStabilityIndicatorVisibility = function( visible ) {
       thisAtomView.stabilityIndicator.visible = visible;
     };
-    options.showStableOrUnstableProperty.link( stabilityIndicatorVisibility );
+    options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );
 
     this.atomNodeDispose = function(){
       electronCloud.dispose();
@@ -221,15 +221,15 @@ define( function( require ) {
         particleAtom.protons.lengthProperty.unlink( listener );
       }
 
-      options.electronShellDepictionProperty.unlink( depiction );
+      options.electronShellDepictionProperty.unlink( updateElectronShellDepictionVisiblity );
       particleAtom.protons.lengthProperty.unlink( updateElementName );
-      options.showElementNameProperty.unlink( visibility );
+      options.showElementNameProperty.unlink( updateElementNameVisibility );
       particleAtom.protons.lengthProperty.unlink( updateIonIndicator );
       particleAtom.electrons.lengthProperty.unlink( updateIonIndicator );
-      options.showNeutralOrIonProperty.unlink( ionIndicatorVisibility );
+      options.showNeutralOrIonProperty.unlink( updateIonIndicatorVisibility );
       particleAtom.protons.lengthProperty.unlink( updateStabilityIndicator );
       particleAtom.neutrons.lengthProperty.unlink( updateStabilityIndicator );
-      options.showStableOrUnstableProperty.unlink( stabilityIndicatorVisibility );
+      options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
 
     };
   }

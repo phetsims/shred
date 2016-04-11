@@ -83,7 +83,7 @@ define( function( require ) {
     }
 
     // Highlight the cell that corresponds to the atom.
-    var highlightCell = function( protonCount ) {
+    var updateHighlightedCell = function( protonCount ) {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
       }
@@ -101,10 +101,10 @@ define( function( require ) {
       }
     };
     var highlightedCell = null;
-    numberAtom.protonCountProperty.link( highlightCell );
+    numberAtom.protonCountProperty.link( updateHighlightedCell );
     // unlink from Properties
     this.periodicTableNodeDispose = function() {
-      numberAtom.protonCountProperty.unlink( highlightCell );
+      numberAtom.protonCountProperty.unlink( updateHighlightedCell );
     };
   }
 

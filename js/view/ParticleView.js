@@ -69,10 +69,10 @@ define( function( require ) {
     this.addChild( getParticleNode( particle, modelViewTransform ) );
 
     // Listen to the model position and update.
-    var particlePosition = function( position ) {
+    var updateParticlePosition = function( position ) {
       thisParticleView.translation = thisParticleView.modelViewTransform.modelToViewPosition( position );
     };
-    particle.positionProperty.link( particlePosition );
+    particle.positionProperty.link( updateParticlePosition );
 
     // Add a drag handler
     this.addInputListener( new TandemDragHandler( {
@@ -96,7 +96,7 @@ define( function( require ) {
     this.mutate( options );
 
     this.particleViewDispose = function(){
-      particle.positionProperty.unlink( particlePosition );
+      particle.positionProperty.unlink( updateParticlePosition );
     };
   }
 
