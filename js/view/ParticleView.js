@@ -11,7 +11,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var ParticleNode = require( 'SHRED/view/ParticleNode' );
   var shred = require( 'SHRED/shred' );
-  var TandemDragHandler = require( 'SUN/TandemDragHandler' );
+  var TandemDragHandler = require( 'TANDEM/scenery/input/TandemDragHandler' );
 
   function getParticleNode( particle, modelViewTransform ) {
     var particleNode;

@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var shred = require( 'SHRED/shred' );
-  var TandemDragHandler = require( 'SUN/TandemDragHandler' );
+  var TandemDragHandler = require( 'TANDEM/scenery/input/TandemDragHandler' );
 
   /**
    * @param {Bucket} bucket
