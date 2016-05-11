@@ -19,6 +19,10 @@ define( function( require ) {
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
 
+  /**
+   * @param {Object} options
+   * @constructor
+   */
   function ParticleAtom( options ) {
 
     // @public

@@ -31,7 +31,7 @@ define( function( require ) {
   var MIN_VERTICAL_SPACING = 16; // Empirically Determined
 
   /**
-   * @param {NumberAtom}numberAtom Model representation of the atom
+   * @param {NumberAtom} numberAtom Model representation of the atom
    * @param {number} maxParticles The maximum number of particles to display
    * @param {number} maxWidth The maximum width that this display should reach
    * @constructor

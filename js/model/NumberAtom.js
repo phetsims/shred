@@ -14,6 +14,10 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var shred = require( 'SHRED/shred' );
 
+  /**
+   * @param {Object} options
+   * @constructor
+   */
   function NumberAtom( options ) {
 
     // Default configuration.
