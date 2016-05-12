@@ -108,6 +108,7 @@ define( function( require ) {
     function decrementParticle( array, currentQuantity ) {
       currentQuantity -= 1;
       particleLayer.removeChild( array[ currentQuantity ] );
+      array.splice( currentQuantity, 1 );
       return currentQuantity;
     }
 
