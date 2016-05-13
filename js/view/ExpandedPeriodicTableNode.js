@@ -122,6 +122,5 @@ define( function( require ) {
 
   shred.register( 'ExpandedPeriodicTableNode', ExpandedPeriodicTableNode );
 
-  return inherit( Node, ExpandedPeriodicTableNode, {
-  } );
+  return inherit( Node, ExpandedPeriodicTableNode );
 } );
