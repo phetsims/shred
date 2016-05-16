@@ -46,6 +46,10 @@ define( function( require ) {
 
   shred.register( 'Particle', Particle );
   return inherit( PropertySet, Particle, {
+    /**
+     * @param {Number} dt
+     * @public
+     */
     step: function( dt ) {
       if ( !this.userControlled ) {
         var distanceToDestination = this.position.distance( this.destination );
@@ -66,10 +70,15 @@ define( function( require ) {
       }
     },
 
+    // @public
     moveImmediatelyToDestination: function() {
       this.position = this.destination;
     },
 
+    /**
+     * @param {Vector2} newPosition
+     * @public
+     */
     setPositionAndDestination: function( newPosition ) {
       assert && assert( newPosition instanceof Vector2, 'Attempt to set non-vector position.' );
       if ( newPosition instanceof Vector2 ) {

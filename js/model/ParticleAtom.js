@@ -47,19 +47,19 @@ define( function( require ) {
     }, options );
 
     // Create the particle collections.
-    this.protons = new ObservableArray();
-    this.neutrons = new ObservableArray();
-    this.electrons = new ObservableArray();
+    this.protons = new ObservableArray(); // @private
+    this.neutrons = new ObservableArray(); // @private
+    this.electrons = new ObservableArray(); // @private
 
     // Make shell radii publicly accessible.
-    this.innerElectronShellRadius = options.innerElectronShellRadius;
-    this.outerElectronShellRadius = options.outerElectronShellRadius;
+    this.innerElectronShellRadius = options.innerElectronShellRadius; // @public
+    this.outerElectronShellRadius = options.outerElectronShellRadius; // @public
 
     // Set the default electron add/remove mode.  Valid values are 'proximal' and 'random'.
-    this.electronAddMode = 'proximal';
+    this.electronAddMode = 'proximal'; // @private
 
     // Initialize the positions where an electron can be placed.
-    this.validElectronPositions = new Array( 10 );
+    this.validElectronPositions = new Array( 10 ); // @private
     var angle = 0;
     this.validElectronPositions[ 0 ] = {
       electron: null,

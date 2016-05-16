@@ -37,7 +37,6 @@ define( function( require ) {
     require( 'string!SHRED/sulfur' ),
     require( 'string!SHRED/chlorine' ),
     require( 'string!SHRED/argon' ),
-    //TODO Should We just take these out
     'Potassium',
     'Calcium',
     'Scandium',

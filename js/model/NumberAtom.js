@@ -55,20 +55,34 @@ define( function( require ) {
 
   shred.register( 'NumberAtom', NumberAtom );
   return inherit( PropertySet, NumberAtom, {
+
+    /**
+     * Compare with other Number Atom
+     * @param {NumberAtom} otherAtom
+     * @public
+     */
     equals: function( otherAtom ) {
       return ( this.protonCount === otherAtom.protonCount &&
                this.neutronCount === otherAtom.neutronCount &&
                this.electronCount === otherAtom.electronCount );
     },
 
+    // @public
     getStandardAtomicMass: function() {
       return AtomIdentifier.getStandardAtomicMass( this.protonCount + this.neutronCount );
     },
 
+    // @public
     getIsotopeAtomicMass: function() {
       return AtomIdentifier.getIsotopeAtomicMass( this.protonCount, this.neutronCount );
     },
 
+    /**
+     * @param {Number} protonCount
+     * @param {Number} neutronCount
+     * @param {Number} electronCount
+     * @public
+     */
     setSubAtomicParticleCount: function( protonCount, neutronCount, electronCount ) {
       this.protonCount = protonCount;
       this.electronCount = electronCount;
