@@ -46,7 +46,8 @@ define( function( require ) {
       }
       else {
         thisNode.radius = modelViewTransform.modelToViewDeltaX( thisNode.getElectronShellDiameter( numElectrons ) / 2 );
-        thisNode.radius = thisNode.radius * 1.2; // empirically determined adjustment factor according to the weighing scale
+        // empirically determined adjustment factor according to the weighing scale
+        thisNode.radius = thisNode.radius * 1.2;
         thisNode.fill = new RadialGradient( 0, 0, 0, 0, 0, thisNode.radius )
           .addColorStop( 0, 'rgba( 0, 0, 255, 0 )' )
           .addColorStop( 1, 'rgba( 0, 0, 255, 0.4 )' );
@@ -65,6 +66,7 @@ define( function( require ) {
 
   shred.register( 'IsotopeElectronCloudView', IsotopeElectronCloudView );
   return inherit( Circle, IsotopeElectronCloudView, {
+    // @public
     dispose: function(){
       this.isotopeElectronCloudViewDispose();
     },
@@ -73,6 +75,8 @@ define( function( require ) {
      * Maps a number of electrons to a diameter in screen coordinates for the electron shell.  This mapping function is
      * based on the real size relationships between the various atoms, but has some tweakable parameters to reduce the
      * range and scale to provide values that are usable for our needs on the canvas.
+     * @param {Number} numElectrons
+     * @public
      */
     getElectronShellDiameter: function( numElectrons ) {
 

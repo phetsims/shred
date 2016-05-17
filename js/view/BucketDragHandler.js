@@ -33,7 +33,8 @@ define( function( require ) {
         // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
         // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
         // potential improvement.
-        var positionInModelSpace = modelViewTransform.viewToModelPosition( bucketView.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
+        var positionInModelSpace = modelViewTransform.viewToModelPosition(
+          bucketView.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
 
         activeParticle = bucket.extractClosestParticle( positionInModelSpace );
         if ( activeParticle !== null ) {
@@ -42,7 +43,8 @@ define( function( require ) {
       },
       translate: function( translationParams ) {
         if ( activeParticle !== null ) {
-          activeParticle.setPositionAndDestination( activeParticle.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
+          activeParticle.setPositionAndDestination( activeParticle.position.plus(
+            modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
         }
       },
       end: function( event ) {

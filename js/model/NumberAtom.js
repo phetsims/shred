@@ -48,9 +48,10 @@ define( function( require ) {
     this.addDerivedProperty( 'massNumber', [ 'protonCount', 'neutronCount' ], function( protonCount, neutronCount ) {
       return protonCount + neutronCount;
     } );
-    this.addDerivedProperty( 'particleCount', [ 'protonCount', 'neutronCount', 'electronCount' ], function( protonCount, neutronCount, electronCount ) {
-      return protonCount + neutronCount + electronCount;
-    } );
+    this.addDerivedProperty( 'particleCount', [ 'protonCount', 'neutronCount', 'electronCount' ],
+      function( protonCount, neutronCount, electronCount ) {
+        return protonCount + neutronCount + electronCount;
+      } );
   }
 
   shred.register( 'NumberAtom', NumberAtom );

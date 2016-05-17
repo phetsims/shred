@@ -98,7 +98,8 @@ define( function( require ) {
     };
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisiblity );
 
-    var elementNameCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
+    var elementNameCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus(
+      new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private - Create the textual readout for the element name.
     this.elementName = new Text( '', {
@@ -131,7 +132,8 @@ define( function( require ) {
     };
     options.showElementNameProperty.link( updateElementNameVisibility );
 
-    var ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
+    var ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.position.plus(
+      new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
     // @private - Create the textual readout for the ion indicator, set by trial and error.
     this.ionIndicator = new Text( '', {
@@ -175,7 +177,8 @@ define( function( require ) {
     options.showNeutralOrIonProperty.link( updateIonIndicatorVisibility );
 
     // Create the textual readout for the stability indicator.
-    var stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus( new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
+    var stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus(
+      new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private
     this.stabilityIndicator = new Text( '', {
@@ -238,6 +241,7 @@ define( function( require ) {
 
   // Inherit from Node.
   return inherit( Node, AtomNode, {
+    //@public
     dispose: function(){
       this.atomNodeDispose();
     }

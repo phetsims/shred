@@ -72,7 +72,8 @@ define( function( require ) {
         var atomicNumber = elementIndex;
         var button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
           listener: function() {
-            numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber );
+            numberAtom.setSubAtomicParticleCount( atomicNumber,
+              AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber );
           },
           baseColor: ENABLED_CELL_COLOR,
           cornerRadius: 0,

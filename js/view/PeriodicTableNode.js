@@ -111,6 +111,7 @@ define( function( require ) {
   shred.register( 'PeriodicTableNode', PeriodicTableNode );
   // Inherit from Node.
   return inherit( Node, PeriodicTableNode, {
+    // @public
     dispose: function(){
       this.periodicTableNodeDispose();
     }

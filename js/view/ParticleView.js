@@ -16,7 +16,8 @@ define( function( require ) {
   function getParticleNode( particle, modelViewTransform ) {
     var particleNode;
     if ( particle.type === 'Isotope' ) {
-      particleNode = new IsotopeNode( particle, modelViewTransform.modelToViewDeltaX( particle.radius ), { showLabel: particle.showLabel } );
+      particleNode = new IsotopeNode( particle, modelViewTransform.modelToViewDeltaX( particle.radius ),
+        { showLabel: particle.showLabel } );
     }
     else {
       particleNode = new ParticleNode( particle.type, modelViewTransform.modelToViewDeltaX( particle.radius ) );
@@ -62,7 +63,9 @@ define( function( require ) {
 
       // Handler that moves the particle in model space.
       translate: function( translationParams ) {
-        particle.setPositionAndDestination( particle.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
+        particle.setPositionAndDestination(
+          particle.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) )
+        );
         return translationParams.position;
       },
       start: function( event, trail ) {

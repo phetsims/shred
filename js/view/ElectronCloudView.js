@@ -66,7 +66,8 @@ define( function( require ) {
         // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
         // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
         // potential improvement.
-        var positionInModelSpace = modelViewTransform.viewToModelPosition( thisNode.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
+        var positionInModelSpace = modelViewTransform.viewToModelPosition(
+          thisNode.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
 
         var electron = atom.extractParticle( 'electron' );
         if ( electron !== null ) {
@@ -77,7 +78,8 @@ define( function( require ) {
       },
       translate: function( translationParams ) {
         if ( thisNode.extractedElectron !== null ) {
-          thisNode.extractedElectron.setPositionAndDestination( thisNode.extractedElectron.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
+          thisNode.extractedElectron.setPositionAndDestination(
+            thisNode.extractedElectron.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
         }
       },
       end: function( event ) {
@@ -96,6 +98,7 @@ define( function( require ) {
 
   // Inherit from Node.
   return inherit( Node, ElectronCloudView, {
+    // @public
     dispose: function(){
       this.electronCloudViewDispose();
     }

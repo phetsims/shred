@@ -46,12 +46,20 @@ define( function( require ) {
       var symbol = AtomIdentifier.getSymbol( isotope.protonCount );
       var label = new SubSupText( ' <sup>' + isotope.massNumber + '</sup>' + symbol, {
         font: new PhetFont( 10 ),
-        maxWidth: 2 * radius - 2 // making sure that text doesn't goes beyond the sphere boundaries, -2 is empirically determined
+        // making sure that text doesn't goes beyond the sphere boundaries, -2 is empirically determined
+        maxWidth: 2 * radius - 2
       } );
       label.centerX = isotopeSphere.centerX - 1; // empirically determined -1 to make it appear centered
       label.centerY = isotopeSphere.centerY;
       isotopeSphere.addChild( label );
-      isotopeSphere.fill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
+      isotopeSphere.fill = new RadialGradient(
+        -radius * 0.4,
+        -radius * 0.4,
+        0,
+        -radius * 0.4,
+        -radius * 0.4,
+        radius * 1.6
+      )
         .addColorStop( 0, 'white' )
         .addColorStop( 1, baseColor );
     }

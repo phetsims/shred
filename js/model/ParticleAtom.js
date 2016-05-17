@@ -36,9 +36,10 @@ define( function( require ) {
     this.addDerivedProperty( 'massNumber', [ 'protonCount', 'neutronCount' ], function( protonCount, neutronCount ) {
       return protonCount + neutronCount;
     } );
-    this.addDerivedProperty( 'particleCount', [ 'protonCount', 'neutronCount', 'electronCount' ], function( protonCount, neutronCount, electronCount ) {
-      return protonCount + neutronCount + electronCount;
-    } );
+    this.addDerivedProperty( 'particleCount', [ 'protonCount', 'neutronCount', 'electronCount' ],
+      function( protonCount, neutronCount, electronCount ) {
+        return protonCount + neutronCount + electronCount;
+      } );
     var thisAtom = this;
 
     options = _.extend( {
@@ -71,11 +72,14 @@ define( function( require ) {
       position: new Vector2( -thisAtom.innerElectronShellRadius, 0 )
     };
     var numSlotsInOuterShell = 8;
-    angle = Math.PI / numSlotsInOuterShell * 1.2; // Stagger inner and outer electron shell positions, tweaked a bit for better interaction with labels.
+    // Stagger inner and outer electron shell positions, tweaked a bit for better interaction with labels.
+    angle = Math.PI / numSlotsInOuterShell * 1.2;
     for ( var i = 0; i < numSlotsInOuterShell; i++ ) {
       this.validElectronPositions[ i + 2 ] = {
         electron: null,
-        position: new Vector2( Math.cos( angle ) * thisAtom.outerElectronShellRadius, Math.sin( angle ) * thisAtom.outerElectronShellRadius )
+        position: new Vector2( Math.cos( angle ) *
+                               thisAtom.outerElectronShellRadius, Math.sin( angle ) *
+                                                                                      thisAtom.outerElectronShellRadius )
       };
       angle += 2 * Math.PI / numSlotsInOuterShell;
     }
@@ -89,9 +93,11 @@ define( function( require ) {
             // An inner-shell electron was removed.  If there are electrons
             // in the outer shell, move one of them in.
             var occupiedOuterShellPositions = _.filter( thisAtom.validElectronPositions, function( validElectronPosition ) {
-              return ( validElectronPosition.electron !== null && Utils.roughlyEqual( validElectronPosition.position.magnitude(),
-                thisAtom.outerElectronShellRadius,
-                1E-5 ));
+              return ( validElectronPosition.electron !== null &&
+                       Utils.roughlyEqual( validElectronPosition.position.magnitude(),
+                         thisAtom.outerElectronShellRadius,
+                         1E-5
+                       ));
             } );
             occupiedOuterShellPositions = _.sortBy( occupiedOuterShellPositions, function( occupiedShellPosition ) {
               return occupiedShellPosition.position.distance( validElectronPosition.position );
@@ -143,8 +149,14 @@ define( function( require ) {
   }
 
   shred.register( 'ParticleAtom', ParticleAtom );
+
   return inherit( PropertySet, ParticleAtom, {
-    // Add a particle to the atom.
+
+    /**
+     * Add a particle to the atom.
+     * @param {Particle} particle
+     * @public
+     */
     addParticle: function( particle ) {
       var thisAtom = this;
       if ( particle.type === 'proton' || particle.type === 'neutron' ) {
@@ -173,7 +185,8 @@ define( function( require ) {
           delete particle.particleAtomRemovalListener;
         };
         particle.userControlledProperty.lazyLink( nucleonRemovedListener );
-        particle.particleAtomRemovalListener = nucleonRemovedListener; // Attach to the particle to aid unlinking in some cases.
+        // Attach to the particle to aid unlinking in some cases.
+        particle.particleAtomRemovalListener = nucleonRemovedListener;
       }
       else if ( particle.type === 'electron' ) {
         this.electrons.add( particle );
@@ -213,7 +226,8 @@ define( function( require ) {
           delete particle.particleAtomRemovalListener;
         };
         particle.userControlledProperty.lazyLink( electronRemovedListener );
-        particle.particleAtomRemovalListener = electronRemovedListener; // Attach to the particle to aid unlinking in some cases.
+        // Attach to the particle to aid unlinking in some cases.
+        particle.particleAtomRemovalListener = electronRemovedListener;
 
       }
       else {
@@ -221,7 +235,11 @@ define( function( require ) {
       }
     },
 
-    // Remove the specified particle from this particle atom.
+    /**
+     * Remove the specified particle from this particle atom.
+     * @param {Particle} particle
+     * @public
+     */
     removeParticle: function( particle ) {
       if ( this.protons.contains( particle ) ) {
         this.protons.remove( particle );
@@ -238,12 +256,18 @@ define( function( require ) {
       else {
         throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
       }
-      assert && assert( typeof( particle.particleAtomRemovalListener ) === 'function', 'No particle removal listener attached to particle.' );
+      assert && assert( typeof( particle.particleAtomRemovalListener ) === 'function',
+        'No particle removal listener attached to particle.' );
       particle.userControlledProperty.unlink( particle.particleAtomRemovalListener );
       delete particle.particleAtomRemovalListener;
     },
 
-    // Extract an arbitrary instance of the specified particle, assuming one exists.
+    /**
+     * Extract an arbitrary instance of the specified particle, assuming one exists.
+     * @param {String} particleType
+     * @returns {Particle} particle
+     * @public
+     */
     extractParticle: function( particleType ) {
       var particle = null;
       switch( particleType ) {
@@ -276,8 +300,8 @@ define( function( require ) {
       return particle;
     },
 
-    // Remove all the particles but don't reconfigure the nucleus as they go.
-    // This makes it a quicker operation.
+    // Remove all the particles but don't reconfigure the nucleus as they go. This makes it a quicker operation.
+    // @public
     clear: function() {
       var thisAtom = this;
       this.protons.forEach( function( particle ) { thisAtom.removeParticle( particle ); } );
@@ -285,28 +309,31 @@ define( function( require ) {
       this.electrons.forEach( function( particle ) { thisAtom.removeParticle( particle ); } );
     },
 
-    // Move all the particles to their destinations.  This is generally used
-    // when animation is not desired.
+    // Move all the particles to their destinations. This is generally used when animation is not desired.
+    // @public
     moveAllParticlesToDestination: function() {
       this.protons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
       this.neutrons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
       this.electrons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
     },
 
+    // @public
     getWeight: function() {
       return this.protons.length + this.neutrons.length;
     },
 
+    // @public
     getCharge: function() {
       return this.protons.length - this.electrons.length;
     },
 
+    // @public
     getIsotopeAtomicMass: function() {
       return AtomIdentifier.getIsotopeAtomicMass( this.protonCount, this.neutronCount );
     },
 
+    // @public
     reconfigureNucleus: function() {
-
       // Convenience variables.
       var centerX = this.position.x + this.nucleusOffset.x;
       var centerY = this.position.y + this.nucleusOffset.y;
@@ -339,16 +366,19 @@ define( function( require ) {
       else if ( nucleons.length === 2 ) {
         // Two nucleons - place them side by side with their meeting point in the center.
         angle = 0.2 * 2 * Math.PI; // Angle arbitrarily chosen.
-        nucleons[ 0 ].destination = new Vector2( centerX + nucleonRadius * Math.cos( angle ), centerY + nucleonRadius * Math.sin( angle ) );
+        nucleons[ 0 ].destination = new Vector2( centerX + nucleonRadius * Math.cos( angle ),
+          centerY + nucleonRadius * Math.sin( angle ) );
         nucleons[ 0 ].zLayer = 0;
-        nucleons[ 1 ].destination = new Vector2( centerX - nucleonRadius * Math.cos( angle ), centerY - nucleonRadius * Math.sin( angle ) );
+        nucleons[ 1 ].destination = new Vector2( centerX - nucleonRadius * Math.cos( angle ),
+          centerY - nucleonRadius * Math.sin( angle ) );
         nucleons[ 1 ].zLayer = 0;
       }
       else if ( nucleons.length === 3 ) {
         // Three nucleons - form a triangle where they all touch.
         angle = 0.7 * 2 * Math.PI; // Angle arbitrarily chosen.
         distFromCenter = nucleonRadius * 1.155;
-        nucleons[ 0 ].destination = new Vector2( centerX + distFromCenter * Math.cos( angle ), centerY + distFromCenter * Math.sin( angle ) );
+        nucleons[ 0 ].destination = new Vector2( centerX + distFromCenter * Math.cos( angle ),
+          centerY + distFromCenter * Math.sin( angle ) );
         nucleons[ 0 ].zLayer = 0;
         nucleons[ 1 ].destination = new Vector2( centerX + distFromCenter * Math.cos( angle + 2 * Math.PI / 3 ),
           centerY + distFromCenter * Math.sin( angle + 2 * Math.PI / 3 ) );
@@ -360,9 +390,11 @@ define( function( require ) {
       else if ( nucleons.length === 4 ) {
         // Four nucleons - make a sort of diamond shape with some overlap.
         angle = 1.4 * 2 * Math.PI; // Angle arbitrarily chosen.
-        nucleons[ 0 ].destination = new Vector2( centerX + nucleonRadius * Math.cos( angle ), centerY + nucleonRadius * Math.sin( angle ) );
+        nucleons[ 0 ].destination = new Vector2( centerX + nucleonRadius * Math.cos( angle ),
+          centerY + nucleonRadius * Math.sin( angle ) );
         nucleons[ 0 ].zLayer = 0;
-        nucleons[ 2 ].destination = new Vector2( centerX - nucleonRadius * Math.cos( angle ), centerY - nucleonRadius * Math.sin( angle ) );
+        nucleons[ 2 ].destination = new Vector2( centerX - nucleonRadius * Math.cos( angle ),
+          centerY - nucleonRadius * Math.sin( angle ) );
         nucleons[ 2 ].zLayer = 0;
         distFromCenter = nucleonRadius * 2 * Math.cos( Math.PI / 3 );
         nucleons[ 1 ].destination = new Vector2( centerX + distFromCenter * Math.cos( angle + Math.PI / 2 ),

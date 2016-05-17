@@ -71,7 +71,11 @@ define( function( require ) {
         new ButtonListener( {
           fire: function( evt ) {
             self.startedCallbacksForPressedEmitter.emit();
-            numberAtom.setSubAtomicParticleCount( atomicNumber, AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber );
+            numberAtom.setSubAtomicParticleCount(
+              atomicNumber,
+              AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
+              atomicNumber
+            );
             self.endedCallbacksForPressedEmitter.emit();
           }
         } )

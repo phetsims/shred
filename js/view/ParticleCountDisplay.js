@@ -79,7 +79,8 @@ define( function( require ) {
     var particleLayer = new Node( { children: [ spacer ] } );
     panelContents.addChild( particleLayer );
 
-    // stored ParticleNode instances that are positioned correctly, so we just have to add/remove the changed ones (faster than full rebuild)
+    // stored ParticleNode instances that are positioned correctly, so we just have to add/remove the
+    // changed ones (faster than full rebuild)
     var protons = [];
     var neutrons = [];
     var electrons = [];
@@ -89,7 +90,8 @@ define( function( require ) {
     var neutronDisplayCount = 0;
     var electronDisplayCount = 0;
 
-    // increase the particle count by 1, and return the currently displayed quantity array should be protons, neutrons, or electrons
+    // increase the particle count by 1, and return the currently displayed quantity array should be
+    // protons, neutrons, or electrons
     function incrementParticle( array, currentQuantity, particleType, radius, startX, startY ) {
       var newIndex = currentQuantity;
       if ( newIndex === array.length ) {
@@ -104,7 +106,8 @@ define( function( require ) {
       return currentQuantity;
     }
 
-    // decrease the particle count by 1, and return the currently displayed quantity. array should be protons, neutrons, or electrons
+    // decrease the particle count by 1, and return the currently displayed quantity. array should be
+    // protons, neutrons, or electrons
     function decrementParticle( array, currentQuantity ) {
       currentQuantity -= 1;
       particleLayer.removeChild( array[ currentQuantity ] );
@@ -114,7 +117,8 @@ define( function( require ) {
 
     // Function that updates that displayed particles.
     var updateParticles = function( atom ) {
-      // feel free to refactor this, although we'd need to get a passable reference to the counts (that's why there is duplication now)
+      // feel free to refactor this, although we'd need to get a passable reference to the counts
+      // (that's why there is duplication now)
       while ( atom.protonCount > protonDisplayCount ) {
         protonDisplayCount = incrementParticle( protons, protonDisplayCount, 'proton', nucleonRadius,
           protonTitle.right + interParticleSpacing, protonTitle.center.y );
