@@ -12,6 +12,7 @@ define( function( require ) {
   var ParticleNode = require( 'SHRED/view/ParticleNode' );
   var shred = require( 'SHRED/shred' );
   var TandemDragHandler = require( 'TANDEM/scenery/input/TandemDragHandler' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   function getParticleNode( particle, modelViewTransform ) {
     var particleNode;
@@ -38,6 +39,9 @@ define( function( require ) {
     options = _.extend( {
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+    
     Node.call( this ); // Call super constructor.
     var thisParticleView = this;
 

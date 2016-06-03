@@ -18,6 +18,7 @@ define( function( require ) {
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var shred = require( 'SHRED/shred' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var NOMINAL_CELL_DIMENSION = 25;
@@ -37,6 +38,9 @@ define( function( require ) {
       showLabels: true,
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+    
     var self = this;
     this.options = options;
 

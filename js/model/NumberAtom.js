@@ -13,6 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var shred = require( 'SHRED/shred' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} options
@@ -27,6 +28,8 @@ define( function( require ) {
       electronCount: 0,
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // Call the super constructor.
     // @public

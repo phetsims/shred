@@ -12,6 +12,7 @@ define( function( require ) {
   var SharedConstants = require( 'SHRED/SharedConstants' );
   var shred = require( 'SHRED/shred' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   // 2D array that defines the table structure.
@@ -45,6 +46,8 @@ define( function( require ) {
       selectedCellColor: SELECTED_CELL_COLOR,
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     Node.call( this ); // Call super constructor.
     var thisPeriodicTable = this;

@@ -14,6 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var shred = require( 'SHRED/shred' );
   var TandemDragHandler = require( 'TANDEM/scenery/input/TandemDragHandler' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Bucket} bucket
@@ -26,6 +27,9 @@ define( function( require ) {
     options = _.extend( {
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+    
     var activeParticle = null;
     var inputListenerOptions = {
       tandem: options.tandem,

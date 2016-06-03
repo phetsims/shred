@@ -19,6 +19,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   // 2D array that defines the table structure.
@@ -45,6 +46,9 @@ define( function( require ) {
     options = _.extend( {
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+    
     Node.call( this );
     var self = this;
     var periodicTableNode = new PeriodicTableNode( numberAtom, {

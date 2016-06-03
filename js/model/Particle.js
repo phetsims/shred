@@ -14,6 +14,7 @@ define( function( require ) {
   var SharedConstants = require( 'SHRED/SharedConstants' );
   var shred = require( 'SHRED/shred' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
@@ -28,6 +29,8 @@ define( function( require ) {
     options = _.extend( {
       tandem: null
     }, options );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     var propertySetOptions = options.tandem ? {
       tandemSet: { position: options.tandem.createTandem( 'positionProperty' ) }
