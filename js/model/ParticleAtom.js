@@ -18,6 +18,7 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
+  var LinearFunction = require( 'DOT/LinearFunction' );
 
   /**
    * @param {Object} options
@@ -44,8 +45,10 @@ define( function( require ) {
 
     options = _.extend( {
       innerElectronShellRadius: 85,
-      outerElectronShellRadius: 130
+      outerElectronShellRadius: 130,
+      nucleonRadius: SharedConstants.NUCLEON_RADIUS
     }, options );
+    this.nucleonRadius = options.nucleonRadius; // @private
 
     // Create the particle collections.
     this.protons = new ObservableArray(); // @private
@@ -337,7 +340,7 @@ define( function( require ) {
       // Convenience variables.
       var centerX = this.position.x + this.nucleusOffset.x;
       var centerY = this.position.y + this.nucleusOffset.y;
-      var nucleonRadius = SharedConstants.NUCLEON_RADIUS;
+      var nucleonRadius = this.nucleonRadius;
       var angle;
       var distFromCenter;
 
@@ -411,6 +414,12 @@ define( function( require ) {
         var level = 0;
         var placementAngle = 0;
         var placementAngleDelta = 0;
+
+        // scale correction for the next placement radius, linear map determined empirically
+        // in cases which use a wide range in number of nucleons
+        var scaleFunction = LinearFunction( 10, 3, 1.35, 2.4, this.nucleonRadius );
+        var scaleFactor = scaleFunction( this.nucleonRadius );
+
         for ( var i = 0; i < nucleons.length; i++ ) {
           nucleons[ i ].destination = new Vector2( centerX + placementRadius * Math.cos( placementAngle ),
             centerY + placementRadius * Math.sin( placementAngle ) );
@@ -423,7 +432,7 @@ define( function( require ) {
           else {
             // Move out to the next radius.
             level++;
-            placementRadius += nucleonRadius * 1.35 / level;
+            placementRadius += nucleonRadius * scaleFactor / level;
             placementAngle += 2 * Math.PI * 0.2 + level * Math.PI; // Arbitrary value chosen based on looks.
             numAtThisRadius = Math.floor( placementRadius * Math.PI / nucleonRadius );
             placementAngleDelta = 2 * Math.PI / numAtThisRadius;
