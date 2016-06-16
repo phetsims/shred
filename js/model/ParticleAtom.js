@@ -415,9 +415,16 @@ define( function( require ) {
         var placementAngle = 0;
         var placementAngleDelta = 0;
 
-        // scale correction for the next placement radius, linear map determined empirically
-        // in cases which use a wide range in number of nucleons
-        var scaleFunction = LinearFunction( 10, 3, 1.35, 2.4, this.nucleonRadius );
+        // Scale correction for the next placement radius, linear map determined empirically.
+        // As the nucleon size increases, we want the scale factor and change in placement radius 
+        // to decrease since larger nucleons are easier to see with larger area.
+        // Map values determined in cases which use a wide range in number of nucleons and in
+        // cases where the nucleon radius scaled from 3 to 10 (in screen coordinates - roughly pixels).
+        var radiusA = 3;
+        var radiusB = 10;
+        var scaleFactorA = 2.4;
+        var scaleFactorB = 1.35;
+        var scaleFunction = LinearFunction( radiusA, radiusB, scaleFactorA, scaleFactorB, this.nucleonRadius );
         var scaleFactor = scaleFunction( this.nucleonRadius );
 
         for ( var i = 0; i < nucleons.length; i++ ) {
