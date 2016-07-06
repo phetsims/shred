@@ -29,8 +29,6 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     // Call the super constructor.
     // @public
     PropertySet.call( this, {
