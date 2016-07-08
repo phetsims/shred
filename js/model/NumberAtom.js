@@ -13,7 +13,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
   var shred = require( 'SHRED/shred' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {Object} options
