@@ -20,9 +20,6 @@ define( function( require ) {
     assertInstanceOf( particle, phet.shred.Particle );
     TObject.call( this, particle, phetioID );
   }, {}, {
-    api: {
-      positionProperty: TProperty( TVector2 )
-    }
   } );
 
   phetioNamespace.register( 'TParticle', TParticle );
