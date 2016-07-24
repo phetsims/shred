@@ -12,9 +12,7 @@ define( function( require ) {
   var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
   var phetioInherit = require( 'PHET_IO/phetioInherit' );
   var TObject = require( 'PHET_IO/types/TObject' );
-  var TProperty = require( 'PHET_IO/types/axon/TProperty' );
   var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var TVector2 = require( 'PHET_IO/types/dot/TVector2' );
 
   var TParticle = phetioInherit( TObject, 'TParticle', function( particle, phetioID ) {
     assertInstanceOf( particle, phet.shred.Particle );
