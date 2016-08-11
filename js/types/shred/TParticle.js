@@ -14,11 +14,12 @@ define( function( require ) {
   var TObject = require( 'PHET_IO/types/TObject' );
   var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
 
-  var TParticle = phetioInherit( TObject, 'TParticle', function( particle, phetioID ) {
+  var TParticle = function( particle, phetioID ) {
     assertInstanceOf( particle, phet.shred.Particle );
     TObject.call( this, particle, phetioID );
-  }, {}, {
-  } );
+  };
+
+  phetioInherit( TObject, 'TParticle', TParticle, {}, {} );
 
   phetioNamespace.register( 'TParticle', TParticle );
 
