@@ -28,7 +28,7 @@ define( function( require ) {
 
     // Call super constructor.
     Node.call( this, { cursor: 'pointer' } );
-    var thisNode = this;
+    var self = this;
 
     var electronCloud = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
         fill: 'pink',
@@ -67,24 +67,24 @@ define( function( require ) {
         // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
         // potential improvement.
         var positionInModelSpace = modelViewTransform.viewToModelPosition(
-          thisNode.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
+          self.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
 
         var electron = atom.extractParticle( 'electron' );
         if ( electron !== null ) {
           electron.userControlled = true;
           electron.setPositionAndDestination( positionInModelSpace );
-          thisNode.extractedElectron = electron;
+          self.extractedElectron = electron;
         }
       },
       translate: function( translationParams ) {
-        if ( thisNode.extractedElectron !== null ) {
-          thisNode.extractedElectron.setPositionAndDestination(
-            thisNode.extractedElectron.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
+        if ( self.extractedElectron !== null ) {
+          self.extractedElectron.setPositionAndDestination(
+            self.extractedElectron.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
         }
       },
       end: function( event ) {
-        if ( thisNode.extractedElectron !== null ) {
-          thisNode.extractedElectron.userControlled = false;
+        if ( self.extractedElectron !== null ) {
+          self.extractedElectron.userControlled = false;
         }
       }
     } ) );

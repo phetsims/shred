@@ -3,8 +3,8 @@
 /**
  * Node that represents the electron shells in an isotope as a "cloud" that grows and shrinks depending on the number
  * of electrons that it contains.  This particular class implements behavior needed for the Isotopes simulation, which
- * is somewhat different from that needed for Build an Atom.  Note that the name 'IsotopethisNodeView' was chosen
- * in order to keep up with electron cloud naming conventions in Build an Atom (i.e. thisNodeView,
+ * is somewhat different from that needed for Build an Atom.  Note that the name 'IsotopeselfView' was chosen
+ * in order to keep up with electron cloud naming conventions in Build an Atom (i.e. selfView,
  * ElectronShellView).
  *
  * @author John Blanco
@@ -37,18 +37,18 @@ define( function( require ) {
     Circle.call( this, 1, { pickable: false } );
 
     // carry this through the scope
-    var thisNode = this;
+    var self = this;
 
     var updateNode = function( numElectrons ) {
       if ( numElectrons === 0 ) {
-        thisNode.radius = 1E-5; // Arbitrary non-zero value.
-        thisNode.fill = 'transparent';
+        self.radius = 1E-5; // Arbitrary non-zero value.
+        self.fill = 'transparent';
       }
       else {
-        thisNode.radius = modelViewTransform.modelToViewDeltaX( thisNode.getElectronShellDiameter( numElectrons ) / 2 );
+        self.radius = modelViewTransform.modelToViewDeltaX( self.getElectronShellDiameter( numElectrons ) / 2 );
         // empirically determined adjustment factor according to the weighing scale
-        thisNode.radius = thisNode.radius * 1.2;
-        thisNode.fill = new RadialGradient( 0, 0, 0, 0, 0, thisNode.radius )
+        self.radius = self.radius * 1.2;
+        self.fill = new RadialGradient( 0, 0, 0, 0, 0, self.radius )
           .addColorStop( 0, 'rgba( 0, 0, 255, 0 )' )
           .addColorStop( 1, 'rgba( 0, 0, 255, 0.4 )' );
       }

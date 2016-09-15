@@ -43,7 +43,7 @@ define( function( require ) {
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
     
     Node.call( this ); // Call super constructor.
-    var thisParticleView = this;
+    var self = this;
 
     // Set up fields.
     this.particle = particle; // @public
@@ -54,7 +54,7 @@ define( function( require ) {
 
     // Listen to the model position and update.
     var updateParticlePosition = function( position ) {
-      thisParticleView.translation = thisParticleView.modelViewTransform.modelToViewPosition( position );
+      self.translation = self.modelViewTransform.modelToViewPosition( position );
     };
     particle.positionProperty.link( updateParticlePosition );
 
@@ -73,10 +73,10 @@ define( function( require ) {
         return translationParams.position;
       },
       start: function( event, trail ) {
-        thisParticleView.particle.userControlled = true;
+        self.particle.userControlled = true;
       },
       end: function( event, trail ) {
-        thisParticleView.particle.userControlled = false;
+        self.particle.userControlled = false;
       }
     } ) );
     this.mutate( options );

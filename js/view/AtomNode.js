@@ -54,7 +54,7 @@ define( function( require ) {
     );
 
     Node.call( this, options ); // Call super constructor.
-    var thisAtomView = this;
+    var self = this;
 
     // @private
     this.atom = particleAtom;
@@ -112,15 +112,15 @@ define( function( require ) {
 
     // Define the update function for the element name.
     var updateElementName = function() {
-      var name = AtomIdentifier.getName( thisAtomView.atom.protons.length );
+      var name = AtomIdentifier.getName( self.atom.protons.length );
       if ( name.length === 0 ) {
         name = '';
       }
-      thisAtomView.elementName.text = name;
-      thisAtomView.elementName.setScaleMagnitude( 1 );
+      self.elementName.text = name;
+      self.elementName.setScaleMagnitude( 1 );
       var maxLabelWidth = modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 );
-      thisAtomView.elementName.setScaleMagnitude( Math.min( maxLabelWidth / thisAtomView.elementName.width, 1 ) );
-      thisAtomView.elementName.center = elementNameCenterPos;
+      self.elementName.setScaleMagnitude( Math.min( maxLabelWidth / self.elementName.width, 1 ) );
+      self.elementName.center = elementNameCenterPos;
     };
     updateElementName(); // Do the initial update.
 
@@ -128,7 +128,7 @@ define( function( require ) {
     particleAtom.protons.lengthProperty.link( updateElementName );
 
     var updateElementNameVisibility = function( visible ) {
-      thisAtomView.elementName.visible = visible;
+      self.elementName.visible = visible;
     };
     options.showElementNameProperty.link( updateElementNameVisibility );
 
@@ -147,24 +147,24 @@ define( function( require ) {
 
     // Define the update function for the ion indicator.
     var updateIonIndicator = function() {
-      if ( thisAtomView.atom.protons.length > 0 ) {
-        var charge = thisAtomView.atom.getCharge();
+      if ( self.atom.protons.length > 0 ) {
+        var charge = self.atom.getCharge();
         if ( charge < 0 ) {
-          thisAtomView.ionIndicator.text = minusSignIonString;
-          thisAtomView.ionIndicator.fill = 'blue';
+          self.ionIndicator.text = minusSignIonString;
+          self.ionIndicator.fill = 'blue';
         }
         else if ( charge > 0 ) {
-          thisAtomView.ionIndicator.text = positiveSignIonString;
-          thisAtomView.ionIndicator.fill = PhetColorScheme.RED_COLORBLIND;
+          self.ionIndicator.text = positiveSignIonString;
+          self.ionIndicator.fill = PhetColorScheme.RED_COLORBLIND;
         }
         else {
-          thisAtomView.ionIndicator.text = neutralAtomString;
-          thisAtomView.ionIndicator.fill = 'black';
+          self.ionIndicator.text = neutralAtomString;
+          self.ionIndicator.fill = 'black';
         }
       }
       else {
-        thisAtomView.ionIndicator.text = '';
-        thisAtomView.ionIndicator.fill = 'black';
+        self.ionIndicator.text = '';
+        self.ionIndicator.fill = 'black';
       }
     };
     updateIonIndicator(); // Do the initial update.
@@ -172,7 +172,7 @@ define( function( require ) {
     particleAtom.protons.lengthProperty.link( updateIonIndicator );
     particleAtom.electrons.lengthProperty.link( updateIonIndicator );
     var updateIonIndicatorVisibility = function( visible ) {
-      thisAtomView.ionIndicator.visible = visible;
+      self.ionIndicator.visible = visible;
     };
     options.showNeutralOrIonProperty.link( updateIonIndicatorVisibility );
 
@@ -192,18 +192,18 @@ define( function( require ) {
 
     // Define the update function for the stability indicator.
     var updateStabilityIndicator = function() {
-      if ( thisAtomView.atom.protons.length > 0 ) {
-        if ( AtomIdentifier.isStable( thisAtomView.atom.protons.length, thisAtomView.atom.neutrons.length ) ) {
-          thisAtomView.stabilityIndicator.text = stableString;
+      if ( self.atom.protons.length > 0 ) {
+        if ( AtomIdentifier.isStable( self.atom.protons.length, self.atom.neutrons.length ) ) {
+          self.stabilityIndicator.text = stableString;
         }
         else {
-          thisAtomView.stabilityIndicator.text = unstableString;
+          self.stabilityIndicator.text = unstableString;
         }
       }
       else {
-        thisAtomView.stabilityIndicator.text = '';
+        self.stabilityIndicator.text = '';
       }
-      thisAtomView.stabilityIndicator.center = stabilityIndicatorCenterPos;
+      self.stabilityIndicator.center = stabilityIndicatorCenterPos;
     };
     updateStabilityIndicator(); // Do initial update.
 
@@ -211,7 +211,7 @@ define( function( require ) {
     particleAtom.protons.lengthProperty.link( updateStabilityIndicator );
     particleAtom.neutrons.lengthProperty.link( updateStabilityIndicator );
     var updateStabilityIndicatorVisibility = function( visible ) {
-      thisAtomView.stabilityIndicator.visible = visible;
+      self.stabilityIndicator.visible = visible;
     };
     options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );
 

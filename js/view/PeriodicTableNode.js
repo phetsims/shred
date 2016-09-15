@@ -50,7 +50,7 @@ define( function( require ) {
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     Node.call( this ); // Call super constructor.
-    var thisPeriodicTable = this;
+    var self = this;
 
     // Add the cells of the table.
     this.cells = []; // @private
@@ -98,7 +98,7 @@ define( function( require ) {
         if ( protonCount >= 104 && protonCount <= 118 ) {
           elementIndex = elementIndex - 14;
         }
-        highlightedCell = thisPeriodicTable.cells[ elementIndex - 1 ];
+        highlightedCell = self.cells[ elementIndex - 1 ];
         highlightedCell.moveToFront();
         highlightedCell.setHighlighted( true );
       }
