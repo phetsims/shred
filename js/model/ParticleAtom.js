@@ -41,7 +41,7 @@ define( function( require ) {
       function( protonCount, neutronCount, electronCount ) {
         return protonCount + neutronCount + electronCount;
       } );
-    var thisAtom = this;
+    var self = this;
 
     options = _.extend( {
       innerElectronShellRadius: 85,
@@ -67,12 +67,12 @@ define( function( require ) {
     var angle = 0;
     this.validElectronPositions[ 0 ] = {
       electron: null,
-      position: new Vector2( thisAtom.innerElectronShellRadius, 0 )
+      position: new Vector2( self.innerElectronShellRadius, 0 )
     };
     angle += Math.PI;
     this.validElectronPositions[ 1 ] = {
       electron: null,
-      position: new Vector2( -thisAtom.innerElectronShellRadius, 0 )
+      position: new Vector2( -self.innerElectronShellRadius, 0 )
     };
     var numSlotsInOuterShell = 8;
     // Stagger inner and outer electron shell positions, tweaked a bit for better interaction with labels.
@@ -81,24 +81,24 @@ define( function( require ) {
       this.validElectronPositions[ i + 2 ] = {
         electron: null,
         position: new Vector2( Math.cos( angle ) *
-                               thisAtom.outerElectronShellRadius, Math.sin( angle ) *
-                                                                                      thisAtom.outerElectronShellRadius )
+                               self.outerElectronShellRadius, Math.sin( angle ) *
+                                                              self.outerElectronShellRadius )
       };
       angle += 2 * Math.PI / numSlotsInOuterShell;
     }
 
     // When an electron is removed, clear the corresponding shell position.
     this.electrons.addItemRemovedListener( function( electron ) {
-      thisAtom.validElectronPositions.forEach( function( validElectronPosition ) {
+      self.validElectronPositions.forEach( function( validElectronPosition ) {
         if ( validElectronPosition.electron === electron ) {
           validElectronPosition.electron = null;
-          if ( Math.abs( validElectronPosition.position.magnitude() - thisAtom.innerElectronShellRadius ) < 1E-5 ) {
+          if ( Math.abs( validElectronPosition.position.magnitude() - self.innerElectronShellRadius ) < 1E-5 ) {
             // An inner-shell electron was removed.  If there are electrons
             // in the outer shell, move one of them in.
-            var occupiedOuterShellPositions = _.filter( thisAtom.validElectronPositions, function( validElectronPosition ) {
+            var occupiedOuterShellPositions = _.filter( self.validElectronPositions, function( validElectronPosition ) {
               return ( validElectronPosition.electron !== null &&
                        Utils.roughlyEqual( validElectronPosition.position.magnitude(),
-                         thisAtom.outerElectronShellRadius,
+                         self.outerElectronShellRadius,
                          1E-5
                        ));
             } );
@@ -130,10 +130,10 @@ define( function( require ) {
     // When the nucleus offset changes, update all nucleon positions.
     this.nucleusOffsetProperty.link( function( newOffset, oldOffset ) {
       var translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
-      thisAtom.protons.forEach( function( particle ) {
+      self.protons.forEach( function( particle ) {
         translateParticle( particle, translation );
       } );
-      thisAtom.neutrons.forEach( function( particle ) {
+      self.neutrons.forEach( function( particle ) {
         translateParticle( particle, translation );
       } );
     } );
@@ -142,10 +142,10 @@ define( function( require ) {
     // Mass when a particle gets moved to sit at the correct spot on the scale.
     this.positionProperty.link( function( newOffset, oldOffset ) {
       var translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
-      thisAtom.protons.forEach( function( particle ) {
+      self.protons.forEach( function( particle ) {
         translateParticle( particle, translation );
       } );
-      thisAtom.neutrons.forEach( function( particle ) {
+      self.neutrons.forEach( function( particle ) {
         translateParticle( particle, translation );
       } );
     } );
@@ -161,7 +161,7 @@ define( function( require ) {
      * @public
      */
     addParticle: function( particle ) {
-      var thisAtom = this;
+      var self = this;
       if ( particle.type === 'proton' || particle.type === 'neutron' ) {
         var particleArray = particle.type === 'proton' ? this.protons : this.neutrons;
         particleArray.add( particle );
@@ -176,12 +176,12 @@ define( function( require ) {
           if ( userControlled && particleArray.contains( particle ) ) {
             particleArray.remove( particle );
             if ( particle.type === 'proton' ) {
-              thisAtom.protonCount--;
+              self.protonCount--;
             }
             else if ( particle.type === 'neutron' ) {
-              thisAtom.neutronCount--;
+              self.neutronCount--;
             }
-            thisAtom.reconfigureNucleus();
+            self.reconfigureNucleus();
             particle.zLayer = 0;
           }
           particle.userControlledProperty.unlink( nucleonRemovedListener );
@@ -211,7 +211,7 @@ define( function( require ) {
 
         // Put the inner shell positions in front.
         sortedOpenPositions = sortedOpenPositions.sort( function( p1, p2 ) {
-          return ( thisAtom.position.distance( p1.position ) - thisAtom.position.distance( p2.position ) );
+          return ( self.position.distance( p1.position ) - self.position.distance( p2.position ) );
         } );
 
         assert && assert( sortedOpenPositions.length > 0, 'No open positions found for electrons' );
@@ -220,9 +220,9 @@ define( function( require ) {
 
         // Listen for removal of the electron and handle it.
         var electronRemovedListener = function( userControlled ) {
-          if ( userControlled && thisAtom.electrons.contains( particle ) ) {
-            thisAtom.electrons.remove( particle );
-            thisAtom.electronCount--;
+          if ( userControlled && self.electrons.contains( particle ) ) {
+            self.electrons.remove( particle );
+            self.electronCount--;
             particle.zLayer = 0;
           }
           particle.userControlledProperty.unlink( electronRemovedListener );
@@ -306,10 +306,10 @@ define( function( require ) {
     // Remove all the particles but don't reconfigure the nucleus as they go. This makes it a quicker operation.
     // @public
     clear: function() {
-      var thisAtom = this;
-      this.protons.forEach( function( particle ) { thisAtom.removeParticle( particle ); } );
-      this.neutrons.forEach( function( particle ) { thisAtom.removeParticle( particle ); } );
-      this.electrons.forEach( function( particle ) { thisAtom.removeParticle( particle ); } );
+      var self = this;
+      this.protons.forEach( function( particle ) { self.removeParticle( particle ); } );
+      this.neutrons.forEach( function( particle ) { self.removeParticle( particle ); } );
+      this.electrons.forEach( function( particle ) { self.removeParticle( particle ); } );
     },
 
     // Move all the particles to their destinations. This is generally used when animation is not desired.
