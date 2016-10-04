@@ -11,7 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var PropertySet = require( 'AXON/PropertySet' );
-  var SharedConstants = require( 'SHRED/SharedConstants' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Vector2 = require( 'DOT/Vector2' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -40,7 +40,7 @@ define( function( require ) {
       type: type,
       position: Vector2.ZERO,
       destination: Vector2.ZERO,
-      radius: type === 'electron' ? SharedConstants.ELECTRON_RADIUS : SharedConstants.NUCLEON_RADIUS,
+      radius: type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS,
       velocity: DEFAULT_PARTICLE_VELOCITY,
       userControlled: false,
       zLayer: 0 // Used in view, integer value, higher means further back.

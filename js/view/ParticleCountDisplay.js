@@ -17,7 +17,7 @@ define( function( require ) {
   var ParticleNode = require( 'SHRED/view/ParticleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var SharedConstants = require( 'SHRED/SharedConstants' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Text = require( 'SCENERY/nodes/Text' );
 
@@ -153,7 +153,7 @@ define( function( require ) {
     updateParticles( numberAtom );
 
     // Add it all to a panel.
-    this.addChild( new Panel( panelContents, { fill: SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR, cornerRadius:5 } ) );
+    this.addChild( new Panel( panelContents, { fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR, cornerRadius:5 } ) );
   }
 
   shred.register( 'ParticleCountDisplay', ParticleCountDisplay );

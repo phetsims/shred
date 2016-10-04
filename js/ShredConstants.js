@@ -14,7 +14,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
-  var SharedConstants = {
+  var ShredConstants = {
 
     LAYOUT_BOUNDS: new Bounds2( 0, 0, 768, 464 ),
 
@@ -48,6 +48,6 @@ define( function( require ) {
     // Level name to level number converter.
     MAP_LEVEL_NAME_TO_NUMBER: function( levelName ) { return this.LEVEL_NAMES.indexOf( levelName ); }
   };
-  shred.register( 'SharedConstants', SharedConstants);
-  return SharedConstants;
+  shred.register( 'ShredConstants', ShredConstants);
+  return ShredConstants;
 } );

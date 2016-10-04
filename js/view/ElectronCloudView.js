@@ -15,7 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var SharedConstants = require( 'SHRED/SharedConstants' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
@@ -46,7 +46,7 @@ define( function( require ) {
       else {
         var minRadius = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ) * 0.5;
         var maxRadius = modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius );
-        var radius = minRadius + ( ( maxRadius - minRadius ) / SharedConstants.MAX_ELECTRONS ) * numElectrons;
+        var radius = minRadius + ( ( maxRadius - minRadius ) / ShredConstants.MAX_ELECTRONS ) * numElectrons;
         electronCloud.radius = radius;
         electronCloud.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
           .addColorStop( 0, 'rgba( 0, 0, 255, 200 )' )

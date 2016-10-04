@@ -14,7 +14,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PeriodicTableNode = require( 'SHRED/view/PeriodicTableNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var SharedConstants = require( 'SHRED/SharedConstants' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Text = require( 'SCENERY/nodes/Text' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
@@ -29,7 +29,7 @@ define( function( require ) {
     [ 0, 1, 3, 4, 5, 6, 7, 8 ]
   ];
 
-  var ENABLED_CELL_COLOR = SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
+  var ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
   var SELECTED_CELL_COLOR = '#FA8072'; //salmon
   var BUTTON_SIZE = 50;
 

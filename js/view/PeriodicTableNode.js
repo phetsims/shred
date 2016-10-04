@@ -9,7 +9,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PeriodicTableCell = require( 'SHRED/view/PeriodicTableCell' );
-  var SharedConstants = require( 'SHRED/SharedConstants' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Vector2 = require( 'DOT/Vector2' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -25,7 +25,7 @@ define( function( require ) {
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
   ];
-  var ENABLED_CELL_COLOR = SharedConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
+  var ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
   var DISABLED_CELL_COLOR = '#EEEEEE';
   var SELECTED_CELL_COLOR = '#FA8072'; //salmon
 

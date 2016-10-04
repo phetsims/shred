@@ -14,7 +14,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var PropertySet = require( 'AXON/PropertySet' );
-  var SharedConstants = require( 'SHRED/SharedConstants' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -46,7 +46,7 @@ define( function( require ) {
     options = _.extend( {
       innerElectronShellRadius: 85,
       outerElectronShellRadius: 130,
-      nucleonRadius: SharedConstants.NUCLEON_RADIUS
+      nucleonRadius: ShredConstants.NUCLEON_RADIUS
     }, options );
     this.nucleonRadius = options.nucleonRadius; // @private
 
