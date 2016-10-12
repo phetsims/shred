@@ -16,12 +16,13 @@ define( function( require ) {
 
   function getParticleNode( particle, modelViewTransform ) {
     var particleNode;
-    if ( particle.type === 'Isotope' ) {
-      particleNode = new IsotopeNode( particle, modelViewTransform.modelToViewDeltaX( particle.radius ),
+    if ( particle.typeProperty.get() === 'Isotope' ) {
+      particleNode = new IsotopeNode( particle, modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
         { showLabel: particle.showLabel } );
     }
     else {
-      particleNode = new ParticleNode( particle.type, modelViewTransform.modelToViewDeltaX( particle.radius ) );
+      particleNode = new ParticleNode( particle.typeProperty.get(),
+        modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ) );
     }
     return particleNode;
 
@@ -68,15 +69,15 @@ define( function( require ) {
       // Handler that moves the particle in model space.
       translate: function( translationParams ) {
         particle.setPositionAndDestination(
-          particle.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) )
+          particle.positionProperty.get().plus( modelViewTransform.viewToModelDelta( translationParams.delta ) )
         );
         return translationParams.position;
       },
       start: function( event, trail ) {
-        self.particle.userControlled = true;
+        self.particle.userControlledProperty.set( true );
       },
       end: function( event, trail ) {
-        self.particle.userControlled = false;
+        self.particle.userControlledProperty.set( false );
       }
     } ) );
     this.mutate( options );

@@ -10,8 +10,9 @@ define( function( require ) {
   'use strict';
 
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var shred = require( 'SHRED/shred' );
 
   /**
@@ -28,34 +29,34 @@ define( function( require ) {
       tandem: null
     }, options );
 
-    // Call the super constructor.
     // @public
-    PropertySet.call( this, {
-      protonCount: options.protonCount,
-      neutronCount: options.neutronCount,
-      electronCount: options.electronCount
-    }, {
-      tandemSet: {
-        protonCount: options.tandem && options.tandem.createTandem( 'protonCountProperty' ),
-        neutronCount: options.tandem && options.tandem.createTandem( 'neutronCountProperty' ),
-        electronCount: options.tandem && options.tandem.createTandem( 'electronCountProperty' )
-      }
+    this.protonCountProperty =  new Property( options.protonCount, {
+      tandem: options.tandem && options.tandem.createTandem( 'protonCountProperty' )
+    } );
+    this.neutronCountProperty = new Property( options.neutronCount, {
+      tandem: options.tandem && options.tandem.createTandem( 'neutronCountProperty' )
+    } );
+    this.electronCountProperty = new Property( options.electronCount, {
+      tandem: options.tandem && options.tandem.createTandem( 'electronCountProperty' )
     } );
 
-    this.addDerivedProperty( 'charge', [ 'protonCount', 'electronCount' ], function( protonCount, electronCount ) {
-      return protonCount - electronCount;
-    } );
-    this.addDerivedProperty( 'massNumber', [ 'protonCount', 'neutronCount' ], function( protonCount, neutronCount ) {
-      return protonCount + neutronCount;
-    } );
-    this.addDerivedProperty( 'particleCount', [ 'protonCount', 'neutronCount', 'electronCount' ],
+    this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
+      function( protonCount, electronCount ) {
+        return protonCount - electronCount;
+      } );
+
+    this.massNumberProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty ],
+      function( protonCount, neutronCount ) {
+        return protonCount + neutronCount;
+      } );
+    this.particleCountProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
       function( protonCount, neutronCount, electronCount ) {
         return protonCount + neutronCount + electronCount;
       } );
   }
 
   shred.register( 'NumberAtom', NumberAtom );
-  return inherit( PropertySet, NumberAtom, {
+  return inherit( Object, NumberAtom, {
 
     /**
      * Compare with other Number Atom
@@ -63,9 +64,9 @@ define( function( require ) {
      * @public
      */
     equals: function( otherAtom ) {
-      return ( this.protonCount === otherAtom.protonCount &&
-               this.neutronCount === otherAtom.neutronCount &&
-               this.electronCount === otherAtom.electronCount );
+      return ( this.protonCountProperty.get() === otherAtom.protonCountProperty.get() &&
+               this.neutronCountProperty.get() === otherAtom.neutronCountProperty.get() &&
+               this.electronCountProperty.get() === otherAtom.electronCount.get() );
     },
 
     // @public
@@ -85,9 +86,9 @@ define( function( require ) {
      * @public
      */
     setSubAtomicParticleCount: function( protonCount, neutronCount, electronCount ) {
-      this.protonCount = protonCount;
-      this.electronCount = electronCount;
-      this.neutronCount = neutronCount;
+      this.protonCountProperty.set( protonCount );
+      this.electronCountProperty.set( electronCount );
+      this.neutronCountProperty.set( neutronCount );
       this.trigger( 'atomUpdated' );
     }
   } );

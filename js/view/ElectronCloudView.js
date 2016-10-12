@@ -71,7 +71,7 @@ define( function( require ) {
 
         var electron = atom.extractParticle( 'electron' );
         if ( electron !== null ) {
-          electron.userControlled = true;
+          electron.userControlledProperty.set( true );
           electron.setPositionAndDestination( positionInModelSpace );
           self.extractedElectron = electron;
         }
@@ -79,12 +79,13 @@ define( function( require ) {
       translate: function( translationParams ) {
         if ( self.extractedElectron !== null ) {
           self.extractedElectron.setPositionAndDestination(
-            self.extractedElectron.position.plus( modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
+            self.extractedElectron.positionProperty.get().plus(
+              modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
         }
       },
       end: function( event ) {
         if ( self.extractedElectron !== null ) {
-          self.extractedElectron.userControlled = false;
+          self.extractedElectron.userControlledProperty.set( false );
         }
       }
     } ) );

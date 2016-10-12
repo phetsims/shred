@@ -119,27 +119,27 @@ define( function( require ) {
     var updateParticles = function( atom ) {
       // feel free to refactor this, although we'd need to get a passable reference to the counts
       // (that's why there is duplication now)
-      while ( atom.protonCount > protonDisplayCount ) {
+      while ( atom.protonCountProperty.get() > protonDisplayCount ) {
         protonDisplayCount = incrementParticle( protons, protonDisplayCount, 'proton', nucleonRadius,
           protonTitle.right + interParticleSpacing, protonTitle.center.y );
       }
-      while ( atom.protonCount < protonDisplayCount ) {
+      while ( atom.protonCountProperty.get() < protonDisplayCount ) {
         protonDisplayCount = decrementParticle( protons, protonDisplayCount );
       }
 
-      while ( atom.neutronCount > neutronDisplayCount ) {
+      while ( atom.neutronCountProperty.get() > neutronDisplayCount ) {
         neutronDisplayCount = incrementParticle( neutrons, neutronDisplayCount, 'neutron', nucleonRadius,
           neutronTitle.right + interParticleSpacing, neutronTitle.center.y );
       }
-      while ( atom.neutronCount < neutronDisplayCount ) {
+      while ( atom.neutronCountProperty.get() < neutronDisplayCount ) {
         neutronDisplayCount = decrementParticle( neutrons, neutronDisplayCount );
       }
 
-      while ( atom.electronCount > electronDisplayCount ) {
+      while ( atom.electronCountProperty.get() > electronDisplayCount ) {
         electronDisplayCount = incrementParticle( electrons, electronDisplayCount, 'electron', electronRadius,
           electronTitle.right + interParticleSpacing, electronTitle.center.y );
       }
-      while ( atom.electronCount < electronDisplayCount ) {
+      while ( atom.electronCountProperty.get() < electronDisplayCount ) {
         electronDisplayCount = decrementParticle( electrons, electronDisplayCount );
       }
     };

@@ -53,7 +53,7 @@ define( function( require ) {
           .addColorStop( 1, 'rgba( 0, 0, 255, 0.4 )' );
       }
     };
-    updateNode( numberAtom.electronCount );
+    updateNode( numberAtom.electronCountProperty.get() );
 
     // Update the cloud size as electrons come and go.
     numberAtom.protonCountProperty.link( updateNode );

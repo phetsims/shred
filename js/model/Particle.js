@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -32,50 +32,52 @@ define( function( require ) {
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
-    var propertySetOptions = options.tandem ? {
-      tandemSet: { position: options.tandem.createTandem( 'positionProperty' ) }
-    } : {};
     // @public
-    PropertySet.call( this, {
-      type: type,
-      position: Vector2.ZERO,
-      destination: Vector2.ZERO,
-      radius: type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS,
-      velocity: DEFAULT_PARTICLE_VELOCITY,
-      userControlled: false,
-      zLayer: 0 // Used in view, integer value, higher means further back.
-    }, propertySetOptions );
+    this.typeProperty = new Property( type );
+    this.positionProperty = new Property( Vector2.ZERO, {
+      tandem: options.tandem && options.tandem.createTandem( 'positionProperty' )
+    } );
+    this.destinationProperty = new Property( Vector2.ZERO );
+    this.radiusProperty = new Property( type === 'electron' ?
+                                        ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS );
+
+    this.velocityProperty = new Property( DEFAULT_PARTICLE_VELOCITY );
+    this.userControlledProperty = new Property( false );
+    this.zLayerProperty = new Property( 0 ); // Used in view, integer value, higher means further back.
   }
 
   shred.register( 'Particle', Particle );
-  return inherit( PropertySet, Particle, {
+  return inherit( Object, Particle, {
     /**
      * @param {Number} dt
      * @public
      */
     step: function( dt ) {
-      if ( !this.userControlled ) {
-        var distanceToDestination = this.position.distance( this.destination );
-        if ( distanceToDestination > dt * this.velocity ) {
+      if ( !this.userControlledProperty.get() ) {
+        var position = this.positionProperty.get();
+        var destination = this.destinationProperty.get();
+        var velocity = this.velocityProperty.get();
+        var distanceToDestination = position.distance( destination );
+        if ( distanceToDestination > dt * velocity ) {
           // This was broken up into individual steps in an attempt to solve an issue where complex vector operations
           // sometimes didn't work.
-          var stepMagnitude = this.velocity * dt;
-          var stepAngle = Math.atan2( this.destination.y - this.position.y, this.destination.x - this.position.x );
+          var stepMagnitude = velocity * dt;
+          var stepAngle = Math.atan2( destination.y - position.y, destination.x - position.x );
           var stepVector = Vector2.createPolar( stepMagnitude, stepAngle );
 
           // Move a step toward the destination.
-          this.position = this.position.plus( stepVector );
+          this.positionProperty.set( position.plus( stepVector ) );
         }
         else if ( distanceToDestination > 0 ) {
           // Less than one time step away, so just go to the destination.
-          this.position = this.destination;
+          this.moveImmediatelyToDestination();
         }
       }
     },
 
     // @public
     moveImmediatelyToDestination: function() {
-      this.position = this.destination;
+      this.positionProperty.set( this.destinationProperty.get() );
     },
 
     /**
@@ -85,7 +87,7 @@ define( function( require ) {
     setPositionAndDestination: function( newPosition ) {
       assert && assert( newPosition instanceof Vector2, 'Attempt to set non-vector position.' );
       if ( newPosition instanceof Vector2 ) {
-        this.destination = newPosition;
+        this.destinationProperty.set( newPosition );
         this.moveImmediatelyToDestination();
       }
     }

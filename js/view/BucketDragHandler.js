@@ -47,7 +47,7 @@ define( function( require ) {
       },
       translate: function( translationParams ) {
         if ( activeParticle !== null ) {
-          activeParticle.setPositionAndDestination( activeParticle.position.plus(
+          activeParticle.setPositionAndDestination( activeParticle.positionProperty.get().plus(
             modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
         }
       },

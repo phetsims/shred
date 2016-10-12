@@ -63,7 +63,7 @@ define( function( require ) {
     // Create the X where the nucleus goes.
     if ( options.showCenterX ) {
       var sizeInPixels = modelViewTransform.modelToViewDeltaX( 20 );
-      var center = modelViewTransform.modelToViewPosition( particleAtom.position );
+      var center = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get() );
       var centerMarker = new Shape();
       centerMarker.moveTo( center.x - sizeInPixels / 2, center.y - sizeInPixels / 2 );
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y + sizeInPixels / 2 );
@@ -98,7 +98,7 @@ define( function( require ) {
     };
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisiblity );
 
-    var elementNameCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus(
+    var elementNameCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private - Create the textual readout for the element name.
@@ -132,7 +132,7 @@ define( function( require ) {
     };
     options.showElementNameProperty.link( updateElementNameVisibility );
 
-    var ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.position.plus(
+    var ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
     // @private - Create the textual readout for the ion indicator, set by trial and error.
@@ -177,7 +177,7 @@ define( function( require ) {
     options.showNeutralOrIonProperty.link( updateIonIndicatorVisibility );
 
     // Create the textual readout for the stability indicator.
-    var stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.position.plus(
+    var stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private

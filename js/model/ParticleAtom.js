@@ -11,9 +11,10 @@ define( function( require ) {
 
   // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ObservableArray = require( 'AXON/ObservableArray' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var Property = require( 'AXON/Property' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Utils = require( 'SHRED/Utils' );
@@ -27,17 +28,19 @@ define( function( require ) {
   function ParticleAtom( options ) {
 
     // @public
-    PropertySet.call( this, {
-      position: new Vector2( 0, 0 ),
-      nucleusOffset: Vector2.ZERO,
-      protonCount: 0,
-      neutronCount: 0,
-      electronCount: 0
-    } );
-    this.addDerivedProperty( 'massNumber', [ 'protonCount', 'neutronCount' ], function( protonCount, neutronCount ) {
-      return protonCount + neutronCount;
-    } );
-    this.addDerivedProperty( 'particleCount', [ 'protonCount', 'neutronCount', 'electronCount' ],
+    this.positionProperty = new Property( Vector2.ZERO );
+    this.nucleusOffsetProperty = new Property( Vector2.ZERO );
+    this.protonCountProperty = new Property( 0 );
+    this.neutronCountProperty = new Property( 0 );
+    this.electronCountProperty = new Property( 0 );
+
+    this.massNumberProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty ],
+      function( protonCount, neutronCount ) {
+        return protonCount + neutronCount;
+      } );
+    this.particleCountProperty = new DerivedProperty( [ this.protonCountProperty,
+        this.neutronCountProperty,
+        this.electronCountProperty ],
       function( protonCount, neutronCount, electronCount ) {
         return protonCount + neutronCount + electronCount;
       } );
@@ -118,12 +121,12 @@ define( function( require ) {
 
     // Utility function to translate all particles.
     var translateParticle = function( particle, translation ) {
-      if ( particle.position.equals( particle.destination ) ) {
-        particle.setPositionAndDestination( particle.position.plus( translation ) );
+      if ( particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
+        particle.setPositionAndDestination( particle.positionProperty.get().plus( translation ) );
       }
       else {
         // Particle is moving, only change the destination.
-        particle.destination = particle.destination.plus( translation );
+        particle.destinationProperty.set( particle.destinationProperty.get().plus( translation ) );
       }
     };
 
@@ -153,7 +156,7 @@ define( function( require ) {
 
   shred.register( 'ParticleAtom', ParticleAtom );
 
-  return inherit( PropertySet, ParticleAtom, {
+  return inherit( Object, ParticleAtom, {
 
     /**
      * Add a particle to the atom.
@@ -162,27 +165,27 @@ define( function( require ) {
      */
     addParticle: function( particle ) {
       var self = this;
-      if ( particle.type === 'proton' || particle.type === 'neutron' ) {
-        var particleArray = particle.type === 'proton' ? this.protons : this.neutrons;
+      if ( particle.typeProperty.get() === 'proton' || particle.typeProperty.get() === 'neutron' ) {
+        var particleArray = particle.typeProperty.get() === 'proton' ? this.protons : this.neutrons;
         particleArray.add( particle );
-        if ( particle.type === 'proton' ) {
-          this.protonCount++;
+        if ( particle.typeProperty.get() === 'proton' ) {
+          this.protonCountProperty.set( this.protonCountProperty.get() + 1 );
         }
-        else if ( particle.type === 'neutron' ) {
-          this.neutronCount++;
+        else if ( particle.typeProperty.get() === 'neutron' ) {
+          this.neutronCountProperty.set( this.neutronCountProperty.get() + 1 );
         }
         this.reconfigureNucleus();
         var nucleonRemovedListener = function( userControlled ) {
           if ( userControlled && particleArray.contains( particle ) ) {
             particleArray.remove( particle );
-            if ( particle.type === 'proton' ) {
-              self.protonCount--;
+            if ( particle.typeProperty.get() === 'proton' ) {
+              self.protonCountProperty.set( self.protonCountProperty.get() - 1 );
             }
-            else if ( particle.type === 'neutron' ) {
-              self.neutronCount--;
+            else if ( particle.typeProperty.get() === 'neutron' ) {
+              self.neutronCountProperty.set( self.neutronCountProperty.get() - 1 );
             }
             self.reconfigureNucleus();
-            particle.zLayer = 0;
+            particle.zLayerProperty.set( 0 );
           }
           particle.userControlledProperty.unlink( nucleonRemovedListener );
           delete particle.particleAtomRemovalListener;
@@ -191,9 +194,9 @@ define( function( require ) {
         // Attach to the particle to aid unlinking in some cases.
         particle.particleAtomRemovalListener = nucleonRemovedListener;
       }
-      else if ( particle.type === 'electron' ) {
+      else if ( particle.typeProperty.get() === 'electron' ) {
         this.electrons.add( particle );
-        this.electronCount++;
+        this.electronCountProperty.set( this.electronCountProperty.get() + 1 );
         // Find an open position in the electron shell.
         var openPositions = this.validElectronPositions.filter( function( electronPosition ) {
           return ( electronPosition.electron === null );
@@ -202,7 +205,8 @@ define( function( require ) {
         if ( this.electronAddMode === 'proximal' ) {
           sortedOpenPositions = openPositions.sort( function( p1, p2 ) {
             // Sort first by distance to particle.
-            return ( particle.position.distance( p1.position ) - particle.position.distance( p2.position ) );
+            return ( particle.positionProperty.get().distance( p1.position ) -
+                     particle.positionProperty.get().distance( p2.position ) );
           } );
         }
         else {
@@ -211,19 +215,20 @@ define( function( require ) {
 
         // Put the inner shell positions in front.
         sortedOpenPositions = sortedOpenPositions.sort( function( p1, p2 ) {
-          return ( self.position.distance( p1.position ) - self.position.distance( p2.position ) );
+          return ( self.positionProperty.get().distance( p1.position ) -
+                   self.positionProperty.get().distance( p2.position ) );
         } );
 
         assert && assert( sortedOpenPositions.length > 0, 'No open positions found for electrons' );
         sortedOpenPositions[ 0 ].electron = particle;
-        particle.destination = sortedOpenPositions[ 0 ].position;
+        particle.destinationProperty.set( sortedOpenPositions[ 0 ].position );
 
         // Listen for removal of the electron and handle it.
         var electronRemovedListener = function( userControlled ) {
           if ( userControlled && self.electrons.contains( particle ) ) {
             self.electrons.remove( particle );
-            self.electronCount--;
-            particle.zLayer = 0;
+            self.electronCountProperty.set( self.electronCountProperty.get() - 1 );
+            particle.zLayerProperty.set( 0 );
           }
           particle.userControlledProperty.unlink( electronRemovedListener );
           delete particle.particleAtomRemovalListener;
@@ -246,15 +251,15 @@ define( function( require ) {
     removeParticle: function( particle ) {
       if ( this.protons.contains( particle ) ) {
         this.protons.remove( particle );
-        this.protonCount--;
+        this.protonCountProperty.set( this.protonCountProperty.get() - 1 );;
       }
       else if ( this.neutrons.contains( particle ) ) {
         this.neutrons.remove( particle );
-        this.neutronCount--;
+        this.neutronCountProperty.set( this.neutronCountProperty.get() - 1 );
       }
       else if ( this.electrons.contains( particle ) ) {
         this.electrons.remove( particle );
-        this.electronCount--;
+        this.electronCountProperty.set( this.electronCountProperty.get() - 1 );
       }
       else {
         throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
@@ -338,8 +343,8 @@ define( function( require ) {
     // @public
     reconfigureNucleus: function() {
       // Convenience variables.
-      var centerX = this.position.x + this.nucleusOffset.x;
-      var centerY = this.position.y + this.nucleusOffset.y;
+      var centerX = this.positionProperty.get().x + this.nucleusOffsetProperty.get().x;
+      var centerY = this.positionProperty.get().y + this.nucleusOffsetProperty.get().y;
       var nucleonRadius = this.nucleonRadius;
       var angle;
       var distFromCenter;
@@ -363,49 +368,49 @@ define( function( require ) {
 
       if ( nucleons.length === 1 ) {
         // There is only one nucleon present, so place it in the center of the atom.
-        nucleons[ 0 ].destination = new Vector2( centerX, centerY );
-        nucleons[ 0 ].zLayer = 0;
+        nucleons[ 0 ].destinationProperty.set( new Vector2( centerX, centerY ) );
+        nucleons[ 0 ].zLayerProperty.set( 0 );
       }
       else if ( nucleons.length === 2 ) {
         // Two nucleons - place them side by side with their meeting point in the center.
         angle = 0.2 * 2 * Math.PI; // Angle arbitrarily chosen.
-        nucleons[ 0 ].destination = new Vector2( centerX + nucleonRadius * Math.cos( angle ),
-          centerY + nucleonRadius * Math.sin( angle ) );
-        nucleons[ 0 ].zLayer = 0;
-        nucleons[ 1 ].destination = new Vector2( centerX - nucleonRadius * Math.cos( angle ),
-          centerY - nucleonRadius * Math.sin( angle ) );
-        nucleons[ 1 ].zLayer = 0;
+        nucleons[ 0 ].destinationProperty.set( new Vector2( centerX + nucleonRadius * Math.cos( angle ),
+          centerY + nucleonRadius * Math.sin( angle ) ) );
+        nucleons[ 0 ].zLayerProperty.set( 0 );
+        nucleons[ 1 ].destinationProperty.set( new Vector2( centerX - nucleonRadius * Math.cos( angle ),
+          centerY - nucleonRadius * Math.sin( angle ) ) );
+        nucleons[ 1 ].zLayerProperty.set( 0 );
       }
       else if ( nucleons.length === 3 ) {
         // Three nucleons - form a triangle where they all touch.
         angle = 0.7 * 2 * Math.PI; // Angle arbitrarily chosen.
         distFromCenter = nucleonRadius * 1.155;
-        nucleons[ 0 ].destination = new Vector2( centerX + distFromCenter * Math.cos( angle ),
-          centerY + distFromCenter * Math.sin( angle ) );
-        nucleons[ 0 ].zLayer = 0;
-        nucleons[ 1 ].destination = new Vector2( centerX + distFromCenter * Math.cos( angle + 2 * Math.PI / 3 ),
-          centerY + distFromCenter * Math.sin( angle + 2 * Math.PI / 3 ) );
-        nucleons[ 1 ].zLayer = 0;
-        nucleons[ 2 ].destination = new Vector2( centerX + distFromCenter * Math.cos( angle + 4 * Math.PI / 3 ),
-          centerY + distFromCenter * Math.sin( angle + 4 * Math.PI / 3 ) );
-        nucleons[ 2 ].zLayer = 0;
+        nucleons[ 0 ].destinationProperty.set( new Vector2( centerX + distFromCenter * Math.cos( angle ),
+          centerY + distFromCenter * Math.sin( angle ) ) );
+        nucleons[ 0 ].zLayerProperty.set( 0 );
+        nucleons[ 1 ].destinationProperty.set( new Vector2( centerX + distFromCenter * Math.cos( angle + 2 * Math.PI / 3 ),
+          centerY + distFromCenter * Math.sin( angle + 2 * Math.PI / 3 ) ) );
+        nucleons[ 1 ].zLayerProperty.set( 0 );
+        nucleons[ 2 ].destinationProperty.set( new Vector2( centerX + distFromCenter * Math.cos( angle + 4 * Math.PI / 3 ),
+          centerY + distFromCenter * Math.sin( angle + 4 * Math.PI / 3 ) ) );
+        nucleons[ 2 ].zLayerProperty.set( 0 );
       }
       else if ( nucleons.length === 4 ) {
         // Four nucleons - make a sort of diamond shape with some overlap.
         angle = 1.4 * 2 * Math.PI; // Angle arbitrarily chosen.
-        nucleons[ 0 ].destination = new Vector2( centerX + nucleonRadius * Math.cos( angle ),
-          centerY + nucleonRadius * Math.sin( angle ) );
-        nucleons[ 0 ].zLayer = 0;
-        nucleons[ 2 ].destination = new Vector2( centerX - nucleonRadius * Math.cos( angle ),
-          centerY - nucleonRadius * Math.sin( angle ) );
-        nucleons[ 2 ].zLayer = 0;
+        nucleons[ 0 ].destinationProperty.set( new Vector2( centerX + nucleonRadius * Math.cos( angle ),
+          centerY + nucleonRadius * Math.sin( angle ) ) );
+        nucleons[ 0 ].zLayerProperty.set( 0 );
+        nucleons[ 2 ].destinationProperty.set( new Vector2( centerX - nucleonRadius * Math.cos( angle ),
+          centerY - nucleonRadius * Math.sin( angle ) ) );
+        nucleons[ 2 ].zLayerProperty.set( 0 );
         distFromCenter = nucleonRadius * 2 * Math.cos( Math.PI / 3 );
-        nucleons[ 1 ].destination = new Vector2( centerX + distFromCenter * Math.cos( angle + Math.PI / 2 ),
-          centerY + distFromCenter * Math.sin( angle + Math.PI / 2 ) );
-        nucleons[ 1 ].zLayer = 1;
-        nucleons[ 3 ].destination = new Vector2( centerX - distFromCenter * Math.cos( angle + Math.PI / 2 ),
-          centerY - distFromCenter * Math.sin( angle + Math.PI / 2 ) );
-        nucleons[ 3 ].zLayer = 1;
+        nucleons[ 1 ].destinationProperty.set( new Vector2( centerX + distFromCenter * Math.cos( angle + Math.PI / 2 ),
+          centerY + distFromCenter * Math.sin( angle + Math.PI / 2 ) ) );
+        nucleons[ 1 ].zLayerProperty.set( 1 );
+        nucleons[ 3 ].destinationProperty.set( new Vector2( centerX - distFromCenter * Math.cos( angle + Math.PI / 2 ),
+          centerY - distFromCenter * Math.sin( angle + Math.PI / 2 ) ) );
+        nucleons[ 3 ].zLayerProperty.set( 1 );
       }
       else if ( nucleons.length >= 5 ) {
         // This is a generalized algorithm that should work for five or more nucleons.
@@ -428,9 +433,9 @@ define( function( require ) {
         var scaleFactor = scaleFunction( this.nucleonRadius );
 
         for ( var i = 0; i < nucleons.length; i++ ) {
-          nucleons[ i ].destination = new Vector2( centerX + placementRadius * Math.cos( placementAngle ),
-            centerY + placementRadius * Math.sin( placementAngle ) );
-          nucleons[ i ].zLayer = level;
+          nucleons[ i ].destinationProperty.set( new Vector2( centerX + placementRadius * Math.cos( placementAngle ),
+            centerY + placementRadius * Math.sin( placementAngle ) ) );
+          nucleons[ i ].zLayerProperty.set( level );
           numAtThisRadius--;
           if ( numAtThisRadius > 0 ) {
             // Stay at the same radius and update the placement angle.
