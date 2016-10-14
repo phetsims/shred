@@ -11,6 +11,7 @@ define( function( require ) {
 
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
   var shred = require( 'SHRED/shred' );
@@ -53,6 +54,9 @@ define( function( require ) {
       function( protonCount, neutronCount, electronCount ) {
         return protonCount + neutronCount + electronCount;
       } );
+
+    // @public - events emitted by instances of this type
+    this.atomUpdated = new Emitter();
   }
 
   shred.register( 'NumberAtom', NumberAtom );
@@ -66,7 +70,7 @@ define( function( require ) {
     equals: function( otherAtom ) {
       return ( this.protonCountProperty.get() === otherAtom.protonCountProperty.get() &&
                this.neutronCountProperty.get() === otherAtom.neutronCountProperty.get() &&
-               this.electronCountProperty.get() === otherAtom.electronCount.get() );
+               this.electronCountProperty.get() === otherAtom.electronCountProperty.get() );
     },
 
     // @public
@@ -89,7 +93,7 @@ define( function( require ) {
       this.protonCountProperty.set( protonCount );
       this.electronCountProperty.set( electronCount );
       this.neutronCountProperty.set( neutronCount );
-      this.trigger( 'atomUpdated' );
+      this.atomUpdated.emit();
     }
   } );
 } );
