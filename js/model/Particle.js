@@ -16,6 +16,9 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // phet-io modules
+  var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
+
   // constants
   var DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
 
@@ -35,7 +38,8 @@ define( function( require ) {
     // @public
     this.typeProperty = new Property( type );
     this.positionProperty = new Property( Vector2.ZERO, {
-      tandem: options.tandem && options.tandem.createTandem( 'positionProperty' )
+      tandem: options.tandem && options.tandem.createTandem( 'positionProperty' ),
+      phetioValueType: TVector2
     } );
     this.destinationProperty = new Property( Vector2.ZERO );
     this.radiusProperty = new Property( type === 'electron' ?

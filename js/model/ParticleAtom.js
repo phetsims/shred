@@ -251,7 +251,7 @@ define( function( require ) {
     removeParticle: function( particle ) {
       if ( this.protons.contains( particle ) ) {
         this.protons.remove( particle );
-        this.protonCountProperty.set( this.protonCountProperty.get() - 1 );;
+        this.protonCountProperty.set( this.protonCountProperty.get() - 1 );
       }
       else if ( this.neutrons.contains( particle ) ) {
         this.neutrons.remove( particle );

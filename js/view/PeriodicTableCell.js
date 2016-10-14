@@ -20,6 +20,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // phet-io modules
+  var TPeriodicTableCell = require( 'ifphetio!PHET_IO/simulations/build-an-atom/TPeriodicTableCell' );
+
   // constants
   var NOMINAL_CELL_DIMENSION = 25;
   var NOMINAL_FONT_SIZE = 14;
@@ -40,7 +43,7 @@ define( function( require ) {
     }, options );
 
     Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-    
+
     var self = this;
     this.options = options;
 
@@ -85,7 +88,7 @@ define( function( require ) {
         } )
       );
     }
-    options.tandem && options.tandem.addInstance( this );
+    options.tandem && options.tandem.addInstance( this, TPeriodicTableCell );
   }
 
   shred.register( 'PeriodicTableCell', PeriodicTableCell );
