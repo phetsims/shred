@@ -15,6 +15,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var Property = require( 'AXON/Property' );
+  var Random = require( 'DOT/Random' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Utils = require( 'SHRED/Utils' );
@@ -45,6 +46,8 @@ define( function( require ) {
         return protonCount + neutronCount + electronCount;
       } );
     var self = this;
+
+    this.random = new Random();
 
     options = _.extend( {
       innerElectronShellRadius: 85,
@@ -210,7 +213,7 @@ define( function( require ) {
           } );
         }
         else {
-          sortedOpenPositions = _.shuffle( openPositions );
+          sortedOpenPositions = this.shuffle( openPositions );
         }
 
         // Put the inner shell positions in front.
