@@ -53,7 +53,7 @@ define( function( require ) {
       },
       end: function( event ) {
         if ( activeParticle !== null ) {
-          activeParticle.userControlled = false;
+          activeParticle.userControlledProperty.set( false );
         }
       }
     };
