@@ -340,7 +340,7 @@ define( function( require ) {
 
     // @public
     getIsotopeAtomicMass: function() {
-      return AtomIdentifier.getIsotopeAtomicMass( this.protonCount, this.neutronCount );
+      return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
     },
 
     // @public

@@ -803,8 +803,10 @@ define( function( require ) {
      */
     getNaturalAbundancePreciseDecimal: function( atom ) {
       var defaultReturnValue = Util.toFixedNumber( 0, 10 );
-      if ( atom.protonCount > 0 && ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.massNumber ] !== undefined ) {
-        return Util.toFixedNumber( ISOTOPE_INFO_TABLE[ atom.protonCount ][ atom.massNumber ].abundance, 10 );
+      if ( atom.protonCountProperty.get() > 0 &&
+           ISOTOPE_INFO_TABLE[ atom.protonCountProperty.get() ][ atom.massNumberProperty.get() ] !== undefined ) {
+        return Util.toFixedNumber(
+          ISOTOPE_INFO_TABLE[ atom.protonCountProperty.get() ][ atom.massNumberProperty.get() ].abundance, 10 );
       }
       return defaultReturnValue;
     },

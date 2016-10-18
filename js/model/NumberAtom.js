@@ -75,12 +75,12 @@ define( function( require ) {
 
     // @public
     getStandardAtomicMass: function() {
-      return AtomIdentifier.getStandardAtomicMass( this.protonCount + this.neutronCount );
+      return AtomIdentifier.getStandardAtomicMass( this.protonCountProperty.get() + this.neutronCountProperty.get() );
     },
 
     // @public
     getIsotopeAtomicMass: function() {
-      return AtomIdentifier.getIsotopeAtomicMass( this.protonCount, this.neutronCount );
+      return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
     },
 
     /**
