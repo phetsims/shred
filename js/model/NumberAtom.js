@@ -16,6 +16,9 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var shred = require( 'SHRED/shred' );
 
+  // phet-io modules
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+
   /**
    * @param {Object} options
    * @constructor
@@ -32,13 +35,16 @@ define( function( require ) {
 
     // @public
     this.protonCountProperty =  new Property( options.protonCount, {
-      tandem: options.tandem && options.tandem.createTandem( 'protonCountProperty' )
+      tandem: options.tandem && options.tandem.createTandem( 'protonCountProperty' ),
+      phetioValueType: TNumber()
     } );
     this.neutronCountProperty = new Property( options.neutronCount, {
-      tandem: options.tandem && options.tandem.createTandem( 'neutronCountProperty' )
+      tandem: options.tandem && options.tandem.createTandem( 'neutronCountProperty' ),
+      phetioValueType: TNumber()
     } );
     this.electronCountProperty = new Property( options.electronCount, {
-      tandem: options.tandem && options.tandem.createTandem( 'electronCountProperty' )
+      tandem: options.tandem && options.tandem.createTandem( 'electronCountProperty' ),
+      phetioValueType: TNumber()
     } );
 
     this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
