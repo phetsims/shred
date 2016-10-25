@@ -19,7 +19,9 @@ define( function( require ) {
     TObject.call( this, particle, phetioID );
   }
 
-  phetioInherit( TObject, 'TParticle', TParticle, {}, {} );
+  phetioInherit( TObject, 'TParticle', TParticle, {}, {
+    documentation: 'The model for a single particle such as an electron, proton, or neutron.'
+  } );
 
   phetioNamespace.register( 'TParticle', TParticle );
 
