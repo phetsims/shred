@@ -75,7 +75,7 @@ define( function( require ) {
      * Maps a number of electrons to a diameter in screen coordinates for the electron shell.  This mapping function is
      * based on the real size relationships between the various atoms, but has some tweakable parameters to reduce the
      * range and scale to provide values that are usable for our needs on the canvas.
-     * @param {Number} numElectrons
+     * @param {number} numElectrons
      * @public
      */
     getElectronShellDiameter: function( numElectrons ) {

@@ -272,7 +272,7 @@ define( function( require ) {
 
     /**
      * Extract an arbitrary instance of the specified particle, assuming one exists.
-     * @param {String} particleType
+     * @param {string} particleType
      * @returns {Particle} particle
      * @public
      */
@@ -421,7 +421,7 @@ define( function( require ) {
         var placementAngleDelta = 0;
 
         // Scale correction for the next placement radius, linear map determined empirically.
-        // As the nucleon size increases, we want the scale factor and change in placement radius 
+        // As the nucleon size increases, we want the scale factor and change in placement radius
         // to decrease since larger nucleons are easier to see with larger area.
         // Map values determined in cases which use a wide range in number of nucleons and in
         // cases where the nucleon radius scaled from 3 to 10 (in screen coordinates - roughly pixels).

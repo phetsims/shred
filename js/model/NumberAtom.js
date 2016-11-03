@@ -90,9 +90,9 @@ define( function( require ) {
     },
 
     /**
-     * @param {Number} protonCount
-     * @param {Number} neutronCount
-     * @param {Number} electronCount
+     * @param {number} protonCount
+     * @param {number} neutronCount
+     * @param {number} electronCount
      * @public
      */
     setSubAtomicParticleCount: function( protonCount, neutronCount, electronCount ) {

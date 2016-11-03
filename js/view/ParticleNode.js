@@ -15,7 +15,7 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
 
   /**
-   * @param {String} particleType - proton, neutron, or electron
+   * @param {string} particleType - proton, neutron, or electron
    * @param {number} radius
    * @param {Object} [options]
    * @constructor

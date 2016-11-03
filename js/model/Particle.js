@@ -23,7 +23,7 @@ define( function( require ) {
   var DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
 
   /**
-   * @param {String} type
+   * @param {string} type
    * @param {Object} options
    * @constructor
    */
@@ -53,7 +53,7 @@ define( function( require ) {
   shred.register( 'Particle', Particle );
   return inherit( Object, Particle, {
     /**
-     * @param {Number} dt
+     * @param {number} dt
      * @public
      */
     step: function( dt ) {

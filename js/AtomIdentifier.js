@@ -788,7 +788,7 @@ define( function( require ) {
      * Returns the natural abundance of a particular isotope.
      *
      * @param {NumberAtom} atom
-     * @return {Number}
+     * @return {number}
      * TODO Should we combine these two?
      */
 
@@ -799,7 +799,7 @@ define( function( require ) {
     /**
      * Finds the precise value of the abundance and returns it.
      * @param {NumberAtom} atom
-     * @returns {Number}
+     * @returns {number}
      */
     getNaturalAbundancePreciseDecimal: function( atom ) {
       var defaultReturnValue = Util.toFixedNumber( 0, 10 );
