@@ -90,7 +90,7 @@ define( function( require ) {
       }
     } ) );
 
-    this.electronCloudViewDispose = function() {
+    this.disposeElectronCloudView = function() {
       atom.electrons.lengthProperty.unlink( updateElectronCloud );
     };
   }
@@ -101,7 +101,7 @@ define( function( require ) {
   return inherit( Node, ElectronCloudView, {
     // @public
     dispose: function(){
-      this.electronCloudViewDispose();
+      this.disposeElectronCloudView();
     }
   } );
 } );

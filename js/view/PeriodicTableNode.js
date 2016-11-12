@@ -105,8 +105,9 @@ define( function( require ) {
     };
     var highlightedCell = null;
     numberAtom.protonCountProperty.link( updateHighlightedCell );
-    // unlink from Properties
-    this.periodicTableNodeDispose = function() {
+
+    // @private - unlink from Properties
+    this.disposePeriodicTableNode = function() {
       numberAtom.protonCountProperty.unlink( updateHighlightedCell );
     };
   }
@@ -116,7 +117,7 @@ define( function( require ) {
   return inherit( Node, PeriodicTableNode, {
     // @public
     dispose: function(){
-      this.periodicTableNodeDispose();
+      this.disposePeriodicTableNode();
     }
   } );
 } );

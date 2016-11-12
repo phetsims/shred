@@ -82,7 +82,8 @@ define( function( require ) {
     } ) );
     this.mutate( options );
 
-    this.particleViewDispose = function(){
+    // @private
+    this.disposeParticleView = function(){
       particle.positionProperty.unlink( updateParticlePosition );
     };
   }
@@ -91,7 +92,7 @@ define( function( require ) {
   // Inherit from Node.
   return inherit( Node, ParticleView, {
     dispose: function(){
-      this.particleViewDispose();
+      this.disposeParticleView();
     }
   } );
 } );

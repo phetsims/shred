@@ -58,7 +58,7 @@ define( function( require ) {
     // Update the cloud size as electrons come and go.
     numberAtom.protonCountProperty.link( updateNode );
 
-    this.isotopeElectronCloudViewDispose = function(){
+    this.disposeIsotopeElectronCloudView = function(){
       numberAtom.protonCountProperty.unlink( updateNode );
     };
 
@@ -68,7 +68,7 @@ define( function( require ) {
   return inherit( Circle, IsotopeElectronCloudView, {
     // @public
     dispose: function(){
-      this.isotopeElectronCloudViewDispose();
+      this.disposeIsotopeElectronCloudView();
     },
 
     /**

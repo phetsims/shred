@@ -215,7 +215,8 @@ define( function( require ) {
     };
     options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );
 
-    this.atomNodeDispose = function(){
+    // @private
+    this.disposeAtomNode = function(){
       electronCloud.dispose();
       isotopeElectronCloud.dispose();
       if ( options.showCenterX ) {
@@ -243,7 +244,7 @@ define( function( require ) {
   return inherit( Node, AtomNode, {
     //@public
     dispose: function(){
-      this.atomNodeDispose();
+      this.disposeAtomNode();
     }
 
   } );
