@@ -14,6 +14,12 @@ define( function( require ) {
   var TObject = require( 'PHET_IO/types/TObject' );
   var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
 
+  /**
+   * Wrapper type for phet/shred's Particle class.
+   * @param particle
+   * @param phetioID
+   * @constructor
+   */
   function TParticle( particle, phetioID ) {
     assertInstanceOf( particle, phet.shred.Particle );
     TObject.call( this, particle, phetioID );
