@@ -10,10 +10,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var shred = require( 'SHRED/shred' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var TandemCircle = require( 'TANDEM/scenery/nodes/TandemCircle' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
 
   // constants
   var LINE_DASH = [ 4, 5 ];
@@ -21,36 +22,48 @@ define( function( require ) {
   /**
    * @param {ParticleAtom} atom
    * @param {ModelViewTransform2} modelViewTransform
+   * @param {Object} options
    * @constructor
    */
-  function ElectronShellView( atom, modelViewTransform ) {
+  function ElectronShellView( atom, modelViewTransform, options ) {
+
+    options = _.extend( {
+        tandem: Tandem.createDefaultTandem( 'componentType' )
+      },
+      options
+    );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // Call super constructor.
-    Node.call( this, {
-      pickable: false
+    TandemNode.call( this, {
+      pickable: false,
+      tandem: options.tandem
     } );
 
-    var outerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+    var outerRing = new TandemCircle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
       stroke: 'blue',
       lineWidth: 1.5,
       lineDash: LINE_DASH,
       translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } ),
-      pickable: false
+      pickable: false,
+      tandem: options.tandem.createTandem( 'outerRing' )
     } );
     this.addChild( outerRing );
 
-    var innerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
+    var innerRing = new TandemCircle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
       stroke: 'blue',
       lineWidth: 1.5,
       lineDash: LINE_DASH,
       translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } ),
-      pickable: false
+      pickable: false,
+      tandem: options.tandem.createTandem( 'innerRing' )
     } );
     this.addChild( innerRing );
   }
 
   shred.register( 'ElectronShellView', ElectronShellView );
 
-  // Inherit from Node.
-  return inherit( Node, ElectronShellView );
+  // Inherit from TandemNode.
+  return inherit( TandemNode, ElectronShellView );
 } );

@@ -11,28 +11,39 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var TandemCircle = require( 'TANDEM/scenery/nodes/TandemCircle' );
+  var TandemDragHandler = require( 'TANDEM/scenery/input/TandemDragHandler' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
 
   /**
    * @param {ParticleAtom} atom
    * @param {ModelViewTransform2} modelViewTransform
+   * @param {Object} options
    * @constructor
    */
-  function ElectronCloudView( atom, modelViewTransform ) {
+  function ElectronCloudView( atom, modelViewTransform, options ) {
+
+    options = _.extend( {
+        tandem: Tandem.createDefaultTandem( 'componentType' )
+      },
+      options
+    );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // Call super constructor.
-    Node.call( this, { cursor: 'pointer' } );
+    TandemNode.call( this, { cursor: 'pointer', tandem: options.tandem } );
     var self = this;
 
-    var electronCloud = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+    var electronCloud = new TandemCircle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
         fill: 'pink',
-        translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
+      translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } ),
+      tandem: options.tandem.createTandem( 'electronCloud' )
       }
     );
     this.addChild( electronCloud );
@@ -60,14 +71,16 @@ define( function( require ) {
 
     // If the user clicks on the cloud, extract an electron.
     this.extractedElectron = null; // @private
-    this.addInputListener( new SimpleDragHandler( {
+    this.addInputListener( new TandemDragHandler( {
       activeParticle: null,
       start: function( event, trail ) {
+
         // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
         // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
         // potential improvement.
         var positionInModelSpace = modelViewTransform.viewToModelPosition(
-          self.getParents()[ 0 ].globalToLocalPoint( event.pointer.point ) );
+          self.getParents()[ 0 ].globalToLocalPoint( event.pointer.point )
+        );
 
         var electron = atom.extractParticle( 'electron' );
         if ( electron !== null ) {
@@ -87,20 +100,22 @@ define( function( require ) {
         if ( self.extractedElectron !== null ) {
           self.extractedElectron.userControlledProperty.set( false );
         }
-      }
+      },
+      tandem: options.tandem.createTandem( 'dragHandler' ),
     } ) );
 
     this.disposeElectronCloudView = function() {
       atom.electrons.lengthProperty.unlink( updateElectronCloud );
+      options.tandem && options.tandem.removeInstance( this );
     };
   }
 
   shred.register( 'ElectronCloudView', ElectronCloudView );
 
-  // Inherit from Node.
-  return inherit( Node, ElectronCloudView, {
+  // Inherit from TandemNode.
+  return inherit( TandemNode, ElectronCloudView, {
     // @public
-    dispose: function(){
+    dispose: function() {
       this.disposeElectronCloudView();
     }
   } );

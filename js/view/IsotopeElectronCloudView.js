@@ -15,11 +15,12 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var shred = require( 'SHRED/shred' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var TandemCircle = require( 'TANDEM/scenery/nodes/TandemCircle' );
 
   // constants
   var MAX_ELECTRONS = 10; // For neon.
@@ -29,12 +30,23 @@ define( function( require ) {
    *
    * @param {NumberAtom} numberAtom
    * @param {ModelViewTransform2} modelViewTransform
+   * @param {Object} options
    * @constructor
    */
-  function IsotopeElectronCloudView( numberAtom, modelViewTransform ) {
+  function IsotopeElectronCloudView( numberAtom, modelViewTransform, options ) {
+
+    options = _.extend( {
+        tandem: Tandem.createDefaultTandem( 'componentType' )
+      },
+      options
+    );
+
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+
+    options.pickable = false; // this is never allowed to be pickable
 
     // Call super constructor using dummy radius and actual is updated below.
-    Circle.call( this, 1, { pickable: false } );
+    TandemCircle.call( this, 1, options );
 
     // carry this through the scope
     var self = this;
@@ -60,12 +72,14 @@ define( function( require ) {
 
     this.disposeIsotopeElectronCloudView = function(){
       numberAtom.protonCountProperty.unlink( updateNode );
+      options.tandem && options.tandem.removeInstance( this );
     };
 
   }
 
   shred.register( 'IsotopeElectronCloudView', IsotopeElectronCloudView );
-  return inherit( Circle, IsotopeElectronCloudView, {
+  return inherit( TandemCircle, IsotopeElectronCloudView, {
+
     // @public
     dispose: function(){
       this.disposeIsotopeElectronCloudView();

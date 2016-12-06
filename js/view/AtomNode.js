@@ -15,14 +15,15 @@ define( function( require ) {
   var ElectronShellView = require( 'SHRED/view/ElectronShellView' );
   var IsotopeElectronCloudView = require( 'SHRED/view/IsotopeElectronCloudView' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var Shape = require( 'KITE/Shape' );
   var shred = require( 'SHRED/shred' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var Tandem = require( 'TANDEM/Tandem' );
+  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+  var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
+  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // strings
@@ -34,6 +35,9 @@ define( function( require ) {
 
   // constants
   var ELEMENT_NAME_FONT_SIZE = 22;
+
+  // phet-io modules
+  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
 
   /**
    * @param {ParticleAtom} particleAtom Model that represents the atom, including particle positions
@@ -48,12 +52,15 @@ define( function( require ) {
         showElementNameProperty: new Property( true ),
         showNeutralOrIonProperty: new Property( true ),
         showStableOrUnstableProperty: new Property( true ),
-        electronShellDepictionProperty: new Property( 'orbits' )
+        electronShellDepictionProperty: new Property( 'orbits' ),
+        tandem: Tandem.createDefaultTandem( 'componentType' )
       },
       options
     );
 
-    Node.call( this, options ); // Call super constructor.
+    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
+
+    TandemNode.call( this, options ); // Call super constructor.
     var self = this;
 
     // @private
@@ -69,10 +76,11 @@ define( function( require ) {
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y + sizeInPixels / 2 );
       centerMarker.moveTo( center.x - sizeInPixels / 2, center.y + sizeInPixels / 2 );
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y - sizeInPixels / 2 );
-      var atomCenterMarker = new Path( centerMarker, {
+      var atomCenterMarker = new TandemPath( centerMarker, {
         stroke: 'orange',
         lineWidth: 5,
-        pickable: false
+        pickable: false,
+        tandem: options.tandem.createTandem( 'atomCenterMarker' )
       } );
       this.addChild( atomCenterMarker );
 
@@ -84,29 +92,30 @@ define( function( require ) {
     }
 
     // Add the electron shells and cloud.
-    var electronShell = new ElectronShellView( particleAtom, modelViewTransform );
+    var electronShell = new ElectronShellView( particleAtom, modelViewTransform, { tandem: options.tandem } );
     this.addChild( electronShell );
-    var electronCloud = new ElectronCloudView( particleAtom, modelViewTransform );
+    var electronCloud = new ElectronCloudView( particleAtom, modelViewTransform, { tandem: options.tandem } );
     this.addChild( electronCloud );
-    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform );
+    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform, { tandem: options.tandem } );
     this.addChild( isotopeElectronCloud );
 
-    var updateElectronShellDepictionVisiblity = function( depiction ) {
+    var updateElectronShellDepictionVisibility = function( depiction ) {
       electronShell.visible = depiction === 'orbits';
       electronCloud.visible = depiction === 'cloud';
       isotopeElectronCloud.visible = depiction === 'isotopeCloud';
     };
-    options.electronShellDepictionProperty.link( updateElectronShellDepictionVisiblity );
+    options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
 
     var elementNameCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private - Create the textual readout for the element name.
-    this.elementName = new Text( '', {
+    this.elementName = new TandemText( '', {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
       fill: PhetColorScheme.RED_COLORBLIND,
       center: elementNameCenterPos,
-      pickable: false
+      pickable: false,
+      tandem: options.tandem.createTandem( 'elementName' )
     } );
     this.addChild( this.elementName );
 
@@ -136,12 +145,13 @@ define( function( require ) {
       new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
     // @private - Create the textual readout for the ion indicator, set by trial and error.
-    this.ionIndicator = new Text( '', {
+    this.ionIndicator = new TandemText( '', {
       font: new PhetFont( 20 ),
       fill: 'black',
       translation: ionIndicatorTranslation,
       pickable: false,
-      maxWidth: 150
+      maxWidth: 150,
+      tandem: options.tandem.createTandem( 'ionIndicator' )
     } );
     this.addChild( this.ionIndicator );
 
@@ -181,12 +191,13 @@ define( function( require ) {
       new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private
-    this.stabilityIndicator = new Text( '', {
+    this.stabilityIndicator = new TandemText( '', {
       font: new PhetFont( 20 ),
       fill: 'black',
       center: stabilityIndicatorCenterPos,
       pickable: false,
-      maxWidth: modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 )
+      maxWidth: modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 ),
+      tandem: options.tandem.createTandem( 'stabilityIndicator' )
     } );
     this.addChild( this.stabilityIndicator );
 
@@ -216,7 +227,7 @@ define( function( require ) {
     options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );
 
     // @private
-    this.disposeAtomNode = function(){
+    this.disposeAtomNode = function() {
       electronCloud.dispose();
       isotopeElectronCloud.dispose();
       if ( options.showCenterX ) {
@@ -225,7 +236,7 @@ define( function( require ) {
         particleAtom.protons.lengthProperty.unlink( listener );
       }
 
-      options.electronShellDepictionProperty.unlink( updateElectronShellDepictionVisiblity );
+      options.electronShellDepictionProperty.unlink( updateElectronShellDepictionVisibility );
       particleAtom.protons.lengthProperty.unlink( updateElementName );
       options.showElementNameProperty.unlink( updateElementNameVisibility );
       particleAtom.protons.lengthProperty.unlink( updateIonIndicator );
@@ -234,16 +245,18 @@ define( function( require ) {
       particleAtom.protons.lengthProperty.unlink( updateStabilityIndicator );
       particleAtom.neutrons.lengthProperty.unlink( updateStabilityIndicator );
       options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
-
+      options.tandem && options.tandem.removeInstance( this );
     };
+
+    options.tandem.addInstance( this, TNode );
   }
 
   shred.register( 'AtomNode', AtomNode );
 
-  // Inherit from Node.
-  return inherit( Node, AtomNode, {
+  return inherit( TandemNode, AtomNode, {
+
     //@public
-    dispose: function(){
+    dispose: function() {
       this.disposeAtomNode();
     }
 
