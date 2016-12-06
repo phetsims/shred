@@ -36,30 +36,46 @@ define( function( require ) {
     // @public
     this.protonCountProperty =  new Property( options.protonCount, {
       tandem: options.tandem && options.tandem.createTandem( 'protonCountProperty' ),
-      phetioValueType: TNumber()
+      phetioValueType: TNumber( { type: 'Integer' } )
     } );
     this.neutronCountProperty = new Property( options.neutronCount, {
       tandem: options.tandem && options.tandem.createTandem( 'neutronCountProperty' ),
-      phetioValueType: TNumber()
+      phetioValueType: TNumber( { type: 'Integer' } )
     } );
     this.electronCountProperty = new Property( options.electronCount, {
       tandem: options.tandem && options.tandem.createTandem( 'electronCountProperty' ),
-      phetioValueType: TNumber()
+      phetioValueType: TNumber( { type: 'Integer' } )
     } );
 
     this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
       function( protonCount, electronCount ) {
         return protonCount - electronCount;
-      } );
+      },
+      {
+        tandem: options.tandem && options.tandem.createTandem( 'chargeProperty' ),
+        phetioValueType: TNumber( { type: 'Integer' } )
+      }
+    );
 
     this.massNumberProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty ],
       function( protonCount, neutronCount ) {
         return protonCount + neutronCount;
-      } );
+      },
+      {
+        tandem: options.tandem && options.tandem.createTandem( 'massNumberProperty' ),
+        phetioValueType: TNumber( { type: 'Integer' } )
+      }
+    );
+
     this.particleCountProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
       function( protonCount, neutronCount, electronCount ) {
         return protonCount + neutronCount + electronCount;
-      } );
+      },
+      {
+        tandem: options.tandem && options.tandem.createTandem( 'particleCountProperty' ),
+        phetioValueType: TNumber( { type: 'Integer' } )
+      }
+    );
 
     // @public - events emitted by instances of this type
     this.atomUpdated = new Emitter();
