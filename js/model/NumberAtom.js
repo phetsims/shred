@@ -36,15 +36,18 @@ define( function( require ) {
     // @public
     this.protonCountProperty =  new Property( options.protonCount, {
       tandem: options.tandem && options.tandem.createTandem( 'protonCountProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } )
+      phetioValueType: TNumber( { type: 'Integer' } ),
+      documentation: 'this property is updated by the model and should not be set by users'
     } );
     this.neutronCountProperty = new Property( options.neutronCount, {
       tandem: options.tandem && options.tandem.createTandem( 'neutronCountProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } )
+      phetioValueType: TNumber( { type: 'Integer' } ),
+      documentation: 'this property is updated by the model and should not be set by users'
     } );
     this.electronCountProperty = new Property( options.electronCount, {
       tandem: options.tandem && options.tandem.createTandem( 'electronCountProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } )
+      phetioValueType: TNumber( { type: 'Integer' } ),
+      documentation: 'this property is updated by the model and should not be set by users'
     } );
 
     this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
