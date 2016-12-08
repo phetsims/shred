@@ -11,7 +11,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var ParticleNode = require( 'SHRED/view/ParticleNode' );
   var shred = require( 'SHRED/shred' );
-  var TandemDragHandler = require( 'TANDEM/scenery/input/TandemDragHandler' );
+  var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   function getParticleNode( particle, modelViewTransform ) {
@@ -60,7 +60,7 @@ define( function( require ) {
     particle.positionProperty.link( updateParticlePosition );
 
     // Add a drag handler
-    this.addInputListener( new TandemDragHandler( {
+    this.addInputListener( new TandemSimpleDragHandler( {
       tandem: options.tandem ? options.tandem.createTandem( 'inputListener' ) : null,
 
       // Allow moving a finger (touch) across a node to pick it up.
