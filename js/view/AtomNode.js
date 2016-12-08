@@ -92,11 +92,11 @@ define( function( require ) {
     }
 
     // Add the electron shells and cloud.
-    var electronShell = new ElectronShellView( particleAtom, modelViewTransform, { tandem: options.tandem } );
+    var electronShell = new ElectronShellView( particleAtom, modelViewTransform, { tandem: options.tandem.createTandem( 'electronShell' ) } );
     this.addChild( electronShell );
-    var electronCloud = new ElectronCloudView( particleAtom, modelViewTransform, { tandem: options.tandem } );
+    var electronCloud = new ElectronCloudView( particleAtom, modelViewTransform, { tandem: options.tandem.createTandem( 'electronCloud' ) } );
     this.addChild( electronCloud );
-    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform, { tandem: options.tandem } );
+    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform, { tandem: options.tandem.createTandem( 'isotopeElectronCloud' ) } );
     this.addChild( isotopeElectronCloud );
 
     var updateElectronShellDepictionVisibility = function( depiction ) {
