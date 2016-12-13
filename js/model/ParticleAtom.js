@@ -21,6 +21,8 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
+  var TParticle = require( 'ifphetio!PHET_IO/types/shred/TParticle' );
+
   /**
    * @param {Object} options
    * @constructor
@@ -54,9 +56,9 @@ define( function( require ) {
     this.nucleonRadius = options.nucleonRadius; // @private
 
     // Create the particle collections.
-    this.protons = new ObservableArray(); // @private
-    this.neutrons = new ObservableArray(); // @private
-    this.electrons = new ObservableArray(); // @private
+    this.protons = new ObservableArray( { phetioValueType: TParticle } ); // @private
+    this.neutrons = new ObservableArray( { phetioValueType: TParticle } ); // @private
+    this.electrons = new ObservableArray( { phetioValueType: TParticle } ); // @private
 
     // Make shell radii publicly accessible.
     this.innerElectronShellRadius = options.innerElectronShellRadius; // @public
