@@ -26,6 +26,9 @@ define( function( require ) {
   }
 
   phetioInherit( TObject, 'TParticle', TParticle, {}, {
+    toStateObject: function( particle ) {
+      return 'TParticle';
+    },
     documentation: 'The model for a single particle such as an electron, proton, or neutron.'
   } );
 
