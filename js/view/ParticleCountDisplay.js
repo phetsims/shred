@@ -20,6 +20,7 @@ define( function( require ) {
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var protonsColonString = require( 'string!SHRED/protonsColon' );
@@ -27,18 +28,24 @@ define( function( require ) {
   var electronsColonString = require( 'string!SHRED/electronsColon' );
 
   // constants
-  var TITLE_MAX_WIDTH_PROPORTION = 1/3;
+  var TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
   var MIN_VERTICAL_SPACING = 16; // Empirically Determined
 
   /**
    * @param {NumberAtom} numberAtom Model representation of the atom
    * @param {number} maxParticles The maximum number of particles to display
    * @param {number} maxWidth The maximum width that this display should reach
+   * @param {Object} [options]
    * @constructor
    */
-  function ParticleCountDisplay( numberAtom, maxParticles, maxWidth ) {
+  function ParticleCountDisplay( numberAtom, maxParticles, maxWidth, options ) {
 
-    Node.call( this, { pickable: false } ); // Call super constructor.
+    options = _.extend( {
+      fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
+      cornerRadius: 5,
+      pickable: false,
+      tandem: Tandem.createDefaultTandem( 'particleCountDisplay' )
+    }, options );
 
     var panelContents = new Node();
 
@@ -152,11 +159,10 @@ define( function( require ) {
     // Initial update.
     updateParticles( numberAtom );
 
-    // Add it all to a panel.
-    this.addChild( new Panel( panelContents, { fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR, cornerRadius:5 } ) );
+    Panel.call( this, panelContents, options );
   }
 
   shred.register( 'ParticleCountDisplay', ParticleCountDisplay );
-  // Inherit from Node.
-  return inherit( Node, ParticleCountDisplay );
+
+  return inherit( Panel, ParticleCountDisplay );
 } );
