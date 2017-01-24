@@ -28,7 +28,7 @@ define( function( require ) {
   function ElectronShellView( atom, modelViewTransform, options ) {
 
     options = _.extend( {
-        tandem: Tandem.createDefaultTandem( 'componentType' )
+        tandem: Tandem.tandemRequired()
       },
       options
     );

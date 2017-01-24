@@ -29,7 +29,7 @@ define( function( require ) {
   function ElectronCloudView( atom, modelViewTransform, options ) {
 
     options = _.extend( {
-        tandem: Tandem.createDefaultTandem( 'componentType' )
+        tandem: Tandem.tandemRequired()
       },
       options
     );
