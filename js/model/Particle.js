@@ -30,10 +30,8 @@ define( function( require ) {
   function Particle( type, options ) {
 
     options = _.extend( {
-      tandem: null
+      tandem: Tandem.tandemRequired()
     }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     // @public
     this.typeProperty = new Property( type );

@@ -25,11 +25,9 @@ define( function( require ) {
    */
   function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {
     options = _.extend( {
-      tandem: null
+      tandem: Tandem.tandemRequired()
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-    
     var activeParticle = null;
     var inputListenerOptions = {
       tandem: options.tandem,

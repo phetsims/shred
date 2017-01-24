@@ -41,8 +41,6 @@ define( function( require ) {
       options
     );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     options.pickable = false; // this is never allowed to be pickable
 
     // Call super constructor using dummy radius and actual is updated below.

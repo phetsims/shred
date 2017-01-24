@@ -33,8 +33,6 @@ define( function( require ) {
       options
     );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-
     // Call super constructor.
     TandemNode.call( this, {
       pickable: false,

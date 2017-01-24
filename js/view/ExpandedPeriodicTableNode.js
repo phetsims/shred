@@ -44,11 +44,9 @@ define( function( require ) {
    */
   function ExpandedPeriodicTableNode( numberAtom, interactiveMax, options ) {
     options = _.extend( {
-      tandem: null
+      tandem: Tandem.tandemRequired()
     }, options );
 
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
-    
     Node.call( this );
     var self = this;
     var periodicTableNode = new PeriodicTableNode( numberAtom, {

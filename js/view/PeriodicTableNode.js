@@ -44,10 +44,8 @@ define( function( require ) {
       enabledCellColor: ENABLED_CELL_COLOR,
       disabledCellColor: DISABLED_CELL_COLOR,
       selectedCellColor: SELECTED_CELL_COLOR,
-      tandem: null
+      tandem: Tandem.tandemRequired()
     }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     Node.call( this ); // Call super constructor.
     var self = this;

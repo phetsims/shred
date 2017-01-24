@@ -39,10 +39,8 @@ define( function( require ) {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
-      tandem: null
+      tandem: Tandem.tandemRequired()
     }, options );
-
-    Tandem.validateOptions( options ); // The tandem is required when brand==='phet-io'
 
     var self = this;
     this.options = options;
