@@ -22,7 +22,7 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -74,7 +74,7 @@ define( function( require ) {
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y + sizeInPixels / 2 );
       centerMarker.moveTo( center.x - sizeInPixels / 2, center.y + sizeInPixels / 2 );
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y - sizeInPixels / 2 );
-      var atomCenterMarker = new TandemPath( centerMarker, {
+      var atomCenterMarker = new Path( centerMarker, {
         stroke: 'orange',
         lineWidth: 5,
         pickable: false,
