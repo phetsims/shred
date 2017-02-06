@@ -21,7 +21,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var TandemPath = require( 'TANDEM/scenery/nodes/TandemPath' );
   var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -58,7 +58,7 @@ define( function( require ) {
       options
     );
 
-    TandemNode.call( this, options ); // Call super constructor.
+    Node.call( this, options ); // Call super constructor.
     var self = this;
 
     // @private
@@ -251,7 +251,7 @@ define( function( require ) {
 
   shred.register( 'AtomNode', AtomNode );
 
-  return inherit( TandemNode, AtomNode, {
+  return inherit( Node, AtomNode, {
 
     //@public
     dispose: function() {

@@ -18,7 +18,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
 
   /**
    * @param {ParticleAtom} atom
@@ -35,7 +35,7 @@ define( function( require ) {
     );
 
     // Call super constructor.
-    TandemNode.call( this, { cursor: 'pointer', tandem: options.tandem } );
+    Node.call( this, { cursor: 'pointer', tandem: options.tandem } );
     var self = this;
 
     var electronCloud = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
@@ -110,8 +110,8 @@ define( function( require ) {
 
   shred.register( 'ElectronCloudView', ElectronCloudView );
 
-  // Inherit from TandemNode.
-  return inherit( TandemNode, ElectronCloudView, {
+  // Inherit from Node.
+  return inherit( Node, ElectronCloudView, {
     // @public
     dispose: function() {
       this.disposeElectronCloudView();

@@ -14,7 +14,7 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
+  var Node = require( 'SCENERY/nodes/Node' );
 
   // constants
   var LINE_DASH = [ 4, 5 ];
@@ -34,7 +34,7 @@ define( function( require ) {
     );
 
     // Call super constructor.
-    TandemNode.call( this, {
+    Node.call( this, {
       pickable: false,
       tandem: options.tandem
     } );
@@ -62,6 +62,6 @@ define( function( require ) {
 
   shred.register( 'ElectronShellView', ElectronShellView );
 
-  // Inherit from TandemNode.
-  return inherit( TandemNode, ElectronShellView );
+  // Inherit from Node.
+  return inherit( Node, ElectronShellView );
 } );
