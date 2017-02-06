@@ -23,7 +23,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var TandemText = require( 'TANDEM/scenery/nodes/TandemText' );
+  var Text = require( 'SCENERY/nodes/Text' );
   var Vector2 = require( 'DOT/Vector2' );
 
   // strings
@@ -108,7 +108,7 @@ define( function( require ) {
       new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private - Create the textual readout for the element name.
-    this.elementName = new TandemText( '', {
+    this.elementName = new Text( '', {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
       fill: PhetColorScheme.RED_COLORBLIND,
       center: elementNameCenterPos,
@@ -143,7 +143,7 @@ define( function( require ) {
       new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
     // @private - Create the textual readout for the ion indicator, set by trial and error.
-    this.ionIndicator = new TandemText( '', {
+    this.ionIndicator = new Text( '', {
       font: new PhetFont( 20 ),
       fill: 'black',
       translation: ionIndicatorTranslation,
@@ -189,7 +189,7 @@ define( function( require ) {
       new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private
-    this.stabilityIndicator = new TandemText( '', {
+    this.stabilityIndicator = new Text( '', {
       font: new PhetFont( 20 ),
       fill: 'black',
       center: stabilityIndicatorCenterPos,
