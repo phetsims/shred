@@ -20,7 +20,7 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TandemCircle = require( 'TANDEM/scenery/nodes/TandemCircle' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
 
   // constants
   var MAX_ELECTRONS = 10; // For neon.
@@ -44,7 +44,7 @@ define( function( require ) {
     options.pickable = false; // this is never allowed to be pickable
 
     // Call super constructor using dummy radius and actual is updated below.
-    TandemCircle.call( this, 1, options );
+    Circle.call( this, 1, options );
 
     // carry this through the scope
     var self = this;
@@ -68,18 +68,17 @@ define( function( require ) {
     // Update the cloud size as electrons come and go.
     numberAtom.protonCountProperty.link( updateNode );
 
-    this.disposeIsotopeElectronCloudView = function(){
+    this.disposeIsotopeElectronCloudView = function() {
       numberAtom.protonCountProperty.unlink( updateNode );
-      options.tandem && options.tandem.removeInstance( this );
     };
-
   }
 
   shred.register( 'IsotopeElectronCloudView', IsotopeElectronCloudView );
-  return inherit( TandemCircle, IsotopeElectronCloudView, {
+  return inherit( Circle, IsotopeElectronCloudView, {
 
     // @public
-    dispose: function(){
+    dispose: function() {
+      Circle.prototype.dispose.call( this );
       this.disposeIsotopeElectronCloudView();
     },
 

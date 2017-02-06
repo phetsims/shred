@@ -16,7 +16,7 @@ define( function( require ) {
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TandemCircle = require( 'TANDEM/scenery/nodes/TandemCircle' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
   var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
 
@@ -38,7 +38,7 @@ define( function( require ) {
     TandemNode.call( this, { cursor: 'pointer', tandem: options.tandem } );
     var self = this;
 
-    var electronCloud = new TandemCircle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+    var electronCloud = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
         fill: 'pink',
       translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } ),
       tandem: options.tandem.createTandem( 'electronCloud' )

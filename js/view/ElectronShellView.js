@@ -13,7 +13,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TandemCircle = require( 'TANDEM/scenery/nodes/TandemCircle' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var TandemNode = require( 'TANDEM/scenery/nodes/TandemNode' );
 
   // constants
@@ -39,7 +39,7 @@ define( function( require ) {
       tandem: options.tandem
     } );
 
-    var outerRing = new TandemCircle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+    var outerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
       stroke: 'blue',
       lineWidth: 1.5,
       lineDash: LINE_DASH,
@@ -49,7 +49,7 @@ define( function( require ) {
     } );
     this.addChild( outerRing );
 
-    var innerRing = new TandemCircle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
+    var innerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
       stroke: 'blue',
       lineWidth: 1.5,
       lineDash: LINE_DASH,
