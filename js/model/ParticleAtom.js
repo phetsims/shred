@@ -21,6 +21,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var LinearFunction = require( 'DOT/LinearFunction' );
 
+  // phet-io modules
   var TParticle = require( 'ifphetio!PHET_IO/types/shred/TParticle' );
 
   /**
