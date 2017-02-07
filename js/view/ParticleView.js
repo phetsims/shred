@@ -29,7 +29,6 @@ define( function( require ) {
   }
 
   /**
-   *
    * @param {Particle} particle
    * @param {ModelViewTransform2} modelViewTransform
    * @param {Object} [options]
