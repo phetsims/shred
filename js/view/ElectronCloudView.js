@@ -104,7 +104,7 @@ define( function( require ) {
 
     this.disposeElectronCloudView = function() {
       atom.electrons.lengthProperty.unlink( updateElectronCloud );
-      options.tandem && options.tandem.removeInstance( this );
+      options.tandem && options.tandem.removeInstance( self );
     };
   }
 
