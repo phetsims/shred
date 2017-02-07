@@ -36,9 +36,6 @@ define( function( require ) {
   // constants
   var ELEMENT_NAME_FONT_SIZE = 22;
 
-  // phet-io modules
-  var TNode = require( 'ifphetio!PHET_IO/types/scenery/nodes/TNode' );
-
   /**
    * @param {ParticleAtom} particleAtom Model that represents the atom, including particle positions
    * @param {ModelViewTransform2} modelViewTransform Model-View transform
@@ -243,10 +240,7 @@ define( function( require ) {
       particleAtom.protons.lengthProperty.unlink( updateStabilityIndicator );
       particleAtom.neutrons.lengthProperty.unlink( updateStabilityIndicator );
       options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
-      options.tandem && options.tandem.removeInstance( this );
     };
-
-    options.tandem.addInstance( this, TNode );
   }
 
   shred.register( 'AtomNode', AtomNode );
@@ -255,8 +249,8 @@ define( function( require ) {
 
     //@public
     dispose: function() {
+      Node.prototype.dispose.call( this );
       this.disposeAtomNode();
     }
-
   } );
 } );
