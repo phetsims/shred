@@ -65,7 +65,8 @@ define( function( require ) {
       this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
         font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
         center: this.center,
-        maxWidth: options.length - 5
+        maxWidth: options.length - 5,
+        tandem: options.tandem.createTandem( 'label' )
       } );
       this.addChild( this.label );
     }
@@ -90,7 +91,9 @@ define( function( require ) {
   }
 
   shred.register( 'PeriodicTableCell', PeriodicTableCell );
+
   return inherit( Rectangle, PeriodicTableCell, {
+
     setHighlighted: function( highLighted ) {
       this.fill = highLighted ? this.highlightedFill : this.normalFill;
       this.stroke = highLighted ? PhetColorScheme.RED_COLORBLIND : 'black';
