@@ -11,10 +11,11 @@ define( function( require ) {
 
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var Emitter = require( 'AXON/Emitter' );
+  var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
   var shred = require( 'SHRED/shred' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
@@ -30,22 +31,22 @@ define( function( require ) {
       protonCount: 0,
       neutronCount: 0,
       electronCount: 0,
-      tandem: null
+      tandem: Tandem.tandemRequired() // Tandem must be supplied when running in PhET-iO
     }, options );
 
     // @public
-    this.protonCountProperty =  new Property( options.protonCount, {
-      tandem: options.tandem && options.tandem.createTandem( 'protonCountProperty' ),
+    this.protonCountProperty = new Property( options.protonCount, {
+      tandem: options.tandem.createTandem( 'protonCountProperty' ),
       phetioValueType: TNumber( { type: 'Integer' } ),
       documentation: 'this property is updated by the model and should not be set by users'
     } );
     this.neutronCountProperty = new Property( options.neutronCount, {
-      tandem: options.tandem && options.tandem.createTandem( 'neutronCountProperty' ),
+      tandem: options.tandem.createTandem( 'neutronCountProperty' ),
       phetioValueType: TNumber( { type: 'Integer' } ),
       documentation: 'this property is updated by the model and should not be set by users'
     } );
     this.electronCountProperty = new Property( options.electronCount, {
-      tandem: options.tandem && options.tandem.createTandem( 'electronCountProperty' ),
+      tandem: options.tandem.createTandem( 'electronCountProperty' ),
       phetioValueType: TNumber( { type: 'Integer' } ),
       documentation: 'this property is updated by the model and should not be set by users'
     } );
@@ -53,9 +54,8 @@ define( function( require ) {
     this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
       function( protonCount, electronCount ) {
         return protonCount - electronCount;
-      },
-      {
-        tandem: options.tandem && options.tandem.createTandem( 'chargeProperty' ),
+      }, {
+        tandem: options.tandem.createTandem( 'chargeProperty' ),
         phetioValueType: TNumber( { type: 'Integer' } )
       }
     );
@@ -63,9 +63,8 @@ define( function( require ) {
     this.massNumberProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty ],
       function( protonCount, neutronCount ) {
         return protonCount + neutronCount;
-      },
-      {
-        tandem: options.tandem && options.tandem.createTandem( 'massNumberProperty' ),
+      }, {
+        tandem: options.tandem.createTandem( 'massNumberProperty' ),
         phetioValueType: TNumber( { type: 'Integer' } )
       }
     );
@@ -73,18 +72,21 @@ define( function( require ) {
     this.particleCountProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
       function( protonCount, neutronCount, electronCount ) {
         return protonCount + neutronCount + electronCount;
-      },
-      {
-        tandem: options.tandem && options.tandem.createTandem( 'particleCountProperty' ),
+      }, {
+        tandem: options.tandem.createTandem( 'particleCountProperty' ),
         phetioValueType: TNumber( { type: 'Integer' } )
       }
     );
 
     // @public - events emitted by instances of this type
-    this.atomUpdated = new Emitter();
+    this.atomUpdated = new TandemEmitter( {
+      phetioArgumentTypes: [],
+      tandem: options.tandem.createTandem( 'atomUpdatedEmitter' )
+    } );
   }
 
   shred.register( 'NumberAtom', NumberAtom );
+
   return inherit( Object, NumberAtom, {
 
     /**
@@ -93,9 +95,9 @@ define( function( require ) {
      * @public
      */
     equals: function( otherAtom ) {
-      return ( this.protonCountProperty.get() === otherAtom.protonCountProperty.get() &&
-               this.neutronCountProperty.get() === otherAtom.neutronCountProperty.get() &&
-               this.electronCountProperty.get() === otherAtom.electronCountProperty.get() );
+      return this.protonCountProperty.get() === otherAtom.protonCountProperty.get() &&
+             this.neutronCountProperty.get() === otherAtom.neutronCountProperty.get() &&
+             this.electronCountProperty.get() === otherAtom.electronCountProperty.get();
     },
 
     // @public
