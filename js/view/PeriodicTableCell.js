@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var TandemButtonListener = require( 'TANDEM/scenery/input/TandemButtonListener' );
   var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -74,7 +74,8 @@ define( function( require ) {
     // If interactive, add a listener to set the atom when this cell is pressed.
     if ( options.interactive ) {
       this.addInputListener(
-        new ButtonListener( {
+        new TandemButtonListener( {
+          tandem: options.tandem.createTandem( 'buttonListener' ),
           fire: function( evt ) {
             self.startedCallbacksForPressedEmitter.emit();
             numberAtom.setSubAtomicParticleCount(
@@ -87,7 +88,7 @@ define( function( require ) {
         } )
       );
     }
-    options.tandem && options.tandem.addInstance( this, TPeriodicTableCell );
+    options.tandem.addInstance( this, TPeriodicTableCell );
   }
 
   shred.register( 'PeriodicTableCell', PeriodicTableCell );
