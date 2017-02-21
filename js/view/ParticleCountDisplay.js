@@ -30,6 +30,7 @@ define( function( require ) {
   // constants
   var TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
   var MIN_VERTICAL_SPACING = 16; // Empirically Determined
+  var LABEL_FONT = new PhetFont( 12 );
 
   /**
    * @param {NumberAtom} numberAtom Model representation of the atom
@@ -49,12 +50,20 @@ define( function( require ) {
 
     var panelContents = new Node();
 
-    var labelOptions = { font: new PhetFont( 12 ) };
-    var protonTitle = new Text( protonsColonString, labelOptions );
+    var protonTitle = new Text( protonsColonString, {
+      font: LABEL_FONT,
+      tandem: options.tandem.createTandem( 'protonTitle' )
+    } );
     panelContents.addChild( protonTitle );
-    var neutronTitle = new Text( neutronsColonString, labelOptions );
+    var neutronTitle = new Text( neutronsColonString, {
+      font: LABEL_FONT,
+      tandem: options.tandem.createTandem( 'neutronTitle' )
+    } );
     panelContents.addChild( neutronTitle );
-    var electronTitle = new Text( electronsColonString, labelOptions );
+    var electronTitle = new Text( electronsColonString, {
+      font: LABEL_FONT,
+      tandem: options.tandem.createTandem( 'electronTitle' )
+    } );
     panelContents.addChild( electronTitle );
 
     // Scale the title if more than allowed proportion width
