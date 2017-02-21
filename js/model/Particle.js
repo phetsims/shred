@@ -17,6 +17,9 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
   // constants
@@ -34,18 +37,37 @@ define( function( require ) {
     }, options );
 
     // @public
-    this.typeProperty = new Property( type );
+    this.typeProperty = new Property( type, {
+      tandem: options.tandem.createTandem( 'typeProperty' ),
+      phetioValueType: TString
+    } );
     this.positionProperty = new Property( Vector2.ZERO, {
       tandem: options.tandem && options.tandem.createTandem( 'positionProperty' ),
       phetioValueType: TVector2
     } );
-    this.destinationProperty = new Property( Vector2.ZERO );
-    this.radiusProperty = new Property( type === 'electron' ?
-                                        ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS );
-
-    this.velocityProperty = new Property( DEFAULT_PARTICLE_VELOCITY );
-    this.userControlledProperty = new Property( false );
-    this.zLayerProperty = new Property( 0 ); // Used in view, integer value, higher means further back.
+    this.destinationProperty = new Property( Vector2.ZERO, {
+      tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' ),
+      phetioValueType: TVector2
+    } );
+    this.radiusProperty = new Property(
+      type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS,
+      {
+        tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
+        phetioValueType: TNumber( { type: 'FloatingPoint' } )
+      }
+    );
+    this.velocityProperty = new Property( DEFAULT_PARTICLE_VELOCITY, {
+      tandem: options.tandem && options.tandem.createTandem( 'velocityProperty' ),
+      phetioValueType: TNumber( { type: 'FloatingPoint' } )
+    } );
+    this.userControlledProperty = new Property( false, {
+      tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
+      phetioValueType: TBoolean
+    } );
+    this.zLayerProperty = new Property( 0, {
+      tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
+      phetioValueType: TNumber( { type: 'Integer' } )
+    } ); // Used in view, integer value, higher means further back.
   }
 
   shred.register( 'Particle', Particle );

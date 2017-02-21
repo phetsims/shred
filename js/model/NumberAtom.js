@@ -9,6 +9,7 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );

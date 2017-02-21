@@ -13,16 +13,21 @@ define( function( require ) {
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var LinearFunction = require( 'DOT/LinearFunction' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var Property = require( 'AXON/Property' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
-  var LinearFunction = require( 'DOT/LinearFunction' );
 
   // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
+  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TParticle = require( 'ifphetio!PHET_IO/types/shred/TParticle' );
+  var TString = require( 'ifphetio!PHET_IO/types/TString' );
+  var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
   /**
    * @param {Object} options
@@ -30,12 +35,31 @@ define( function( require ) {
    */
   function ParticleAtom( options ) {
 
+    options = _.extend( {
+      tandem: Tandem.tandemRequired()
+    }, options );
+
     // @public
-    this.positionProperty = new Property( Vector2.ZERO );
-    this.nucleusOffsetProperty = new Property( Vector2.ZERO );
-    this.protonCountProperty = new Property( 0 );
-    this.neutronCountProperty = new Property( 0 );
-    this.electronCountProperty = new Property( 0 );
+    this.positionProperty = new Property( Vector2.ZERO, {
+      tandem: options.tandem.createTandem( 'positionProperty' ),
+      phetioValueType: TVector2
+    } );
+    this.nucleusOffsetProperty = new Property( Vector2.ZERO, {
+      tandem: options.tandem.createTandem( 'nucleusOffsetProperty' ),
+      phetioValueType: TVector2
+    } );
+    this.protonCountProperty = new Property( 0, {
+      tandem: options.tandem.createTandem( 'protonCountProperty' ),
+      phetioValueType: TNumber( { type: 'Integer' } )
+    } );
+    this.neutronCountProperty = new Property( 0, {
+      tandem: options.tandem.createTandem( 'neutronCountProperty' ),
+      phetioValueType: TNumber( { type: 'Integer' } )
+    } );
+    this.electronCountProperty = new Property( 0, {
+      tandem: options.tandem.createTandem( 'electronCountProperty' ),
+      phetioValueType: TNumber( { type: 'Integer' } )
+    } );
 
     this.massNumberProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty ],
       function( protonCount, neutronCount ) {
@@ -70,19 +94,18 @@ define( function( require ) {
 
     // Initialize the positions where an electron can be placed.
     this.validElectronPositions = new Array( 10 ); // @private
-    var angle = 0;
     this.validElectronPositions[ 0 ] = {
       electron: null,
       position: new Vector2( self.innerElectronShellRadius, 0 )
     };
-    angle += Math.PI;
     this.validElectronPositions[ 1 ] = {
       electron: null,
       position: new Vector2( -self.innerElectronShellRadius, 0 )
     };
     var numSlotsInOuterShell = 8;
+
     // Stagger inner and outer electron shell positions, tweaked a bit for better interaction with labels.
-    angle = Math.PI / numSlotsInOuterShell * 1.2;
+    var angle = Math.PI / numSlotsInOuterShell * 1.2;
     for ( var i = 0; i < numSlotsInOuterShell; i++ ) {
       this.validElectronPositions[ i + 2 ] = {
         electron: null,
