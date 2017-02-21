@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var TandemButtonListener = require( 'TANDEM/scenery/input/TandemButtonListener' );
+  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -74,7 +74,7 @@ define( function( require ) {
     // If interactive, add a listener to set the atom when this cell is pressed.
     if ( options.interactive ) {
       this.addInputListener(
-        new TandemButtonListener( {
+        new ButtonListener( {
           tandem: options.tandem.createTandem( 'buttonListener' ),
           fire: function( evt ) {
             self.startedCallbacksForPressedEmitter.emit();
