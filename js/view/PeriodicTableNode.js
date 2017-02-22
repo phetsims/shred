@@ -116,6 +116,7 @@ define( function( require ) {
     // @public
     dispose: function(){
       this.disposePeriodicTableNode();
+      Node.prototype.dispose.call( this );
     }
   } );
 } );
