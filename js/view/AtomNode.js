@@ -258,8 +258,8 @@ define( function( require ) {
 
     //@public
     dispose: function() {
-      Node.prototype.dispose.call( this );
       this.disposeAtomNode();
+      Node.prototype.dispose.call( this );
     }
   } );
 } );

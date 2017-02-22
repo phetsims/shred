@@ -78,8 +78,8 @@ define( function( require ) {
 
     // @public
     dispose: function() {
-      Circle.prototype.dispose.call( this );
       this.disposeIsotopeElectronCloudView();
+      Circle.prototype.dispose.call( this );
     },
 
     /**
