@@ -99,6 +99,7 @@ define( function( require ) {
   return inherit( Node, ParticleView, {
     dispose: function(){
       this.disposeParticleView();
+      Node.prototype.dispose.call( this );
     }
   } );
 } );
