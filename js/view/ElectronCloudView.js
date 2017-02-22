@@ -115,6 +115,7 @@ define( function( require ) {
     // @public
     dispose: function() {
       this.disposeElectronCloudView();
+      Node.prototype.dispose.call( this );
     }
   } );
 } );
