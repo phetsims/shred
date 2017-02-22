@@ -55,7 +55,7 @@ define( function( require ) {
       options
     );
 
-    Node.call( this, options ); // Call super constructor.
+    Node.call( this ); // Call super constructor.
     var self = this;
 
     // @private
@@ -87,11 +87,17 @@ define( function( require ) {
     }
 
     // Add the electron shells and cloud.
-    var electronShell = new ElectronShellView( particleAtom, modelViewTransform, { tandem: options.tandem.createTandem( 'electronShell' ) } );
+    var electronShell = new ElectronShellView( particleAtom, modelViewTransform, {
+      tandem: options.tandem.createTandem( 'electronShell' )
+    } );
     this.addChild( electronShell );
-    var electronCloud = new ElectronCloudView( particleAtom, modelViewTransform, { tandem: options.tandem.createTandem( 'electronCloud' ) } );
+    var electronCloud = new ElectronCloudView( particleAtom, modelViewTransform, {
+      tandem: options.tandem.createTandem( 'electronCloud' )
+    } );
     this.addChild( electronCloud );
-    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform, { tandem: options.tandem.createTandem( 'isotopeElectronCloud' ) } );
+    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform, {
+      tandem: options.tandem.createTandem( 'isotopeElectronCloud' )
+    } );
     this.addChild( isotopeElectronCloud );
 
     var updateElectronShellDepictionVisibility = function( depiction ) {
@@ -101,8 +107,9 @@ define( function( require ) {
     };
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
 
-    var elementNameCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
-      new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) ) );
+    var elementNameCenterPos = modelViewTransform.modelToViewPosition(
+      particleAtom.positionProperty.get().plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) )
+    );
 
     // @private - Create the textual readout for the element name.
     this.elementName = new Text( '', {
@@ -241,6 +248,8 @@ define( function( require ) {
       particleAtom.neutrons.lengthProperty.unlink( updateStabilityIndicator );
       options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
     };
+
+    this.mutate( options );
   }
 
   shred.register( 'AtomNode', AtomNode );

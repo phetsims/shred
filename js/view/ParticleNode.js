@@ -13,6 +13,7 @@ define( function( require ) {
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var shred = require( 'SHRED/shred' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {string} particleType - proton, neutron, or electron
@@ -21,6 +22,10 @@ define( function( require ) {
    * @constructor
    */
   function ParticleNode( particleType, radius, options ) {
+
+    options = _.extend( {
+      tandem: Tandem.tandemRequired()
+    }, options );
 
     Node.call( this, options ); // Call super constructor.
 

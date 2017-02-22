@@ -81,8 +81,7 @@ define( function( require ) {
     electronTitle.right = maxLabelWidth;
     electronTitle.bottom = neutronTitle.bottom + Math.max( electronTitle.height, MIN_VERTICAL_SPACING );
 
-    // Figure out the sizes of the particles and the inter-particle
-    // spacing based on the max width.
+    // Figure out the sizes of the particles and the inter-particle spacing based on the max width.
     var totalParticleSpace = maxWidth - protonTitle.right - 10;
     var nucleonRadius = totalParticleSpace / ( (maxParticles * 2) + ( maxParticles - 1) + 2);
     var electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
@@ -106,15 +105,16 @@ define( function( require ) {
     var neutronDisplayCount = 0;
     var electronDisplayCount = 0;
 
-    // increase the particle count by 1, and return the currently displayed quantity array should be
-    // protons, neutrons, or electrons
-    function incrementParticle( array, currentQuantity, particleType, radius, startX, startY ) {
+    // increase the particle count by 1, and return the currently displayed quantity array
+    function incrementParticleCount( array, currentQuantity, particleType, radius, startX, startY, groupTandem ) {
       var newIndex = currentQuantity;
       if ( newIndex === array.length ) {
+
         // we need to create a new particle
         array.push( new ParticleNode( particleType, radius, {
           x: startX + newIndex * interParticleSpacing,
-          y: startY
+          y: startY,
+          tandem: groupTandem.createNextTandem()
         } ) );
       }
       particleLayer.addChild( array[ newIndex ] );
@@ -122,41 +122,64 @@ define( function( require ) {
       return currentQuantity;
     }
 
-    // decrease the particle count by 1, and return the currently displayed quantity. array should be
-    // protons, neutrons, or electrons
-    function decrementParticle( array, currentQuantity ) {
+    // decrease the particle count by 1, and return the currently displayed quantity array
+    function decrementParticleCount( array, currentQuantity ) {
       currentQuantity -= 1;
       particleLayer.removeChild( array[ currentQuantity ] );
       array.splice( currentQuantity, 1 );
       return currentQuantity;
     }
 
+    // group tandems used to identify the particle nodes
+    var protonNodeGroupTandem = options.tandem.createGroupTandem( 'protons' );
+    var neutronNodeGroupTandem = options.tandem.createGroupTandem( 'neutron' );
+    var electronNodeGroupTandem = options.tandem.createGroupTandem( 'electron' );
+
     // Function that updates that displayed particles.
     var updateParticles = function( atom ) {
       // feel free to refactor this, although we'd need to get a passable reference to the counts
       // (that's why there is duplication now)
       while ( atom.protonCountProperty.get() > protonDisplayCount ) {
-        protonDisplayCount = incrementParticle( protons, protonDisplayCount, 'proton', nucleonRadius,
-          protonTitle.right + interParticleSpacing, protonTitle.center.y );
+        protonDisplayCount = incrementParticleCount(
+          protons,
+          protonDisplayCount,
+          'proton',
+          nucleonRadius,
+          protonTitle.right + interParticleSpacing,
+          protonTitle.center.y,
+          protonNodeGroupTandem
+        );
       }
       while ( atom.protonCountProperty.get() < protonDisplayCount ) {
-        protonDisplayCount = decrementParticle( protons, protonDisplayCount );
+        protonDisplayCount = decrementParticleCount( protons, protonDisplayCount );
       }
 
       while ( atom.neutronCountProperty.get() > neutronDisplayCount ) {
-        neutronDisplayCount = incrementParticle( neutrons, neutronDisplayCount, 'neutron', nucleonRadius,
-          neutronTitle.right + interParticleSpacing, neutronTitle.center.y );
+        neutronDisplayCount = incrementParticleCount(
+          neutrons,
+          neutronDisplayCount,
+          'neutron',
+          nucleonRadius,
+          neutronTitle.right + interParticleSpacing, neutronTitle.center.y,
+          neutronNodeGroupTandem
+        );
       }
       while ( atom.neutronCountProperty.get() < neutronDisplayCount ) {
-        neutronDisplayCount = decrementParticle( neutrons, neutronDisplayCount );
+        neutronDisplayCount = decrementParticleCount( neutrons, neutronDisplayCount );
       }
 
       while ( atom.electronCountProperty.get() > electronDisplayCount ) {
-        electronDisplayCount = incrementParticle( electrons, electronDisplayCount, 'electron', electronRadius,
-          electronTitle.right + interParticleSpacing, electronTitle.center.y );
+        electronDisplayCount = incrementParticleCount(
+          electrons,
+          electronDisplayCount,
+          'electron',
+          electronRadius,
+          electronTitle.right + interParticleSpacing, electronTitle.center.y,
+          electronNodeGroupTandem
+        );
       }
       while ( atom.electronCountProperty.get() < electronDisplayCount ) {
-        electronDisplayCount = decrementParticle( electrons, electronDisplayCount );
+        electronDisplayCount = decrementParticleCount( electrons, electronDisplayCount );
       }
     };
 

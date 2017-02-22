@@ -65,10 +65,10 @@ define( function( require ) {
       };
       for ( var j = 0; j < populatedCellsInRow.length; j++ ) {
         var cell = new PeriodicTableCell( elementIndex, numberAtom, cellColor, {
-          tandem: columnGroupTandem && columnGroupTandem.createNextTandem(),
           interactive: elementIndex <= options.interactiveMax,
           showLabels: options.showLabels,
-          length: options.cellDimension
+          length: options.cellDimension,
+          tandem: columnGroupTandem && columnGroupTandem.createNextTandem()
         } );
         cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );
         this.addChild( cell );

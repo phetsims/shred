@@ -14,18 +14,23 @@ define( function( require ) {
   var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
   var Tandem = require( 'TANDEM/Tandem' );
 
-  function getParticleNode( particle, modelViewTransform ) {
+  function createParticleNode( particle, modelViewTransform, tandem ) {
     var particleNode;
     if ( particle.typeProperty.get() === 'Isotope' ) {
-      particleNode = new IsotopeNode( particle, modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
-        { showLabel: particle.showLabel } );
+      particleNode = new IsotopeNode(
+        particle,
+        modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
+        { showLabel: particle.showLabel, tandem: tandem }
+      );
     }
     else {
-      particleNode = new ParticleNode( particle.typeProperty.get(),
-        modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ) );
+      particleNode = new ParticleNode(
+        particle.typeProperty.get(),
+        modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
+        { tandem: tandem }
+      );
     }
     return particleNode;
-
   }
 
   /**
@@ -48,7 +53,11 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform; // @private
 
     // Add the particle representation.
-    this.addChild( getParticleNode( particle, modelViewTransform ) );
+    this.addChild( createParticleNode(
+      particle,
+      modelViewTransform,
+      options.tandem.createTandem( 'particleRepresentation' )
+    ) );
 
     // Listen to the model position and update.
     var updateParticlePosition = function( position ) {
