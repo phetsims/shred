@@ -23,10 +23,8 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TParticle = require( 'ifphetio!PHET_IO/types/shred/TParticle' );
-  var TString = require( 'ifphetio!PHET_IO/types/TString' );
   var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
   /**
