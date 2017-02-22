@@ -332,8 +332,10 @@ define( function( require ) {
       return particle;
     },
 
-    // Remove all the particles but don't reconfigure the nucleus as they go. This makes it a quicker operation.
-    // @public
+    /**
+     * Remove all the particles but don't reconfigure the nucleus as they go. This makes it a quicker operation.
+     * @public
+     */
     clear: function() {
       var self = this;
       this.protons.forEach( function( particle ) { self.removeParticle( particle ); } );
@@ -341,8 +343,10 @@ define( function( require ) {
       this.electrons.forEach( function( particle ) { self.removeParticle( particle ); } );
     },
 
-    // Move all the particles to their destinations. This is generally used when animation is not desired.
-    // @public
+    /**
+     * Move all the particles to their destinations. This is generally used when animation is not desired.
+     * @public
+     */
     moveAllParticlesToDestination: function() {
       this.protons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
       this.neutrons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
@@ -351,12 +355,12 @@ define( function( require ) {
 
     // @public
     getWeight: function() {
-      return this.protons.length + this.neutrons.length;
+      return this.protonCountProperty.get() + this.neutronCountProperty.get();
     },
 
     // @public
     getCharge: function() {
-      return this.protons.length - this.electrons.length;
+      return this.protonCountProperty.get() - this.electronCountProperty.get();
     },
 
     // @public
@@ -366,6 +370,7 @@ define( function( require ) {
 
     // @public
     reconfigureNucleus: function() {
+
       // Convenience variables.
       var centerX = this.positionProperty.get().x + this.nucleusOffsetProperty.get().x;
       var centerY = this.positionProperty.get().y + this.nucleusOffsetProperty.get().y;

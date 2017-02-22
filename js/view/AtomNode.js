@@ -81,9 +81,9 @@ define( function( require ) {
 
       // Make the marker invisible if any nucleons are present.
       var listener = function() { atomCenterMarker.visible = particleAtom.getWeight() === 0; };
-      particleAtom.electrons.lengthProperty.link( listener );
-      particleAtom.neutrons.lengthProperty.link( listener );
-      particleAtom.protons.lengthProperty.link( listener );
+      particleAtom.electronCountProperty.link( listener );
+      particleAtom.neutronCountProperty.link( listener );
+      particleAtom.protonCountProperty.link( listener );
     }
 
     // Add the electron shells and cloud.
@@ -123,7 +123,7 @@ define( function( require ) {
 
     // Define the update function for the element name.
     var updateElementName = function() {
-      var name = AtomIdentifier.getName( self.atom.protons.length );
+      var name = AtomIdentifier.getName( self.atom.protonCountProperty.get() );
       if ( name.length === 0 ) {
         name = '';
       }
@@ -136,7 +136,7 @@ define( function( require ) {
     updateElementName(); // Do the initial update.
 
     // Hook up update listeners.
-    particleAtom.protons.lengthProperty.link( updateElementName );
+    particleAtom.protonCountProperty.link( updateElementName );
 
     var updateElementNameVisibility = function( visible ) {
       self.elementName.visible = visible;
@@ -159,7 +159,7 @@ define( function( require ) {
 
     // Define the update function for the ion indicator.
     var updateIonIndicator = function() {
-      if ( self.atom.protons.length > 0 ) {
+      if ( self.atom.protonCountProperty.get() > 0 ) {
         var charge = self.atom.getCharge();
         if ( charge < 0 ) {
           self.ionIndicator.text = minusSignIonString;
@@ -181,8 +181,8 @@ define( function( require ) {
     };
     updateIonIndicator(); // Do the initial update.
 
-    particleAtom.protons.lengthProperty.link( updateIonIndicator );
-    particleAtom.electrons.lengthProperty.link( updateIonIndicator );
+    particleAtom.protonCountProperty.link( updateIonIndicator );
+    particleAtom.electronCountProperty.link( updateIonIndicator );
     var updateIonIndicatorVisibility = function( visible ) {
       self.ionIndicator.visible = visible;
     };
@@ -205,8 +205,8 @@ define( function( require ) {
 
     // Define the update function for the stability indicator.
     var updateStabilityIndicator = function() {
-      if ( self.atom.protons.length > 0 ) {
-        if ( AtomIdentifier.isStable( self.atom.protons.length, self.atom.neutrons.length ) ) {
+      if ( self.atom.protonCountProperty.get() > 0 ) {
+        if ( AtomIdentifier.isStable( self.atom.protonCountProperty.get(), self.atom.neutronCountProperty.get() ) ) {
           self.stabilityIndicator.text = stableString;
         }
         else {
@@ -221,8 +221,8 @@ define( function( require ) {
     updateStabilityIndicator(); // Do initial update.
 
     // Add the listeners that control the label content and visibility.
-    particleAtom.protons.lengthProperty.link( updateStabilityIndicator );
-    particleAtom.neutrons.lengthProperty.link( updateStabilityIndicator );
+    particleAtom.protonCountProperty.link( updateStabilityIndicator );
+    particleAtom.neutronCountProperty.link( updateStabilityIndicator );
     var updateStabilityIndicatorVisibility = function( visible ) {
       self.stabilityIndicator.visible = visible;
     };
@@ -233,19 +233,19 @@ define( function( require ) {
       electronCloud.dispose();
       isotopeElectronCloud.dispose();
       if ( options.showCenterX ) {
-        particleAtom.electrons.lengthProperty.unlink( listener );
-        particleAtom.neutrons.lengthProperty.unlink( listener );
-        particleAtom.protons.lengthProperty.unlink( listener );
+        particleAtom.electronCountProperty.unlink( listener );
+        particleAtom.neutronCountProperty.unlink( listener );
+        particleAtom.protonCountProperty.unlink( listener );
       }
 
       options.electronShellDepictionProperty.unlink( updateElectronShellDepictionVisibility );
-      particleAtom.protons.lengthProperty.unlink( updateElementName );
+      particleAtom.protonCountProperty.unlink( updateElementName );
       options.showElementNameProperty.unlink( updateElementNameVisibility );
-      particleAtom.protons.lengthProperty.unlink( updateIonIndicator );
-      particleAtom.electrons.lengthProperty.unlink( updateIonIndicator );
+      particleAtom.protonCountProperty.unlink( updateIonIndicator );
+      particleAtom.electronCountProperty.unlink( updateIonIndicator );
       options.showNeutralOrIonProperty.unlink( updateIonIndicatorVisibility );
-      particleAtom.protons.lengthProperty.unlink( updateStabilityIndicator );
-      particleAtom.neutrons.lengthProperty.unlink( updateStabilityIndicator );
+      particleAtom.protonCountProperty.unlink( updateStabilityIndicator );
+      particleAtom.neutronCountProperty.unlink( updateStabilityIndicator );
       options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
     };
 
