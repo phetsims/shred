@@ -25,6 +25,7 @@ define( function( require ) {
   // phet-io modules
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TParticle = require( 'ifphetio!PHET_IO/types/shred/TParticle' );
+  var TParticleAtom = require( 'ifphetio!PHET_IO/types/shred/TParticleAtom' );
   var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
   /**
@@ -78,10 +79,21 @@ define( function( require ) {
     }, options );
     this.nucleonRadius = options.nucleonRadius; // @private
 
-    // Create the particle collections.
-    this.protons = new ObservableArray( { phetioValueType: TParticle } ); // @private
-    this.neutrons = new ObservableArray( { phetioValueType: TParticle } ); // @private
-    this.electrons = new ObservableArray( { phetioValueType: TParticle } ); // @private
+    // @private - particle collections
+    this.protons = new ObservableArray( {
+        tandem: options.tandem.createTandem( 'protons' ),
+        phetioValueType: TParticle
+      }
+    );
+    this.neutrons = new ObservableArray( {
+        tandem: options.tandem.createTandem( 'neutrons' ),
+        phetioValueType: TParticle
+      }
+    );
+    this.electrons = new ObservableArray( {
+      tandem: options.tandem.createTandem( 'electrons' ),
+      phetioValueType: TParticle
+    } );
 
     // Make shell radii publicly accessible.
     this.innerElectronShellRadius = options.innerElectronShellRadius; // @public
@@ -176,6 +188,9 @@ define( function( require ) {
         translateParticle( particle, translation );
       } );
     } );
+
+    // phet-io
+    options.tandem.addInstance( this, TParticleAtom );
   }
 
   shred.register( 'ParticleAtom', ParticleAtom );
@@ -183,30 +198,43 @@ define( function( require ) {
   return inherit( Object, ParticleAtom, {
 
     /**
+     * test this this particle atom contains a particular particle
+     * @param {Particle} particle
+     * @returns {boolean}
+     * @private
+     */
+    containsParticle: function( particle ) {
+      return this.protons.contains( particle ) ||
+             this.neutrons.contains( particle ) ||
+             this.electrons.contains( particle );
+    },
+
+    /**
      * Add a particle to the atom.
      * @param {Particle} particle
      * @public
      */
     addParticle: function( particle ) {
+
+      // in phet-io mode, we can end up with attempts being made to add the same particle twice when state is being
+      // set, so test for that case and bail if needed
+      if ( phet.chipper.brand === 'phet-io' && this.containsParticle( particle ) ) {
+        // looks like someone beat us to it
+        return;
+      }
+
       var self = this;
       if ( particle.typeProperty.get() === 'proton' || particle.typeProperty.get() === 'neutron' ) {
-        var particleArray = particle.typeProperty.get() === 'proton' ? this.protons : this.neutrons;
-        particleArray.add( particle );
-        if ( particle.typeProperty.get() === 'proton' ) {
-          this.protonCountProperty.set( this.protonCountProperty.get() + 1 );
-        }
-        else if ( particle.typeProperty.get() === 'neutron' ) {
-          this.neutronCountProperty.set( this.neutronCountProperty.get() + 1 );
-        }
-        this.reconfigureNucleus();
+
+        // create a listener that will be called when this particle is removed
         var nucleonRemovedListener = function( userControlled ) {
           if ( userControlled && particleArray.contains( particle ) ) {
             particleArray.remove( particle );
             if ( particle.typeProperty.get() === 'proton' ) {
-              self.protonCountProperty.set( self.protonCountProperty.get() - 1 );
+              self.protonCountProperty.set( self.protons.length );
             }
             else if ( particle.typeProperty.get() === 'neutron' ) {
-              self.neutronCountProperty.set( self.neutronCountProperty.get() - 1 );
+              self.neutronCountProperty.set( self.neutrons.length );
             }
             self.reconfigureNucleus();
             particle.zLayerProperty.set( 0 );
@@ -215,12 +243,24 @@ define( function( require ) {
           delete particle.particleAtomRemovalListener;
         };
         particle.userControlledProperty.lazyLink( nucleonRemovedListener );
-        // Attach to the particle to aid unlinking in some cases.
+
+        // Attach the listener to the particle so that it can be unlinked when the particle is removed.
         particle.particleAtomRemovalListener = nucleonRemovedListener;
+
+        // add the particle and update the counts
+        var particleArray = particle.typeProperty.get() === 'proton' ? this.protons : this.neutrons;
+        particleArray.push( particle );
+        if ( particle.typeProperty.get() === 'proton' ) {
+          this.protonCountProperty.set( this.protons.length );
+        }
+        else if ( particle.typeProperty.get() === 'neutron' ) {
+          this.neutronCountProperty.set( this.neutrons.length );
+        }
+        this.reconfigureNucleus();
       }
       else if ( particle.typeProperty.get() === 'electron' ) {
-        this.electrons.add( particle );
-        this.electronCountProperty.set( this.electronCountProperty.get() + 1 );
+        this.electrons.push( particle );
+        this.electronCountProperty.set( this.electrons.length );
         // Find an open position in the electron shell.
         var openPositions = this.validElectronPositions.filter( function( electronPosition ) {
           return ( electronPosition.electron === null );
@@ -251,7 +291,7 @@ define( function( require ) {
         var electronRemovedListener = function( userControlled ) {
           if ( userControlled && self.electrons.contains( particle ) ) {
             self.electrons.remove( particle );
-            self.electronCountProperty.set( self.electronCountProperty.get() - 1 );
+            self.electronCountProperty.set( self.electrons.length );
             particle.zLayerProperty.set( 0 );
           }
           particle.userControlledProperty.unlink( electronRemovedListener );
@@ -273,17 +313,18 @@ define( function( require ) {
      * @public
      */
     removeParticle: function( particle ) {
+
       if ( this.protons.contains( particle ) ) {
         this.protons.remove( particle );
-        this.protonCountProperty.set( this.protonCountProperty.get() - 1 );
+        this.protonCountProperty.set( this.protons.length );
       }
       else if ( this.neutrons.contains( particle ) ) {
         this.neutrons.remove( particle );
-        this.neutronCountProperty.set( this.neutronCountProperty.get() - 1 );
+        this.neutronCountProperty.set( this.neutrons.length );
       }
       else if ( this.electrons.contains( particle ) ) {
         this.electrons.remove( particle );
-        this.electronCountProperty.set( this.electronCountProperty.get() - 1 );
+        this.electronCountProperty.set( this.electrons.length );
       }
       else {
         throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
@@ -291,6 +332,7 @@ define( function( require ) {
       assert && assert( typeof( particle.particleAtomRemovalListener ) === 'function',
         'No particle removal listener attached to particle.' );
       particle.userControlledProperty.unlink( particle.particleAtomRemovalListener );
+
       delete particle.particleAtomRemovalListener;
     },
 
