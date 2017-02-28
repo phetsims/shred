@@ -59,7 +59,6 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'electronCountProperty' ),
       phetioValueType: TNumber( { type: 'Integer' } )
     } );
-
     this.massNumberProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty ],
       function( protonCount, neutronCount ) {
         return protonCount + neutronCount;
@@ -92,6 +91,13 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'electrons' ),
       phetioValueType: TParticle
     } );
+
+    // Hook the count properties up to the length properties of observable arrays.  In case you're wondering why the
+    // length properties weren't themselves used, it's because phet-io tries to set property values directly, and that
+    // would likely cause issues for the observable arrays.
+    this.protons.lengthProperty.link( function( protonCount ) { self.protonCountProperty.set( protonCount ); } );
+    this.neutrons.lengthProperty.link( function( neutronCount ) { self.neutronCountProperty.set( neutronCount ); } );
+    this.electrons.lengthProperty.link( function( electronCount ) { self.electronCountProperty.set( electronCount ); } );
 
     // Make shell radii publicly accessible.
     this.innerElectronShellRadius = options.innerElectronShellRadius; // @public
@@ -229,12 +235,6 @@ define( function( require ) {
         var nucleonRemovedListener = function( userControlled ) {
           if ( userControlled && particleArray.contains( particle ) ) {
             particleArray.remove( particle );
-            if ( particle.typeProperty.get() === 'proton' ) {
-              self.protonCountProperty.set( self.protons.length );
-            }
-            else if ( particle.typeProperty.get() === 'neutron' ) {
-              self.neutronCountProperty.set( self.neutrons.length );
-            }
             self.reconfigureNucleus();
             particle.zLayerProperty.set( 0 );
             particle.userControlledProperty.unlink( nucleonRemovedListener );
@@ -249,17 +249,11 @@ define( function( require ) {
         // add the particle and update the counts
         var particleArray = particle.typeProperty.get() === 'proton' ? this.protons : this.neutrons;
         particleArray.push( particle );
-        if ( particle.typeProperty.get() === 'proton' ) {
-          this.protonCountProperty.set( this.protons.length );
-        }
-        else if ( particle.typeProperty.get() === 'neutron' ) {
-          this.neutronCountProperty.set( this.neutrons.length );
-        }
         this.reconfigureNucleus();
       }
       else if ( particle.typeProperty.get() === 'electron' ) {
         this.electrons.push( particle );
-        this.electronCountProperty.set( this.electrons.length );
+
         // Find an open position in the electron shell.
         var openPositions = this.validElectronPositions.filter( function( electronPosition ) {
           return ( electronPosition.electron === null );
@@ -290,7 +284,6 @@ define( function( require ) {
         var electronRemovedListener = function( userControlled ) {
           if ( userControlled && self.electrons.contains( particle ) ) {
             self.electrons.remove( particle );
-            self.electronCountProperty.set( self.electrons.length );
             particle.zLayerProperty.set( 0 );
             particle.userControlledProperty.unlink( electronRemovedListener );
             delete particle.particleAtomRemovalListener;
@@ -315,15 +308,12 @@ define( function( require ) {
 
       if ( this.protons.contains( particle ) ) {
         this.protons.remove( particle );
-        this.protonCountProperty.set( this.protons.length );
       }
       else if ( this.neutrons.contains( particle ) ) {
         this.neutrons.remove( particle );
-        this.neutronCountProperty.set( this.neutrons.length );
       }
       else if ( this.electrons.contains( particle ) ) {
         this.electrons.remove( particle );
-        this.electronCountProperty.set( this.electrons.length );
       }
       else {
         throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
