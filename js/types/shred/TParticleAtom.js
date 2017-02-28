@@ -36,32 +36,54 @@ define( function( require ) {
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
      * @param {ParticleAtom} instance
+     * @returns {Object}
      */
     toStateObject: function( instance ) {
-      return instance.protons.map( getParticleTandemID ).getArray().
-      concat( instance.neutrons.map( getParticleTandemID ).getArray() ).
-      concat( instance.electrons.map( getParticleTandemID ).getArray() );
+      return {
+
+        // an array of all the particles currently contained within the particle atom
+        residentParticleIDs: instance.protons.map( getParticleTandemID ).getArray()
+          .concat( instance.neutrons.map( getParticleTandemID ).getArray() )
+          .concat( instance.electrons.map( getParticleTandemID ).getArray() ),
+
+        // an ordered array that tracks which electron, if any, is in each shell position
+        electronShellOccupantIDs: instance.electronShellPositions.map( function( electronShellPosition ) {
+          return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
+        } )
+      };
     },
 
     /**
-     * @param {string[]} stateArray
-     * @returns {Particle[]}
+     * @param {string[]} stateObject
+     * @returns {Object}
      */
-    fromStateObject: function( stateArray ) {
-      return stateArray.map( function( tandemID ) { return phetio.getInstance( tandemID ); } );
+    fromStateObject: function( stateObject ) {
+      return {
+        residentParticles: stateObject.residentParticleIDs.map( function( tandemID ) {
+          return phetio.getInstance( tandemID );
+        } ),
+        electronShellOccupants: stateObject.electronShellOccupantIDs.map( function( tandemID ) {
+          return tandemID ? phetio.getInstance( tandemID ) : null;
+        } )
+      };
     },
 
     /**
      * @param {ParticleAtom} instance
-     * @param {Particle[]} particleArray
+     * @param {Object} particleAtomState
      */
-    setValue: function( instance, particleArray ) {
+    setValue: function( instance, particleAtomState ) {
 
       // remove all the particles from the observable arrays
       instance.clear();
 
       // add back the particles
-      particleArray.forEach( function( value ) { instance.addParticle( value ); } );
+      particleAtomState.residentParticles.forEach( function( value ) { instance.addParticle( value ); } );
+
+      // set the electron shell occupancy state
+      particleAtomState.electronShellOccupants.forEach( function( electron, index ) {
+        instance.electronShellPositions[ index ].electron = electron;
+      } );
     }
   } );
 
