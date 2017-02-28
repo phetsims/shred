@@ -28,6 +28,9 @@ define( function( require ) {
   var TParticleAtom = require( 'ifphetio!PHET_IO/types/shred/TParticleAtom' );
   var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
+  // constants
+  var NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
+
   /**
    * @param {Object} options
    * @constructor
@@ -107,12 +110,12 @@ define( function( require ) {
     this.electronAddMode = 'proximal'; // @private
 
     // Initialize the positions where an electron can be placed.
-    this.validElectronPositions = new Array( 10 ); // @private
-    this.validElectronPositions[ 0 ] = {
+    this.electronShellPositions = new Array( NUM_ELECTRON_POSITIONS ); // @private
+    this.electronShellPositions[ 0 ] = {
       electron: null,
       position: new Vector2( self.innerElectronShellRadius, 0 )
     };
-    this.validElectronPositions[ 1 ] = {
+    this.electronShellPositions[ 1 ] = {
       electron: null,
       position: new Vector2( -self.innerElectronShellRadius, 0 )
     };
@@ -121,7 +124,7 @@ define( function( require ) {
     // Stagger inner and outer electron shell positions, tweaked a bit for better interaction with labels.
     var angle = Math.PI / numSlotsInOuterShell * 1.2;
     for ( var i = 0; i < numSlotsInOuterShell; i++ ) {
-      this.validElectronPositions[ i + 2 ] = {
+      this.electronShellPositions[ i + 2 ] = {
         electron: null,
         position: new Vector2(
           Math.cos( angle ) * self.outerElectronShellRadius,
@@ -133,27 +136,28 @@ define( function( require ) {
 
     // When an electron is removed, clear the corresponding shell position.
     this.electrons.addItemRemovedListener( function( electron ) {
-      self.validElectronPositions.forEach( function( validElectronPosition ) {
-        if ( validElectronPosition.electron === electron ) {
-          validElectronPosition.electron = null;
-          if ( Math.abs( validElectronPosition.position.magnitude() - self.innerElectronShellRadius ) < 1E-5 ) {
-            // An inner-shell electron was removed.  If there are electrons
-            // in the outer shell, move one of them in.
-            var occupiedOuterShellPositions = _.filter( self.validElectronPositions, function( validElectronPosition ) {
-              return ( validElectronPosition.electron !== null &&
-                       Utils.roughlyEqual( validElectronPosition.position.magnitude(),
+      self.electronShellPositions.forEach( function( electronShellPosition ) {
+        if ( electronShellPosition.electron === electron ) {
+          electronShellPosition.electron = null;
+          if ( Math.abs( electronShellPosition.position.magnitude() - self.innerElectronShellRadius ) < 1E-5 ) {
+
+            // An inner-shell electron was removed.  If there are electrons in the outer shell, move one of them in.
+            var occupiedOuterShellPositions = _.filter( self.electronShellPositions, function( electronShellPosition ) {
+              return ( electronShellPosition.electron !== null &&
+                       Utils.roughlyEqual( electronShellPosition.position.magnitude(),
                          self.outerElectronShellRadius,
                          1E-5
-                       ));
+                       )
+              );
             } );
             occupiedOuterShellPositions = _.sortBy( occupiedOuterShellPositions, function( occupiedShellPosition ) {
-              return occupiedShellPosition.position.distance( validElectronPosition.position );
+              return occupiedShellPosition.position.distance( electronShellPosition.position );
             } );
             if ( occupiedOuterShellPositions.length > 0 ) {
               // Move outer electron to inner spot.
-              validElectronPosition.electron = occupiedOuterShellPositions[ 0 ].electron;
+              electronShellPosition.electron = occupiedOuterShellPositions[ 0 ].electron;
               occupiedOuterShellPositions[ 0 ].electron = null;
-              validElectronPosition.electron.destination = validElectronPosition.position;
+              electronShellPosition.electron.destinationProperty.set( electronShellPosition.position );
             }
           }
         }
@@ -255,7 +259,7 @@ define( function( require ) {
         this.electrons.push( particle );
 
         // Find an open position in the electron shell.
-        var openPositions = this.validElectronPositions.filter( function( electronPosition ) {
+        var openPositions = this.electronShellPositions.filter( function( electronPosition ) {
           return ( electronPosition.electron === null );
         } );
         var sortedOpenPositions;
@@ -290,7 +294,8 @@ define( function( require ) {
           }
         };
         particle.userControlledProperty.lazyLink( electronRemovedListener );
-        // Attach to the particle to aid unlinking in some cases.
+
+        // Set the listener as an attribute of the particle to aid unlinking in some cases.
         particle.particleAtomRemovalListener = electronRemovedListener;
 
       }
