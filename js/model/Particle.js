@@ -13,10 +13,11 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
+  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TParticle = require( 'ifphetio!PHET_IO/types/shred/TParticle' );
   var TString = require( 'ifphetio!PHET_IO/types/TString' );
@@ -61,15 +62,10 @@ define( function( require ) {
       tandem: options.tandem && options.tandem.createTandem( 'velocityProperty' ),
       phetioValueType: TNumber( { type: 'FloatingPoint' } )
     } );
-
-    // TODO: This was un-instrumented on Feb 27 2017 because it was causing issues in the phet-io state setting code,
-    // since changing this property often resulted in it being redundently added to the atom or a bucket.  A better
-    // long term solution should be investigated.
-    this.userControlledProperty = new Property( false );
-    //this.userControlledProperty = new Property( false, {
-    //  tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
-    //  phetioValueType: TBoolean
-    //} );
+    this.userControlledProperty = new Property( false, {
+      tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
+      phetioValueType: TBoolean
+    } );
     this.zLayerProperty = new Property( 0, {
       tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
       phetioValueType: TNumber( { type: 'Integer' } )

@@ -237,9 +237,9 @@ define( function( require ) {
             }
             self.reconfigureNucleus();
             particle.zLayerProperty.set( 0 );
+            particle.userControlledProperty.unlink( nucleonRemovedListener );
+            delete particle.particleAtomRemovalListener;
           }
-          particle.userControlledProperty.unlink( nucleonRemovedListener );
-          delete particle.particleAtomRemovalListener;
         };
         particle.userControlledProperty.lazyLink( nucleonRemovedListener );
 
@@ -292,9 +292,9 @@ define( function( require ) {
             self.electrons.remove( particle );
             self.electronCountProperty.set( self.electrons.length );
             particle.zLayerProperty.set( 0 );
+            particle.userControlledProperty.unlink( electronRemovedListener );
+            delete particle.particleAtomRemovalListener;
           }
-          particle.userControlledProperty.unlink( electronRemovedListener );
-          delete particle.particleAtomRemovalListener;
         };
         particle.userControlledProperty.lazyLink( electronRemovedListener );
         // Attach to the particle to aid unlinking in some cases.
