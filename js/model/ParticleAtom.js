@@ -81,15 +81,13 @@ define( function( require ) {
 
     // @private - particle collections
     this.protons = new ObservableArray( {
-        tandem: options.tandem.createTandem( 'protons' ),
-        phetioValueType: TParticle
-      }
-    );
+      tandem: options.tandem.createTandem( 'protons' ),
+      phetioValueType: TParticle
+    } );
     this.neutrons = new ObservableArray( {
-        tandem: options.tandem.createTandem( 'neutrons' ),
-        phetioValueType: TParticle
-      }
-    );
+      tandem: options.tandem.createTandem( 'neutrons' ),
+      phetioValueType: TParticle
+    } );
     this.electrons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'electrons' ),
       phetioValueType: TParticle
@@ -119,9 +117,10 @@ define( function( require ) {
     for ( var i = 0; i < numSlotsInOuterShell; i++ ) {
       this.validElectronPositions[ i + 2 ] = {
         electron: null,
-        position: new Vector2( Math.cos( angle ) *
-                               self.outerElectronShellRadius, Math.sin( angle ) *
-                                                              self.outerElectronShellRadius )
+        position: new Vector2(
+          Math.cos( angle ) * self.outerElectronShellRadius,
+          Math.sin( angle ) * self.outerElectronShellRadius
+        )
       };
       angle += 2 * Math.PI / numSlotsInOuterShell;
     }
