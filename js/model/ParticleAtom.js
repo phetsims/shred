@@ -233,7 +233,7 @@ define( function( require ) {
       }
 
       var self = this;
-      if ( particle.typeProperty.get() === 'proton' || particle.typeProperty.get() === 'neutron' ) {
+      if ( particle.type === 'proton' || particle.type === 'neutron' ) {
 
         // create a listener that will be called when this particle is removed
         var nucleonRemovedListener = function( userControlled ) {
@@ -251,11 +251,11 @@ define( function( require ) {
         particle.particleAtomRemovalListener = nucleonRemovedListener;
 
         // add the particle and update the counts
-        var particleArray = particle.typeProperty.get() === 'proton' ? this.protons : this.neutrons;
+        var particleArray = particle.type === 'proton' ? this.protons : this.neutrons;
         particleArray.push( particle );
         this.reconfigureNucleus();
       }
-      else if ( particle.typeProperty.get() === 'electron' ) {
+      else if ( particle.type === 'electron' ) {
         this.electrons.push( particle );
 
         // Find an open position in the electron shell.

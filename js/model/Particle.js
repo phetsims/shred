@@ -38,11 +38,9 @@ define( function( require ) {
     }, options );
     this.particleTandem = options.tandem;
 
+    this.type = type; // @public (read-only)
+
     // @public
-    this.typeProperty = new Property( type, {
-      tandem: options.tandem.createTandem( 'typeProperty' ),
-      phetioValueType: TString
-    } );
     this.positionProperty = new Property( Vector2.ZERO, {
       tandem: options.tandem && options.tandem.createTandem( 'positionProperty' ),
       phetioValueType: TVector2

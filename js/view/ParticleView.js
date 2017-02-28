@@ -16,7 +16,7 @@ define( function( require ) {
 
   function createParticleNode( particle, modelViewTransform, tandem ) {
     var particleNode;
-    if ( particle.typeProperty.get() === 'Isotope' ) {
+    if ( particle.type === 'Isotope' ) {
       particleNode = new IsotopeNode(
         particle,
         modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
@@ -25,7 +25,7 @@ define( function( require ) {
     }
     else {
       particleNode = new ParticleNode(
-        particle.typeProperty.get(),
+        particle.type,
         modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
         { tandem: tandem }
       );
