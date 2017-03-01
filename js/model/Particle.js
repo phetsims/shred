@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
+  var Range = require( 'DOT/Range' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -57,9 +58,13 @@ define( function( require ) {
         phetioValueType: TNumber( { type: 'FloatingPoint' } )
       }
     );
-    this.velocityProperty = new Property( DEFAULT_PARTICLE_VELOCITY, {
-      tandem: options.tandem && options.tandem.createTandem( 'velocityProperty' ),
-      phetioValueType: TNumber( { type: 'FloatingPoint' } )
+    this.animationVelocityProperty = new Property( DEFAULT_PARTICLE_VELOCITY, {
+      tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
+      phetioValueType: TNumber( {
+        type: 'FloatingPoint',
+        range: new Range( 0, 10 * DEFAULT_PARTICLE_VELOCITY ), // limited for instance proxies, code could be any value
+        units: 'view-coordinates/second'
+      } )
     } );
     this.userControlledProperty = new Property( false, {
       tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
@@ -84,7 +89,7 @@ define( function( require ) {
       if ( !this.userControlledProperty.get() ) {
         var position = this.positionProperty.get();
         var destination = this.destinationProperty.get();
-        var velocity = this.velocityProperty.get();
+        var velocity = this.animationVelocityProperty.get();
         var distanceToDestination = position.distance( destination );
         if ( distanceToDestination > dt * velocity ) {
           // This was broken up into individual steps in an attempt to solve an issue where complex vector operations

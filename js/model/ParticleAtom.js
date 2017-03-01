@@ -37,9 +37,16 @@ define( function( require ) {
    */
   function ParticleAtom( options ) {
 
+    var self = this;
+
     options = _.extend( {
+      innerElectronShellRadius: 85,
+      outerElectronShellRadius: 130,
+      nucleonRadius: ShredConstants.NUCLEON_RADIUS,
       tandem: Tandem.tandemRequired()
     }, options );
+
+    this.nucleonRadius = options.nucleonRadius; // @private
 
     // @public
     this.positionProperty = new Property( Vector2.ZERO, {
@@ -52,36 +59,6 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'nucleusOffsetProperty' ),
       phetioValueType: TVector2
     } );
-    this.protonCountProperty = new Property( 0, {
-      tandem: options.tandem.createTandem( 'protonCountProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } )
-    } );
-    this.neutronCountProperty = new Property( 0, {
-      tandem: options.tandem.createTandem( 'neutronCountProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } )
-    } );
-    this.electronCountProperty = new Property( 0, {
-      tandem: options.tandem.createTandem( 'electronCountProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } )
-    } );
-    this.massNumberProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty ],
-      function( protonCount, neutronCount ) {
-        return protonCount + neutronCount;
-      } );
-    this.particleCountProperty = new DerivedProperty( [ this.protonCountProperty,
-        this.neutronCountProperty,
-        this.electronCountProperty ],
-      function( protonCount, neutronCount, electronCount ) {
-        return protonCount + neutronCount + electronCount;
-      } );
-    var self = this;
-
-    options = _.extend( {
-      innerElectronShellRadius: 85,
-      outerElectronShellRadius: 130,
-      nucleonRadius: ShredConstants.NUCLEON_RADIUS
-    }, options );
-    this.nucleonRadius = options.nucleonRadius; // @private
 
     // @private - particle collections
     this.protons = new ObservableArray( {
@@ -97,12 +74,57 @@ define( function( require ) {
       phetioValueType: TParticle
     } );
 
-    // Hook the count properties up to the length properties of observable arrays.  In case you're wondering why the
-    // length properties weren't themselves used, it's because phet-io tries to set property values directly, and that
-    // would likely cause issues for the observable arrays.
-    this.protons.lengthProperty.link( function( protonCount ) { self.protonCountProperty.set( protonCount ); } );
-    this.neutrons.lengthProperty.link( function( neutronCount ) { self.neutronCountProperty.set( neutronCount ); } );
-    this.electrons.lengthProperty.link( function( electronCount ) { self.electronCountProperty.set( electronCount ); } );
+    // @public (read-only) - derived properties based on the number of particles present in the atom
+    this.protonCountProperty = new DerivedProperty(
+      [ this.protons.lengthProperty ],
+      function( length ) {
+        return length;
+      },
+      {
+        tandem: options.tandem.createTandem( 'protonCountProperty' ),
+        phetioValueType: TNumber( { type: 'Integer' } )
+      }
+    );
+    this.neutronCountProperty = new DerivedProperty(
+      [ this.neutrons.lengthProperty ],
+      function( length ) {
+        return length;
+      },
+      {
+        tandem: options.tandem.createTandem( 'neutronCountProperty' ),
+        phetioValueType: TNumber( { type: 'Integer' } )
+      }
+    );
+    this.electronCountProperty = new DerivedProperty(
+      [ this.electrons.lengthProperty ],
+      function( length ) {
+        return length;
+      },
+      {
+        tandem: options.tandem.createTandem( 'electronCountProperty' ),
+        phetioValueType: TNumber( { type: 'Integer' } )
+      }
+    );
+    this.massNumberProperty = new DerivedProperty(
+      [ this.protonCountProperty, this.neutronCountProperty ],
+      function( protonCount, neutronCount ) {
+        return protonCount + neutronCount;
+      },
+      {
+        tandem: options.tandem.createTandem( 'massNumberProperty' ),
+        phetioValueType: TNumber( { type: 'Integer' } )
+      }
+    );
+    this.particleCountProperty = new DerivedProperty(
+      [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
+      function( protonCount, neutronCount, electronCount ) {
+        return protonCount + neutronCount + electronCount;
+      },
+      {
+        tandem: options.tandem.createTandem( 'particleCountProperty' ),
+        phetioValueType: TNumber( { type: 'Integer' } )
+      }
+    );
 
     // Make shell radii publicly accessible.
     this.innerElectronShellRadius = options.innerElectronShellRadius; // @public
