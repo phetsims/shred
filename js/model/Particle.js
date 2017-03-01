@@ -55,7 +55,8 @@ define( function( require ) {
       type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS,
       {
         tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
-        phetioValueType: TNumber( { type: 'FloatingPoint' } )
+        phetioValueType: TNumber( { type: 'FloatingPoint' } ),
+        phetioInstanceDocumentation: 'changes to radius may not be reflected in view'
       }
     );
     this.animationVelocityProperty = new Property( DEFAULT_PARTICLE_VELOCITY, {
