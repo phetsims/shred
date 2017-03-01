@@ -34,7 +34,8 @@ define( function( require ) {
   function Particle( type, options ) {
 
     options = _.extend( {
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+      maxZLayer: Number.POSITIVE_INFINITY // for phet-io, can take on values 0-maxZLayer (inclusive)
     }, options );
     this.particleTandem = options.tandem;
 
@@ -63,7 +64,7 @@ define( function( require ) {
       tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
       phetioValueType: TNumber( {
         type: 'FloatingPoint',
-        range: new Range( 0, 10 * DEFAULT_PARTICLE_VELOCITY ), // limited for instance proxies, code could be any value
+        range: new Range( 0, 10 * DEFAULT_PARTICLE_VELOCITY ), // limited for instance proxies, code can handle any value
         units: 'view-coordinates/second'
       } )
     } );
@@ -72,8 +73,14 @@ define( function( require ) {
       phetioValueType: TBoolean
     } );
     this.zLayerProperty = new Property( 0, {
+      isValidValue: function( value ) {
+        return value >= 0 && value <= options.maxZLayer;
+      },
       tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } )
+      phetioValueType: TNumber( {
+        type: 'Integer',
+        range: new Range( 0, options.maxZLayer )
+      } )
     } ); // Used in view, integer value, higher means further back.
 
     options.tandem.addInstance( this, TParticle );
@@ -125,5 +132,7 @@ define( function( require ) {
         this.moveImmediatelyToDestination();
       }
     }
+  }, {
+    MAX_LAYERS: 5
   } );
 } );
