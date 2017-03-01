@@ -105,6 +105,16 @@ define( function( require ) {
         phetioValueType: TNumber( { type: 'Integer' } )
       }
     );
+    this.chargeProperty = new DerivedProperty(
+      [ this.protonCountProperty, this.electronCountProperty ],
+      function( protonCount, electronCount ) {
+        return protonCount - electronCount;
+      },
+      {
+        tandem: options.tandem.createTandem( 'chargeProperty' ),
+        phetioValueType: TNumber( { type: 'Integer' } )
+      }
+    );
     this.massNumberProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty ],
       function( protonCount, neutronCount ) {
