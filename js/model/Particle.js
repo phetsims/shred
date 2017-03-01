@@ -41,10 +41,12 @@ define( function( require ) {
 
     // @public
     this.positionProperty = new Property( Vector2.ZERO, {
+      useDeepEquality: true,
       tandem: options.tandem && options.tandem.createTandem( 'positionProperty' ),
       phetioValueType: TVector2
     } );
     this.destinationProperty = new Property( Vector2.ZERO, {
+      useDeepEquality: true,
       tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' ),
       phetioValueType: TVector2
     } );

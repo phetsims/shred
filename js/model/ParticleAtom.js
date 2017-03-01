@@ -43,10 +43,12 @@ define( function( require ) {
 
     // @public
     this.positionProperty = new Property( Vector2.ZERO, {
+      useDeepEquality: true,
       tandem: options.tandem.createTandem( 'positionProperty' ),
       phetioValueType: TVector2
     } );
     this.nucleusOffsetProperty = new Property( Vector2.ZERO, {
+      useDeepEquality: true,
       tandem: options.tandem.createTandem( 'nucleusOffsetProperty' ),
       phetioValueType: TVector2
     } );
