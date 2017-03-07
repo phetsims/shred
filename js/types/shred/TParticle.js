@@ -26,23 +26,6 @@ define( function( require ) {
   }
 
   phetioInherit( TObject, 'TParticle', TParticle, {}, {
-
-    /**
-     * TOTO: this is stubbed because because TObservableArray assumes that everything it contains is serializable, which
-     * is not necessarily a valid assumption.  Once this is fixed or otherwise resolved, this function can be removed.
-     * @param particle
-     * @returns {string}
-     */
-    toStateObject: function( particle ) {
-      return 'TParticle';
-    },
-
-    fromStateObject: function( stateObject ) {
-      // TODO: This function is also stubbed, as is toStateObject, due to issues with TObservableArray and its
-      // assumptions about serializing and deserializing the objects contained in an observable array.
-      return stateObject;
-    },
-
     documentation: 'The model for a single particle such as an electron, proton, or neutron.'
   } );
 
