@@ -13,7 +13,6 @@ define( function( require ) {
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var ElectronCloudView = require( 'SHRED/view/ElectronCloudView' );
   var ElectronShellView = require( 'SHRED/view/ElectronShellView' );
-  var IsotopeElectronCloudView = require( 'SHRED/view/IsotopeElectronCloudView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -95,15 +94,10 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'electronCloud' )
     } );
     this.addChild( electronCloud );
-    var isotopeElectronCloud = new IsotopeElectronCloudView( particleAtom, modelViewTransform, {
-      tandem: options.tandem.createTandem( 'isotopeElectronCloud' )
-    } );
-    this.addChild( isotopeElectronCloud );
 
     var updateElectronShellDepictionVisibility = function( depiction ) {
       electronShell.visible = depiction === 'orbits';
       electronCloud.visible = depiction === 'cloud';
-      isotopeElectronCloud.visible = depiction === 'isotopeCloud';
     };
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
 
@@ -231,7 +225,6 @@ define( function( require ) {
     // @private
     this.disposeAtomNode = function() {
       electronCloud.dispose();
-      isotopeElectronCloud.dispose();
       if ( options.showCenterX ) {
         particleAtom.electronCountProperty.unlink( listener );
         particleAtom.neutronCountProperty.unlink( listener );
