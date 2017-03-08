@@ -1,9 +1,8 @@
 // Copyright 2014-2015, University of Colorado Boulder
 
 /**
- * Node that represents the electron shell in an atom as a "cloud" that grows
- * and shrinks depending on the number of electrons that it contains.  This
- * has also been referred to as the "Schroedinger model" representation.
+ * Node that represents the electron shell in an atom as a "cloud" that grows and shrinks depending on the number of
+ * electrons that it contains.  This has also been referred to as the "Schroedinger model" representation.
  *
  * @author John Blanco
  */
@@ -18,7 +17,6 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
-  var Node = require( 'SCENERY/nodes/Node' );
 
   /**
    * @param {ParticleAtom} atom
@@ -28,44 +26,36 @@ define( function( require ) {
    */
   function ElectronCloudView( atom, modelViewTransform, options ) {
 
-    options = _.extend( {
-        tandem: Tandem.tandemRequired()
-      },
-      options
-    );
-
-    // Call super constructor.
-    Node.call( this, { cursor: 'pointer', tandem: options.tandem } );
     var self = this;
+    options = _.extend( { tandem: Tandem.tandemRequired() }, options );
 
-    var electronCloud = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+    Circle.call( this, {
+        cursor: 'pointer',
         fill: 'pink',
-      translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } ),
-      tandem: options.tandem.createTandem( 'electronCloud' )
+        translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
       }
     );
-    this.addChild( electronCloud );
 
     // Function that updates the size of the cloud based on the number of electrons.
-    var updateElectronCloud = function( numElectrons ) {
+    var update = function( numElectrons ) {
       if ( numElectrons === 0 ) {
-        electronCloud.radius = 1E-5; // Arbitrary non-zero value.
-        electronCloud.fill = 'transparent';
+        self.radius = 1E-5; // Arbitrary non-zero value.
+        self.fill = 'transparent';
       }
       else {
         var minRadius = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ) * 0.5;
         var maxRadius = modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius );
         var radius = minRadius + ( ( maxRadius - minRadius ) / ShredConstants.MAX_ELECTRONS ) * numElectrons;
-        electronCloud.radius = radius;
-        electronCloud.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
+        self.radius = radius;
+        self.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
           .addColorStop( 0, 'rgba( 0, 0, 255, 200 )' )
           .addColorStop( 0.9, 'rgba( 0, 0, 255, 0 )' );
       }
     };
-    updateElectronCloud( atom.electrons.length );
+    update( atom.electrons.length );
 
     // Update the cloud size as electrons come and go.
-    atom.electrons.lengthProperty.link( updateElectronCloud );
+    atom.electrons.lengthProperty.link( update );
 
     // If the user clicks on the cloud, extract an electron.
     this.extractedElectron = null; // @private
@@ -99,23 +89,25 @@ define( function( require ) {
           self.extractedElectron.userControlledProperty.set( false );
         }
       },
-      tandem: options.tandem.createTandem( 'dragHandler' ),
+      tandem: options.tandem.createTandem( 'dragHandler' )
     } ) );
 
     this.disposeElectronCloudView = function() {
-      atom.electrons.lengthProperty.unlink( updateElectronCloud );
+      atom.electrons.lengthProperty.unlink( update );
       options.tandem && options.tandem.removeInstance( self );
     };
+
+    this.mutate( options );
   }
 
   shred.register( 'ElectronCloudView', ElectronCloudView );
 
-  // Inherit from Node.
-  return inherit( Node, ElectronCloudView, {
+  return inherit( Circle, ElectronCloudView, {
+
     // @public
     dispose: function() {
       this.disposeElectronCloudView();
-      Node.prototype.dispose.call( this );
+      Circle.prototype.dispose.call( this );
     }
   } );
 } );
