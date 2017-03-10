@@ -512,6 +512,7 @@ define( function( require ) {
         nucleons[ 3 ].zLayerProperty.set( 1 );
       }
       else if ( nucleons.length >= 5 ) {
+
         // This is a generalized algorithm that should work for five or more nucleons.
         var placementRadius = 0;
         var numAtThisRadius = 1;
@@ -519,11 +520,10 @@ define( function( require ) {
         var placementAngle = 0;
         var placementAngleDelta = 0;
 
-        // Scale correction for the next placement radius, linear map determined empirically.
-        // As the nucleon size increases, we want the scale factor and change in placement radius
-        // to decrease since larger nucleons are easier to see with larger area.
-        // Map values determined in cases which use a wide range in number of nucleons and in
-        // cases where the nucleon radius scaled from 3 to 10 (in screen coordinates - roughly pixels).
+        // Scale correction for the next placement radius, linear map determined empirically. As the nucleon size
+        // increases, we want the scale factor and change in placement radius to decrease since larger nucleons are
+        // easier to see with larger area. Map values determined in cases which use a wide range in number of nucleons
+        // and in cases where the nucleon radius scaled from 3 to 10 (in screen coordinates - roughly pixels).
         var radiusA = 3;
         var radiusB = 10;
         var scaleFactorA = 2.4;
@@ -537,10 +537,12 @@ define( function( require ) {
           nucleons[ i ].zLayerProperty.set( level );
           numAtThisRadius--;
           if ( numAtThisRadius > 0 ) {
+
             // Stay at the same radius and update the placement angle.
             placementAngle += placementAngleDelta;
           }
           else {
+
             // Move out to the next radius.
             level++;
             placementRadius += nucleonRadius * scaleFactor / level;
