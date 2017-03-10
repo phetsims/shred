@@ -33,6 +33,11 @@ define( function( require ) {
 
   phetioInherit( TObject, 'TParticleAtom', TParticleAtom, {}, {
 
+    documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
+                   'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
+                   'appropriate places.  This object also keeps track of things like atomic number, mass number, and ' +
+                   'charge.',
+
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
      * @param {ParticleAtom} instance
