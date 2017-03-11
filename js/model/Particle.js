@@ -83,13 +83,6 @@ define( function( require ) {
       } )
     } ); // Used in view, integer value, higher means further back.
 
-    Property.preventGetSet( this, 'position' );
-    Property.preventGetSet( this, 'destination' );
-    Property.preventGetSet( this, 'radius' );
-    Property.preventGetSet( this, 'animationVelocity' );
-    Property.preventGetSet( this, 'userControlled' );
-    Property.preventGetSet( this, 'zLayer' );
-
     options.tandem.addInstance( this, TParticle );
   }
 
