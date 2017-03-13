@@ -21,7 +21,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
-  var TPeriodicTableCell = require( 'ifphetio!PHET_IO/simulations/build-an-atom/TPeriodicTableCell' );
+  var TPeriodicTableCell = require( 'SHRED/view/TPeriodicTableCell' );
 
   // constants
   var NOMINAL_CELL_DIMENSION = 25;
