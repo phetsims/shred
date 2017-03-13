@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var phetioNamespace = require( 'ifphetio!PHET_IO/phetioNamespace' );
+  var shred = require( 'SHRED/shred' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
@@ -29,7 +29,7 @@ define( function( require ) {
     documentation: 'The model for a single particle such as an electron, proton, or neutron.'
   } );
 
-  phetioNamespace.register( 'TParticle', TParticle );
+  shred.register( 'TParticle', TParticle );
 
   return TParticle;
 } );

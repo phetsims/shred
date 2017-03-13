@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
-  var phetioNamespace = require( 'ifphetio!PHET_IO/phetioNamespace' );
+  var shred = require( 'SHRED/shred' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
 
@@ -92,7 +92,7 @@ define( function( require ) {
     }
   } );
 
-  phetioNamespace.register( 'TParticleAtom', TParticleAtom );
+  shred.register( 'TParticleAtom', TParticleAtom );
 
   return TParticleAtom;
 } );
