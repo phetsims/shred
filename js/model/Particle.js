@@ -16,12 +16,12 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
+  var TVector2 = require( 'DOT/TVector2' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TParticle = require( 'ifphetio!PHET_IO/types/shred/TParticle' );
-  var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
   // constants
   var DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.

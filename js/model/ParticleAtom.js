@@ -21,12 +21,12 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
+  var TVector2 = require( 'DOT/TVector2' );
 
   // phet-io modules
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
   var TParticle = require( 'ifphetio!PHET_IO/types/shred/TParticle' );
   var TParticleAtom = require( 'ifphetio!PHET_IO/types/shred/TParticleAtom' );
-  var TVector2 = require( 'ifphetio!PHET_IO/types/dot/TVector2' );
 
   // constants
   var NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
