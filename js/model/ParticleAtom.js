@@ -48,6 +48,9 @@ define( function( require ) {
 
     this.nucleonRadius = options.nucleonRadius; // @private
 
+    // @public (read-only) - radius of the nucleus in view coordinates, which is rougly pixels
+    this.nucleusRadius = 0;
+
     // @public
     this.positionProperty = new Property( Vector2.ZERO, {
       useDeepEquality: true,
@@ -447,6 +450,7 @@ define( function( require ) {
       var nucleonRadius = this.nucleonRadius;
       var angle;
       var distFromCenter;
+      var nucleusRadius = 0;
 
       // Create an array of interspersed protons and neutrons for configuring.
       var nucleons = [];
@@ -466,11 +470,15 @@ define( function( require ) {
       }
 
       if ( nucleons.length === 1 ) {
+        nucleusRadius = this.nucleonRadius;
+
         // There is only one nucleon present, so place it in the center of the atom.
         nucleons[ 0 ].destinationProperty.set( new Vector2( centerX, centerY ) );
         nucleons[ 0 ].zLayerProperty.set( 0 );
       }
       else if ( nucleons.length === 2 ) {
+        nucleusRadius = this.nucleonRadius * 2;
+
         // Two nucleons - place them side by side with their meeting point in the center.
         angle = 0.2 * 2 * Math.PI; // Angle arbitrarily chosen.
         nucleons[ 0 ].destinationProperty.set( new Vector2( centerX + nucleonRadius * Math.cos( angle ),
@@ -481,6 +489,7 @@ define( function( require ) {
         nucleons[ 1 ].zLayerProperty.set( 0 );
       }
       else if ( nucleons.length === 3 ) {
+
         // Three nucleons - form a triangle where they all touch.
         angle = 0.7 * 2 * Math.PI; // Angle arbitrarily chosen.
         distFromCenter = nucleonRadius * 1.155;
@@ -493,8 +502,11 @@ define( function( require ) {
         nucleons[ 2 ].destinationProperty.set( new Vector2( centerX + distFromCenter * Math.cos( angle + 4 * Math.PI / 3 ),
           centerY + distFromCenter * Math.sin( angle + 4 * Math.PI / 3 ) ) );
         nucleons[ 2 ].zLayerProperty.set( 0 );
+
+        nucleusRadius = distFromCenter + nucleonRadius;
       }
       else if ( nucleons.length === 4 ) {
+
         // Four nucleons - make a sort of diamond shape with some overlap.
         angle = 1.4 * 2 * Math.PI; // Angle arbitrarily chosen.
         nucleons[ 0 ].destinationProperty.set( new Vector2( centerX + nucleonRadius * Math.cos( angle ),
@@ -510,6 +522,8 @@ define( function( require ) {
         nucleons[ 3 ].destinationProperty.set( new Vector2( centerX - distFromCenter * Math.cos( angle + Math.PI / 2 ),
           centerY - distFromCenter * Math.sin( angle + Math.PI / 2 ) ) );
         nucleons[ 3 ].zLayerProperty.set( 1 );
+
+        nucleusRadius = distFromCenter + nucleonRadius;
       }
       else if ( nucleons.length >= 5 ) {
 
@@ -551,7 +565,12 @@ define( function( require ) {
             placementAngleDelta = 2 * Math.PI / numAtThisRadius;
           }
         }
+
+        // the total radius is the center is the final placement radius plus the nucleon radius
+        nucleusRadius = placementRadius + this.nucleonRadius;
       }
+
+      this.nucleusRadius = nucleusRadius;
     }
   } );
 } );
