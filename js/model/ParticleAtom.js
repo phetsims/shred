@@ -450,7 +450,7 @@ define( function( require ) {
       var nucleonRadius = this.nucleonRadius;
       var angle;
       var distFromCenter;
-      var nucleusRadius = 0;
+      var nucleusRadius = nucleonRadius;
 
       // Create an array of interspersed protons and neutrons for configuring.
       var nucleons = [];

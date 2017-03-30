@@ -16,16 +16,10 @@ define( function( require ) {
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
+  var Input = require( 'SCENERY/input/Input' );
 
   // constants
   var LINE_DASH = [ 4, 5 ];
-
-  // Must be strings because html attributes are strings?
-  var PARTICLE_PLACEMENTS = {
-    CENTER: '0',
-    INNER: '1',
-    OUTER: '2'
-  };
 
   /**
    * @param {ParticleAtom} atom
@@ -47,11 +41,10 @@ define( function( require ) {
       tandem: options.tandem,
 
       // a11y
-      tagName: 'select',
-      prependLabel: true,
-      accessibleLabel: 'Particle Placement Options'
+      tagName: 'div',
+      ariaRole: 'listbox',
+      focusable: true
     } );
-    this.setAccessibleAttribute( 'style', 'visibility: none;' );
 
     var outerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
       stroke: 'blue',
@@ -62,11 +55,10 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'outerRing' ),
 
       // a11y
-      tagName: 'option',
+      tagName: 'div',
+      ariaRole: 'option',
       accessibleLabel: 'Outer Electron Ring'
     } );
-    outerRing.setAccessibleAttribute( 'value', PARTICLE_PLACEMENTS.OUTER );
-    this.addChild( outerRing );
 
     var innerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
       stroke: 'blue',
@@ -77,22 +69,19 @@ define( function( require ) {
       tandem: options.tandem.createTandem( 'innerRing' ),
 
       //a11y
-      tagName: 'option',
+      tagName: 'div',
+      ariaRole: 'option',
       accessibleLabel: 'Inner Electron Ring'
     } );
-    innerRing.setAccessibleAttribute( 'value', PARTICLE_PLACEMENTS.INNER );
-    this.addChild( innerRing );
 
     // a11y - an invisible node that allows the nucleus to be highlighted.
     var centerOption = new Node( {
 
       // a11y
-      tagName: 'option',
+      tagName: 'div',
+      ariaRole: 'option',
       accessibleLabel: 'Nucleus'
     } );
-    centerOption.setAccessibleAttribute( 'value', PARTICLE_PLACEMENTS.CENTER );
-    this.addChild( centerOption );
-
 
     // a11y - to focus around the actual nucleus, will change in size when the particles in the nucleus change
     var nucleusFocusHighlight = new Circle( atom.nucleusRadius, {
@@ -120,13 +109,13 @@ define( function( require ) {
     // Link the property's value to change the focus highlight outlining the different particle placement possibilities.
     selectValueProperty.lazyLink( function( newValue ) {
       switch( newValue ) {
-        case (PARTICLE_PLACEMENTS.OUTER):
+        case ( centerOption.accessibleId ):
           self.setFocusHighlight( electronOuterFocusHighlight );
           break;
-        case (PARTICLE_PLACEMENTS.INNER):
+        case ( innerRing.accessibleId ):
           self.setFocusHighlight( electronInnerFocusHighlight );
           break;
-        case (PARTICLE_PLACEMENTS.CENTER):
+        case ( outerRing.accessibleId ):
           self.setFocusHighlight( nucleusFocusHighlight );
           break;
         default:
@@ -135,12 +124,26 @@ define( function( require ) {
     } );
 
     // a11y - set the selectProperty when the arrow keys change the html select menu's value.
+    var optionNodes = [ centerOption, innerRing, outerRing ];
+    var currentIndex = 0;
     this.addAccessibleInputListener( {
-      input: function() {
-        selectValueProperty.set( self.inputValue );
+      keydown: function( event ) {
+        if ( event.keyCode === Input.KEY_DOWN_ARROW || event.keyCode === Input.KEY_RIGHT_ARROW ) {
+          currentIndex = ( currentIndex + 1 ) % optionNodes.length;
+        }
+        else if ( event.keyCode === Input.KEY_UP_ARROW || event.keyCode === Input.KEY_LEFT_ARROW ) {
+          currentIndex = currentIndex - 1;
+          if ( currentIndex < 0 ) { currentIndex = optionNodes.length - 1; }
+        }
+
+        var nextElementId = optionNodes[ currentIndex ].accessibleId;
+        self.setAccessibleAttribute( 'aria-activedescendant', nextElementId );
+        selectValueProperty.set( nextElementId );
       }
     } );
 
+    // add each node to the view
+    optionNodes.forEach( function( node ) { self.addChild( node ); } );
 
     // whenever a nucleon is added or removed, change the highlight radius
     Property.multilink( [ atom.protonCountProperty, atom.neutronCountProperty ], function( protonCount, neutronCount ) {
