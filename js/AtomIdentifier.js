@@ -788,7 +788,7 @@ define( function( require ) {
      * Returns the natural abundance of a particular isotope.
      *
      * @param {NumberAtom} atom
-     * @return {number}
+     * @returns {number}
      * TODO Should we combine these two?
      */
 
