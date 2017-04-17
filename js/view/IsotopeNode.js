@@ -14,7 +14,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var shred = require( 'SHRED/shred' );
-  var SubSupText = require( 'SCENERY_PHET/SubSupText' );
+  var RichText = require( 'SCENERY_PHET/RichText' );
 
   /**
    * @param {Particle} isotope
@@ -44,7 +44,7 @@ define( function( require ) {
 
     if ( options.showLabel ) {
       var symbol = AtomIdentifier.getSymbol( isotope.protonCount );
-      var label = new SubSupText( ' <sup>' + isotope.massNumber + '</sup>' + symbol, {
+      var label = new RichText( ' <sup>' + isotope.massNumber + '</sup>' + symbol, {
         font: new PhetFont( 10 ),
         // making sure that text doesn't goes beyond the sphere boundaries, -2 is empirically determined
         maxWidth: 2 * radius - 2
