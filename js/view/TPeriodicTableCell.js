@@ -30,6 +30,7 @@ define( function( require ) {
   };
 
   phetioInherit( TObject, 'TPeriodicTableCell', TPeriodicTableCell, {}, {
+    documentation: 'The type that wraps a periodic table cell.',
     events: [ 'fired' ],
 
     fromStateObject: function( stateObject ) {
