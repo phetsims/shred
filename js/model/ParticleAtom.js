@@ -25,6 +25,10 @@ define( function( require ) {
   var TParticle = require( 'SHRED/model/TParticle' );
   var TParticleAtom = require( 'SHRED/model/TParticleAtom' );
 
+  var Brand = {};
+  if( phet && phet.chipper && phet.chipper.brand ){
+    Brand = require( 'BRAND/Brand' );
+  }
   // phet-io modules
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
 
@@ -264,7 +268,7 @@ define( function( require ) {
 
       // in phet-io mode, we can end up with attempts being made to add the same particle twice when state is being
       // set, so test for that case and bail if needed
-      if ( phet.chipper.brand === 'phet-io' && this.containsParticle( particle ) ) {
+      if ( Brand.phetioEnabled && this.containsParticle( particle ) ) {
         // looks like someone beat us to it
         return;
       }
