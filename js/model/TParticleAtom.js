@@ -21,10 +21,10 @@ define( function( require ) {
    * @param {string} phetioID
    * @constructor
    */
-  var TParticleAtom = function( instance, phetioID ) {
+  function TParticleAtom( instance, phetioID ) {
     TObject.call( this, instance, phetioID );
     assertInstanceOf( instance, phet.shred.ParticleAtom );
-  };
+  }
 
   // helper function for retrieving the tandem for a particle
   function getParticleTandemID( particle ) {

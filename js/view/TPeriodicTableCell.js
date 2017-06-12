@@ -15,7 +15,13 @@ define( function( require ) {
   var toEventOnEmit = require( 'ifphetio!PHET_IO/events/toEventOnEmit' );
   var shred = require( 'SHRED/shred' );
 
-  var TPeriodicTableCell = function( periodicTableCell, phetioID ) {
+  /**
+   *
+   * @param periodicTableCell
+   * @param phetioID
+   * @constructor
+   */
+  function TPeriodicTableCell( periodicTableCell, phetioID ) {
     assertInstanceOf( periodicTableCell, phet.shred.PeriodicTableCell );
     TObject.call( this, periodicTableCell, phetioID );
 
@@ -27,7 +33,7 @@ define( function( require ) {
       TPeriodicTableCell,
       'fired'
     );
-  };
+  }
 
   phetioInherit( TObject, 'TPeriodicTableCell', TPeriodicTableCell, {}, {
     documentation: 'The type that wraps a periodic table cell.',
