@@ -6,14 +6,17 @@
 define( function( require ) {
   'use strict';
 
+  // modules
+  var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var IsotopeNode = require( 'SHRED/view/IsotopeNode' );
+  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
   var ParticleNode = require( 'SHRED/view/ParticleNode' );
   var shred = require( 'SHRED/shred' );
-  var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // helper factory function
   function createParticleNode( particle, modelViewTransform, tandem ) {
     var particleNode;
     if ( particle.type === 'Isotope' ) {
@@ -42,6 +45,7 @@ define( function( require ) {
   function ParticleView( particle, modelViewTransform, options ) {
 
     options = _.extend( {
+      dragBounds: Bounds2.EVERYTHING,
       tandem: Tandem.tandemRequired()
     }, options );
 
@@ -66,25 +70,21 @@ define( function( require ) {
     particle.positionProperty.link( updateParticlePosition );
 
     // Add a drag handler
-    this.addInputListener( new TandemSimpleDragHandler( {
+    this.addInputListener( new MovableDragHandler( particle.destinationProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'inputListener' ) : null,
 
-      // Allow moving a finger (touch) across a node to pick it up.
-      allowTouchSnag: true,
-
-      // Handler that moves the particle in model space.
-      translate: function( translationParams ) {
-        particle.setPositionAndDestination(
-          particle.positionProperty.get().plus( modelViewTransform.viewToModelDelta( translationParams.delta ) )
-        );
-        return translationParams.position;
-      },
-      start: function( event, trail ) {
+      startDrag: function( event, trail ) {
         self.particle.userControlledProperty.set( true );
       },
-      end: function( event, trail ) {
+      onDrag: function( event, trail ) {
+        // update the position immediately to match the destination (i.e. don't animate)
+        self.particle.moveImmediatelyToDestination();
+      },
+      endDrag: function( event, trail ) {
         self.particle.userControlledProperty.set( false );
-      }
+      },
+      modelViewTransform: modelViewTransform,
+      dragBounds: options.dragBounds
     } ) );
     this.mutate( options );
 
