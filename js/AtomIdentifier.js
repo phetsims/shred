@@ -252,13 +252,13 @@ define( function( require ) {
     'Mt', // 109, MEITNERIUM
     'Ds', // 110, DARMSTADTIUM
     'Rg', // 111, ROENTGENIUM
-    'Cn', // 112, UNUNBIUM
-    'Uut', // 113, UNUTRIUM
+    'Cn', // 112, COPERNICIUM
+    'Nh', // 113, NIHONIUM
     'Fl', // 114, FLEROVIUM
-    'Uup', // 115, UNUNPENTIUM
+    'Mc', // 115, MOSCOVIUM
     'Lv', // 116, LIVERMORIUM
-    'Uus', // 117, UNUNSEPTIUM
-    'Uuo' // 118, UNUNOCTIUM
+    'Ts', // 117, Tennessine
+    'Og'  // 118, OGANESSON
 
   ];
 
