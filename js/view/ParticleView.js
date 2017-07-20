@@ -75,21 +75,29 @@ define( function( require ) {
 
       startDrag: function( event, trail ) {
         self.particle.userControlledProperty.set( true );
+
+        // if there is an animation in progress, cancel it be setting the destination to the position
+        if ( !particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
+          particle.destinationProperty.set( particle.positionProperty.get() );
+        }
       },
+
       onDrag: function( event, trail ) {
         // update the position immediately to match the destination (i.e. don't animate)
         self.particle.moveImmediatelyToDestination();
       },
+
       endDrag: function( event, trail ) {
         self.particle.userControlledProperty.set( false );
       },
+
       modelViewTransform: modelViewTransform,
       dragBounds: options.dragBounds
     } ) );
     this.mutate( options );
 
     // @private
-    this.disposeParticleView = function(){
+    this.disposeParticleView = function() {
       particle.positionProperty.unlink( updateParticlePosition );
     };
   }
@@ -97,7 +105,7 @@ define( function( require ) {
   shred.register( 'ParticleView', ParticleView );
   // Inherit from Node.
   return inherit( Node, ParticleView, {
-    dispose: function(){
+    dispose: function() {
       this.disposeParticleView();
       Node.prototype.dispose.call( this );
     }
