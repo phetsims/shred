@@ -39,7 +39,8 @@ define( function( require ) {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+      phetioType: TPeriodicTableCell
     }, options );
 
     var self = this;
@@ -88,7 +89,10 @@ define( function( require ) {
         } )
       );
     }
-    options.tandem.addInstance( this, TPeriodicTableCell );
+    this.mutate( {
+      tandem: options.tandem,
+      phetioType: options.phetioType
+    } );
   }
 
   shred.register( 'PeriodicTableCell', PeriodicTableCell );
