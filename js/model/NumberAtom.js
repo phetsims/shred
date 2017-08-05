@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var TandemEmitter = require( 'TANDEM/axon/TandemEmitter' );
+  var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Property = require( 'AXON/Property' );
   var shred = require( 'SHRED/shred' );
@@ -80,7 +80,7 @@ define( function( require ) {
     );
 
     // @public - events emitted by instances of this type
-    this.atomUpdated = new TandemEmitter( {
+    this.atomUpdated = new Emitter( {
       phetioArgumentTypes: [],
       tandem: options.tandem.createTandem( 'atomUpdatedEmitter' )
     } );
