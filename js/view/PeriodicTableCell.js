@@ -47,8 +47,8 @@ define( function( require ) {
     this.options = options;
 
     // @private (phet-io) send a message when this button is pressed (only occurs when interactive===true)
-    this.startedCallbacksForPressedEmitter = new Emitter();
-    this.endedCallbacksForPressedEmitter = new Emitter();
+    this.startedCallbacksForPressedEmitter = new Emitter( { indicateCallbacks: false } );
+    this.endedCallbacksForPressedEmitter = new Emitter( { indicateCallbacks: false } );
 
     // @private
     this.normalFill = options.interactive ? cellColor.enabled : cellColor.disabled;
