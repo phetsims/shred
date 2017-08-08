@@ -13,7 +13,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var shred = require( 'SHRED/shred' );
-  var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Tandem = require( 'TANDEM/Tandem' );
 
   /**
@@ -56,10 +56,10 @@ define( function( require ) {
         }
       }
     };
-    TandemSimpleDragHandler.call( this, inputListenerOptions ); // Call super constructor.
+    SimpleDragHandler.call( this, inputListenerOptions ); // Call super constructor.
   }
 
   // Inherit from base class.
   shred.register( 'BucketDragHandler', BucketDragHandler );
-  return inherit( TandemSimpleDragHandler, BucketDragHandler );
+  return inherit( SimpleDragHandler, BucketDragHandler );
 } );

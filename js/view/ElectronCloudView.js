@@ -16,7 +16,7 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var TandemSimpleDragHandler = require( 'TANDEM/scenery/input/TandemSimpleDragHandler' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   /**
    * @param {ParticleAtom} atom
@@ -59,7 +59,7 @@ define( function( require ) {
 
     // If the user clicks on the cloud, extract an electron.
     this.extractedElectron = null; // @private
-    this.addInputListener( new TandemSimpleDragHandler( {
+    this.addInputListener( new SimpleDragHandler( {
       activeParticle: null,
       start: function( event, trail ) {
 
