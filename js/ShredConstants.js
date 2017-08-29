@@ -34,9 +34,6 @@ define( function( require ) {
 
     ACCORDION_BOX_TITLE_MAX_WIDTH: 225, // empirically determined
 
-    // Max attempts for each problem on the game tab.
-    MAX_PROBLEM_ATTEMPTS: 2,
-
     // Function for choosing text color based on charge value.
     CHARGE_TEXT_COLOR: function( charge ) {
       return charge > 0 ? PhetColorScheme.RED_COLORBLIND : charge < 0 ? 'blue' : 'black';
