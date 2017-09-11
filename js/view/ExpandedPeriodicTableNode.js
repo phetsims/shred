@@ -14,12 +14,12 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PeriodicTableNode = require( 'SHRED/view/PeriodicTableNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var TextPushButton = require( 'SUN/buttons/TextPushButton' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   // 2D array that defines the table structure.

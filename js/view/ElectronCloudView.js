@@ -10,13 +10,13 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var Circle = require( 'SCENERY/nodes/Circle' );
   var inherit = require( 'PHET_CORE/inherit' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {ParticleAtom} atom

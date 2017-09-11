@@ -10,11 +10,11 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Emitter = require( 'AXON/Emitter' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
 

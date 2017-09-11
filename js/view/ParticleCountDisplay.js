@@ -17,15 +17,15 @@ define( function( require ) {
   var ParticleNode = require( 'SHRED/view/ParticleNode' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   // strings
-  var protonsColonString = require( 'string!SHRED/protonsColon' );
-  var neutronsColonString = require( 'string!SHRED/neutronsColon' );
   var electronsColonString = require( 'string!SHRED/electronsColon' );
+  var neutronsColonString = require( 'string!SHRED/neutronsColon' );
+  var protonsColonString = require( 'string!SHRED/protonsColon' );
 
   // constants
   var TITLE_MAX_WIDTH_PROPORTION = 1 / 3;

@@ -9,10 +9,10 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var shred = require( 'SHRED/shred' );
-  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var shred = require( 'SHRED/shred' );
+  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
 
   /**
    * Wrapper type for phet/shred's Particle class.

@@ -10,13 +10,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var shred = require( 'SHRED/shred' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Input = require( 'SCENERY/input/Input' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Property = require( 'AXON/Property' );
-  var Input = require( 'SCENERY/input/Input' );
+  var shred = require( 'SHRED/shred' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // constants
   var LINE_DASH = [ 4, 5 ];

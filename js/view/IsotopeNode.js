@@ -13,8 +13,8 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var shred = require( 'SHRED/shred' );
   var RichText = require( 'SCENERY/nodes/RichText' );
+  var shred = require( 'SHRED/shred' );
 
   /**
    * @param {Particle} isotope

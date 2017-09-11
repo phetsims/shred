@@ -11,9 +11,9 @@ define( function( require ) {
   // modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var shred = require( 'SHRED/shred' );
   var TNode = require( 'SCENERY/nodes/TNode' );
   var toEventOnEmit = require( 'ifphetio!PHET_IO/toEventOnEmit' );
-  var shred = require( 'SHRED/shred' );
 
   /**
    *

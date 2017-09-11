@@ -17,8 +17,8 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var shred = require( 'SHRED/shred' );
-  var Text = require( 'SCENERY/nodes/Text' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Text = require( 'SCENERY/nodes/Text' );
 
   // phet-io modules
   var TPeriodicTableCell = require( 'SHRED/view/TPeriodicTableCell' );

@@ -16,14 +16,14 @@ define( function( require ) {
   var LinearFunction = require( 'DOT/LinearFunction' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var Property = require( 'AXON/Property' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Utils = require( 'SHRED/Utils' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var TVector2 = require( 'DOT/TVector2' );
   var TParticle = require( 'SHRED/model/TParticle' );
   var TParticleAtom = require( 'SHRED/model/TParticleAtom' );
+  var TVector2 = require( 'DOT/TVector2' );
+  var Utils = require( 'SHRED/Utils' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );

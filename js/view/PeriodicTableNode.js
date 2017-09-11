@@ -9,10 +9,10 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PeriodicTableCell = require( 'SHRED/view/PeriodicTableCell' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
   var shred = require( 'SHRED/shred' );
-  var Vector2 = require( 'DOT/Vector2' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   // 2D array that defines the table structure.
