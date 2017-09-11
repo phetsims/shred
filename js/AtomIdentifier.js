@@ -756,7 +756,7 @@ define( function( require ) {
     },
 
     getNumNeutronsInMostCommonIsotope: function( atomicNumber ) {
-      return numNeutronsInMostStableIsotope[ atomicNumber ];
+      return numNeutronsInMostStableIsotope[ atomicNumber ] || 0;
     },
 
     getStandardAtomicMass: function( numProtons ) {

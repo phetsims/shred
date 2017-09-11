@@ -85,7 +85,8 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'protonCountProperty' ),
-        phetioValueType: TNumber( { type: 'Integer' } )
+        valueType: 'Integer',
+        phetioValueType: TNumber
       }
     );
     this.neutronCountProperty = new DerivedProperty(
@@ -95,7 +96,8 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'neutronCountProperty' ),
-        phetioValueType: TNumber( { type: 'Integer' } )
+        valueType: 'Integer',
+        phetioValueType: TNumber
       }
     );
     this.electronCountProperty = new DerivedProperty(
@@ -105,7 +107,8 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'electronCountProperty' ),
-        phetioValueType: TNumber( { type: 'Integer' } )
+        valueType: 'Integer',
+        phetioValueType: TNumber
       }
     );
     this.chargeProperty = new DerivedProperty(
@@ -115,7 +118,8 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
-        phetioValueType: TNumber( { type: 'Integer' } )
+        valueType: 'Integer',
+        phetioValueType: TNumber
       }
     );
     this.massNumberProperty = new DerivedProperty(
@@ -125,7 +129,8 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
-        phetioValueType: TNumber( { type: 'Integer' } )
+        valueType: 'Integer',
+        phetioValueType: TNumber
       }
     );
     this.particleCountProperty = new DerivedProperty(
@@ -135,7 +140,8 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
-        phetioValueType: TNumber( { type: 'Integer' } )
+        valueType: 'Integer',
+        phetioValueType: TNumber
       }
     );
 

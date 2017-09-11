@@ -9,15 +9,16 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
-  var shred = require( 'SHRED/shred' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Vector2 = require( 'DOT/Vector2' );
   var TVector2 = require( 'DOT/TVector2' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var TParticle = require( 'SHRED/model/TParticle' );
+  var shred = require( 'SHRED/shred' );
+  var ShredConstants = require( 'SHRED/ShredConstants' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // phet-io modules
   var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
@@ -52,21 +53,14 @@ define( function( require ) {
       tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' ),
       phetioValueType: TVector2
     } );
-    this.radiusProperty = new Property(
-      type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS,
-      {
-        tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
-        phetioValueType: TNumber( { type: 'FloatingPoint' } ),
-        phetioInstanceDocumentation: 'changes to radius may not be reflected in view'
-      }
-    );
-    this.animationVelocityProperty = new Property( DEFAULT_PARTICLE_VELOCITY, {
+    this.radiusProperty = new NumberProperty( type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
+      tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
+      phetioInstanceDocumentation: 'changes to radius may not be reflected in view'
+    } );
+    this.animationVelocityProperty = new NumberProperty( DEFAULT_PARTICLE_VELOCITY, {
       tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
-      phetioValueType: TNumber( {
-        type: 'FloatingPoint',
-        range: new Range( 0, 10 * DEFAULT_PARTICLE_VELOCITY ), // limited for instance proxies, code can handle any value
-        units: 'view-coordinates/second'
-      } )
+      range: new Range( 0, 10 * DEFAULT_PARTICLE_VELOCITY ), // limited for instance proxies, code can handle any value
+      units: 'view-coordinates/second'
     } );
     this.userControlledProperty = new Property( false, {
       tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
@@ -77,10 +71,9 @@ define( function( require ) {
         return value >= 0 && value <= options.maxZLayer;
       },
       tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
-      phetioValueType: TNumber( {
-        type: 'Integer',
-        range: new Range( 0, options.maxZLayer )
-      } )
+      valueType: 'Integer',
+      range: new Range( 0, options.maxZLayer ),
+      phetioValueType: TNumber
     } ); // Used in view, integer value, higher means further back.
 
     options.tandem.addInstance( this, TParticle );

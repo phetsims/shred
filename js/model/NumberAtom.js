@@ -10,11 +10,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Emitter = require( 'AXON/Emitter' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
+  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
 
@@ -36,19 +36,19 @@ define( function( require ) {
     }, options );
 
     // @public
-    this.protonCountProperty = new Property( options.protonCount, {
+    this.protonCountProperty = new NumberProperty( options.protonCount, {
       tandem: options.tandem.createTandem( 'protonCountProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } ),
-      documentation: 'this property is updated by the model and should not be set by users'
+      documentation: 'this property is updated by the model and should not be set by users',
+      valueType: 'Integer'
     } );
-    this.neutronCountProperty = new Property( options.neutronCount, {
+    this.neutronCountProperty = new NumberProperty( options.neutronCount, {
       tandem: options.tandem.createTandem( 'neutronCountProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } ),
+      valueType: 'Integer',
       documentation: 'this property is updated by the model and should not be set by users'
     } );
-    this.electronCountProperty = new Property( options.electronCount, {
+    this.electronCountProperty = new NumberProperty( options.electronCount, {
       tandem: options.tandem.createTandem( 'electronCountProperty' ),
-      phetioValueType: TNumber( { type: 'Integer' } ),
+      valueType: 'Integer',
       documentation: 'this property is updated by the model and should not be set by users'
     } );
 
@@ -57,7 +57,8 @@ define( function( require ) {
         return protonCount - electronCount;
       }, {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
-        phetioValueType: TNumber( { type: 'Integer' } )
+        valueType: 'Integer',
+        phetioValueType: TNumber
       }
     );
 
@@ -66,7 +67,8 @@ define( function( require ) {
         return protonCount + neutronCount;
       }, {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
-        phetioValueType: TNumber( { type: 'Integer' } )
+        valueType: 'Integer',
+        phetioValueType: TNumber
       }
     );
 
@@ -75,7 +77,8 @@ define( function( require ) {
         return protonCount + neutronCount + electronCount;
       }, {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
-        phetioValueType: TNumber( { type: 'Integer' } )
+        valueType: 'Integer',
+        phetioValueType: TNumber
       }
     );
 
