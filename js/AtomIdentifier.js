@@ -18,7 +18,7 @@ define( function( require ) {
   var TRACE_ABUNDANCE = 0.000000000001;
 
   var nameTable = [
-    '',
+    '', // No element
     require( 'string!SHRED/hydrogen' ),
     require( 'string!SHRED/helium' ),
     require( 'string!SHRED/lithium' ),
@@ -137,6 +137,129 @@ define( function( require ) {
     require( 'string!SHRED/livermorium' ),
     require( 'string!SHRED/ununseptium' ),
     require( 'string!SHRED/ununoctium' )
+  ];
+
+  // Used in PhET-iO data streams
+  var englishNameTable = [
+    '', // No element
+    'hydrogen',
+    'helium',
+    'lithium',
+    'beryllium',
+    'boron',
+    'carbon',
+    'nitrogen',
+    'oxygen',
+    'fluorine',
+    'neon',
+    'sodium',
+    'magnesium',
+    'aluminum',
+    'silicon',
+    'phosphorus',
+    'sulfur',
+    'chlorine',
+    'argon',
+    'potassium',
+    'calcium',
+    'scandium',
+    'titanium',
+    'vanadium',
+    'chromium',
+    'manganese',
+    'iron',
+    'cobalt',
+    'nickel',
+    'copper',
+    'zinc',
+    'gallium',
+    'germanium',
+    'arsenic',
+    'selenium',
+    'bromine',
+    'krypton',
+    'rubidium',
+    'strontium',
+    'yttrium',
+    'zirconium',
+    'niobium',
+    'molybdenum',
+    'technetium',
+    'ruthenium',
+    'rhodium',
+    'palladium',
+    'silver',
+    'cadmium',
+    'indium',
+    'tin',
+    'antimony',
+    'tellurium',
+    'iodine',
+    'xenon',
+    'cesium',
+    'barium',
+    'lanthanum',
+    'cerium',
+    'praseodymium',
+    'neodymium',
+    'promethium',
+    'samarium',
+    'europium',
+    'gadolinium',
+    'terbium',
+    'dysprosium',
+    'holmium',
+    'erbium',
+    'thulium',
+    'ytterbium',
+    'lutetium',
+    'hafnium',
+    'tantalum',
+    'tungsten',
+    'rhenium',
+    'osmium',
+    'iridium',
+    'platinum',
+    'gold',
+    'mercury',
+    'thallium',
+    'lead',
+    'bismuth',
+    'polonium',
+    'astatine',
+    'radon',
+    'francium',
+    'radium',
+    'actinium',
+    'thorium',
+    'protactinium',
+    'uranium',
+    'neptunium',
+    'plutonium',
+    'americium',
+    'curium',
+    'berkelium',
+    'californium',
+    'einsteinium',
+    'fermium',
+    'mendelevium',
+    'nobelium',
+    'lawrencium',
+    'rutherfordium',
+    'dubnium',
+    'seaborgium',
+    'bohrium',
+    'hassium',
+    'meitnerium',
+    'darmstadtium',
+    'roentgenium',
+    'ununbium',
+    'ununtrium',
+    'flerovium',
+    'ununpentium',
+    'livermorium',
+    'ununseptium',
+    'ununoctium'
   ];
 
   var symbolTable = [
@@ -736,14 +859,29 @@ define( function( require ) {
   ];
 
   var AtomIdentifier = {
+
     // Get the chemical symbol for an atom with the specified number of protons.
     getSymbol: function( numProtons ) {
       return symbolTable[ numProtons ];
     },
 
-    // Get the chemical name for an atom with the specified number of protons.
+    /**
+     * Get the internationalized element name for an atom with the specified number of protons.
+     * @param {number} numProtons
+     * @returns {string}
+     */
     getName: function( numProtons ) {
       return nameTable[ numProtons ];
+    },
+
+    /**
+     * Get the English name for an atom with the specified number of protons, lowercased with no whitespace and suitable
+     * for usage in PhET-iO data stream
+     * @param {number} numProtons
+     * @returns {string}
+     */
+    getEnglishName: function( numProtons ) {
+      return englishNameTable[ numProtons ];
     },
 
     // Identifies whether a given atomic nucleus is stable.

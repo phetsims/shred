@@ -6,6 +6,7 @@
 define( function( require ) {
   'use strict';
 
+  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PeriodicTableCell = require( 'SHRED/view/PeriodicTableCell' );
@@ -53,11 +54,8 @@ define( function( require ) {
     // Add the cells of the table.
     this.cells = []; // @private
     var elementIndex = 1;
-    var rowGroupTandem = options.tandem && options.tandem.createGroupTandem( 'row' );
     for ( var i = 0; i < POPULATED_CELLS.length; i++ ) {
       var populatedCellsInRow = POPULATED_CELLS[ i ];
-      var rowTandem = rowGroupTandem && rowGroupTandem.createNextTandem();
-      var columnGroupTandem = rowTandem && rowTandem.createGroupTandem( 'column' );
       var cellColor = {
         'enabled': options.enabledCellColor,
         'disabled': options.disabledCellColor,
@@ -68,7 +66,7 @@ define( function( require ) {
           interactive: elementIndex <= options.interactiveMax,
           showLabels: options.showLabels,
           length: options.cellDimension,
-          tandem: columnGroupTandem && columnGroupTandem.createNextTandem()
+          tandem: options.tandem.createTandem( AtomIdentifier.getEnglishName( elementIndex ) + 'Cell' )
         } );
         cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );
         this.addChild( cell );
@@ -114,7 +112,7 @@ define( function( require ) {
   // Inherit from Node.
   return inherit( Node, PeriodicTableNode, {
     // @public
-    dispose: function(){
+    dispose: function() {
       this.disposePeriodicTableNode();
       Node.prototype.dispose.call( this );
     }
