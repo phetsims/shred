@@ -32,7 +32,7 @@ define( function( require ) {
       protonCount: 0,
       neutronCount: 0,
       electronCount: 0,
-      tandem: Tandem.tandemRequired() // Tandem must be supplied when running in PhET-iO
+      tandem: Tandem.tandemOptional() // Tandem must be supplied when running in PhET-iO
     }, options );
 
     // @public
