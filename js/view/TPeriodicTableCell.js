@@ -13,7 +13,6 @@ define( function( require ) {
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var shred = require( 'SHRED/shred' );
   var TNode = require( 'SCENERY/nodes/TNode' );
-  var toEventOnEmit = require( 'ifphetio!PHET_IO/toEventOnEmit' );
 
   /**
    *
@@ -24,15 +23,6 @@ define( function( require ) {
   function TPeriodicTableCell( periodicTableCell, phetioID ) {
     assertInstanceOf( periodicTableCell, phet.shred.PeriodicTableCell );
     TNode.call( this, periodicTableCell, phetioID );
-
-    toEventOnEmit(
-      periodicTableCell.startedCallbacksForPressedEmitter,
-      periodicTableCell.endedCallbacksForPressedEmitter,
-      'user',
-      phetioID,
-      TPeriodicTableCell,
-      'fired'
-    );
   }
 
   phetioInherit( TNode, 'TPeriodicTableCell', TPeriodicTableCell, {}, {

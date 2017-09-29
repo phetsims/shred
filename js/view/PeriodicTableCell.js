@@ -11,10 +11,10 @@ define( function( require ) {
   // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -43,12 +43,7 @@ define( function( require ) {
       phetioType: TPeriodicTableCell
     }, options );
 
-    var self = this;
     this.options = options;
-
-    // @private (phet-io) send a message when this button is pressed (only occurs when interactive===true)
-    this.startedCallbacksForPressedEmitter = new Emitter( { indicateCallbacks: false } );
-    this.endedCallbacksForPressedEmitter = new Emitter( { indicateCallbacks: false } );
 
     // @private
     this.normalFill = options.interactive ? cellColor.enabled : cellColor.disabled;
@@ -64,7 +59,7 @@ define( function( require ) {
     if ( options.showLabels ) {
       // @private
       this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
-        font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
+        font: new PhetFont( NOMINAL_FONT_SIZE * (options.length / NOMINAL_CELL_DIMENSION) ),
         center: this.center,
         maxWidth: options.length - 5,
         tandem: options.tandem.createTandem( 'label' )
@@ -78,13 +73,13 @@ define( function( require ) {
         new ButtonListener( {
           tandem: options.tandem.createTandem( 'buttonListener' ),
           fire: function( evt ) {
-            self.startedCallbacksForPressedEmitter.emit();
+            var id = phetioEvents.start( 'user', options.tandem.id, TPeriodicTableCell, 'fired' );
             numberAtom.setSubAtomicParticleCount(
               atomicNumber,
               AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
               atomicNumber
             );
-            self.endedCallbacksForPressedEmitter.emit();
+            phetioEvents.end( id );
           }
         } )
       );
