@@ -76,7 +76,7 @@ define( function( require ) {
       phetioValueType: TNumber
     } ); // Used in view, integer value, higher means further back.
 
-    options.tandem.addInstance( this, TParticle );
+    options.tandem.addInstance( this, TParticle, options );
   }
 
   shred.register( 'Particle', Particle );

@@ -242,7 +242,7 @@ define( function( require ) {
     } );
 
     // phet-io
-    options.tandem.addInstance( this, TParticleAtom );
+    options.tandem.addInstance( this, TParticleAtom, options );
   }
 
   shred.register( 'ParticleAtom', ParticleAtom );
