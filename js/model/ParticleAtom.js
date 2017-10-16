@@ -186,11 +186,11 @@ define( function( require ) {
 
             // An inner-shell electron was removed.  If there are electrons in the outer shell, move one of them in.
             var occupiedOuterShellPositions = _.filter( self.electronShellPositions, function( electronShellPosition ) {
-              return ( electronShellPosition.electron !== null &&
-                       Utils.roughlyEqual( electronShellPosition.position.magnitude(),
-                         self.outerElectronShellRadius,
-                         1E-5
-                       )
+              return (electronShellPosition.electron !== null &&
+                      Utils.roughlyEqual( electronShellPosition.position.magnitude(),
+                        self.outerElectronShellRadius,
+                        1E-5
+                      )
               );
             } );
             occupiedOuterShellPositions = _.sortBy( occupiedOuterShellPositions, function( occupiedShellPosition ) {
@@ -249,6 +249,24 @@ define( function( require ) {
 
   return inherit( Object, ParticleAtom, {
 
+    dispose: function() {
+      this.positionProperty.dispose();
+      this.nucleusOffsetProperty.dispose();
+
+      // @private - particle collections
+      this.protons.dispose();
+      this.neutrons.dispose();
+      this.electrons.dispose();
+
+      // @public (read-only) - derived properties based on the number of particles present in the atom
+      this.protonCountProperty.dispose();
+      this.neutronCountProperty.dispose();
+      this.electronCountProperty.dispose();
+      this.chargeProperty.dispose(); // TODO: something is wrong here
+      this.massNumberProperty.dispose();
+      this.particleCountProperty.dispose();
+    },
+
     /**
      * test this this particle atom contains a particular particle
      * @param {Particle} particle
@@ -303,14 +321,14 @@ define( function( require ) {
 
         // Find an open position in the electron shell.
         var openPositions = this.electronShellPositions.filter( function( electronPosition ) {
-          return ( electronPosition.electron === null );
+          return (electronPosition.electron === null);
         } );
         var sortedOpenPositions;
         if ( this.electronAddMode === 'proximal' ) {
           sortedOpenPositions = openPositions.sort( function( p1, p2 ) {
             // Sort first by distance to particle.
-            return ( particle.positionProperty.get().distance( p1.position ) -
-                     particle.positionProperty.get().distance( p2.position ) );
+            return (particle.positionProperty.get().distance( p1.position ) -
+                    particle.positionProperty.get().distance( p2.position ));
           } );
         }
         else {
@@ -319,8 +337,8 @@ define( function( require ) {
 
         // Put the inner shell positions in front.
         sortedOpenPositions = sortedOpenPositions.sort( function( p1, p2 ) {
-          return ( self.positionProperty.get().distance( p1.position ) -
-                   self.positionProperty.get().distance( p2.position ) );
+          return (self.positionProperty.get().distance( p1.position ) -
+                  self.positionProperty.get().distance( p2.position ));
         } );
 
         assert && assert( sortedOpenPositions.length > 0, 'No open positions found for electrons' );
@@ -366,7 +384,7 @@ define( function( require ) {
       else {
         throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
       }
-      assert && assert( typeof( particle.particleAtomRemovalListener ) === 'function',
+      assert && assert( typeof(particle.particleAtomRemovalListener) === 'function',
         'No particle removal listener attached to particle.' );
       particle.userControlledProperty.unlink( particle.particleAtomRemovalListener );
 
