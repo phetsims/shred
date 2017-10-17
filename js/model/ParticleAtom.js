@@ -250,6 +250,15 @@ define( function( require ) {
   return inherit( Object, ParticleAtom, {
 
     dispose: function() {
+
+      // dispose derived properties first.  I'm not sure why but the order of derived property disposal seems to matter, see https://github.com/phetsims/build-an-atom/issues/176
+      this.particleCountProperty.dispose();
+      this.massNumberProperty.dispose();
+      this.chargeProperty.dispose();
+      this.protonCountProperty.dispose();
+      this.neutronCountProperty.dispose();
+      this.electronCountProperty.dispose();
+
       this.positionProperty.dispose();
       this.nucleusOffsetProperty.dispose();
 
@@ -257,14 +266,6 @@ define( function( require ) {
       this.protons.dispose();
       this.neutrons.dispose();
       this.electrons.dispose();
-
-      // @public (read-only) - derived properties based on the number of particles present in the atom
-      this.protonCountProperty.dispose();
-      this.neutronCountProperty.dispose();
-      this.electronCountProperty.dispose();
-      this.chargeProperty.dispose(); // TODO: something is wrong here
-      this.massNumberProperty.dispose();
-      this.particleCountProperty.dispose();
     },
 
     /**
