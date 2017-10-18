@@ -98,7 +98,7 @@ define( function( require ) {
     this.addInputListener( movableDragHandler );
     this.mutate( options );
 
-    ``// @private called by dispose
+    // @private called by dispose
     this.disposeParticleView = function() {
       particle.positionProperty.unlink( updateParticlePosition );
       particleNode.dispose();
