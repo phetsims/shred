@@ -68,22 +68,29 @@ define( function( require ) {
     }
 
     // If interactive, add a listener to set the atom when this cell is pressed.
+    var buttonListener = null; // scope for disposal
     if ( options.interactive ) {
-      this.addInputListener(
-        new ButtonListener( {
-          tandem: options.tandem.createTandem( 'buttonListener' ),
-          fire: function( evt ) {
-            var id = phetioEvents.start( 'user', options.tandem.id, TPeriodicTableCell, 'fired' );
-            numberAtom.setSubAtomicParticleCount(
-              atomicNumber,
-              AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
-              atomicNumber
-            );
-            phetioEvents.end( id );
-          }
-        } )
-      );
+      buttonListener = new ButtonListener( {
+        tandem: options.tandem.createTandem( 'buttonListener' ),
+        fire: function( evt ) {
+          var id = phetioEvents.start( 'user', options.tandem.id, TPeriodicTableCell, 'fired' );
+          numberAtom.setSubAtomicParticleCount(
+            atomicNumber,
+            AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
+            atomicNumber
+          );
+          phetioEvents.end( id );
+        }
+      } );
+      this.addInputListener( buttonListener );
     }
+
+    // @private called by dispose
+    this.disposePeriodicTableCell = function() {
+      this.label.dispose();
+      buttonListener && buttonListener.dispose();
+    };
+
     this.mutate( {
       tandem: options.tandem,
       phetioType: options.phetioType
@@ -101,6 +108,11 @@ define( function( require ) {
       if ( this.options.showLabels ) {
         this.label.fontWeight = highLighted ? 'bold' : 'normal';
       }
+    },
+
+    dispose: function() {
+      this.disposePeriodicTableCell();
+      Rectangle.prototype.dispose.call( this );
     }
   } );
 } );

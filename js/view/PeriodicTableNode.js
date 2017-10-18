@@ -104,15 +104,17 @@ define( function( require ) {
 
     // @private - unlink from Properties
     this.disposePeriodicTableNode = function() {
-      numberAtom.protonCountProperty.unlink( updateHighlightedCell );
+      numberAtom.protonCountProperty.hasListener( updateHighlightedCell ) && numberAtom.protonCountProperty.unlink( updateHighlightedCell );
     };
   }
 
   shred.register( 'PeriodicTableNode', PeriodicTableNode );
   // Inherit from Node.
   return inherit( Node, PeriodicTableNode, {
+
     // @public
     dispose: function() {
+      this.children.forEach( function( node ) { node.dispose();} );
       this.disposePeriodicTableNode();
       Node.prototype.dispose.call( this );
     }

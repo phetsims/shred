@@ -125,6 +125,20 @@ define( function( require ) {
       this.electronCountProperty.set( electronCount );
       this.neutronCountProperty.set( neutronCount );
       this.atomUpdated.emit();
+    },
+
+    dispose: function() {
+      this.chargeProperty.dispose();
+      this.massNumberProperty.dispose();
+      this.particleCountProperty.dispose();
+
+      // Dispose these afterwards since they are dependencies to the above DerivedProperties
+      this.protonCountProperty.dispose();
+      this.neutronCountProperty.dispose();
+      this.electronCountProperty.dispose();
+
+      this.atomUpdated.dispose();
+
     }
   } );
 } );
