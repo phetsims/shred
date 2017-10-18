@@ -59,7 +59,7 @@ define( function( require ) {
 
     // If the user clicks on the cloud, extract an electron.
     this.extractedElectron = null; // @private
-    this.addInputListener( new SimpleDragHandler( {
+    var simpleDragHandler = new SimpleDragHandler( {
       activeParticle: null,
       start: function( event, trail ) {
 
@@ -90,10 +90,13 @@ define( function( require ) {
         }
       },
       tandem: options.tandem.createTandem( 'dragHandler' )
-    } ) );
+    } );
+    this.addInputListener( simpleDragHandler );
 
+    // @private called by dispose
     this.disposeElectronCloudView = function() {
       atom.electrons.lengthProperty.unlink( update );
+      simpleDragHandler.dispose();
       options.tandem && options.tandem.removeInstance( self );
     };
 

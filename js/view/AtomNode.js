@@ -240,6 +240,11 @@ define( function( require ) {
       particleAtom.protonCountProperty.unlink( updateStabilityIndicator );
       particleAtom.neutronCountProperty.unlink( updateStabilityIndicator );
       options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
+      atomCenterMarker.dispose();
+      electronShell.dispose();
+      this.elementName.dispose();
+      this.ionIndicator.dispose();
+      this.stabilityIndicator.dispose();
     };
 
     this.mutate( options );

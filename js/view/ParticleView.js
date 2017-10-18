@@ -57,11 +57,12 @@ define( function( require ) {
     this.modelViewTransform = modelViewTransform; // @private
 
     // Add the particle representation.
-    this.addChild( createParticleNode(
+    var particleNode = createParticleNode(
       particle,
       modelViewTransform,
       options.tandem.createTandem( 'particleRepresentation' )
-    ) );
+    );
+    this.addChild( particleNode );
 
     // Listen to the model position and update.
     var updateParticlePosition = function( position ) {
@@ -70,7 +71,7 @@ define( function( require ) {
     particle.positionProperty.link( updateParticlePosition );
 
     // Add a drag handler
-    this.addInputListener( new MovableDragHandler( particle.destinationProperty, {
+    var movableDragHandler = new MovableDragHandler( particle.destinationProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'inputListener' ) : null,
 
       startDrag: function( event, trail ) {
@@ -93,12 +94,15 @@ define( function( require ) {
 
       modelViewTransform: modelViewTransform,
       dragBounds: options.dragBounds
-    } ) );
+    } );
+    this.addInputListener( movableDragHandler );
     this.mutate( options );
 
-    // @private
+    ``// @private called by dispose
     this.disposeParticleView = function() {
       particle.positionProperty.unlink( updateParticlePosition );
+      particleNode.dispose();
+      movableDragHandler.dispose();
     };
   }
 

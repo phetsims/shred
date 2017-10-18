@@ -40,6 +40,8 @@ define( function( require ) {
     }, options );
     this.particleTandem = options.tandem;
 
+    this.tandem = options.tandem; // @private
+
     this.type = type; // @public (read-only)
 
     // @public
@@ -124,6 +126,16 @@ define( function( require ) {
         this.destinationProperty.set( newPosition );
         this.moveImmediatelyToDestination();
       }
+    },
+    dispose: function() {
+      this.positionProperty.dispose();
+      this.destinationProperty.dispose();
+      this.radiusProperty.dispose();
+      this.animationVelocityProperty.dispose();
+      this.userControlledProperty.dispose();
+      this.zLayerProperty.dispose();
+
+      this.tandem.removeInstance( this );
     }
   }, {
     MAX_LAYERS: 5

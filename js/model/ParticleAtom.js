@@ -46,6 +46,8 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
+    this.tandem = options.tandem; // @private
+
     this.nucleonRadius = options.nucleonRadius; // @private
 
     // @public (read-only) - radius of the nucleus in view coordinates, which is rougly pixels
@@ -78,6 +80,9 @@ define( function( require ) {
     } );
 
     // @public (read-only) - derived properties based on the number of particles present in the atom
+    // These are DerivedProperties in support of phet-io. We need to have the lengthProperty of ObservableArray instrumented.
+    // TODO: follow https://github.com/phetsims/axon/issues/149 and implement this correctly with the solution to that issue.
+    // NOTE: Changing these will most certainly break some wrapper code, like in the sonification wrapper.
     this.protonCountProperty = new DerivedProperty(
       [ this.protons.lengthProperty ],
       function( length ) {
@@ -251,10 +256,11 @@ define( function( require ) {
 
     dispose: function() {
 
-      // dispose derived properties first.  I'm not sure why but the order of derived property disposal seems to matter, see https://github.com/phetsims/build-an-atom/issues/176
       this.particleCountProperty.dispose();
       this.massNumberProperty.dispose();
       this.chargeProperty.dispose();
+
+      // These should be disposed after because they are dependencies to the above DerivedProperties
       this.protonCountProperty.dispose();
       this.neutronCountProperty.dispose();
       this.electronCountProperty.dispose();
@@ -266,6 +272,8 @@ define( function( require ) {
       this.protons.dispose();
       this.neutrons.dispose();
       this.electrons.dispose();
+
+      this.tandem.removeInstance( this );
     },
 
     /**

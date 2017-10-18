@@ -153,10 +153,23 @@ define( function( require ) {
       var radiusOffset = atom.nucleusRadius === 0 ? 0 : 4;
       nucleusFocusHighlight.radius = atom.nucleusRadius + radiusOffset;
     } );
+
+    // @private called by dispose
+    this.disposeElectronShellView = function() {
+      outerRing.dispose();
+      innerRing.dispose();
+    };
   }
 
   shred.register( 'ElectronShellView', ElectronShellView );
 
   // Inherit from Node.
-  return inherit( Node, ElectronShellView );
+  return inherit( Node, ElectronShellView, {
+
+    dispose: function() {
+      this.disposeElectronShellView();
+
+      Node.prototype.dispose.call( this );
+    }
+  } );
 } );
