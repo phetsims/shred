@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function TParticle( particle, phetioID ) {
-    assertInstanceOf( particle, phet.shred.Particle );
+    assert && assertInstanceOf( particle, phet.shred.Particle );
     TObject.call( this, particle, phetioID );
   }
 

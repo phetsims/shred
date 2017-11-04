@@ -21,7 +21,7 @@ define( function( require ) {
    * @constructor
    */
   function TPeriodicTableCell( periodicTableCell, phetioID ) {
-    assertInstanceOf( periodicTableCell, phet.shred.PeriodicTableCell );
+    assert && assertInstanceOf( periodicTableCell, phet.shred.PeriodicTableCell );
     TNode.call( this, periodicTableCell, phetioID );
   }
 

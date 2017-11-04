@@ -22,7 +22,7 @@ define( function( require ) {
    * @constructor
    */
   function TParticleAtom( instance, phetioID ) {
-    assertInstanceOf( instance, phet.shred.ParticleAtom );
+    assert && assertInstanceOf( instance, phet.shred.ParticleAtom );
     TObject.call( this, instance, phetioID );
   }
 
