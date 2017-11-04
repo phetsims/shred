@@ -22,8 +22,8 @@ define( function( require ) {
    * @constructor
    */
   function TParticleAtom( instance, phetioID ) {
-    TObject.call( this, instance, phetioID );
     assertInstanceOf( instance, phet.shred.ParticleAtom );
+    TObject.call( this, instance, phetioID );
   }
 
   // helper function for retrieving the tandem for a particle
