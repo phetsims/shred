@@ -134,7 +134,6 @@ define( function( require ) {
       this.animationVelocityProperty.dispose();
       this.userControlledProperty.dispose();
       this.zLayerProperty.dispose();
-
       this.tandem.removeInstance( this );
     }
   }, {
