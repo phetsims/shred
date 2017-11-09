@@ -38,9 +38,9 @@ define( function( require ) {
       tandem: Tandem.tandemRequired(),
       maxZLayer: Number.POSITIVE_INFINITY // for phet-io, can take on values 0-maxZLayer (inclusive)
     }, options );
-    this.particleTandem = options.tandem;
 
-    this.tandem = options.tandem; // @private
+    // @public (phet-io)
+    this.particleTandem = options.tandem;
 
     this.type = type; // @public (read-only)
 
@@ -134,7 +134,7 @@ define( function( require ) {
       this.animationVelocityProperty.dispose();
       this.userControlledProperty.dispose();
       this.zLayerProperty.dispose();
-      this.tandem.removeInstance( this );
+      this.particleTandem.removeInstance( this );
     }
   }, {
     MAX_LAYERS: 5
