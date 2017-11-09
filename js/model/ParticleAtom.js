@@ -46,7 +46,7 @@ define( function( require ) {
       tandem: Tandem.tandemRequired()
     }, options );
 
-    this.tandem = options.tandem; // @private
+    this.particleAtomTandem = options.tandem; // @private
 
     this.nucleonRadius = options.nucleonRadius; // @private
 
@@ -273,7 +273,7 @@ define( function( require ) {
       this.neutrons.dispose();
       this.electrons.dispose();
 
-      this.tandem.removeInstance( this );
+      this.particleAtomTandem.removeInstance( this );
     },
 
     /**
