@@ -14,7 +14,7 @@ define( function( require ) {
   // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
    * Wrapper type for phet/shred's Particle class.
@@ -24,10 +24,10 @@ define( function( require ) {
    */
   function TParticle( particle, phetioID ) {
     assert && assertInstanceOf( particle, phet.shred.Particle );
-    TObject.call( this, particle, phetioID );
+    ObjectIO.call( this, particle, phetioID );
   }
 
-  phetioInherit( TObject, 'TParticle', TParticle, {}, {
+  phetioInherit( ObjectIO, 'TParticle', TParticle, {}, {
     documentation: 'The model for a single particle such as an electron, proton, or neutron.'
   } );
 

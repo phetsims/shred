@@ -14,7 +14,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var shred = require( 'SHRED/shred' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
    * @param {NumberAtom} instance
@@ -23,11 +23,11 @@ define( function( require ) {
    */
   function TNumberAtom( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.shred.NumberAtom );
-    TObject.call( this, instance, phetioID );
+    ObjectIO.call( this, instance, phetioID );
   }
 
 
-  phetioInherit( TObject, 'TNumberAtom', TNumberAtom, {}, {
+  phetioInherit( ObjectIO, 'TNumberAtom', TNumberAtom, {}, {
 
     documentation: 'A value type that contains quantities of electrons, protons, and neutrons.',
 

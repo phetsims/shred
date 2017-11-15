@@ -14,7 +14,7 @@ define( function( require ) {
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var shred = require( 'SHRED/shred' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
    * @param {ParticleAtom} instance
@@ -23,7 +23,7 @@ define( function( require ) {
    */
   function TParticleAtom( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.shred.ParticleAtom );
-    TObject.call( this, instance, phetioID );
+    ObjectIO.call( this, instance, phetioID );
   }
 
   // helper function for retrieving the tandem for a particle
@@ -31,7 +31,7 @@ define( function( require ) {
     return particle.particleTandem.id;
   }
 
-  phetioInherit( TObject, 'TParticleAtom', TParticleAtom, {}, {
+  phetioInherit( ObjectIO, 'TParticleAtom', TParticleAtom, {}, {
 
     documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
                    'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
