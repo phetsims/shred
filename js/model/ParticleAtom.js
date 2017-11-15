@@ -20,7 +20,7 @@ define( function( require ) {
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
-  var TObservableArray = require( 'AXON/TObservableArray' );
+  var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
   var TParticle = require( 'SHRED/model/TParticle' );
   var TParticleAtom = require( 'SHRED/model/TParticleAtom' );
   var PropertyIO = require( 'AXON/PropertyIO' );
@@ -29,7 +29,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
-  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
 
   // constants
   var NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
@@ -72,15 +72,15 @@ define( function( require ) {
     // @private - particle collections
     this.protons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'protons' ),
-      phetioType: TObservableArray( TParticle )
+      phetioType: ObservableArrayIO( TParticle )
     } );
     this.neutrons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'neutrons' ),
-      phetioType: TObservableArray( TParticle )
+      phetioType: ObservableArrayIO( TParticle )
     } );
     this.electrons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'electrons' ),
-      phetioType: TObservableArray( TParticle )
+      phetioType: ObservableArrayIO( TParticle )
     } );
 
     // @public (read-only) - derived properties based on the number of particles present in the atom
@@ -95,7 +95,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'protonCountProperty' ),
         valueType: 'Integer',
-        phetioType: DerivedPropertyIO( TNumber )
+        phetioType: DerivedPropertyIO( NumberIO )
       }
     );
     this.neutronCountProperty = new DerivedProperty(
@@ -106,7 +106,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'neutronCountProperty' ),
         valueType: 'Integer',
-        phetioType: DerivedPropertyIO( TNumber )
+        phetioType: DerivedPropertyIO( NumberIO )
       }
     );
     this.electronCountProperty = new DerivedProperty(
@@ -117,7 +117,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'electronCountProperty' ),
         valueType: 'Integer',
-        phetioType: DerivedPropertyIO( TNumber )
+        phetioType: DerivedPropertyIO( NumberIO )
       }
     );
     this.chargeProperty = new DerivedProperty(
@@ -128,7 +128,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         valueType: 'Integer',
-        phetioType: DerivedPropertyIO( TNumber )
+        phetioType: DerivedPropertyIO( NumberIO )
       }
     );
     this.massNumberProperty = new DerivedProperty(
@@ -139,7 +139,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         valueType: 'Integer',
-        phetioType: DerivedPropertyIO( TNumber )
+        phetioType: DerivedPropertyIO( NumberIO )
       }
     );
     this.particleCountProperty = new DerivedProperty(
@@ -150,7 +150,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         valueType: 'Integer',
-        phetioType: DerivedPropertyIO( TNumber )
+        phetioType: DerivedPropertyIO( NumberIO )
       }
     );
 

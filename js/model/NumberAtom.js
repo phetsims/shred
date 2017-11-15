@@ -20,7 +20,7 @@ define( function( require ) {
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
 
   // phet-io modules
-  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
 
   /**
    * @param {Object} options
@@ -59,7 +59,7 @@ define( function( require ) {
       }, {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         valueType: 'Integer',
-        phetioType: DerivedPropertyIO( TNumber )
+        phetioType: DerivedPropertyIO( NumberIO )
       }
     );
 
@@ -69,7 +69,7 @@ define( function( require ) {
       }, {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         valueType: 'Integer',
-        phetioType: DerivedPropertyIO( TNumber )
+        phetioType: DerivedPropertyIO( NumberIO )
       }
     );
 
@@ -79,7 +79,7 @@ define( function( require ) {
       }, {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         valueType: 'Integer',
-        phetioType: DerivedPropertyIO( TNumber )
+        phetioType: DerivedPropertyIO( NumberIO )
       }
     );
 

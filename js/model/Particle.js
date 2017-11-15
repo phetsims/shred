@@ -22,8 +22,8 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // phet-io modules
-  var TBoolean = require( 'ifphetio!PHET_IO/types/TBoolean' );
-  var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
+  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
+  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
 
   // constants
   var DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
@@ -68,7 +68,7 @@ define( function( require ) {
     } );
     this.userControlledProperty = new Property( false, {
       tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
-      phetioType: PropertyIO( TBoolean )
+      phetioType: PropertyIO( BooleanIO )
     } );
     this.zLayerProperty = new Property( 0, {
       isValidValue: function( value ) {
@@ -77,7 +77,7 @@ define( function( require ) {
       tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
       valueType: 'Integer',
       range: new Range( 0, options.maxZLayer ),
-      phetioType: PropertyIO( TNumber )
+      phetioType: PropertyIO( NumberIO )
     } ); // Used in view, integer value, higher means further back.
 
     options.tandem.addInstance( this, options );
