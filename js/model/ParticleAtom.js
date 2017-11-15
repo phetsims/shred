@@ -19,7 +19,7 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TDerivedProperty = require( 'AXON/TDerivedProperty' );
+  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var TObservableArray = require( 'AXON/TObservableArray' );
   var TParticle = require( 'SHRED/model/TParticle' );
   var TParticleAtom = require( 'SHRED/model/TParticleAtom' );
@@ -95,7 +95,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'protonCountProperty' ),
         valueType: 'Integer',
-        phetioType: TDerivedProperty( TNumber )
+        phetioType: DerivedPropertyIO( TNumber )
       }
     );
     this.neutronCountProperty = new DerivedProperty(
@@ -106,7 +106,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'neutronCountProperty' ),
         valueType: 'Integer',
-        phetioType: TDerivedProperty( TNumber )
+        phetioType: DerivedPropertyIO( TNumber )
       }
     );
     this.electronCountProperty = new DerivedProperty(
@@ -117,7 +117,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'electronCountProperty' ),
         valueType: 'Integer',
-        phetioType: TDerivedProperty( TNumber )
+        phetioType: DerivedPropertyIO( TNumber )
       }
     );
     this.chargeProperty = new DerivedProperty(
@@ -128,7 +128,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         valueType: 'Integer',
-        phetioType: TDerivedProperty( TNumber )
+        phetioType: DerivedPropertyIO( TNumber )
       }
     );
     this.massNumberProperty = new DerivedProperty(
@@ -139,7 +139,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         valueType: 'Integer',
-        phetioType: TDerivedProperty( TNumber )
+        phetioType: DerivedPropertyIO( TNumber )
       }
     );
     this.particleCountProperty = new DerivedProperty(
@@ -150,7 +150,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         valueType: 'Integer',
-        phetioType: TDerivedProperty( TNumber )
+        phetioType: DerivedPropertyIO( TNumber )
       }
     );
 

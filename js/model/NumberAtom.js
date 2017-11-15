@@ -17,7 +17,7 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TDerivedProperty = require( 'AXON/TDerivedProperty' );
+  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
 
   // phet-io modules
   var TNumber = require( 'ifphetio!PHET_IO/types/TNumber' );
@@ -59,7 +59,7 @@ define( function( require ) {
       }, {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         valueType: 'Integer',
-        phetioType: TDerivedProperty( TNumber )
+        phetioType: DerivedPropertyIO( TNumber )
       }
     );
 
@@ -69,7 +69,7 @@ define( function( require ) {
       }, {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         valueType: 'Integer',
-        phetioType: TDerivedProperty( TNumber )
+        phetioType: DerivedPropertyIO( TNumber )
       }
     );
 
@@ -79,7 +79,7 @@ define( function( require ) {
       }, {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         valueType: 'Integer',
-        phetioType: TDerivedProperty( TNumber )
+        phetioType: DerivedPropertyIO( TNumber )
       }
     );
 
