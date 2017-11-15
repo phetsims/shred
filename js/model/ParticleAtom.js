@@ -19,8 +19,11 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
+  var TDerivedProperty = require( 'AXON/TDerivedProperty' );
+  var TObservableArray = require( 'AXON/TObservableArray' );
   var TParticle = require( 'SHRED/model/TParticle' );
   var TParticleAtom = require( 'SHRED/model/TParticleAtom' );
+  var TProperty = require( 'AXON/TProperty' );
   var TVector2 = require( 'DOT/TVector2' );
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -43,7 +46,8 @@ define( function( require ) {
       innerElectronShellRadius: 85,
       outerElectronShellRadius: 130,
       nucleonRadius: ShredConstants.NUCLEON_RADIUS,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.tandemRequired(),
+      phetioType: TParticleAtom
     }, options );
 
     this.particleAtomTandem = options.tandem; // @private
@@ -57,26 +61,26 @@ define( function( require ) {
     this.positionProperty = new Property( Vector2.ZERO, {
       useDeepEquality: true,
       tandem: options.tandem.createTandem( 'positionProperty' ),
-      phetioValueType: TVector2
+      phetioType: TProperty( TVector2 )
     } );
     this.nucleusOffsetProperty = new Property( Vector2.ZERO, {
       useDeepEquality: true,
       tandem: options.tandem.createTandem( 'nucleusOffsetProperty' ),
-      phetioValueType: TVector2
+      phetioType: TProperty( TVector2 )
     } );
 
     // @private - particle collections
     this.protons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'protons' ),
-      phetioValueType: TParticle
+      phetioType: TObservableArray( TParticle )
     } );
     this.neutrons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'neutrons' ),
-      phetioValueType: TParticle
+      phetioType: TObservableArray( TParticle )
     } );
     this.electrons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'electrons' ),
-      phetioValueType: TParticle
+      phetioType: TObservableArray( TParticle )
     } );
 
     // @public (read-only) - derived properties based on the number of particles present in the atom
@@ -91,7 +95,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'protonCountProperty' ),
         valueType: 'Integer',
-        phetioValueType: TNumber
+        phetioType: TDerivedProperty( TNumber )
       }
     );
     this.neutronCountProperty = new DerivedProperty(
@@ -102,7 +106,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'neutronCountProperty' ),
         valueType: 'Integer',
-        phetioValueType: TNumber
+        phetioType: TDerivedProperty( TNumber )
       }
     );
     this.electronCountProperty = new DerivedProperty(
@@ -113,7 +117,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'electronCountProperty' ),
         valueType: 'Integer',
-        phetioValueType: TNumber
+        phetioType: TDerivedProperty( TNumber )
       }
     );
     this.chargeProperty = new DerivedProperty(
@@ -124,7 +128,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         valueType: 'Integer',
-        phetioValueType: TNumber
+        phetioType: TDerivedProperty( TNumber )
       }
     );
     this.massNumberProperty = new DerivedProperty(
@@ -135,7 +139,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         valueType: 'Integer',
-        phetioValueType: TNumber
+        phetioType: TDerivedProperty( TNumber )
       }
     );
     this.particleCountProperty = new DerivedProperty(
@@ -146,7 +150,7 @@ define( function( require ) {
       {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         valueType: 'Integer',
-        phetioValueType: TNumber
+        phetioType: TDerivedProperty( TNumber )
       }
     );
 
@@ -247,7 +251,7 @@ define( function( require ) {
     } );
 
     // phet-io
-    options.tandem.addInstance( this, TParticleAtom, options );
+    options.tandem.addInstance( this, options );
   }
 
   shred.register( 'ParticleAtom', ParticleAtom );

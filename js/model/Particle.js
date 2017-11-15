@@ -17,6 +17,7 @@ define( function( require ) {
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
   var TParticle = require( 'SHRED/model/TParticle' );
+  var TProperty = require( 'AXON/TProperty' );
   var TVector2 = require( 'DOT/TVector2' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -36,7 +37,8 @@ define( function( require ) {
 
     options = _.extend( {
       tandem: Tandem.tandemRequired(),
-      maxZLayer: Number.POSITIVE_INFINITY // for phet-io, can take on values 0-maxZLayer (inclusive)
+      maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
+      phetioType: TParticle
     }, options );
 
     // @public (phet-io)
@@ -48,12 +50,12 @@ define( function( require ) {
     this.positionProperty = new Property( Vector2.ZERO, {
       useDeepEquality: true,
       tandem: options.tandem && options.tandem.createTandem( 'positionProperty' ),
-      phetioValueType: TVector2
+      phetioType: TProperty( TVector2 )
     } );
     this.destinationProperty = new Property( Vector2.ZERO, {
       useDeepEquality: true,
       tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' ),
-      phetioValueType: TVector2
+      phetioType: TProperty( TVector2 )
     } );
     this.radiusProperty = new NumberProperty( type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
       tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
@@ -66,7 +68,7 @@ define( function( require ) {
     } );
     this.userControlledProperty = new Property( false, {
       tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
-      phetioValueType: TBoolean
+      phetioType: TProperty( TBoolean )
     } );
     this.zLayerProperty = new Property( 0, {
       isValidValue: function( value ) {
@@ -75,10 +77,10 @@ define( function( require ) {
       tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
       valueType: 'Integer',
       range: new Range( 0, options.maxZLayer ),
-      phetioValueType: TNumber
+      phetioType: TProperty( TNumber )
     } ); // Used in view, integer value, higher means further back.
 
-    options.tandem.addInstance( this, TParticle, options );
+    options.tandem.addInstance( this, options );
   }
 
   shred.register( 'Particle', Particle );
