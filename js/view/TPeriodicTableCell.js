@@ -12,7 +12,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
   var shred = require( 'SHRED/shred' );
-  var TNode = require( 'SCENERY/nodes/TNode' );
+  var NodeIO = require( 'SCENERY/nodes/NodeIO' );
 
   /**
    *
@@ -22,10 +22,10 @@ define( function( require ) {
    */
   function TPeriodicTableCell( periodicTableCell, phetioID ) {
     assert && assertInstanceOf( periodicTableCell, phet.shred.PeriodicTableCell );
-    TNode.call( this, periodicTableCell, phetioID );
+    NodeIO.call( this, periodicTableCell, phetioID );
   }
 
-  phetioInherit( TNode, 'TPeriodicTableCell', TPeriodicTableCell, {}, {
+  phetioInherit( NodeIO, 'TPeriodicTableCell', TPeriodicTableCell, {}, {
     documentation: 'The type that wraps a periodic table cell.',
     events: [ 'fired' ],
 
