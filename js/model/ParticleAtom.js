@@ -24,7 +24,7 @@ define( function( require ) {
   var TParticle = require( 'SHRED/model/TParticle' );
   var TParticleAtom = require( 'SHRED/model/TParticleAtom' );
   var PropertyIO = require( 'AXON/PropertyIO' );
-  var TVector2 = require( 'DOT/TVector2' );
+  var Vector2IO = require( 'DOT/Vector2IO' );
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -61,12 +61,12 @@ define( function( require ) {
     this.positionProperty = new Property( Vector2.ZERO, {
       useDeepEquality: true,
       tandem: options.tandem.createTandem( 'positionProperty' ),
-      phetioType: PropertyIO( TVector2 )
+      phetioType: PropertyIO( Vector2IO )
     } );
     this.nucleusOffsetProperty = new Property( Vector2.ZERO, {
       useDeepEquality: true,
       tandem: options.tandem.createTandem( 'nucleusOffsetProperty' ),
-      phetioType: PropertyIO( TVector2 )
+      phetioType: PropertyIO( Vector2IO )
     } );
 
     // @private - particle collections
