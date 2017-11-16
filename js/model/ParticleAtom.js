@@ -21,8 +21,8 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
-  var TParticle = require( 'SHRED/model/TParticle' );
-  var TParticleAtom = require( 'SHRED/model/TParticleAtom' );
+  var ParticleIO = require( 'SHRED/model/ParticleIO' );
+  var ParticleIOAtom = require( 'SHRED/model/ParticleIOAtom' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2IO = require( 'DOT/Vector2IO' );
   var Utils = require( 'SHRED/Utils' );
@@ -47,7 +47,7 @@ define( function( require ) {
       outerElectronShellRadius: 130,
       nucleonRadius: ShredConstants.NUCLEON_RADIUS,
       tandem: Tandem.tandemRequired(),
-      phetioType: TParticleAtom
+      phetioType: ParticleIOAtom
     }, options );
 
     this.particleAtomTandem = options.tandem; // @private
@@ -72,15 +72,15 @@ define( function( require ) {
     // @private - particle collections
     this.protons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'protons' ),
-      phetioType: ObservableArrayIO( TParticle )
+      phetioType: ObservableArrayIO( ParticleIO )
     } );
     this.neutrons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'neutrons' ),
-      phetioType: ObservableArrayIO( TParticle )
+      phetioType: ObservableArrayIO( ParticleIO )
     } );
     this.electrons = new ObservableArray( {
       tandem: options.tandem.createTandem( 'electrons' ),
-      phetioType: ObservableArrayIO( TParticle )
+      phetioType: ObservableArrayIO( ParticleIO )
     } );
 
     // @public (read-only) - derived properties based on the number of particles present in the atom

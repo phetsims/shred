@@ -22,16 +22,16 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TParticle( particle, phetioID ) {
+  function ParticleIO( particle, phetioID ) {
     assert && assertInstanceOf( particle, phet.shred.Particle );
     ObjectIO.call( this, particle, phetioID );
   }
 
-  phetioInherit( ObjectIO, 'TParticle', TParticle, {}, {
+  phetioInherit( ObjectIO, 'ParticleIO', ParticleIO, {}, {
     documentation: 'The model for a single particle such as an electron, proton, or neutron.'
   } );
 
-  shred.register( 'TParticle', TParticle );
+  shred.register( 'ParticleIO', ParticleIO );
 
-  return TParticle;
+  return ParticleIO;
 } );

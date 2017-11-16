@@ -16,7 +16,7 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TParticle = require( 'SHRED/model/TParticle' );
+  var ParticleIO = require( 'SHRED/model/ParticleIO' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2IO = require( 'DOT/Vector2IO' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -38,7 +38,7 @@ define( function( require ) {
     options = _.extend( {
       tandem: Tandem.tandemRequired(),
       maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
-      phetioType: TParticle
+      phetioType: ParticleIO
     }, options );
 
     // @public (phet-io)

@@ -21,13 +21,13 @@ define( function( require ) {
    * @param {string} phetioID
    * @constructor
    */
-  function TNumberAtom( instance, phetioID ) {
+  function NumberAtomIO( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.shred.NumberAtom );
     ObjectIO.call( this, instance, phetioID );
   }
 
 
-  phetioInherit( ObjectIO, 'TNumberAtom', TNumberAtom, {}, {
+  phetioInherit( ObjectIO, 'NumberAtomIO', NumberAtomIO, {}, {
 
     documentation: 'A value type that contains quantities of electrons, protons, and neutrons.',
 
@@ -52,8 +52,8 @@ define( function( require ) {
 
   } );
 
-  shred.register( 'TNumberAtom', TNumberAtom );
+  shred.register( 'NumberAtomIO', NumberAtomIO );
 
-  return TNumberAtom;
+  return NumberAtomIO;
 } );
 

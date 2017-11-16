@@ -3,6 +3,8 @@
 /**
  * wrapper type for ParticleAtom
  *
+ * TODO: This appears unused
+ *
  * @author John Blanco
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -21,7 +23,7 @@ define( function( require ) {
    * @param {string} phetioID
    * @constructor
    */
-  function TParticleAtom( instance, phetioID ) {
+  function ParticleIOAtom( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.shred.ParticleAtom );
     ObjectIO.call( this, instance, phetioID );
   }
@@ -31,7 +33,7 @@ define( function( require ) {
     return particle.particleTandem.id;
   }
 
-  phetioInherit( ObjectIO, 'TParticleAtom', TParticleAtom, {}, {
+  phetioInherit( ObjectIO, 'ParticleIOAtom', ParticleIOAtom, {}, {
 
     documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
                    'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
@@ -92,8 +94,8 @@ define( function( require ) {
     }
   } );
 
-  shred.register( 'TParticleAtom', TParticleAtom );
+  shred.register( 'ParticleIOAtom', ParticleIOAtom );
 
-  return TParticleAtom;
+  return ParticleIOAtom;
 } );
 
