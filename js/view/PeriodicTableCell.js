@@ -21,7 +21,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
 
   // phet-io modules
-  var TPeriodicTableCell = require( 'SHRED/view/TPeriodicTableCell' );
+  var PeriodicTableCellIO = require( 'SHRED/view/PeriodicTableCellIO' );
 
   // constants
   var NOMINAL_CELL_DIMENSION = 25;
@@ -40,7 +40,7 @@ define( function( require ) {
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
       tandem: Tandem.tandemRequired(),
-      phetioType: TPeriodicTableCell
+      phetioType: PeriodicTableCellIO
     }, options );
 
     this.options = options;
@@ -73,7 +73,7 @@ define( function( require ) {
       buttonListener = new ButtonListener( {
         tandem: options.tandem.createTandem( 'buttonListener' ),
         fire: function( evt ) {
-          var id = phetioEvents.start( 'user', options.tandem.id, TPeriodicTableCell, 'fired' );
+          var id = phetioEvents.start( 'user', options.tandem.id, PeriodicTableCellIO, 'fired' );
           numberAtom.setSubAtomicParticleCount(
             atomicNumber,
             AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),

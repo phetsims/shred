@@ -20,12 +20,12 @@ define( function( require ) {
    * @param phetioID
    * @constructor
    */
-  function TPeriodicTableCell( periodicTableCell, phetioID ) {
+  function PeriodicTableCellIO( periodicTableCell, phetioID ) {
     assert && assertInstanceOf( periodicTableCell, phet.shred.PeriodicTableCell );
     NodeIO.call( this, periodicTableCell, phetioID );
   }
 
-  phetioInherit( NodeIO, 'TPeriodicTableCell', TPeriodicTableCell, {}, {
+  phetioInherit( NodeIO, 'PeriodicTableCellIO', PeriodicTableCellIO, {}, {
     documentation: 'The type that wraps a periodic table cell.',
     events: [ 'fired' ],
 
@@ -38,8 +38,8 @@ define( function( require ) {
     }
   } );
 
-  shred.register( 'TPeriodicTableCell', TPeriodicTableCell );
+  shred.register( 'PeriodicTableCellIO', PeriodicTableCellIO );
 
-  return TPeriodicTableCell;
+  return PeriodicTableCellIO;
 } );
 
