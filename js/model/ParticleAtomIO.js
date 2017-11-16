@@ -23,7 +23,7 @@ define( function( require ) {
    * @param {string} phetioID
    * @constructor
    */
-  function ParticleIOAtom( instance, phetioID ) {
+  function ParticleAtomIO( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.shred.ParticleAtom );
     ObjectIO.call( this, instance, phetioID );
   }
@@ -33,7 +33,7 @@ define( function( require ) {
     return particle.particleTandem.id;
   }
 
-  phetioInherit( ObjectIO, 'ParticleIOAtom', ParticleIOAtom, {}, {
+  phetioInherit( ObjectIO, 'ParticleAtomIO', ParticleAtomIO, {}, {
 
     documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
                    'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
@@ -94,8 +94,8 @@ define( function( require ) {
     }
   } );
 
-  shred.register( 'ParticleIOAtom', ParticleIOAtom );
+  shred.register( 'ParticleAtomIO', ParticleAtomIO );
 
-  return ParticleIOAtom;
+  return ParticleAtomIO;
 } );
 

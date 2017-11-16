@@ -22,7 +22,7 @@ define( function( require ) {
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
   var ParticleIO = require( 'SHRED/model/ParticleIO' );
-  var ParticleIOAtom = require( 'SHRED/model/ParticleIOAtom' );
+  var ParticleAtomIO = require( 'SHRED/model/ParticleAtomIO' );
   var PropertyIO = require( 'AXON/PropertyIO' );
   var Vector2IO = require( 'DOT/Vector2IO' );
   var Utils = require( 'SHRED/Utils' );
@@ -47,7 +47,7 @@ define( function( require ) {
       outerElectronShellRadius: 130,
       nucleonRadius: ShredConstants.NUCLEON_RADIUS,
       tandem: Tandem.tandemRequired(),
-      phetioType: ParticleIOAtom
+      phetioType: ParticleAtomIO
     }, options );
 
     this.particleAtomTandem = options.tandem; // @private
