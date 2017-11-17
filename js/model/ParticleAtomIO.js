@@ -19,13 +19,13 @@ define( function( require ) {
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
-   * @param {ParticleAtom} instance
+   * @param {ParticleAtom} particleAtom
    * @param {string} phetioID
    * @constructor
    */
-  function ParticleAtomIO( instance, phetioID ) {
-    assert && assertInstanceOf( instance, phet.shred.ParticleAtom );
-    ObjectIO.call( this, instance, phetioID );
+  function ParticleAtomIO( particleAtom, phetioID ) {
+    assert && assertInstanceOf( particleAtom, phet.shred.ParticleAtom );
+    ObjectIO.call( this, particleAtom, phetioID );
   }
 
   // helper function for retrieving the tandem for a particle
@@ -42,19 +42,20 @@ define( function( require ) {
 
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
-     * @param {ParticleAtom} instance
+     * @param {ParticleAtom} particleAtom
      * @returns {Object}
      */
-    toStateObject: function( instance ) {
+    toStateObject: function( particleAtom ) {
+      assert && assertInstanceOf( particleAtom, phet.shred.ParticleAtom );
       return {
 
         // an array of all the particles currently contained within the particle atom
-        residentParticleIDs: instance.protons.map( getParticleTandemID ).getArray()
-          .concat( instance.neutrons.map( getParticleTandemID ).getArray() )
-          .concat( instance.electrons.map( getParticleTandemID ).getArray() ),
+        residentParticleIDs: particleAtom.protons.map( getParticleTandemID ).getArray()
+          .concat( particleAtom.neutrons.map( getParticleTandemID ).getArray() )
+          .concat( particleAtom.electrons.map( getParticleTandemID ).getArray() ),
 
         // an ordered array that tracks which electron, if any, is in each shell position
-        electronShellOccupantIDs: instance.electronShellPositions.map( function( electronShellPosition ) {
+        electronShellOccupantIDs: particleAtom.electronShellPositions.map( function( electronShellPosition ) {
           return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
         } )
       };
@@ -76,20 +77,21 @@ define( function( require ) {
     },
 
     /**
-     * @param {ParticleAtom} instance
+     * @param {ParticleAtom} particleAtom
      * @param {Object} particleAtomState
      */
-    setValue: function( instance, particleAtomState ) {
+    setValue: function( particleAtom, particleAtomState ) {
+      assert && assertInstanceOf( particleAtom, phet.shred.ParticleAtom );
 
       // remove all the particles from the observable arrays
-      instance.clear();
+      particleAtom.clear();
 
       // add back the particles
-      particleAtomState.residentParticles.forEach( function( value ) { instance.addParticle( value ); } );
+      particleAtomState.residentParticles.forEach( function( value ) { particleAtom.addParticle( value ); } );
 
       // set the electron shell occupancy state
       particleAtomState.electronShellOccupants.forEach( function( electron, index ) {
-        instance.electronShellPositions[ index ].electron = electron;
+        particleAtom.electronShellPositions[ index ].electron = electron;
       } );
     }
   } );

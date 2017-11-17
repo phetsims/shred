@@ -33,8 +33,9 @@ define( function( require ) {
       return new phet.dot.Vector2( stateObject.x, stateObject.y );
     },
 
-    toStateObject: function( instance ) {
-      return { x: instance.x, y: instance.y };
+    toStateObject: function( periodicTableCell ) {
+      assert && assertInstanceOf( periodicTableCell, phet.shred.PeriodicTableCell );
+      return { x: periodicTableCell.x, y: periodicTableCell.y };
     }
   } );
 

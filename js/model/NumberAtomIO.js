@@ -17,15 +17,14 @@ define( function( require ) {
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
-   * @param {NumberAtom} instance
+   * @param {NumberAtom} numberAtom
    * @param {string} phetioID
    * @constructor
    */
-  function NumberAtomIO( instance, phetioID ) {
-    assert && assertInstanceOf( instance, phet.shred.NumberAtom );
-    ObjectIO.call( this, instance, phetioID );
+  function NumberAtomIO( numberAtom, phetioID ) {
+    assert && assertInstanceOf( numberAtom, phet.shred.NumberAtom );
+    ObjectIO.call( this, numberAtom, phetioID );
   }
-
 
   phetioInherit( ObjectIO, 'NumberAtomIO', NumberAtomIO, {}, {
 
@@ -33,14 +32,15 @@ define( function( require ) {
 
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
-     * @param {NumberAtom} instance
+     * @param {NumberAtom} numberAtom
      * @returns {Object}
      */
-    toStateObject: function( instance ) {
+    toStateObject: function( numberAtom ) {
+      assert && assertInstanceOf( numberAtom, phet.shred.NumberAtom );
       return {
-        protonCount: instance.protonCountProperty.get(),
-        electronCount: instance.electronCountProperty.get(),
-        neutronCount: instance.neutronCountProperty.get()
+        protonCount: numberAtom.protonCountProperty.get(),
+        electronCount: numberAtom.electronCountProperty.get(),
+        neutronCount: numberAtom.neutronCountProperty.get()
       };
     },
 
@@ -49,7 +49,6 @@ define( function( require ) {
      * @returns {}
      */
     fromStateObject: function( stateObject ) { }
-
   } );
 
   shred.register( 'NumberAtomIO', NumberAtomIO );
