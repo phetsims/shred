@@ -97,7 +97,6 @@ define( function( require ) {
     this.disposeElectronCloudView = function() {
       atom.electrons.lengthProperty.unlink( update );
       simpleDragHandler.dispose();
-      options.tandem && options.tandem.removeInstance( self );
     };
 
     this.mutate( options );
