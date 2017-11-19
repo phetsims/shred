@@ -46,7 +46,7 @@ define( function( require ) {
       innerElectronShellRadius: 85,
       outerElectronShellRadius: 130,
       nucleonRadius: ShredConstants.NUCLEON_RADIUS,
-      tandem: Tandem.tandemRequired(),
+      tandem: Tandem.required,
       phetioType: ParticleAtomIO
     }, options );
 

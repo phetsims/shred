@@ -30,7 +30,7 @@ define( function( require ) {
   function ElectronShellView( atom, modelViewTransform, options ) {
     var self = this;
     options = _.extend( {
-        tandem: Tandem.tandemRequired()
+        tandem: Tandem.required
       },
       options
     );

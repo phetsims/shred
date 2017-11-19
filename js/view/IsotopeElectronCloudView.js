@@ -36,7 +36,7 @@ define( function( require ) {
   function IsotopeElectronCloudView( numberAtom, modelViewTransform, options ) {
 
     options = _.extend( {
-        tandem: Tandem.tandemRequired()
+        tandem: Tandem.required
       },
       options
     );

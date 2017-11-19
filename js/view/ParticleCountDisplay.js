@@ -45,7 +45,7 @@ define( function( require ) {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
       cornerRadius: 5,
       pickable: false,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     var panelContents = new Node();

@@ -44,7 +44,7 @@ define( function( require ) {
    */
   function ExpandedPeriodicTableNode( numberAtom, interactiveMax, options ) {
     options = _.extend( {
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     Node.call( this );

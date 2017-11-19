@@ -46,7 +46,7 @@ define( function( require ) {
 
     options = _.extend( {
       dragBounds: Bounds2.EVERYTHING,
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     Node.call( this ); // Call super constructor.

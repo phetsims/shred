@@ -25,7 +25,7 @@ define( function( require ) {
    */
   function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {
     options = _.extend( {
-      tandem: Tandem.tandemRequired()
+      tandem: Tandem.required
     }, options );
 
     var activeParticle = null;

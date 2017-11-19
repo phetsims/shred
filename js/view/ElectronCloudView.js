@@ -27,7 +27,7 @@ define( function( require ) {
   function ElectronCloudView( atom, modelViewTransform, options ) {
 
     var self = this;
-    options = _.extend( { tandem: Tandem.tandemRequired() }, options );
+    options = _.extend( { tandem: Tandem.required }, options );
 
     Circle.call( this, {
         cursor: 'pointer',

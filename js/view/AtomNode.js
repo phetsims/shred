@@ -49,7 +49,7 @@ define( function( require ) {
         showNeutralOrIonProperty: new Property( true ),
         showStableOrUnstableProperty: new Property( true ),
         electronShellDepictionProperty: new Property( 'orbits' ),
-        tandem: Tandem.tandemRequired()
+        tandem: Tandem.required
       },
       options
     );
