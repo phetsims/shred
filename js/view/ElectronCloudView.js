@@ -30,6 +30,7 @@ define( function( require ) {
     options = _.extend( { tandem: Tandem.required }, options );
 
     Circle.call( this, {
+      tandem: options.tandem,
         cursor: 'pointer',
         fill: 'pink',
         translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )

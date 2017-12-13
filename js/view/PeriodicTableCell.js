@@ -53,7 +53,9 @@ define( function( require ) {
       stroke: 'black',
       lineWidth: 1,
       fill: this.normalFill,
-      cursor: options.interactive ? 'pointer' : null
+      cursor: options.interactive ? 'pointer' : null,
+      tandem: options.tandem,
+      phetioType: options.phetioType
     } ); // Call super constructor.
 
     if ( options.showLabels ) {
@@ -90,11 +92,6 @@ define( function( require ) {
       this.label.dispose();
       buttonListener && buttonListener.dispose();
     };
-
-    this.mutate( {
-      tandem: options.tandem,
-      phetioType: options.phetioType
-    } );
   }
 
   shred.register( 'PeriodicTableCell', PeriodicTableCell );

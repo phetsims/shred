@@ -9,6 +9,7 @@ define( function( require ) {
   // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var IOObject = require( 'TANDEM/IOObject' );
   var IsotopeNode = require( 'SHRED/view/IsotopeNode' );
   var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -49,7 +50,7 @@ define( function( require ) {
       tandem: Tandem.required
     }, options );
 
-    Node.call( this ); // Call super constructor.
+    Node.call( this, IOObject.getOptions( options ) ); // Call super constructor.
     var self = this;
 
     // Set up fields.
