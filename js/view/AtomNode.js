@@ -14,7 +14,6 @@ define( function( require ) {
   var ElectronCloudView = require( 'SHRED/view/ElectronCloudView' );
   var ElectronShellView = require( 'SHRED/view/ElectronShellView' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var IOObject = require( 'TANDEM/IOObject' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -55,7 +54,7 @@ define( function( require ) {
       options
     );
 
-    Node.call( this, IOObject.getOptions( options ) ); // Call super constructor.
+    Node.call( this ); // Call super constructor.
     var self = this;
 
     // @private
