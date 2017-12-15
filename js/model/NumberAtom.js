@@ -85,7 +85,6 @@ define( function( require ) {
 
     // @public - events emitted by instances of this type
     this.atomUpdated = new Emitter( {
-      phetioArgumentTypes: [],
       tandem: options.tandem.createTandem( 'atomUpdatedEmitter' )
     } );
   }
