@@ -138,7 +138,6 @@ define( function( require ) {
       this.electronCountProperty.dispose();
 
       this.atomUpdated.dispose();
-
     }
   } );
 } );
