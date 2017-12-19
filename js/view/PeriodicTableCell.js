@@ -14,7 +14,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var phetioEvents = require( 'ifphetio!PHET_IO/phetioEvents' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
@@ -61,7 +60,7 @@ define( function( require ) {
     if ( options.showLabels ) {
       // @private
       this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
-        font: new PhetFont( NOMINAL_FONT_SIZE * (options.length / NOMINAL_CELL_DIMENSION) ),
+        font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
         center: this.center,
         maxWidth: options.length - 5,
         tandem: options.tandem.createTandem( 'label' )
@@ -71,17 +70,18 @@ define( function( require ) {
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     var buttonListener = null; // scope for disposal
+    var self = this;
     if ( options.interactive ) {
       buttonListener = new ButtonListener( {
         tandem: options.tandem.createTandem( 'buttonListener' ),
         fire: function( evt ) {
-          var id = phetioEvents.start( 'user', options.tandem.id, PeriodicTableCellIO, 'fired' );
+          var id = self.startEvent( 'user', 'fired' );
           numberAtom.setSubAtomicParticleCount(
             atomicNumber,
             AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
             atomicNumber
           );
-          phetioEvents.end( id );
+          self.endEvent( id );
         }
       } );
       this.addInputListener( buttonListener );
