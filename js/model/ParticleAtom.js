@@ -12,21 +12,22 @@ define( function( require ) {
   // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var ObservableArray = require( 'AXON/ObservableArray' );
+  var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
+  var ParticleAtomIO = require( 'SHRED/model/ParticleAtomIO' );
+  var ParticleIO = require( 'SHRED/model/ParticleIO' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Property = require( 'AXON/Property' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var shred = require( 'SHRED/shred' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
-  var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
-  var ParticleIO = require( 'SHRED/model/ParticleIO' );
-  var ParticleAtomIO = require( 'SHRED/model/ParticleAtomIO' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
-  var Vector2IO = require( 'DOT/Vector2IO' );
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2IO = require( 'DOT/Vector2IO' );
 
   // phet-io modules
   var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
@@ -50,7 +51,7 @@ define( function( require ) {
       phetioType: ParticleAtomIO
     }, options );
 
-    this.particleAtomTandem = options.tandem; // @private
+    PhetioObject.call( this, options );
 
     this.nucleonRadius = options.nucleonRadius; // @private
 
@@ -195,11 +196,11 @@ define( function( require ) {
 
             // An inner-shell electron was removed.  If there are electrons in the outer shell, move one of them in.
             var occupiedOuterShellPositions = _.filter( self.electronShellPositions, function( electronShellPosition ) {
-              return (electronShellPosition.electron !== null &&
-                      Utils.roughlyEqual( electronShellPosition.position.magnitude(),
-                        self.outerElectronShellRadius,
-                        1E-5
-                      )
+              return ( electronShellPosition.electron !== null &&
+                       Utils.roughlyEqual( electronShellPosition.position.magnitude(),
+                         self.outerElectronShellRadius,
+                         1E-5
+                       )
               );
             } );
             occupiedOuterShellPositions = _.sortBy( occupiedOuterShellPositions, function( occupiedShellPosition ) {
@@ -249,14 +250,11 @@ define( function( require ) {
         translateParticle( particle, translation );
       } );
     } );
-
-    // phet-io
-    options.tandem.addInstance( this, options );
   }
 
   shred.register( 'ParticleAtom', ParticleAtom );
 
-  return inherit( Object, ParticleAtom, {
+  return inherit( PhetioObject, ParticleAtom, {
 
     dispose: function() {
 
@@ -277,7 +275,7 @@ define( function( require ) {
       this.neutrons.dispose();
       this.electrons.dispose();
 
-      this.particleAtomTandem.removeInstance( this );
+      PhetioObject.prototype.dispose.call( this );
     },
 
     /**
@@ -334,14 +332,14 @@ define( function( require ) {
 
         // Find an open position in the electron shell.
         var openPositions = this.electronShellPositions.filter( function( electronPosition ) {
-          return (electronPosition.electron === null);
+          return ( electronPosition.electron === null );
         } );
         var sortedOpenPositions;
         if ( this.electronAddMode === 'proximal' ) {
           sortedOpenPositions = openPositions.sort( function( p1, p2 ) {
             // Sort first by distance to particle.
-            return (particle.positionProperty.get().distance( p1.position ) -
-                    particle.positionProperty.get().distance( p2.position ));
+            return ( particle.positionProperty.get().distance( p1.position ) -
+                     particle.positionProperty.get().distance( p2.position ) );
           } );
         }
         else {
@@ -350,8 +348,8 @@ define( function( require ) {
 
         // Put the inner shell positions in front.
         sortedOpenPositions = sortedOpenPositions.sort( function( p1, p2 ) {
-          return (self.positionProperty.get().distance( p1.position ) -
-                  self.positionProperty.get().distance( p2.position ));
+          return ( self.positionProperty.get().distance( p1.position ) -
+                   self.positionProperty.get().distance( p2.position ) );
         } );
 
         assert && assert( sortedOpenPositions.length > 0, 'No open positions found for electrons' );
@@ -397,7 +395,7 @@ define( function( require ) {
       else {
         throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
       }
-      assert && assert( typeof(particle.particleAtomRemovalListener) === 'function',
+      assert && assert( typeof( particle.particleAtomRemovalListener ) === 'function',
         'No particle removal listener attached to particle.' );
       particle.userControlledProperty.unlink( particle.particleAtomRemovalListener );
 
