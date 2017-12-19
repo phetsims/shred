@@ -11,15 +11,16 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var ParticleIO = require( 'SHRED/model/ParticleIO' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Property = require( 'AXON/Property' );
+  var PropertyIO = require( 'AXON/PropertyIO' );
   var Range = require( 'DOT/Range' );
   var shred = require( 'SHRED/shred' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var ParticleIO = require( 'SHRED/model/ParticleIO' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
-  var Vector2IO = require( 'DOT/Vector2IO' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Vector2IO = require( 'DOT/Vector2IO' );
 
   // phet-io modules
   var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
@@ -41,8 +42,7 @@ define( function( require ) {
       phetioType: ParticleIO
     }, options );
 
-    // @public (phet-io)
-    this.particleTandem = options.tandem;
+    PhetioObject.call( this, options );
 
     this.type = type; // @public (read-only)
 
@@ -79,13 +79,12 @@ define( function( require ) {
       range: new Range( 0, options.maxZLayer ),
       phetioType: PropertyIO( NumberIO )
     } ); // Used in view, integer value, higher means further back.
-
-    options.tandem.addInstance( this, options );
   }
 
   shred.register( 'Particle', Particle );
 
-  return inherit( Object, Particle, {
+  return inherit( PhetioObject, Particle, {
+
     /**
      * @param {number} dt
      * @public
@@ -97,6 +96,7 @@ define( function( require ) {
         var velocity = this.animationVelocityProperty.get();
         var distanceToDestination = position.distance( destination );
         if ( distanceToDestination > dt * velocity ) {
+
           // This was broken up into individual steps in an attempt to solve an issue where complex vector operations
           // sometimes didn't work.
           var stepMagnitude = velocity * dt;
@@ -136,7 +136,7 @@ define( function( require ) {
       this.animationVelocityProperty.dispose();
       this.userControlledProperty.dispose();
       this.zLayerProperty.dispose();
-      this.particleTandem.removeInstance( this );
+      PhetioObject.prototype.dispose.call( this );
     }
   }, {
     MAX_LAYERS: 5
