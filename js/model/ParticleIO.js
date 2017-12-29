@@ -17,7 +17,7 @@ define( function( require ) {
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
-   * Wrapper type for phet/shred's Particle class.
+   * IO type for phet/shred's Particle class.
    * @param {Particle} particle
    * @param {string} phetioID
    * @constructor

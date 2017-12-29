@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * wrapper type for ParticleAtom
+ * IO type for ParticleAtom
  *
  * TODO: This appears unused
  *
