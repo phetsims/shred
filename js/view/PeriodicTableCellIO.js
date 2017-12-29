@@ -16,8 +16,8 @@ define( function( require ) {
 
   /**
    *
-   * @param periodicTableCell
-   * @param phetioID
+   * @param {PeriodicTableCell} periodicTableCell
+   * @param {string} phetioID
    * @constructor
    */
   function PeriodicTableCellIO( periodicTableCell, phetioID ) {

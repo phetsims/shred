@@ -18,8 +18,8 @@ define( function( require ) {
 
   /**
    * Wrapper type for phet/shred's Particle class.
-   * @param particle
-   * @param phetioID
+   * @param {Particle} particle
+   * @param {string} phetioID
    * @constructor
    */
   function ParticleIO( particle, phetioID ) {
