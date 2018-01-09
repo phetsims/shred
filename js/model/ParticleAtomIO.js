@@ -78,19 +78,19 @@ define( function( require ) {
 
     /**
      * @param {ParticleAtom} particleAtom
-     * @param {Object} particleAtomState
+     * @param {Object} fromStateObject
      */
-    setValue: function( particleAtom, particleAtomState ) {
+    setValue: function( particleAtom, fromStateObject ) {
       assert && assertInstanceOf( particleAtom, phet.shred.ParticleAtom );
 
       // remove all the particles from the observable arrays
       particleAtom.clear();
 
       // add back the particles
-      particleAtomState.residentParticles.forEach( function( value ) { particleAtom.addParticle( value ); } );
+      fromStateObject.residentParticles.forEach( function( value ) { particleAtom.addParticle( value ); } );
 
       // set the electron shell occupancy state
-      particleAtomState.electronShellOccupants.forEach( function( electron, index ) {
+      fromStateObject.electronShellOccupants.forEach( function( electron, index ) {
         particleAtom.electronShellPositions[ index ].electron = electron;
       } );
     }
