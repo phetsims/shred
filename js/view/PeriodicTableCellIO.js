@@ -30,13 +30,13 @@ define( function( require ) {
     documentation: 'The type that wraps a periodic table cell.',
     events: [ 'fired' ],
 
-    fromStateObject: function( stateObject ) {
-      return new phet.dot.Vector2( stateObject.x, stateObject.y );
-    },
-
     toStateObject: function( periodicTableCell ) {
       assert && assertInstanceOf( periodicTableCell, phet.shred.PeriodicTableCell );
       return { x: periodicTableCell.x, y: periodicTableCell.y };
+    },
+
+    fromStateObject: function( stateObject ) {
+      return new phet.dot.Vector2( stateObject.x, stateObject.y );
     }
   } );
 
