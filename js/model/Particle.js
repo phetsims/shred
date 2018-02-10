@@ -39,7 +39,8 @@ define( function( require ) {
     options = _.extend( {
       tandem: Tandem.required,
       maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
-      phetioType: ParticleIO
+      phetioType: ParticleIO,
+      phetioState: false
     }, options );
 
     PhetioObject.call( this, options );
