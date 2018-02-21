@@ -76,7 +76,7 @@ define( function( require ) {
         return value >= 0 && value <= options.maxZLayer;
       },
       tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
-      valueType: 'Integer',
+      numberType: 'Integer',
       range: new Range( 0, options.maxZLayer ),
       phetioType: PropertyIO( NumberIO )
     } ); // Used in view, integer value, higher means further back.

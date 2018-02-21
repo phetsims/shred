@@ -95,7 +95,7 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'protonCountProperty' ),
-        valueType: 'Integer',
+        numberType: 'Integer',
         phetioType: DerivedPropertyIO( NumberIO )
       }
     );
@@ -106,7 +106,7 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'neutronCountProperty' ),
-        valueType: 'Integer',
+        numberType: 'Integer',
         phetioType: DerivedPropertyIO( NumberIO )
       }
     );
@@ -117,7 +117,7 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'electronCountProperty' ),
-        valueType: 'Integer',
+        numberType: 'Integer',
         phetioType: DerivedPropertyIO( NumberIO )
       }
     );
@@ -128,7 +128,7 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
-        valueType: 'Integer',
+        numberType: 'Integer',
         phetioType: DerivedPropertyIO( NumberIO )
       }
     );
@@ -139,7 +139,7 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
-        valueType: 'Integer',
+        numberType: 'Integer',
         phetioType: DerivedPropertyIO( NumberIO )
       }
     );
@@ -150,7 +150,7 @@ define( function( require ) {
       },
       {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
-        valueType: 'Integer',
+        numberType: 'Integer',
         phetioType: DerivedPropertyIO( NumberIO )
       }
     );

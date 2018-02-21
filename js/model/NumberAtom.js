@@ -40,16 +40,16 @@ define( function( require ) {
     this.protonCountProperty = new NumberProperty( options.protonCount, {
       tandem: options.tandem.createTandem( 'protonCountProperty' ),
       documentation: 'this property is updated by the model and should not be set by users',
-      valueType: 'Integer'
+      numberType: 'Integer'
     } );
     this.neutronCountProperty = new NumberProperty( options.neutronCount, {
       tandem: options.tandem.createTandem( 'neutronCountProperty' ),
-      valueType: 'Integer',
+      numberType: 'Integer',
       documentation: 'this property is updated by the model and should not be set by users'
     } );
     this.electronCountProperty = new NumberProperty( options.electronCount, {
       tandem: options.tandem.createTandem( 'electronCountProperty' ),
-      valueType: 'Integer',
+      numberType: 'Integer',
       documentation: 'this property is updated by the model and should not be set by users'
     } );
 
@@ -58,7 +58,7 @@ define( function( require ) {
         return protonCount - electronCount;
       }, {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
-        valueType: 'Integer',
+        numberType: 'Integer',
         phetioType: DerivedPropertyIO( NumberIO )
       }
     );
@@ -68,7 +68,7 @@ define( function( require ) {
         return protonCount + neutronCount;
       }, {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
-        valueType: 'Integer',
+        numberType: 'Integer',
         phetioType: DerivedPropertyIO( NumberIO )
       }
     );
@@ -78,7 +78,7 @@ define( function( require ) {
         return protonCount + neutronCount + electronCount;
       }, {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
-        valueType: 'Integer',
+        numberType: 'Integer',
         phetioType: DerivedPropertyIO( NumberIO )
       }
     );
