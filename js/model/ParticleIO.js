@@ -29,7 +29,19 @@ define( function( require ) {
   }
 
   phetioInherit( ObjectIO, 'ParticleIO', ParticleIO, {}, {
-    documentation: 'The model for a single particle such as an electron, proton, or neutron.'
+    documentation: 'The model for a single particle such as an electron, proton, or neutron.',
+
+    /**
+     * Return the json that ObjectIO is wrapping.  This can be overriden by subclasses, or types can use ObjectIO type
+     * directly to use this implementation.
+     * @param {Particle} particle
+     * @returns {Object}
+     */
+    toStateObject: function( particle ) {
+
+      // Avoid circular JSON.stringify(), see https://github.com/phetsims/build-an-atom/issues/184
+      return particle.phetioID;
+    }
   } );
 
   shred.register( 'ParticleIO', ParticleIO );
