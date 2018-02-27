@@ -12,10 +12,12 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var shred = require( 'SHRED/shred' );
+  
+  // phet-io modules
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var shred = require( 'SHRED/shred' );
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
