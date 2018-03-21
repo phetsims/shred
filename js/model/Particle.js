@@ -60,7 +60,7 @@ define( function( require ) {
     } );
     this.radiusProperty = new NumberProperty( type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
       tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
-      phetioInstanceDocumentation: 'changes to radius may not be reflected in view'
+      phetioInstanceDocumentation: 'The radius of the particle.  Changes to radius may not be reflected in view.'
     } );
     this.animationVelocityProperty = new NumberProperty( DEFAULT_PARTICLE_VELOCITY, {
       tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
