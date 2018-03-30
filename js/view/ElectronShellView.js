@@ -57,7 +57,7 @@ define( function( require ) {
       // a11y
       tagName: 'div',
       ariaRole: 'option',
-      accessibleLabel: 'Outer Electron Ring'
+      innerContent: 'Outer Electron Ring'
     } );
 
     var innerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
@@ -71,7 +71,7 @@ define( function( require ) {
       //a11y
       tagName: 'div',
       ariaRole: 'option',
-      accessibleLabel: 'Inner Electron Ring'
+      innerContent: 'Inner Electron Ring'
     } );
 
     // a11y - an invisible node that allows the nucleus to be highlighted.
@@ -80,7 +80,7 @@ define( function( require ) {
       // a11y
       tagName: 'div',
       ariaRole: 'option',
-      accessibleLabel: 'Nucleus'
+      innerContent: 'Nucleus'
     } );
 
     // a11y - to focus around the actual nucleus, will change in size when the particles in the nucleus change
