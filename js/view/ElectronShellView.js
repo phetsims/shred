@@ -126,7 +126,7 @@ define( function( require ) {
     // a11y - set the selectProperty when the arrow keys change the html select menu's value.
     var optionNodes = [ centerOption, innerRing, outerRing ];
     var currentIndex = 0;
-    this.addAccessibleInputListener( {
+    var keyListener = {
       keydown: function( event ) {
         if ( event.keyCode === KeyboardUtil.KEY_DOWN_ARROW || event.keyCode === KeyboardUtil.KEY_RIGHT_ARROW ) {
           currentIndex = ( currentIndex + 1 ) % optionNodes.length;
@@ -140,7 +140,8 @@ define( function( require ) {
         self.setAccessibleAttribute( 'aria-activedescendant', nextElementId );
         selectValueProperty.set( nextElementId );
       }
-    } );
+    };
+    this.addAccessibleInputListener( keyListener );
 
     // add each node to the view
     optionNodes.forEach( function( node ) { self.addChild( node ); } );
@@ -156,6 +157,7 @@ define( function( require ) {
 
     // @private called by dispose
     this.disposeElectronShellView = function() {
+      self.removeAccessibleInputListener( keyListener );
       outerRing.dispose();
       innerRing.dispose();
     };
