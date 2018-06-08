@@ -19,7 +19,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
 
-  // phet-io modules
+  // ifphetio
   var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
 
   /**

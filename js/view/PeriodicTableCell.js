@@ -19,7 +19,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
 
-  // phet-io modules
+  // ifphetio
   var PeriodicTableCellIO = require( 'SHRED/view/PeriodicTableCellIO' );
 
   // constants
