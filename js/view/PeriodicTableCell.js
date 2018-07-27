@@ -75,13 +75,13 @@ define( function( require ) {
       buttonListener = new ButtonListener( {
         tandem: options.tandem.createTandem( 'buttonListener' ),
         fire: function( evt ) {
-          self.startEvent( 'user', 'fired' );
+          self.phetioStartEvent( 'user', 'fired' );
           numberAtom.setSubAtomicParticleCount(
             atomicNumber,
             AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
             atomicNumber
           );
-          self.endEvent();
+          self.phetioEndEvent();
         }
       } );
       this.addInputListener( buttonListener );
