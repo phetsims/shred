@@ -39,7 +39,8 @@ define( function( require ) {
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
       tandem: Tandem.required,
-      phetioType: PeriodicTableCellIO
+      phetioType: PeriodicTableCellIO,
+      phetioEventType: 'user'
     }, options );
 
     this.options = options;
@@ -75,7 +76,7 @@ define( function( require ) {
       buttonListener = new ButtonListener( {
         tandem: options.tandem.createTandem( 'buttonListener' ),
         fire: function( evt ) {
-          self.phetioStartEvent( 'user', 'fired' );
+          self.phetioStartEvent( 'fired' );
           numberAtom.setSubAtomicParticleCount(
             atomicNumber,
             AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
