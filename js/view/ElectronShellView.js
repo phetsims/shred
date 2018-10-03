@@ -21,6 +21,9 @@ define( function( require ) {
   // constants
   var LINE_DASH = [ 4, 5 ];
 
+  // options for the focus highlight, these will be cycled through with the arrow keys
+  var FOCUS_HIGHLIGHTS = ['CENTER_OPTION', 'INNER_RING', 'OUTER_RING' ];
+
   /**
    * @param {ParticleAtom} atom
    * @param {ModelViewTransform2} modelViewTransform
@@ -109,13 +112,13 @@ define( function( require ) {
     // Link the property's value to change the focus highlight outlining the different particle placement possibilities.
     selectValueProperty.lazyLink( function( newValue ) {
       switch( newValue ) {
-        case ( centerOption.accessibleId ):
+        case ( FOCUS_HIGHLIGHTS[ 0 ] ):
           self.setFocusHighlight( electronOuterFocusHighlight );
           break;
-        case ( innerRing.accessibleId ):
+        case ( FOCUS_HIGHLIGHTS[ 1 ] ):
           self.setFocusHighlight( electronInnerFocusHighlight );
           break;
-        case ( outerRing.accessibleId ):
+        case ( FOCUS_HIGHLIGHTS[ 2 ] ):
           self.setFocusHighlight( nucleusFocusHighlight );
           break;
         default:
@@ -128,6 +131,7 @@ define( function( require ) {
     var currentIndex = 0;
     var keyListener = {
       keydown: function( event ) {
+
         if ( event.keyCode === KeyboardUtil.KEY_DOWN_ARROW || event.keyCode === KeyboardUtil.KEY_RIGHT_ARROW ) {
           currentIndex = ( currentIndex + 1 ) % optionNodes.length;
         }
@@ -136,8 +140,13 @@ define( function( require ) {
           if ( currentIndex < 0 ) { currentIndex = optionNodes.length - 1; }
         }
 
-        var nextElementId = optionNodes[ currentIndex ].accessibleId;
-        self.setAccessibleAttribute( 'aria-activedescendant', nextElementId );
+
+        // TODO: The requested design for a11y was to use the aria-activedescendant attribute to update the
+        // active node without changing focus. That currently isn't supported by scenery, but may be in the future.
+        // See https://github.com/phetsims/build-an-atom/issues/194 and
+        // https://github.com/phetsims/scenery/issues/873
+        // self.setAccessibleAttribute( 'aria-activedescendant', nextElementId );
+        var nextElementId = FOCUS_HIGHLIGHTS[ currentIndex ];
         selectValueProperty.set( nextElementId );
       }
     };
