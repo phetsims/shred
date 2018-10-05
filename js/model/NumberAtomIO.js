@@ -36,6 +36,7 @@ define( function( require ) {
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
      * @param {NumberAtom} numberAtom
      * @returns {Object}
+     * @override
      */
     toStateObject: function( numberAtom ) {
       assert && assertInstanceOf( numberAtom, phet.shred.NumberAtom );
@@ -49,6 +50,7 @@ define( function( require ) {
     /**
      * @param {Object} stateObject
      * @returns {}
+     * @override
      */
     fromStateObject: function( stateObject ) { }
   } );
