@@ -22,6 +22,6 @@ define( function( require ) {
       return Math.abs( value1 - value2 ) < tolerance;
     }
   };
-  shred.register( 'Utils', Utils);
+  shred.register( 'Utils', Utils );
   return Utils;
 } );

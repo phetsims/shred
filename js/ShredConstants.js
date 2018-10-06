@@ -45,6 +45,6 @@ define( function( require ) {
     // Level name to level number converter.
     MAP_LEVEL_NAME_TO_NUMBER: function( levelName ) { return this.LEVEL_NAMES.indexOf( levelName ); }
   };
-  shred.register( 'ShredConstants', ShredConstants);
+  shred.register( 'ShredConstants', ShredConstants );
   return ShredConstants;
 } );

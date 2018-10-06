@@ -22,7 +22,7 @@ define( function( require ) {
   var LINE_DASH = [ 4, 5 ];
 
   // options for the focus highlight, these will be cycled through with the arrow keys
-  var FOCUS_HIGHLIGHTS = ['CENTER_OPTION', 'INNER_RING', 'OUTER_RING' ];
+  var FOCUS_HIGHLIGHTS = [ 'CENTER_OPTION', 'INNER_RING', 'OUTER_RING' ];
 
   /**
    * @param {ParticleAtom} atom

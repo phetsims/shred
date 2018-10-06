@@ -63,7 +63,7 @@ define( function( require ) {
         .addColorStop( 0, 'white' )
         .addColorStop( 1, baseColor );
     }
-    else{
+    else {
       isotopeSphere.stroke = 'black';
     }
   }

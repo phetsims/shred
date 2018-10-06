@@ -83,7 +83,7 @@ define( function( require ) {
 
     // Figure out the sizes of the particles and the inter-particle spacing based on the max width.
     var totalParticleSpace = maxWidth - protonTitle.right - 10;
-    var nucleonRadius = totalParticleSpace / ( (maxParticles * 2) + ( maxParticles - 1) + 2);
+    var nucleonRadius = totalParticleSpace / ( ( maxParticles * 2 ) + ( maxParticles - 1 ) + 2 );
     var electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
     var interParticleSpacing = nucleonRadius * 3;
 

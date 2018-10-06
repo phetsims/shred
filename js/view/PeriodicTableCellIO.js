@@ -16,7 +16,7 @@ define( function( require ) {
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  
+
   /**
    *
    * @param {PeriodicTableCell} periodicTableCell
