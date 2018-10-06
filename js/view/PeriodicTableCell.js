@@ -67,7 +67,6 @@ define( function( require ) {
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     var buttonListener = null; // scope for disposal
-    var self = this;
     if ( options.interactive ) {
       buttonListener = new FireListener( {
         tandem: options.tandem,
