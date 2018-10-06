@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  var FireListener = require( 'SCENERY/listeners/FireListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -18,9 +18,6 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
-
-  // ifphetio
-  var PeriodicTableCellIO = require( 'SHRED/view/PeriodicTableCellIO' );
 
   // constants
   var NOMINAL_CELL_DIMENSION = 25;
@@ -39,7 +36,6 @@ define( function( require ) {
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
       tandem: Tandem.required,
-      phetioType: PeriodicTableCellIO,
       phetioEventType: 'user'
     }, options );
 
@@ -73,16 +69,14 @@ define( function( require ) {
     var buttonListener = null; // scope for disposal
     var self = this;
     if ( options.interactive ) {
-      buttonListener = new ButtonListener( {
-        tandem: options.tandem.createTandem( 'buttonListener' ),
+      buttonListener = new FireListener( {
+        tandem: options.tandem,
         fire: function( evt ) {
-          self.phetioStartEvent( 'fired' );
           numberAtom.setSubAtomicParticleCount(
             atomicNumber,
             AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
             atomicNumber
           );
-          self.phetioEndEvent();
         }
       } );
       this.addInputListener( buttonListener );
