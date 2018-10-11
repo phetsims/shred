@@ -69,7 +69,7 @@ define( function( require ) {
     var buttonListener = null; // scope for disposal
     if ( options.interactive ) {
       buttonListener = new FireListener( {
-        tandem: options.tandem,
+        tandem: options.tandem.createTandem( 'inputListener' ),
         fire: function( evt ) {
           numberAtom.setSubAtomicParticleCount(
             atomicNumber,
