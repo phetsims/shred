@@ -30,7 +30,7 @@ define( function( require ) {
   var Vector2IO = require( 'DOT/Vector2IO' );
 
   // ifphetio
-  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
 
   // constants
   var NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8

@@ -23,8 +23,8 @@ define( function( require ) {
   var Vector2IO = require( 'DOT/Vector2IO' );
 
   // ifphetio
-  var BooleanIO = require( 'ifphetio!PHET_IO/types/BooleanIO' );
-  var NumberIO = require( 'ifphetio!PHET_IO/types/NumberIO' );
+  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
 
   // constants
   var DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.

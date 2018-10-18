@@ -15,7 +15,7 @@ define( function( require ) {
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
+  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
 
   /**
    * IO type for phet/shred's Particle class.

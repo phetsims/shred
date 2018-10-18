@@ -18,7 +18,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
+  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
 
   /**
    * @param {ParticleAtom} particleAtom
