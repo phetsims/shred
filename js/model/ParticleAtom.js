@@ -15,6 +15,7 @@ define( function( require ) {
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
   var ObservableArray = require( 'AXON/ObservableArray' );
   var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
   var ParticleAtomIO = require( 'SHRED/model/ParticleAtomIO' );
@@ -28,9 +29,6 @@ define( function( require ) {
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
   var Vector2IO = require( 'DOT/Vector2IO' );
-
-  // ifphetio
-  var NumberIO = require( 'TANDEM/types/NumberIO' );
 
   // constants
   var NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8

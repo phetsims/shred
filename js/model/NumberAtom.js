@@ -14,13 +14,11 @@ define( function( require ) {
   var DerivedProperty = require( 'AXON/DerivedProperty' );
   var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var NumberIO = require( 'TANDEM/types/NumberIO' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
   var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
-
-  // ifphetio
-  var NumberIO = require( 'TANDEM/types/NumberIO' );
 
   /**
    * @param {Object} options

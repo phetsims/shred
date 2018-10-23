@@ -10,12 +10,12 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var shred = require( 'SHRED/shred' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
 
   /**
    * IO type for phet/shred's Particle class.
