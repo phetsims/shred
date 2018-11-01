@@ -13,8 +13,8 @@ define( function( require ) {
 
   // modules
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var shred = require( 'SHRED/shred' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
+  var shred = require( 'SHRED/shred' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );

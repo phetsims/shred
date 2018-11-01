@@ -12,13 +12,13 @@ define( function( require ) {
   // modules
   var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   var DerivedProperty = require( 'AXON/DerivedProperty' );
+  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   var Emitter = require( 'AXON/Emitter' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberIO = require( 'TANDEM/types/NumberIO' );
   var NumberProperty = require( 'AXON/NumberProperty' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
 
   /**
    * @param {Object} options
