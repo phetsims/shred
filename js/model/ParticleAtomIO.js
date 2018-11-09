@@ -18,7 +18,7 @@ define( function( require ) {
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var phetio = require( 'ifphetio!PHET_IO/phetio' );
+  var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   /**
    * @param {ParticleAtom} particleAtom
@@ -70,10 +70,10 @@ define( function( require ) {
     fromStateObject: function( stateObject ) {
       return {
         residentParticles: stateObject.residentParticleIDs.map( function( tandemID ) {
-          return phetio.getInstance( tandemID );
+          return phetioEngine.getInstance( tandemID );
         } ),
         electronShellOccupants: stateObject.electronShellOccupantIDs.map( function( tandemID ) {
-          return tandemID ? phetio.getInstance( tandemID ) : null;
+          return tandemID ? phetioEngine.getInstance( tandemID ) : null;
         } )
       };
     },
