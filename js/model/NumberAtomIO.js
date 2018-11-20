@@ -3,7 +3,7 @@
 /**
  * IO type for NumberAtom
  *
- * @author Michael Kauzamann (PhET Interactive Simulations)
+ * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  var NumberAtom = require( 'SHRED/model/NumberAtom' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
   var shred = require( 'SHRED/shred' );
 
@@ -24,7 +25,7 @@ define( function( require ) {
    * @constructor
    */
   function NumberAtomIO( numberAtom, phetioID ) {
-    assert && assertInstanceOf( numberAtom, phet.shred.NumberAtom );
+    assert && assertInstanceOf( numberAtom, NumberAtom );
     ObjectIO.call( this, numberAtom, phetioID );
   }
 
@@ -39,7 +40,7 @@ define( function( require ) {
      * @override
      */
     toStateObject: function( numberAtom ) {
-      assert && assertInstanceOf( numberAtom, phet.shred.NumberAtom );
+      assert && assertInstanceOf( numberAtom, NumberAtom );
       return {
         protonCount: numberAtom.protonCountProperty.get(),
         electronCount: numberAtom.electronCountProperty.get(),
