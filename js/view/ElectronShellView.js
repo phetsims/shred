@@ -131,11 +131,12 @@ define( function( require ) {
     var currentIndex = 0;
     var keyListener = {
       keydown: function( event ) {
+        var domEvent = event.domEvent;
 
-        if ( event.keyCode === KeyboardUtil.KEY_DOWN_ARROW || event.keyCode === KeyboardUtil.KEY_RIGHT_ARROW ) {
+        if ( domEvent.keyCode === KeyboardUtil.KEY_DOWN_ARROW || domEvent.keyCode === KeyboardUtil.KEY_RIGHT_ARROW ) {
           currentIndex = ( currentIndex + 1 ) % optionNodes.length;
         }
-        else if ( event.keyCode === KeyboardUtil.KEY_UP_ARROW || event.keyCode === KeyboardUtil.KEY_LEFT_ARROW ) {
+        else if ( domEvent.keyCode === KeyboardUtil.KEY_UP_ARROW || domEvent.keyCode === KeyboardUtil.KEY_LEFT_ARROW ) {
           currentIndex = currentIndex - 1;
           if ( currentIndex < 0 ) { currentIndex = optionNodes.length - 1; }
         }
