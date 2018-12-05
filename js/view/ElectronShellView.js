@@ -150,7 +150,7 @@ define( function( require ) {
         selectValueProperty.set( nextElementId );
       }
     };
-    this.addAccessibleInputListener( keyListener );
+    this.addInputListener( keyListener );
 
     // add each node to the view
     optionNodes.forEach( function( node ) { self.addChild( node ); } );
@@ -166,7 +166,7 @@ define( function( require ) {
 
     // @private called by dispose
     this.disposeElectronShellView = function() {
-      self.removeAccessibleInputListener( keyListener );
+      self.removeInputListener( keyListener );
       outerRing.dispose();
       innerRing.dispose();
     };
