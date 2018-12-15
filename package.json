@@ -11,5 +11,8 @@
   },
   "phet": {
     "requirejsNamespace": "SHRED"
+  },
+  "eslintConfig": {
+    "extends": "../chipper/eslint/.eslintrc.js"
   }
 }
