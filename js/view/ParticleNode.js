@@ -24,7 +24,7 @@ define( function( require ) {
   function ParticleNode( particleType, radius, options ) {
 
     options = _.extend( {
-      tandem: Tandem.required
+      tandem: Tandem.optional
     }, options );
 
     Node.call( this, options ); // Call super constructor.
