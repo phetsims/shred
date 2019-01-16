@@ -106,15 +106,14 @@ define( function( require ) {
     var electronDisplayCount = 0;
 
     // increase the particle count by 1, and return the currently displayed quantity array
-    function incrementParticleCount( array, currentQuantity, particleType, radius, startX, startY, groupTandem ) {
+    function incrementParticleCount( array, currentQuantity, particleType, radius, startX, startY ) {
       var newIndex = currentQuantity;
       if ( newIndex === array.length ) {
 
         // we need to create a new particle
         array.push( new ParticleNode( particleType, radius, {
           x: startX + newIndex * interParticleSpacing,
-          y: startY,
-          tandem: groupTandem.createNextTandem()
+          y: startY
         } ) );
       }
       particleLayer.addChild( array[ newIndex ] );
@@ -130,11 +129,6 @@ define( function( require ) {
       return currentQuantity;
     }
 
-    // group tandems used to identify the particle nodes
-    var protonNodeGroupTandem = options.tandem.createGroupTandem( 'protons' );
-    var neutronNodeGroupTandem = options.tandem.createGroupTandem( 'neutron' );
-    var electronNodeGroupTandem = options.tandem.createGroupTandem( 'electron' );
-
     // Function that updates that displayed particles.
     var updateParticles = function( atom ) {
       // feel free to refactor this, although we'd need to get a passable reference to the counts
@@ -146,8 +140,7 @@ define( function( require ) {
           'proton',
           nucleonRadius,
           protonTitle.right + interParticleSpacing,
-          protonTitle.center.y,
-          protonNodeGroupTandem
+          protonTitle.center.y
         );
       }
       while ( atom.protonCountProperty.get() < protonDisplayCount ) {
@@ -160,8 +153,7 @@ define( function( require ) {
           neutronDisplayCount,
           'neutron',
           nucleonRadius,
-          neutronTitle.right + interParticleSpacing, neutronTitle.center.y,
-          neutronNodeGroupTandem
+          neutronTitle.right + interParticleSpacing, neutronTitle.center.y
         );
       }
       while ( atom.neutronCountProperty.get() < neutronDisplayCount ) {
@@ -174,8 +166,7 @@ define( function( require ) {
           electronDisplayCount,
           'electron',
           electronRadius,
-          electronTitle.right + interParticleSpacing, electronTitle.center.y,
-          electronNodeGroupTandem
+          electronTitle.right + interParticleSpacing, electronTitle.center.y
         );
       }
       while ( atom.electronCountProperty.get() < electronDisplayCount ) {
