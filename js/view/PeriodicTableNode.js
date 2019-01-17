@@ -105,6 +105,7 @@ define( function( require ) {
     // @private - unlink from Properties
     this.disposePeriodicTableNode = function() {
       numberAtom.protonCountProperty.hasListener( updateHighlightedCell ) && numberAtom.protonCountProperty.unlink( updateHighlightedCell );
+      this.cells.forEach( function( cell ) { !cell.isDisposed && cell.dispose();} );
     };
   }
 
