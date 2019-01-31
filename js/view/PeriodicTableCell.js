@@ -13,6 +13,7 @@ define( function( require ) {
   var FireListener = require( 'SCENERY/listeners/FireListener' );
   var inherit = require( 'PHET_CORE/inherit' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var shred = require( 'SHRED/shred' );
@@ -36,7 +37,7 @@ define( function( require ) {
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
       tandem: Tandem.required,
-      phetioEventType: 'user'
+      phetioEventType: PhetioObject.EventType.USER
     }, options );
 
     this.options = options;
