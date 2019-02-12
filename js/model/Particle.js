@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BooleanIO = require( 'TANDEM/types/BooleanIO' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberIO = require( 'TANDEM/types/NumberIO' );
   var NumberProperty = require( 'AXON/NumberProperty' );
@@ -65,9 +65,8 @@ define( function( require ) {
       range: new Range( 0, 10 * DEFAULT_PARTICLE_VELOCITY ), // limited for the PhET-iO Studio wrapper, code can handle any value
       units: 'view-coordinates/second'
     } );
-    this.userControlledProperty = new Property( false, {
-      tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
-      phetioType: PropertyIO( BooleanIO )
+    this.userControlledProperty = new BooleanProperty( false, {
+      tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' )
     } );
     this.zLayerProperty = new Property( 0, {
       isValidValue: function( value ) {
