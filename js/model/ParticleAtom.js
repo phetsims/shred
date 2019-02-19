@@ -190,12 +190,12 @@ define( function( require ) {
       self.electronShellPositions.forEach( function( electronShellPosition ) {
         if ( electronShellPosition.electron === electron ) {
           electronShellPosition.electron = null;
-          if ( Math.abs( electronShellPosition.position.magnitude() - self.innerElectronShellRadius ) < 1E-5 ) {
+          if ( Math.abs( electronShellPosition.position.magnitude - self.innerElectronShellRadius ) < 1E-5 ) {
 
             // An inner-shell electron was removed.  If there are electrons in the outer shell, move one of them in.
             var occupiedOuterShellPositions = _.filter( self.electronShellPositions, function( electronShellPosition ) {
               return ( electronShellPosition.electron !== null &&
-                       Utils.roughlyEqual( electronShellPosition.position.magnitude(),
+                       Utils.roughlyEqual( electronShellPosition.position.magnitude,
                          self.outerElectronShellRadius,
                          1E-5
                        )
