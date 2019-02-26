@@ -15,9 +15,7 @@ define( function( require ) {
   var NumberAtom = require( 'SHRED/model/NumberAtom' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
   var shred = require( 'SHRED/shred' );
-
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
+  var validate = require( 'AXON/validate' );
 
   /**
    * @param {NumberAtom} numberAtom
@@ -25,11 +23,11 @@ define( function( require ) {
    * @constructor
    */
   function NumberAtomIO( numberAtom, phetioID ) {
-    assert && assertInstanceOf( numberAtom, NumberAtom );
     ObjectIO.call( this, numberAtom, phetioID );
   }
 
   phetioInherit( ObjectIO, 'NumberAtomIO', NumberAtomIO, {}, {
+    validator: { valueType: NumberAtom },
 
     documentation: 'A value type that contains quantities of electrons, protons, and neutrons.',
 
@@ -40,7 +38,7 @@ define( function( require ) {
      * @override
      */
     toStateObject: function( numberAtom ) {
-      assert && assertInstanceOf( numberAtom, NumberAtom );
+      validate( numberAtom, this.validator );
       return {
         protonCount: numberAtom.protonCountProperty.get(),
         electronCount: numberAtom.electronCountProperty.get(),

@@ -14,9 +14,6 @@ define( function( require ) {
   var phetioInherit = require( 'TANDEM/phetioInherit' );
   var shred = require( 'SHRED/shred' );
 
-  // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-
   /**
    * IO type for phet/shred's Particle class.
    * @param {Particle} particle
@@ -24,11 +21,11 @@ define( function( require ) {
    * @constructor
    */
   function ParticleIO( particle, phetioID ) {
-    assert && assertInstanceOf( particle, phet.shred.Particle );
     ObjectIO.call( this, particle, phetioID );
   }
 
   phetioInherit( ObjectIO, 'ParticleIO', ParticleIO, {}, {
+    validator: { isValidValue: v => v instanceof phet.shred.Particle },
     documentation: 'The model for a single particle such as an electron, proton, or neutron.',
 
     /**

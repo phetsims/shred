@@ -15,9 +15,9 @@ define( function( require ) {
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
   var shred = require( 'SHRED/shred' );
+  var validate = require( 'AXON/validate' );
 
   // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   /**
@@ -26,7 +26,6 @@ define( function( require ) {
    * @constructor
    */
   function ParticleAtomIO( particleAtom, phetioID ) {
-    assert && assertInstanceOf( particleAtom, phet.shred.ParticleAtom );
     ObjectIO.call( this, particleAtom, phetioID );
   }
 
@@ -36,6 +35,7 @@ define( function( require ) {
   }
 
   phetioInherit( ObjectIO, 'ParticleAtomIO', ParticleAtomIO, {}, {
+    validator: { isValidValue: v => v instanceof phet.shred.ParticleAtom },
 
     documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
                    'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
@@ -48,7 +48,7 @@ define( function( require ) {
      * @returns {Object}
      */
     toStateObject: function( particleAtom ) {
-      assert && assertInstanceOf( particleAtom, phet.shred.ParticleAtom );
+      validate( particleAtom, this.validator );
       return {
 
         // an array of all the particles currently contained within the particle atom
@@ -83,7 +83,7 @@ define( function( require ) {
      * @param {Object} fromStateObject
      */
     setValue: function( particleAtom, fromStateObject ) {
-      assert && assertInstanceOf( particleAtom, phet.shred.ParticleAtom );
+      validate( particleAtom, this.validator );
 
       // remove all the particles from the observable arrays
       particleAtom.clear();
