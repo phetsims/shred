@@ -22,7 +22,7 @@ define( function( require ) {
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Vector2IO = require( 'DOT/Vector2IO' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   // constants
   var DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
@@ -46,15 +46,13 @@ define( function( require ) {
     this.type = type; // @public (read-only)
 
     // @public
-    this.positionProperty = new Property( Vector2.ZERO, {
+    this.positionProperty = new Vector2Property( Vector2.ZERO, {
       useDeepEquality: true,
-      tandem: options.tandem && options.tandem.createTandem( 'positionProperty' ),
-      phetioType: PropertyIO( Vector2IO )
+      tandem: options.tandem && options.tandem.createTandem( 'positionProperty' )
     } );
-    this.destinationProperty = new Property( Vector2.ZERO, {
+    this.destinationProperty = new Vector2Property( Vector2.ZERO, {
       useDeepEquality: true,
-      tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' ),
-      phetioType: PropertyIO( Vector2IO )
+      tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' )
     } );
     this.radiusProperty = new NumberProperty( type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
       tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),

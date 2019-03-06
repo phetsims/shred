@@ -21,14 +21,12 @@ define( function( require ) {
   var ParticleAtomIO = require( 'SHRED/model/ParticleAtomIO' );
   var ParticleIO = require( 'SHRED/model/ParticleIO' );
   var PhetioObject = require( 'TANDEM/PhetioObject' );
-  var Property = require( 'AXON/Property' );
-  var PropertyIO = require( 'AXON/PropertyIO' );
   var shred = require( 'SHRED/shred' );
   var ShredConstants = require( 'SHRED/ShredConstants' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Utils = require( 'SHRED/Utils' );
   var Vector2 = require( 'DOT/Vector2' );
-  var Vector2IO = require( 'DOT/Vector2IO' );
+  var Vector2Property = require( 'DOT/Vector2Property' );
 
   // constants
   var NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
@@ -57,15 +55,13 @@ define( function( require ) {
     this.nucleusRadius = 0;
 
     // @public
-    this.positionProperty = new Property( Vector2.ZERO, {
+    this.positionProperty = new Vector2Property( Vector2.ZERO, {
       useDeepEquality: true,
-      tandem: options.tandem.createTandem( 'positionProperty' ),
-      phetioType: PropertyIO( Vector2IO )
+      tandem: options.tandem.createTandem( 'positionProperty' )
     } );
-    this.nucleusOffsetProperty = new Property( Vector2.ZERO, {
+    this.nucleusOffsetProperty = new Vector2Property( Vector2.ZERO, {
       useDeepEquality: true,
-      tandem: options.tandem.createTandem( 'nucleusOffsetProperty' ),
-      phetioType: PropertyIO( Vector2IO )
+      tandem: options.tandem.createTandem( 'nucleusOffsetProperty' )
     } );
 
     // @private - particle collections
@@ -393,7 +389,7 @@ define( function( require ) {
       else {
         throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
       }
-      assert && assert( typeof( particle.particleAtomRemovalListener ) === 'function',
+      assert && assert( typeof ( particle.particleAtomRemovalListener ) === 'function',
         'No particle removal listener attached to particle.' );
       particle.userControlledProperty.unlink( particle.particleAtomRemovalListener );
 
