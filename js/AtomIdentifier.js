@@ -602,9 +602,17 @@ define( function( require ) {
       }
     },
     4: {
+      7: {
+        atomicMass: 7.016929828,
+        abundance: TRACE_ABUNDANCE
+      },
       9: {
         atomicMass: 9.0121822,
         abundance: 1.0000
+      },
+      10: {
+        atomicMass: 10.013533818,
+        abundance: TRACE_ABUNDANCE
       }
     },
     5: {
@@ -658,6 +666,10 @@ define( function( require ) {
       }
     },
     9: {
+      18: {
+        atomicMass: 18.99840322,
+        abundance: TRACE_ABUNDANCE
+      },
       19: {
         atomicMass: 18.99840322,
         abundance: 1.0000
@@ -923,30 +935,41 @@ define( function( require ) {
     },
 
     /**
-     * Returns the natural abundance of a particular isotope.
+     * Returns the natural abundance of the specified isotope on present day Earth (year 2018) as a proportion (NOT a
+     * percentage) with the specified number of decimal places.
      *
-     * @param {NumberAtom} atom
+     * @param {NumberAtom} isotope
+     * @param {number} numDecimalPlaces - number of decimal places in the result
      * @returns {number}
-     * TODO Should we combine these two?
+     * @public
      */
+    getNaturalAbundance: function( isotope, numDecimalPlaces ) {
+      assert && assert( numDecimalPlaces !== undefined, 'must specify number of decimal places for proportion' );
+      var abundanceProportion = 0;
+      if ( isotope.protonCountProperty.get() > 0 &&
+           ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ] !== undefined ) {
 
-    getNaturalAbundance: function( atom ) {
-      return this.getNaturalAbundancePreciseDecimal( atom );
+        // the configuration is in the table, get it and round it to the needed number of decimal places
+        abundanceProportion = Util.toFixedNumber(
+          ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ].abundance,
+          numDecimalPlaces
+        );
+      }
+
+      return abundanceProportion;
     },
 
     /**
-     * Finds the precise value of the abundance and returns it.
-     * @param {NumberAtom} atom
-     * @returns {number}
+     * Returns true if the isotope exists only in trace amounts on present day Earth (~year 2018), false if there is
+     * more or less than that.  The definition that is used for deciding which isotopes exist in trace amounts is from
+     * https://en.wikipedia.org/wiki/Trace_radioisotope.
+     * @param {NumberAtom} isotope
+     * @returns {boolean}
+     * @public
      */
-    getNaturalAbundancePreciseDecimal: function( atom ) {
-      var defaultReturnValue = Util.toFixedNumber( 0, 10 );
-      if ( atom.protonCountProperty.get() > 0 &&
-           ISOTOPE_INFO_TABLE[ atom.protonCountProperty.get() ][ atom.massNumberProperty.get() ] !== undefined ) {
-        return Util.toFixedNumber(
-          ISOTOPE_INFO_TABLE[ atom.protonCountProperty.get() ][ atom.massNumberProperty.get() ].abundance, 10 );
-      }
-      return defaultReturnValue;
+    existsInTraceAmounts: function( isotope ) {
+      var tableEntry = ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ];
+      return tableEntry !== undefined && tableEntry.abundance === TRACE_ABUNDANCE;
     },
 
     /**
@@ -956,21 +979,16 @@ define( function( require ) {
      * @return
      */
     getAllIsotopesOfElement: function( atomicNumber ) {
-      // TODO May need to make immutable atom type
       var isotopesList = [];
 
-      // TODO Document function
       for ( var massNumber in ISOTOPE_INFO_TABLE[ atomicNumber ] ) {
         var numNeutrons = massNumber - atomicNumber;
         var moleculeNumberList = [ atomicNumber, numNeutrons, atomicNumber ];
 
         isotopesList.push( moleculeNumberList );
-
       }
 
-
       return isotopesList;
-
     },
 
     /**
