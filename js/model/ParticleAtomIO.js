@@ -70,10 +70,10 @@ define( function( require ) {
     fromStateObject: function( stateObject ) {
       return {
         residentParticles: stateObject.residentParticleIDs.map( function( tandemID ) {
-          return phetioEngine.getInstance( tandemID );
+          return phetioEngine.getPhetioObject( tandemID );
         } ),
         electronShellOccupants: stateObject.electronShellOccupantIDs.map( function( tandemID ) {
-          return tandemID ? phetioEngine.getInstance( tandemID ) : null;
+          return tandemID ? phetioEngine.getPhetioObject( tandemID ) : null;
         } )
       };
     },
