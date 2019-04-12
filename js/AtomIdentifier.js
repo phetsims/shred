@@ -667,7 +667,7 @@ define( function( require ) {
     },
     9: {
       18: {
-        atomicMass: 18.99840322,
+        atomicMass: 18.0009380,
         abundance: TRACE_ABUNDANCE
       },
       19: {
