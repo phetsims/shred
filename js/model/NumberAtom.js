@@ -20,6 +20,9 @@ define( function( require ) {
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
 
+  // constants
+  const NumberDerivedProperty = DerivedPropertyIO( NumberIO );
+
   /**
    * @param {Object} options
    * @constructor
@@ -57,7 +60,7 @@ define( function( require ) {
       }, {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         numberType: 'Integer',
-        phetioType: DerivedPropertyIO( NumberIO )
+        phetioType: NumberDerivedProperty
       }
     );
 
@@ -67,7 +70,7 @@ define( function( require ) {
       }, {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         numberType: 'Integer',
-        phetioType: DerivedPropertyIO( NumberIO )
+        phetioType: NumberDerivedProperty
       }
     );
 
@@ -77,7 +80,7 @@ define( function( require ) {
       }, {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         numberType: 'Integer',
-        phetioType: DerivedPropertyIO( NumberIO )
+        phetioType: NumberDerivedProperty
       }
     );
 
