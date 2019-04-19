@@ -93,13 +93,13 @@ define( function( require ) {
 
     /**
      * Compare with other Number Atom
-     * @param {NumberAtom} otherAtom
+     * @param {NumberAtom|ImmutableAtomConfig} otherAtom
      * @public
      */
     equals: function( otherAtom ) {
-      return this.protonCountProperty.get() === otherAtom.protonCountProperty.get() &&
-             this.neutronCountProperty.get() === otherAtom.neutronCountProperty.get() &&
-             this.electronCountProperty.get() === otherAtom.electronCountProperty.get();
+      return this.protonCount === otherAtom.protonCount &&
+             this.neutronCount === otherAtom.neutronCount &&
+             this.electronCount === otherAtom.electronCount;
     },
 
     // @public
@@ -110,6 +110,17 @@ define( function( require ) {
     // @public
     getIsotopeAtomicMass: function() {
       return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
+    },
+
+    // @public - ES5 getters for particle counts
+    get protonCount() {
+      return this.protonCountProperty.value;
+    },
+    get neutronCount() {
+      return this.neutronCountProperty.value;
+    },
+    get electronCount() {
+      return this.electronCountProperty.value;
     },
 
     /**
