@@ -253,13 +253,13 @@ define( function( require ) {
     'meitnerium',
     'darmstadtium',
     'roentgenium',
-    'ununbium',
-    'ununtrium',
+    'copernicum',
+    'nihonium',
     'flerovium',
-    'ununpentium',
+    'moscovium',
     'livermorium',
-    'ununseptium',
-    'ununoctium'
+    'tennessine',
+    'oganesson'
   ];
 
   var symbolTable = [
@@ -380,7 +380,7 @@ define( function( require ) {
     'Fl', // 114, FLEROVIUM
     'Mc', // 115, MOSCOVIUM
     'Lv', // 116, LIVERMORIUM
-    'Ts', // 117, Tennessine
+    'Ts', // 117, TENNESSINE
     'Og'  // 118, OGANESSON
 
   ];
