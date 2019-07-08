@@ -130,13 +130,13 @@ define( function( require ) {
     require( 'string!SHRED/meitnerium' ),
     require( 'string!SHRED/darmstadtium' ),
     require( 'string!SHRED/roentgenium' ),
-    require( 'string!SHRED/ununbium' ),
-    require( 'string!SHRED/ununtrium' ),
+    require( 'string!SHRED/copernicium' ),
+    require( 'string!SHRED/nihonium' ),
     require( 'string!SHRED/flerovium' ),
-    require( 'string!SHRED/ununpentium' ),
+    require( 'string!SHRED/moscovium' ),
     require( 'string!SHRED/livermorium' ),
-    require( 'string!SHRED/ununseptium' ),
-    require( 'string!SHRED/ununoctium' )
+    require( 'string!SHRED/tennessine' ),
+    require( 'string!SHRED/oganesson' )
   ];
 
   // Used in PhET-iO data streams
