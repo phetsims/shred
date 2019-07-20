@@ -1,4 +1,4 @@
-// Copyright 2015-2017, University of Colorado Boulder
+// Copyright 2015-2019, University of Colorado Boulder
 
 /**
  * A drag handler specifically tailored for the particle buckets. This handler extracts a particle from a bucket and
