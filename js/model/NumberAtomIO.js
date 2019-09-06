@@ -13,23 +13,10 @@ define( function( require ) {
   // modules
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var NumberAtom = require( 'SHRED/model/NumberAtom' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var shred = require( 'SHRED/shred' );
   var validate = require( 'AXON/validate' );
 
-  /**
-   * @param {NumberAtom} numberAtom
-   * @param {string} phetioID
-   * @constructor
-   */
-  function NumberAtomIO( numberAtom, phetioID ) {
-    ObjectIO.call( this, numberAtom, phetioID );
-  }
-
-  phetioInherit( ObjectIO, 'NumberAtomIO', NumberAtomIO, {}, {
-    validator: { valueType: NumberAtom },
-
-    documentation: 'A value type that contains quantities of electrons, protons, and neutrons.',
+  class NumberAtomIO extends ObjectIO {
 
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
@@ -37,25 +24,28 @@ define( function( require ) {
      * @returns {Object}
      * @override
      */
-    toStateObject: function( numberAtom ) {
+    static toStateObject( numberAtom ) {
       validate( numberAtom, this.validator );
       return {
         protonCount: numberAtom.protonCountProperty.get(),
         electronCount: numberAtom.electronCountProperty.get(),
         neutronCount: numberAtom.neutronCountProperty.get()
       };
-    },
+    }
 
     /**
      * @param {Object} stateObject
      * @returns {}
      * @override
      */
-    fromStateObject: function( stateObject ) { }
-  } );
+    static fromStateObject( stateObject ) { }
+  }
 
-  shred.register( 'NumberAtomIO', NumberAtomIO );
+  NumberAtomIO.validator = { valueType: NumberAtom };
+  NumberAtomIO.documentation = 'A value type that contains quantities of electrons, protons, and neutrons.';
+  NumberAtomIO.typeName = 'NumberAtomIO';
+  ObjectIO.validateSubtype( NumberAtomIO );
 
-  return NumberAtomIO;
+  return shred.register( 'NumberAtomIO', NumberAtomIO );
 } );
 

@@ -3,9 +3,7 @@
 /**
  * IO type for ParticleAtom
  *
- * TODO: This appears unused
- *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
 define( function( require ) {
@@ -13,41 +11,20 @@ define( function( require ) {
 
   // modules
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var shred = require( 'SHRED/shred' );
   var validate = require( 'AXON/validate' );
 
   // ifphetio
   var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
-  /**
-   * @param {ParticleAtom} particleAtom
-   * @param {string} phetioID
-   * @constructor
-   */
-  function ParticleAtomIO( particleAtom, phetioID ) {
-    ObjectIO.call( this, particleAtom, phetioID );
-  }
-
-  // helper function for retrieving the tandem for a particle
-  function getParticleTandemID( particle ) {
-    return particle.tandem.phetioID;
-  }
-
-  phetioInherit( ObjectIO, 'ParticleAtomIO', ParticleAtomIO, {}, {
-    validator: { isValidValue: v => v instanceof phet.shred.ParticleAtom },
-
-    documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
-                   'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
-                   'appropriate places.  This object also keeps track of things like atomic number, mass number, and ' +
-                   'charge.',
+  class ParticleAtomIO extends ObjectIO {
 
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
      * @param {ParticleAtom} particleAtom
      * @returns {Object}
      */
-    toStateObject: function( particleAtom ) {
+    static toStateObject( particleAtom ) {
       validate( particleAtom, this.validator );
       return {
 
@@ -61,13 +38,13 @@ define( function( require ) {
           return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
         } )
       };
-    },
+    }
 
     /**
      * @param {string[]} stateObject
      * @returns {Object}
      */
-    fromStateObject: function( stateObject ) {
+    static fromStateObject( stateObject ) {
       return {
         residentParticles: stateObject.residentParticleIDs.map( function( tandemID ) {
           return phetioEngine.getPhetioObject( tandemID );
@@ -76,13 +53,13 @@ define( function( require ) {
           return tandemID ? phetioEngine.getPhetioObject( tandemID ) : null;
         } )
       };
-    },
+    }
 
     /**
      * @param {ParticleAtom} particleAtom
      * @param {Object} fromStateObject
      */
-    setValue: function( particleAtom, fromStateObject ) {
+    static setValue( particleAtom, fromStateObject ) {
       validate( particleAtom, this.validator );
 
       // remove all the particles from the observable arrays
@@ -96,10 +73,21 @@ define( function( require ) {
         particleAtom.electronShellPositions[ index ].electron = electron;
       } );
     }
-  } );
+  }
 
-  shred.register( 'ParticleAtomIO', ParticleAtomIO );
+  ParticleAtomIO.validator = { isValidValue: v => v instanceof phet.shred.ParticleAtom };
 
-  return ParticleAtomIO;
+  ParticleAtomIO.documentation = 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
+                                 'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
+                                 'appropriate places.  This object also keeps track of things like atomic number, mass number, and ' +
+                                 'charge.';
+  ParticleAtomIO.typeName = 'ParticleAtomIO';
+  ObjectIO.validateSubtype( ParticleAtomIO );
+
+  // helper function for retrieving the tandem for a particle
+  function getParticleTandemID( particle ) {
+    return particle.tandem.phetioID;
+  }
+
+  return shred.register( 'ParticleAtomIO', ParticleAtomIO );
 } );
-

@@ -11,22 +11,9 @@ define( function( require ) {
 
   // modules
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var shred = require( 'SHRED/shred' );
 
-  /**
-   * IO type for phet/shred's Particle class.
-   * @param {Particle} particle
-   * @param {string} phetioID
-   * @constructor
-   */
-  function ParticleIO( particle, phetioID ) {
-    ObjectIO.call( this, particle, phetioID );
-  }
-
-  phetioInherit( ObjectIO, 'ParticleIO', ParticleIO, {}, {
-    validator: { isValidValue: v => v instanceof phet.shred.Particle },
-    documentation: 'The model for a single particle such as an electron, proton, or neutron.',
+  class ParticleIO extends ObjectIO {
 
     /**
      * Return the json that ObjectIO is wrapping.  This can be overriden by subclasses, or types can use ObjectIO type
@@ -34,14 +21,16 @@ define( function( require ) {
      * @param {Particle} particle
      * @returns {Object}
      */
-    toStateObject: function( particle ) {
+    static toStateObject( particle ) {
 
       // Avoid circular JSON.stringify(), see https://github.com/phetsims/build-an-atom/issues/184
       return particle.phetioID;
     }
-  } );
+  }
 
-  shred.register( 'ParticleIO', ParticleIO );
+  ParticleIO.validator = { isValidValue: v => v instanceof phet.shred.Particle };
+  ParticleIO.documentation = 'The model for a single particle such as an electron, proton, or neutron.';
+  ParticleIO.typeName = 'ParticleIO';
 
-  return ParticleIO;
+  return shred.register( 'ParticleIO', ParticleIO );
 } );
