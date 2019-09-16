@@ -29,9 +29,9 @@ define( function( require ) {
       return {
 
         // an array of all the particles currently contained within the particle atom
-        residentParticleIDs: particleAtom.protons.map( getParticleTandemID ).getArray()
-          .concat( particleAtom.neutrons.map( getParticleTandemID ).getArray() )
-          .concat( particleAtom.electrons.map( getParticleTandemID ).getArray() ),
+        residentParticleIDs: particleAtom.protons.getArray().map( getParticleTandemID )
+          .concat( particleAtom.neutrons.getArray().map( getParticleTandemID ) )
+          .concat( particleAtom.electrons.getArray().map( getParticleTandemID ) ),
 
         // an ordered array that tracks which electron, if any, is in each shell position
         electronShellOccupantIDs: particleAtom.electronShellPositions.map( function( electronShellPosition ) {
