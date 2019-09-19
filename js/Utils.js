@@ -9,7 +9,7 @@ define( require => {
   'use strict';
   const shred = require( 'SHRED/shred' );
 
-  var Utils = {
+  const Utils = {
     /**
      * Determine if two values are equal within a tolerance.
      *

@@ -33,7 +33,7 @@ define( require => {
   const unstableString = require( 'string!SHRED/unstable' );
 
   // constants
-  var ELEMENT_NAME_FONT_SIZE = 22;
+  const ELEMENT_NAME_FONT_SIZE = 22;
 
   /**
    * @param {ParticleAtom} particleAtom Model that represents the atom, including particle positions
@@ -55,7 +55,7 @@ define( require => {
     );
 
     Node.call( this ); // Call super constructor.
-    var self = this;
+    const self = this;
 
     // @private
     this.atom = particleAtom;
@@ -63,9 +63,9 @@ define( require => {
 
     // Create the X where the nucleus goes.
     if ( options.showCenterX ) {
-      var sizeInPixels = modelViewTransform.modelToViewDeltaX( 20 );
-      var center = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get() );
-      var centerMarker = new Shape();
+      const sizeInPixels = modelViewTransform.modelToViewDeltaX( 20 );
+      const center = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get() );
+      const centerMarker = new Shape();
       centerMarker.moveTo( center.x - sizeInPixels / 2, center.y - sizeInPixels / 2 );
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y + sizeInPixels / 2 );
       centerMarker.moveTo( center.x - sizeInPixels / 2, center.y + sizeInPixels / 2 );
@@ -86,22 +86,22 @@ define( require => {
     }
 
     // Add the electron shells and cloud.
-    var electronShell = new ElectronShellView( particleAtom, modelViewTransform, {
+    const electronShell = new ElectronShellView( particleAtom, modelViewTransform, {
       tandem: options.tandem.createTandem( 'electronShell' )
     } );
     this.addChild( electronShell );
-    var electronCloud = new ElectronCloudView( particleAtom, modelViewTransform, {
+    const electronCloud = new ElectronCloudView( particleAtom, modelViewTransform, {
       tandem: options.tandem.createTandem( 'electronCloud' )
     } );
     this.addChild( electronCloud );
 
-    var updateElectronShellDepictionVisibility = function( depiction ) {
+    const updateElectronShellDepictionVisibility = function( depiction ) {
       electronShell.visible = depiction === 'orbits';
       electronCloud.visible = depiction === 'cloud';
     };
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
 
-    var elementNameCenterPos = modelViewTransform.modelToViewPosition(
+    const elementNameCenterPos = modelViewTransform.modelToViewPosition(
       particleAtom.positionProperty.get().plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) )
     );
 
@@ -116,14 +116,14 @@ define( require => {
     this.addChild( this.elementName );
 
     // Define the update function for the element name.
-    var updateElementName = function() {
-      var name = AtomIdentifier.getName( self.atom.protonCountProperty.get() );
+    const updateElementName = function() {
+      let name = AtomIdentifier.getName( self.atom.protonCountProperty.get() );
       if ( name.length === 0 ) {
         name = '';
       }
       self.elementName.text = name;
       self.elementName.setScaleMagnitude( 1 );
-      var maxLabelWidth = modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 );
+      const maxLabelWidth = modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 );
       self.elementName.setScaleMagnitude( Math.min( maxLabelWidth / self.elementName.width, 1 ) );
       self.elementName.center = elementNameCenterPos;
     };
@@ -132,12 +132,12 @@ define( require => {
     // Hook up update listeners.
     particleAtom.protonCountProperty.link( updateElementName );
 
-    var updateElementNameVisibility = function( visible ) {
+    const updateElementNameVisibility = function( visible ) {
       self.elementName.visible = visible;
     };
     options.showElementNameProperty.link( updateElementNameVisibility );
 
-    var ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
+    const ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
     // @private - Create the textual readout for the ion indicator, set by trial and error.
@@ -152,9 +152,9 @@ define( require => {
     this.addChild( this.ionIndicator );
 
     // Define the update function for the ion indicator.
-    var updateIonIndicator = function() {
+    const updateIonIndicator = function() {
       if ( self.atom.protonCountProperty.get() > 0 ) {
-        var charge = self.atom.getCharge();
+        const charge = self.atom.getCharge();
         if ( charge < 0 ) {
           self.ionIndicator.text = minusSignIonString;
           self.ionIndicator.fill = 'blue';
@@ -177,13 +177,13 @@ define( require => {
 
     particleAtom.protonCountProperty.link( updateIonIndicator );
     particleAtom.electronCountProperty.link( updateIonIndicator );
-    var updateIonIndicatorVisibility = function( visible ) {
+    const updateIonIndicatorVisibility = function( visible ) {
       self.ionIndicator.visible = visible;
     };
     options.showNeutralOrIonProperty.link( updateIonIndicatorVisibility );
 
     // Create the textual readout for the stability indicator.
-    var stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
+    const stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private
@@ -198,7 +198,7 @@ define( require => {
     this.addChild( this.stabilityIndicator );
 
     // Define the update function for the stability indicator.
-    var updateStabilityIndicator = function() {
+    const updateStabilityIndicator = function() {
       if ( self.atom.protonCountProperty.get() > 0 ) {
         if ( AtomIdentifier.isStable( self.atom.protonCountProperty.get(), self.atom.neutronCountProperty.get() ) ) {
           self.stabilityIndicator.text = stableString;
@@ -217,7 +217,7 @@ define( require => {
     // Add the listeners that control the label content and visibility.
     particleAtom.protonCountProperty.link( updateStabilityIndicator );
     particleAtom.neutronCountProperty.link( updateStabilityIndicator );
-    var updateStabilityIndicatorVisibility = function( visible ) {
+    const updateStabilityIndicatorVisibility = function( visible ) {
       self.stabilityIndicator.visible = visible;
     };
     options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );

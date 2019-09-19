@@ -8,7 +8,7 @@
 define( require => {
   'use strict';
 
-  var AtomComponentEnum = {
+  const AtomComponentEnum = {
     PROTON: 'PROTON',
     NEUTRON: 'NEUTRON',
     ELECTRON: 'ELECTRON',

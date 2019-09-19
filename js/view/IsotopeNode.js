@@ -29,22 +29,22 @@ define( require => {
 
     Node.call( this, options ); // Call super constructor.
 
-    var baseColor = isotope.color;
+    let baseColor = isotope.color;
     if ( baseColor === undefined ) {
       assert && assert( false, 'Unrecognized Isotope' );
       baseColor = 'black';
     }
 
     // Create the node a circle with a gradient.
-    var isotopeSphere = new Circle( radius, {
+    const isotopeSphere = new Circle( radius, {
       fill: baseColor,
       cursor: 'pointer'
     } );
     this.addChild( isotopeSphere );
 
     if ( options.showLabel ) {
-      var symbol = AtomIdentifier.getSymbol( isotope.protonCount );
-      var label = new RichText( ' <sup>' + isotope.massNumber + '</sup>' + symbol, {
+      const symbol = AtomIdentifier.getSymbol( isotope.protonCount );
+      const label = new RichText( ' <sup>' + isotope.massNumber + '</sup>' + symbol, {
         font: new PhetFont( 10 ),
         // making sure that text doesn't goes beyond the sphere boundaries, -2 is empirically determined
         maxWidth: 2 * radius - 2

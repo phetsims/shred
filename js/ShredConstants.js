@@ -14,7 +14,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const shred = require( 'SHRED/shred' );
 
-  var ShredConstants = {
+  const ShredConstants = {
 
     LAYOUT_BOUNDS: new Bounds2( 0, 0, 768, 464 ),
 

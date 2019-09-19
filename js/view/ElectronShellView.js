@@ -19,10 +19,10 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var LINE_DASH = [ 4, 5 ];
+  const LINE_DASH = [ 4, 5 ];
 
   // options for the focus highlight, these will be cycled through with the arrow keys
-  var FOCUS_HIGHLIGHTS = [ 'CENTER_OPTION', 'INNER_RING', 'OUTER_RING' ];
+  const FOCUS_HIGHLIGHTS = [ 'CENTER_OPTION', 'INNER_RING', 'OUTER_RING' ];
 
   /**
    * @param {ParticleAtom} atom
@@ -31,7 +31,7 @@ define( require => {
    * @constructor
    */
   function ElectronShellView( atom, modelViewTransform, options ) {
-    var self = this;
+    const self = this;
     options = _.extend( {
         tandem: Tandem.required
       },
@@ -49,7 +49,7 @@ define( require => {
       focusable: true
     } );
 
-    var outerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+    const outerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
       stroke: 'blue',
       lineWidth: 1.5,
       lineDash: LINE_DASH,
@@ -63,7 +63,7 @@ define( require => {
       innerContent: 'Outer Electron Ring'
     } );
 
-    var innerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
+    const innerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
       stroke: 'blue',
       lineWidth: 1.5,
       lineDash: LINE_DASH,
@@ -78,7 +78,7 @@ define( require => {
     } );
 
     // a11y - an invisible node that allows the nucleus to be highlighted.
-    var centerOption = new Node( {
+    const centerOption = new Node( {
 
       // a11y
       tagName: 'div',
@@ -87,27 +87,27 @@ define( require => {
     } );
 
     // a11y - to focus around the actual nucleus, will change in size when the particles in the nucleus change
-    var nucleusFocusHighlight = new Circle( atom.nucleusRadius, {
+    const nucleusFocusHighlight = new Circle( atom.nucleusRadius, {
       lineWidth: 2,
       stroke: 'red',
       translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
     } );
 
     // a11y - to focus around the outer shell
-    var electronOuterFocusHighlight = new Circle( atom.outerElectronShellRadius, {
+    const electronOuterFocusHighlight = new Circle( atom.outerElectronShellRadius, {
       lineWidth: 2,
       stroke: 'red',
       translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
     } );
 
     // a11y - to focus around the inner shell
-    var electronInnerFocusHighlight = new Circle( atom.innerElectronShellRadius, {
+    const electronInnerFocusHighlight = new Circle( atom.innerElectronShellRadius, {
       lineWidth: 2,
       stroke: 'red',
       translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
     } );
 
-    var selectValueProperty = new Property( 'none' );
+    const selectValueProperty = new Property( 'none' );
 
     // Link the property's value to change the focus highlight outlining the different particle placement possibilities.
     selectValueProperty.lazyLink( function( newValue ) {
@@ -127,11 +127,11 @@ define( require => {
     } );
 
     // a11y - set the selectProperty when the arrow keys change the html select menu's value.
-    var optionNodes = [ centerOption, innerRing, outerRing ];
-    var currentIndex = 0;
-    var keyListener = {
+    const optionNodes = [ centerOption, innerRing, outerRing ];
+    let currentIndex = 0;
+    const keyListener = {
       keydown: function( event ) {
-        var domEvent = event.domEvent;
+        const domEvent = event.domEvent;
 
         if ( domEvent.keyCode === KeyboardUtil.KEY_DOWN_ARROW || domEvent.keyCode === KeyboardUtil.KEY_RIGHT_ARROW ) {
           currentIndex = ( currentIndex + 1 ) % optionNodes.length;
@@ -147,7 +147,7 @@ define( require => {
         // See https://github.com/phetsims/build-an-atom/issues/194 and
         // https://github.com/phetsims/scenery/issues/873
         // self.setAccessibleAttribute( 'aria-activedescendant', nextElementId );
-        var nextElementId = FOCUS_HIGHLIGHTS[ currentIndex ];
+        const nextElementId = FOCUS_HIGHLIGHTS[ currentIndex ];
         selectValueProperty.set( nextElementId );
       }
     };
@@ -161,7 +161,7 @@ define( require => {
 
       // TODO: Is there another way to link to the changing nucleus configuration
       atom.reconfigureNucleus();
-      var radiusOffset = atom.nucleusRadius === 0 ? 0 : 4;
+      const radiusOffset = atom.nucleusRadius === 0 ? 0 : 4;
       nucleusFocusHighlight.radius = atom.nucleusRadius + radiusOffset;
     } );
 

@@ -25,7 +25,7 @@ define( require => {
   const Vector2Property = require( 'DOT/Vector2Property' );
 
   // constants
-  var DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
+  const DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
 
   /**
    * @param {string} type
@@ -87,17 +87,17 @@ define( require => {
      */
     step: function( dt ) {
       if ( !this.userControlledProperty.get() ) {
-        var position = this.positionProperty.get();
-        var destination = this.destinationProperty.get();
-        var velocity = this.animationVelocityProperty.get();
-        var distanceToDestination = position.distance( destination );
+        const position = this.positionProperty.get();
+        const destination = this.destinationProperty.get();
+        const velocity = this.animationVelocityProperty.get();
+        const distanceToDestination = position.distance( destination );
         if ( distanceToDestination > dt * velocity ) {
 
           // This was broken up into individual steps in an attempt to solve an issue where complex vector operations
           // sometimes didn't work.
-          var stepMagnitude = velocity * dt;
-          var stepAngle = Math.atan2( destination.y - position.y, destination.x - position.x );
-          var stepVector = Vector2.createPolar( stepMagnitude, stepAngle );
+          const stepMagnitude = velocity * dt;
+          const stepAngle = Math.atan2( destination.y - position.y, destination.x - position.x );
+          const stepVector = Vector2.createPolar( stepMagnitude, stepAngle );
 
           // Move a step toward the destination.
           this.positionProperty.set( position.plus( stepVector ) );

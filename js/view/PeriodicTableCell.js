@@ -21,8 +21,8 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
 
   // constants
-  var NOMINAL_CELL_DIMENSION = 25;
-  var NOMINAL_FONT_SIZE = 14;
+  const NOMINAL_CELL_DIMENSION = 25;
+  const NOMINAL_FONT_SIZE = 14;
 
   /**
    * @param {number} atomicNumber - Atomic number of atom represented by this cell.
@@ -67,7 +67,7 @@ define( require => {
     }
 
     // If interactive, add a listener to set the atom when this cell is pressed.
-    var buttonListener = null; // scope for disposal
+    let buttonListener = null; // scope for disposal
     if ( options.interactive ) {
       buttonListener = new FireListener( {
         tandem: options.tandem.createTandem( 'inputListener' ),

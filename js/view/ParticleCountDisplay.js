@@ -28,9 +28,9 @@ define( require => {
   const protonsColonString = require( 'string!SHRED/protonsColon' );
 
   // constants
-  var TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
-  var MIN_VERTICAL_SPACING = 16; // Empirically Determined
-  var LABEL_FONT = new PhetFont( 12 );
+  const TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
+  const MIN_VERTICAL_SPACING = 16; // Empirically Determined
+  const LABEL_FONT = new PhetFont( 12 );
 
   /**
    * @param {NumberAtom} numberAtom Model representation of the atom
@@ -48,32 +48,32 @@ define( require => {
       tandem: Tandem.required
     }, options );
 
-    var panelContents = new Node();
+    const panelContents = new Node();
 
-    var protonTitle = new Text( protonsColonString, {
+    const protonTitle = new Text( protonsColonString, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'protonTitle' )
     } );
     panelContents.addChild( protonTitle );
-    var neutronTitle = new Text( neutronsColonString, {
+    const neutronTitle = new Text( neutronsColonString, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'neutronTitle' )
     } );
     panelContents.addChild( neutronTitle );
-    var electronTitle = new Text( electronsColonString, {
+    const electronTitle = new Text( electronsColonString, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'electronTitle' )
     } );
     panelContents.addChild( electronTitle );
 
     // Scale the title if more than allowed proportion width
-    var maxAllowableLabelWidth = maxWidth * TITLE_MAX_WIDTH_PROPORTION;
+    const maxAllowableLabelWidth = maxWidth * TITLE_MAX_WIDTH_PROPORTION;
     protonTitle.maxWidth = maxAllowableLabelWidth;
     electronTitle.maxWidth = maxAllowableLabelWidth;
     neutronTitle.maxWidth = maxAllowableLabelWidth;
 
     // Lay out the labels.
-    var maxLabelWidth = Math.max( Math.max( protonTitle.width, neutronTitle.width ), electronTitle.width );
+    const maxLabelWidth = Math.max( Math.max( protonTitle.width, neutronTitle.width ), electronTitle.width );
     protonTitle.right = maxLabelWidth;
     protonTitle.top = 0;
     neutronTitle.right = maxLabelWidth;
@@ -82,32 +82,32 @@ define( require => {
     electronTitle.bottom = neutronTitle.bottom + Math.max( electronTitle.height, MIN_VERTICAL_SPACING );
 
     // Figure out the sizes of the particles and the inter-particle spacing based on the max width.
-    var totalParticleSpace = maxWidth - protonTitle.right - 10;
-    var nucleonRadius = totalParticleSpace / ( ( maxParticles * 2 ) + ( maxParticles - 1 ) + 2 );
-    var electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
-    var interParticleSpacing = nucleonRadius * 3;
+    const totalParticleSpace = maxWidth - protonTitle.right - 10;
+    const nucleonRadius = totalParticleSpace / ( ( maxParticles * 2 ) + ( maxParticles - 1 ) + 2 );
+    const electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
+    const interParticleSpacing = nucleonRadius * 3;
 
     // Add an invisible spacer that will keep the control panel at a min width.
-    var spacer = new Rectangle( maxLabelWidth, 0, interParticleSpacing * 3, 1 );
+    const spacer = new Rectangle( maxLabelWidth, 0, interParticleSpacing * 3, 1 );
 
     // Add the layer where the particles will live.
-    var particleLayer = new Node( { children: [ spacer ] } );
+    const particleLayer = new Node( { children: [ spacer ] } );
     panelContents.addChild( particleLayer );
 
     // stored ParticleNode instances that are positioned correctly, so we just have to add/remove the
     // changed ones (faster than full rebuild)
-    var protons = [];
-    var neutrons = [];
-    var electrons = [];
+    const protons = [];
+    const neutrons = [];
+    const electrons = [];
 
     // counts of the displayed number of particles
-    var protonDisplayCount = 0;
-    var neutronDisplayCount = 0;
-    var electronDisplayCount = 0;
+    let protonDisplayCount = 0;
+    let neutronDisplayCount = 0;
+    let electronDisplayCount = 0;
 
     // increase the particle count by 1, and return the currently displayed quantity array
     function incrementParticleCount( array, currentQuantity, particleType, radius, startX, startY ) {
-      var newIndex = currentQuantity;
+      const newIndex = currentQuantity;
       if ( newIndex === array.length ) {
 
         // we need to create a new particle
@@ -130,7 +130,7 @@ define( require => {
     }
 
     // Function that updates that displayed particles.
-    var updateParticles = function( atom ) {
+    const updateParticles = function( atom ) {
       // feel free to refactor this, although we'd need to get a passable reference to the counts
       // (that's why there is duplication now)
       while ( atom.protonCountProperty.get() > protonDisplayCount ) {

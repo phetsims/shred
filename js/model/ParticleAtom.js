@@ -29,7 +29,7 @@ define( require => {
   const Vector2Property = require( 'DOT/Vector2Property' );
 
   // constants
-  var NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
+  const NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
 
   /**
    * @param {Object} options
@@ -37,7 +37,7 @@ define( require => {
    */
   function ParticleAtom( options ) {
 
-    var self = this;
+    const self = this;
 
     options = _.extend( {
       innerElectronShellRadius: 85,
@@ -166,11 +166,11 @@ define( require => {
       electron: null,
       position: new Vector2( -self.innerElectronShellRadius, 0 )
     };
-    var numSlotsInOuterShell = 8;
+    const numSlotsInOuterShell = 8;
 
     // Stagger inner and outer electron shell positions, tweaked a bit for better interaction with labels.
-    var angle = Math.PI / numSlotsInOuterShell * 1.2;
-    for ( var i = 0; i < numSlotsInOuterShell; i++ ) {
+    let angle = Math.PI / numSlotsInOuterShell * 1.2;
+    for ( let i = 0; i < numSlotsInOuterShell; i++ ) {
       this.electronShellPositions[ i + 2 ] = {
         electron: null,
         position: new Vector2(
@@ -189,7 +189,7 @@ define( require => {
           if ( Math.abs( electronShellPosition.position.magnitude - self.innerElectronShellRadius ) < 1E-5 ) {
 
             // An inner-shell electron was removed.  If there are electrons in the outer shell, move one of them in.
-            var occupiedOuterShellPositions = _.filter( self.electronShellPositions, function( electronShellPosition ) {
+            let occupiedOuterShellPositions = _.filter( self.electronShellPositions, function( electronShellPosition ) {
               return ( electronShellPosition.electron !== null &&
                        Utils.roughlyEqual( electronShellPosition.position.magnitude,
                          self.outerElectronShellRadius,
@@ -212,7 +212,7 @@ define( require => {
     } );
 
     // Utility function to translate all particles.
-    var translateParticle = function( particle, translation ) {
+    const translateParticle = function( particle, translation ) {
       if ( particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
         particle.setPositionAndDestination( particle.positionProperty.get().plus( translation ) );
       }
@@ -224,7 +224,7 @@ define( require => {
 
     // When the nucleus offset changes, update all nucleon positions.
     this.nucleusOffsetProperty.link( function( newOffset, oldOffset ) {
-      var translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
+      const translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
       self.protons.forEach( function( particle ) {
         translateParticle( particle, translation );
       } );
@@ -236,7 +236,7 @@ define( require => {
     // When the particle position changes, update all nucleon positions.  This is to be used in Isotopes and Atomic
     // Mass when a particle gets moved to sit at the correct spot on the scale.
     this.positionProperty.link( function( newOffset, oldOffset ) {
-      var translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
+      const translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
       self.protons.forEach( function( particle ) {
         translateParticle( particle, translation );
       } );
@@ -298,7 +298,7 @@ define( require => {
         return;
       }
 
-      var self = this;
+      const self = this;
       if ( particle.type === 'proton' || particle.type === 'neutron' ) {
 
         // create a listener that will be called when this particle is removed
@@ -325,10 +325,10 @@ define( require => {
         this.electrons.push( particle );
 
         // Find an open position in the electron shell.
-        var openPositions = this.electronShellPositions.filter( function( electronPosition ) {
+        const openPositions = this.electronShellPositions.filter( function( electronPosition ) {
           return ( electronPosition.electron === null );
         } );
-        var sortedOpenPositions;
+        let sortedOpenPositions;
         if ( this.electronAddMode === 'proximal' ) {
           sortedOpenPositions = openPositions.sort( function( p1, p2 ) {
             // Sort first by distance to particle.
@@ -403,7 +403,7 @@ define( require => {
      * @public
      */
     extractParticle: function( particleType ) {
-      var particle = null;
+      let particle = null;
       switch( particleType ) {
         case 'proton':
           if ( this.protons.length > 0 ) {
@@ -439,7 +439,7 @@ define( require => {
      * @public
      */
     clear: function() {
-      var self = this;
+      const self = this;
       this.protons.forEach( function( particle ) { self.removeParticle( particle ); } );
       this.neutrons.forEach( function( particle ) { self.removeParticle( particle ); } );
       this.electrons.forEach( function( particle ) { self.removeParticle( particle ); } );
@@ -474,19 +474,19 @@ define( require => {
     reconfigureNucleus: function() {
 
       // Convenience variables.
-      var centerX = this.positionProperty.get().x + this.nucleusOffsetProperty.get().x;
-      var centerY = this.positionProperty.get().y + this.nucleusOffsetProperty.get().y;
-      var nucleonRadius = this.nucleonRadius;
-      var angle;
-      var distFromCenter;
-      var nucleusRadius = nucleonRadius;
+      const centerX = this.positionProperty.get().x + this.nucleusOffsetProperty.get().x;
+      const centerY = this.positionProperty.get().y + this.nucleusOffsetProperty.get().y;
+      const nucleonRadius = this.nucleonRadius;
+      let angle;
+      let distFromCenter;
+      let nucleusRadius = nucleonRadius;
 
       // Create an array of interspersed protons and neutrons for configuring.
-      var nucleons = [];
-      var protonIndex = 0;
-      var neutronIndex = 0;
-      var neutronsPerProton = this.neutrons.length / this.protons.length;
-      var neutronsToAdd = 0;
+      const nucleons = [];
+      let protonIndex = 0;
+      let neutronIndex = 0;
+      const neutronsPerProton = this.neutrons.length / this.protons.length;
+      let neutronsToAdd = 0;
       while ( nucleons.length < this.neutrons.length + this.protons.length ) {
         neutronsToAdd += neutronsPerProton;
         while ( neutronsToAdd >= 1 && neutronIndex < this.neutrons.length ) {
@@ -557,24 +557,24 @@ define( require => {
       else if ( nucleons.length >= 5 ) {
 
         // This is a generalized algorithm that should work for five or more nucleons.
-        var placementRadius = 0;
-        var numAtThisRadius = 1;
-        var level = 0;
-        var placementAngle = 0;
-        var placementAngleDelta = 0;
+        let placementRadius = 0;
+        let numAtThisRadius = 1;
+        let level = 0;
+        let placementAngle = 0;
+        let placementAngleDelta = 0;
 
         // Scale correction for the next placement radius, linear map determined empirically. As the nucleon size
         // increases, we want the scale factor and change in placement radius to decrease since larger nucleons are
         // easier to see with larger area. Map values determined in cases which use a wide range in number of nucleons
         // and in cases where the nucleon radius scaled from 3 to 10 (in screen coordinates - roughly pixels).
-        var radiusA = 3;
-        var radiusB = 10;
-        var scaleFactorA = 2.4;
-        var scaleFactorB = 1.35;
-        var scaleFunction = LinearFunction( radiusA, radiusB, scaleFactorA, scaleFactorB, this.nucleonRadius );
-        var scaleFactor = scaleFunction( this.nucleonRadius );
+        const radiusA = 3;
+        const radiusB = 10;
+        const scaleFactorA = 2.4;
+        const scaleFactorB = 1.35;
+        const scaleFunction = LinearFunction( radiusA, radiusB, scaleFactorA, scaleFactorB, this.nucleonRadius );
+        const scaleFactor = scaleFunction( this.nucleonRadius );
 
-        for ( var i = 0; i < nucleons.length; i++ ) {
+        for ( let i = 0; i < nucleons.length; i++ ) {
           nucleons[ i ].destinationProperty.set( new Vector2( centerX + placementRadius * Math.cos( placementAngle ),
             centerY + placementRadius * Math.sin( placementAngle ) ) );
           nucleons[ i ].zLayerProperty.set( level );

@@ -23,15 +23,15 @@ define( require => {
 
   // constants
   // 2D array that defines the table structure.
-  var POPULATED_CELLS = [
+  const POPULATED_CELLS = [
     [ 0, 8 ],
     [ 0, 1, 3, 4, 5, 6, 7, 8 ],
     [ 0, 1, 3, 4, 5, 6, 7, 8 ]
   ];
 
-  var ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
-  var SELECTED_CELL_COLOR = '#FA8072'; //salmon
-  var BUTTON_SIZE = 50;
+  const ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
+  const SELECTED_CELL_COLOR = '#FA8072'; //salmon
+  const BUTTON_SIZE = 50;
 
   // strings
   const periodicTableString = require( 'string!SHRED/periodicTable' );
@@ -48,8 +48,8 @@ define( require => {
     }, options );
 
     Node.call( this );
-    var self = this;
-    var periodicTableNode = new PeriodicTableNode( numberAtom, {
+    const self = this;
+    const periodicTableNode = new PeriodicTableNode( numberAtom, {
       tandem: options.tandem && options.tandem.createTandem( 'periodicTable' ),
       interactiveMax: interactiveMax,
       showLabels: false
@@ -58,9 +58,9 @@ define( require => {
     this.addChild( periodicTableNode );
 
     this.cells = [];
-    var expandedRowsNode = new Node();
-    var elementIndex = 1;
-    var rows = 1;
+    const expandedRowsNode = new Node();
+    let elementIndex = 1;
+    let rows = 1;
     if ( interactiveMax > 2 && interactiveMax <= 10 ) {
       rows = 2;
     }
@@ -71,8 +71,8 @@ define( require => {
       var populatedCellsInRow = POPULATED_CELLS[ i ];
       var j = 0;
       _.times( populatedCellsInRow.length, function() {
-        var atomicNumber = elementIndex;
-        var button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
+        const atomicNumber = elementIndex;
+        const button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
           listener: function() {
             numberAtom.setSubAtomicParticleCount( atomicNumber,
               AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber );
@@ -97,21 +97,21 @@ define( require => {
     periodicTableNode.centerX = expandedRowsNode.centerX;
     this.addChild( expandedRowsNode );
 
-    var connectingLineOptions = { stroke: 'gray', lineDash: [ 9, 6 ] };
-    var leftConnectingLine = new Line( periodicTableNode.left, periodicTableNode.top,
+    const connectingLineOptions = { stroke: 'gray', lineDash: [ 9, 6 ] };
+    const leftConnectingLine = new Line( periodicTableNode.left, periodicTableNode.top,
       expandedRowsNode.left, expandedRowsNode.top, connectingLineOptions );
     this.addChild( leftConnectingLine );
 
-    var rightConnectingLine = new Line( periodicTableNode.right, periodicTableNode.top,
+    const rightConnectingLine = new Line( periodicTableNode.right, periodicTableNode.top,
       expandedRowsNode.right, expandedRowsNode.top, connectingLineOptions );
     this.addChild( rightConnectingLine );
 
-    var periodicTableTitle = new Text( periodicTableString, { font: new PhetFont( { size: 16, weight: 'bold' } ) } );
+    const periodicTableTitle = new Text( periodicTableString, { font: new PhetFont( { size: 16, weight: 'bold' } ) } );
     periodicTableTitle.bottom = periodicTableNode.top - 5;
     periodicTableTitle.centerX = periodicTableNode.centerX;
     this.addChild( periodicTableTitle );
     // Highlight the cell that corresponds to the atom.
-    var highlightedButton = null;
+    let highlightedButton = null;
     numberAtom.protonCountProperty.link( function( protonCount ) {
       if ( highlightedButton !== null ) {
         highlightedButton.baseColor = ENABLED_CELL_COLOR;

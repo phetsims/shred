@@ -17,7 +17,7 @@ define( require => {
 
   // constants
   // 2D array that defines the table structure.
-  var POPULATED_CELLS = [
+  const POPULATED_CELLS = [
     [ 0, 17 ],
     [ 0, 1, 12, 13, 14, 15, 16, 17 ],
     [ 0, 1, 12, 13, 14, 15, 16, 17 ],
@@ -26,9 +26,9 @@ define( require => {
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
     [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
   ];
-  var ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
-  var DISABLED_CELL_COLOR = '#EEEEEE';
-  var SELECTED_CELL_COLOR = '#FA8072'; //salmon
+  const ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
+  const DISABLED_CELL_COLOR = '#EEEEEE';
+  const SELECTED_CELL_COLOR = '#FA8072'; //salmon
 
   /**
    * Constructor.
@@ -49,20 +49,20 @@ define( require => {
     }, options );
 
     Node.call( this ); // Call super constructor.
-    var self = this;
+    const self = this;
 
     // Add the cells of the table.
     this.cells = []; // @private
-    var elementIndex = 1;
-    for ( var i = 0; i < POPULATED_CELLS.length; i++ ) {
-      var populatedCellsInRow = POPULATED_CELLS[ i ];
-      var cellColor = {
+    let elementIndex = 1;
+    for ( let i = 0; i < POPULATED_CELLS.length; i++ ) {
+      const populatedCellsInRow = POPULATED_CELLS[ i ];
+      const cellColor = {
         'enabled': options.enabledCellColor,
         'disabled': options.disabledCellColor,
         'selected': options.selectedCellColor
       };
-      for ( var j = 0; j < populatedCellsInRow.length; j++ ) {
-        var cell = new PeriodicTableCell( elementIndex, numberAtom, cellColor, {
+      for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
+        const cell = new PeriodicTableCell( elementIndex, numberAtom, cellColor, {
           interactive: elementIndex <= options.interactiveMax,
           showLabels: options.showLabels,
           length: options.cellDimension,
@@ -82,12 +82,12 @@ define( require => {
     }
 
     // Highlight the cell that corresponds to the atom.
-    var updateHighlightedCell = function( protonCount ) {
+    const updateHighlightedCell = function( protonCount ) {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
       }
       if ( protonCount > 0 && protonCount <= 118 ) {
-        var elementIndex = protonCount;
+        let elementIndex = protonCount;
         if ( protonCount >= 72 ) {
           elementIndex = elementIndex - 14;
         }

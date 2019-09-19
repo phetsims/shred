@@ -23,7 +23,7 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
 
   // constants
-  var MAX_ELECTRONS = 10; // For neon.
+  const MAX_ELECTRONS = 10; // For neon.
 
   /**
    * Constructor for the Isotope Electron Cloud.
@@ -47,9 +47,9 @@ define( require => {
     Circle.call( this, 1, options );
 
     // carry this through the scope
-    var self = this;
+    const self = this;
 
-    var updateNode = function( numElectrons ) {
+    const updateNode = function( numElectrons ) {
       if ( numElectrons === 0 ) {
         self.radius = 1E-5; // Arbitrary non-zero value.
         self.fill = 'transparent';
@@ -97,7 +97,7 @@ define( require => {
       // https://en.wikipedia.org/wiki/Atomic_radii_of_the_elements_(data_page).
       // The values are in picometers.  In practice, the difference between the radii worked out to be a bit too much
       // visually, so there are some 'tweak factors' for a few of the elements.
-      var mapElectronCountToRadius = {
+      const mapElectronCountToRadius = {
         1: 38,
         2: 32,
         3: 134 * 0.75,
@@ -111,10 +111,10 @@ define( require => {
       };
 
       // Determine the min and max radii of the supported atoms.
-      var minShellRadius = Number.MAX_VALUE;
-      var maxShellRadius = 0;
+      let minShellRadius = Number.MAX_VALUE;
+      let maxShellRadius = 0;
 
-      for ( var radius in mapElectronCountToRadius ) {
+      for ( const radius in mapElectronCountToRadius ) {
         if ( radius > maxShellRadius ) {
           maxShellRadius = radius;
         }
@@ -126,13 +126,13 @@ define( require => {
       // This method increases the value of the smaller radius values and decreases the value of the larger ones.
       // This effectively reduces the range of radii values used.
       // This is a very specialized function for the purposes of this class.
-      var reduceRadiusRange = function( value ) {
+      const reduceRadiusRange = function( value ) {
         // The following two factors define the way in which an input value is increased or decreased.  These values
         // can be adjusted as needed to make the cloud size appear as desired.
-        var minChangedRadius = 40;
-        var maxChangedRadius = 55;
+        const minChangedRadius = 40;
+        const maxChangedRadius = 55;
 
-        var compressionFunction = new LinearFunction( minShellRadius, maxShellRadius, minChangedRadius, maxChangedRadius );
+        const compressionFunction = new LinearFunction( minShellRadius, maxShellRadius, minChangedRadius, maxChangedRadius );
         return compressionFunction( value );
       };
 

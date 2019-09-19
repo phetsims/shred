@@ -28,14 +28,14 @@ define( require => {
       tandem: Tandem.required
     }, options );
 
-    var activeParticle = null;
-    var inputListenerOptions = {
+    let activeParticle = null;
+    const inputListenerOptions = {
       tandem: options.tandem,
       start: function( event, trail ) {
         // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
         // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
         // potential improvement.
-        var positionInModelSpace = modelViewTransform.viewToModelPosition(
+        const positionInModelSpace = modelViewTransform.viewToModelPosition(
           bucketView.getParents()[ 0 ].globalToLocalPoint( event.pointer.point )
         );
 

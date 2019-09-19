@@ -18,7 +18,7 @@ define( require => {
 
   // helper factory function
   function createParticleNode( particle, modelViewTransform, tandem ) {
-    var particleNode;
+    let particleNode;
     if ( particle.type === 'Isotope' ) {
       particleNode = new IsotopeNode(
         particle,
@@ -50,14 +50,14 @@ define( require => {
     }, options );
 
     Node.call( this ); // Call super constructor.
-    var self = this;
+    const self = this;
 
     // Set up fields.
     this.particle = particle; // @public
     this.modelViewTransform = modelViewTransform; // @private
 
     // Add the particle representation.
-    var particleNode = createParticleNode(
+    const particleNode = createParticleNode(
       particle,
       modelViewTransform,
       options.tandem.createTandem( 'particleRepresentation' )
@@ -65,13 +65,13 @@ define( require => {
     this.addChild( particleNode );
 
     // Listen to the model position and update.
-    var updateParticlePosition = function( position ) {
+    const updateParticlePosition = function( position ) {
       self.translation = self.modelViewTransform.modelToViewPosition( position );
     };
     particle.positionProperty.link( updateParticlePosition );
 
     // Add a drag handler
-    var movableDragHandler = new MovableDragHandler( particle.destinationProperty, {
+    const movableDragHandler = new MovableDragHandler( particle.destinationProperty, {
       tandem: options.tandem ? options.tandem.createTandem( 'inputListener' ) : null,
 
       startDrag: function( event, trail ) {

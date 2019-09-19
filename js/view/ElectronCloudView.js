@@ -26,7 +26,7 @@ define( require => {
    */
   function ElectronCloudView( atom, modelViewTransform, options ) {
 
-    var self = this;
+    const self = this;
     options = _.extend( { tandem: Tandem.required }, options );
 
     Circle.call( this, {
@@ -37,15 +37,15 @@ define( require => {
     );
 
     // Function that updates the size of the cloud based on the number of electrons.
-    var update = function( numElectrons ) {
+    const update = function( numElectrons ) {
       if ( numElectrons === 0 ) {
         self.radius = 1E-5; // Arbitrary non-zero value.
         self.fill = 'transparent';
       }
       else {
-        var minRadius = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ) * 0.5;
-        var maxRadius = modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius );
-        var radius = minRadius + ( ( maxRadius - minRadius ) / ShredConstants.MAX_ELECTRONS ) * numElectrons;
+        const minRadius = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ) * 0.5;
+        const maxRadius = modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius );
+        const radius = minRadius + ( ( maxRadius - minRadius ) / ShredConstants.MAX_ELECTRONS ) * numElectrons;
         self.radius = radius;
         self.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
           .addColorStop( 0, 'rgba( 0, 0, 255, 200 )' )
@@ -59,18 +59,18 @@ define( require => {
 
     // If the user clicks on the cloud, extract an electron.
     this.extractedElectron = null; // @private
-    var simpleDragHandler = new SimpleDragHandler( {
+    const simpleDragHandler = new SimpleDragHandler( {
       activeParticle: null,
       start: function( event, trail ) {
 
         // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
         // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
         // potential improvement.
-        var positionInModelSpace = modelViewTransform.viewToModelPosition(
+        const positionInModelSpace = modelViewTransform.viewToModelPosition(
           self.getParents()[ 0 ].globalToLocalPoint( event.pointer.point )
         );
 
-        var electron = atom.extractParticle( 'electron' );
+        const electron = atom.extractParticle( 'electron' );
         if ( electron !== null ) {
           electron.userControlledProperty.set( true );
           electron.setPositionAndDestination( positionInModelSpace );

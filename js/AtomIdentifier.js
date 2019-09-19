@@ -15,9 +15,9 @@ define( require => {
 
   // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
   // present on Earth.
-  var TRACE_ABUNDANCE = 0.000000000001;
+  const TRACE_ABUNDANCE = 0.000000000001;
 
-  var nameTable = [
+  const nameTable = [
     '', // No element
     require( 'string!SHRED/hydrogen' ),
     require( 'string!SHRED/helium' ),
@@ -140,7 +140,7 @@ define( require => {
   ];
 
   // Used in PhET-iO data streams
-  var englishNameTable = [
+  const englishNameTable = [
     '', // No element
     'hydrogen',
     'helium',
@@ -262,7 +262,7 @@ define( require => {
     'oganesson'
   ];
 
-  var symbolTable = [
+  const symbolTable = [
     '-', // 0, NO ELEMENT
     'H', // 1, HYDROGEN
     'He', // 2, HELIUM
@@ -386,7 +386,7 @@ define( require => {
   ];
 
   // Table of stable elements, indexed by atomic number to a list of viable numbers of neutrons.
-  var stableElementTable = [
+  const stableElementTable = [
     // No element
     [],
     // Hydrogen
@@ -427,7 +427,7 @@ define( require => {
     [ 18, 20, 22 ]
   ];
 
-  var numNeutronsInMostStableIsotope = [
+  const numNeutronsInMostStableIsotope = [
     // No element
     0,
     // Hydrogen
@@ -564,7 +564,7 @@ define( require => {
   //  subkeys of type mass number
   //    subkeys of type atomicMass and abundance, which hold the values for each isotope.
 
-  var ISOTOPE_INFO_TABLE = {
+  const ISOTOPE_INFO_TABLE = {
     1: { // atomic number
       1: { // massNumber
         atomicMass: 1.00782503207,
@@ -783,7 +783,7 @@ define( require => {
   // the URL below and subsequently post-processed to remove unneeded data:
   //
   // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=ascii2&isotype=some
-  var standardMassTable = [
+  const standardMassTable = [
     0, // 0, NO ELEMENT
     1.00794, // 1, HYDROGEN
     4.002602, // 2, HELIUM
@@ -870,7 +870,7 @@ define( require => {
     208.9804 // 83, BISMUTH
   ];
 
-  var AtomIdentifier = {
+  const AtomIdentifier = {
 
     // Get the chemical symbol for an atom with the specified number of protons.
     getSymbol: function( numProtons ) {
@@ -898,7 +898,7 @@ define( require => {
 
     // Identifies whether a given atomic nucleus is stable.
     isStable: function( numProtons, numNeutrons ) {
-      var tableEntry = stableElementTable[ numProtons ];
+      const tableEntry = stableElementTable[ numProtons ];
       if ( typeof( tableEntry ) === 'undefined' ) {
         return false;
       }
@@ -945,7 +945,7 @@ define( require => {
      */
     getNaturalAbundance: function( isotope, numDecimalPlaces ) {
       assert && assert( numDecimalPlaces !== undefined, 'must specify number of decimal places for proportion' );
-      var abundanceProportion = 0;
+      let abundanceProportion = 0;
       if ( isotope.protonCountProperty.get() > 0 &&
            ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ] !== undefined ) {
 
@@ -968,7 +968,7 @@ define( require => {
      * @public
      */
     existsInTraceAmounts: function( isotope ) {
-      var tableEntry = ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ];
+      const tableEntry = ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ];
       return tableEntry !== undefined && tableEntry.abundance === TRACE_ABUNDANCE;
     },
 
@@ -979,11 +979,11 @@ define( require => {
      * @return
      */
     getAllIsotopesOfElement: function( atomicNumber ) {
-      var isotopesList = [];
+      const isotopesList = [];
 
-      for ( var massNumber in ISOTOPE_INFO_TABLE[ atomicNumber ] ) {
-        var numNeutrons = massNumber - atomicNumber;
-        var moleculeNumberList = [ atomicNumber, numNeutrons, atomicNumber ];
+      for ( const massNumber in ISOTOPE_INFO_TABLE[ atomicNumber ] ) {
+        const numNeutrons = massNumber - atomicNumber;
+        const moleculeNumberList = [ atomicNumber, numNeutrons, atomicNumber ];
 
         isotopesList.push( moleculeNumberList );
       }
@@ -1000,12 +1000,12 @@ define( require => {
      * @return
      */
     getStableIsotopesOfElement: function( atomicNumber ) {
-      var isotopesList = this.getAllIsotopesOfElement( atomicNumber );
-      var stableIsotopesList = [];
+      const isotopesList = this.getAllIsotopesOfElement( atomicNumber );
+      const stableIsotopesList = [];
 
-      for ( var isotopeIndex in isotopesList ) {
-        var numProtons = isotopesList[ isotopeIndex ][ 0 ];
-        var numNeutrons = isotopesList[ isotopeIndex ][ 1 ];
+      for ( const isotopeIndex in isotopesList ) {
+        const numProtons = isotopesList[ isotopeIndex ][ 0 ];
+        const numNeutrons = isotopesList[ isotopeIndex ][ 1 ];
 
         if ( this.isStable( numProtons, numNeutrons ) ) {
           stableIsotopesList.push( [ numProtons, numNeutrons, numProtons ] );
