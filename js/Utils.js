@@ -5,9 +5,9 @@
  *
  * @author John Blanco
  */
-define( function( require ) {
+define( require => {
   'use strict';
-  var shred = require( 'SHRED/shred' );
+  const shred = require( 'SHRED/shred' );
 
   var Utils = {
     /**

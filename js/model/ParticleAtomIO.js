@@ -6,16 +6,16 @@
  * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var shred = require( 'SHRED/shred' );
-  var validate = require( 'AXON/validate' );
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  const shred = require( 'SHRED/shred' );
+  const validate = require( 'AXON/validate' );
 
   // ifphetio
-  var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
+  const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   class ParticleAtomIO extends ObjectIO {
 

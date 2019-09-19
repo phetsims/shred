@@ -8,10 +8,10 @@
  * @author Jesse Greenberg
  */
 
-define( function( require ) {
+define( require => {
   'use strict';
-  var shred = require( 'SHRED/shred' );
-  var Util = require( 'DOT/Util' );
+  const shred = require( 'SHRED/shred' );
+  const Util = require( 'DOT/Util' );
 
   // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
   // present on Earth.

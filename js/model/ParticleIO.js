@@ -6,12 +6,12 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author Andrew Adare (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var shred = require( 'SHRED/shred' );
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  const shred = require( 'SHRED/shred' );
 
   class ParticleIO extends ObjectIO {
 

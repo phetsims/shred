@@ -5,7 +5,7 @@
  *
  * @author Aadish
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   var AtomComponentEnum = {

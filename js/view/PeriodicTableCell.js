@@ -5,20 +5,20 @@
  * @author John Blanco
  * @author Aadish Gupta
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
   const EventType = require( 'TANDEM/EventType' );
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var FireListener = require( 'SCENERY/listeners/FireListener' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var shred = require( 'SHRED/shred' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  const FireListener = require( 'SCENERY/listeners/FireListener' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const shred = require( 'SHRED/shred' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
 
   // constants
   var NOMINAL_CELL_DIMENSION = 25;

@@ -3,17 +3,17 @@
 /**
  * Scenery node that defines a periodic table of the elements.
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PeriodicTableCell = require( 'SHRED/view/PeriodicTableCell' );
-  var shred = require( 'SHRED/shred' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PeriodicTableCell = require( 'SHRED/view/PeriodicTableCell' );
+  const shred = require( 'SHRED/shred' );
+  const ShredConstants = require( 'SHRED/ShredConstants' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // constants
   // 2D array that defines the table structure.

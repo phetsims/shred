@@ -6,17 +6,17 @@
  *
  * @author John Blanco
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var shred = require( 'SHRED/shred' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  const shred = require( 'SHRED/shred' );
+  const ShredConstants = require( 'SHRED/ShredConstants' );
+  const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {ParticleAtom} atom

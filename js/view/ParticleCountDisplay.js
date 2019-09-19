@@ -7,25 +7,25 @@
  * @author John Blanco
  * @author Aadish Gupta
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Panel = require( 'SUN/Panel' );
-  var ParticleNode = require( 'SHRED/view/ParticleNode' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var shred = require( 'SHRED/shred' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Panel = require( 'SUN/Panel' );
+  const ParticleNode = require( 'SHRED/view/ParticleNode' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const shred = require( 'SHRED/shred' );
+  const ShredConstants = require( 'SHRED/ShredConstants' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
 
   // strings
-  var electronsColonString = require( 'string!SHRED/electronsColon' );
-  var neutronsColonString = require( 'string!SHRED/neutronsColon' );
-  var protonsColonString = require( 'string!SHRED/protonsColon' );
+  const electronsColonString = require( 'string!SHRED/electronsColon' );
+  const neutronsColonString = require( 'string!SHRED/neutronsColon' );
+  const protonsColonString = require( 'string!SHRED/protonsColon' );
 
   // constants
   var TITLE_MAX_WIDTH_PROPORTION = 1 / 3;

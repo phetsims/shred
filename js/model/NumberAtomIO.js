@@ -7,14 +7,14 @@
  * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var NumberAtom = require( 'SHRED/model/NumberAtom' );
-  var shred = require( 'SHRED/shred' );
-  var validate = require( 'AXON/validate' );
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  const NumberAtom = require( 'SHRED/model/NumberAtom' );
+  const shred = require( 'SHRED/shred' );
+  const validate = require( 'AXON/validate' );
 
   class NumberAtomIO extends ObjectIO {
 

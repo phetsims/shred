@@ -4,22 +4,22 @@
  *
  * @author Aadish Gupta (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Line = require( 'SCENERY/nodes/Line' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PeriodicTableNode = require( 'SHRED/view/PeriodicTableNode' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var shred = require( 'SHRED/shred' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var TextPushButton = require( 'SUN/buttons/TextPushButton' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Line = require( 'SCENERY/nodes/Line' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PeriodicTableNode = require( 'SHRED/view/PeriodicTableNode' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const shred = require( 'SHRED/shred' );
+  const ShredConstants = require( 'SHRED/ShredConstants' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const TextPushButton = require( 'SUN/buttons/TextPushButton' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // constants
   // 2D array that defines the table structure.
@@ -34,7 +34,7 @@ define( function( require ) {
   var BUTTON_SIZE = 50;
 
   // strings
-  var periodicTableString = require( 'string!SHRED/periodicTable' );
+  const periodicTableString = require( 'string!SHRED/periodicTable' );
 
   /**
    * @param {NumberAtom} numberAtom

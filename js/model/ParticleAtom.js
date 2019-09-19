@@ -6,27 +6,27 @@
  *
  * @author John Blanco
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
-  var DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var LinearFunction = require( 'DOT/LinearFunction' );
-  var NumberIO = require( 'TANDEM/types/NumberIO' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
-  var ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
-  var ParticleAtomIO = require( 'SHRED/model/ParticleAtomIO' );
-  var ParticleIO = require( 'SHRED/model/ParticleIO' );
-  var PhetioObject = require( 'TANDEM/PhetioObject' );
-  var shred = require( 'SHRED/shred' );
-  var ShredConstants = require( 'SHRED/ShredConstants' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Utils = require( 'SHRED/Utils' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Vector2Property = require( 'DOT/Vector2Property' );
+  const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  const DerivedProperty = require( 'AXON/DerivedProperty' );
+  const DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const LinearFunction = require( 'DOT/LinearFunction' );
+  const NumberIO = require( 'TANDEM/types/NumberIO' );
+  const ObservableArray = require( 'AXON/ObservableArray' );
+  const ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
+  const ParticleAtomIO = require( 'SHRED/model/ParticleAtomIO' );
+  const ParticleIO = require( 'SHRED/model/ParticleIO' );
+  const PhetioObject = require( 'TANDEM/PhetioObject' );
+  const shred = require( 'SHRED/shred' );
+  const ShredConstants = require( 'SHRED/ShredConstants' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Utils = require( 'SHRED/Utils' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const Vector2Property = require( 'DOT/Vector2Property' );
 
   // constants
   var NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8

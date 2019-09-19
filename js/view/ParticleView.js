@@ -3,18 +3,18 @@
 /**
  * Type that represents a sub-atomic particle in the view.
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Bounds2 = require( 'DOT/Bounds2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var IsotopeNode = require( 'SHRED/view/IsotopeNode' );
-  var MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var ParticleNode = require( 'SHRED/view/ParticleNode' );
-  var shred = require( 'SHRED/shred' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const Bounds2 = require( 'DOT/Bounds2' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const IsotopeNode = require( 'SHRED/view/IsotopeNode' );
+  const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const ParticleNode = require( 'SHRED/view/ParticleNode' );
+  const shred = require( 'SHRED/shred' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // helper factory function
   function createParticleNode( particle, modelViewTransform, tandem ) {

@@ -4,16 +4,16 @@
  * Particle, represented as a circle with a gradient.  This type does not
  * track a particle, use ParticleView for that.
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var shred = require( 'SHRED/shred' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  const shred = require( 'SHRED/shred' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * @param {string} particleType - proton, neutron, or electron

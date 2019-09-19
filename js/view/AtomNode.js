@@ -6,31 +6,31 @@
  *
  * @author John Blanco
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var ElectronCloudView = require( 'SHRED/view/ElectronCloudView' );
-  var ElectronShellView = require( 'SHRED/view/ElectronShellView' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
-  var Shape = require( 'KITE/Shape' );
-  var shred = require( 'SHRED/shred' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  const ElectronCloudView = require( 'SHRED/view/ElectronCloudView' );
+  const ElectronShellView = require( 'SHRED/view/ElectronShellView' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Property = require( 'AXON/Property' );
+  const Shape = require( 'KITE/Shape' );
+  const shred = require( 'SHRED/shred' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // strings
-  var minusSignIonString = require( 'string!SHRED/minusSignIon' );
-  var neutralAtomString = require( 'string!SHRED/neutralAtom' );
-  var positiveSignIonString = require( 'string!SHRED/positiveSignIon' );
-  var stableString = require( 'string!SHRED/stable' );
-  var unstableString = require( 'string!SHRED/unstable' );
+  const minusSignIonString = require( 'string!SHRED/minusSignIon' );
+  const neutralAtomString = require( 'string!SHRED/neutralAtom' );
+  const positiveSignIonString = require( 'string!SHRED/positiveSignIon' );
+  const stableString = require( 'string!SHRED/stable' );
+  const unstableString = require( 'string!SHRED/unstable' );
 
   // constants
   var ELEMENT_NAME_FONT_SIZE = 22;

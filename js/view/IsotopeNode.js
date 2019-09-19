@@ -4,17 +4,17 @@
  * Particle, represented as a circle with a gradient.  This type does not
  * track a particle, use ParticleView for that.
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
-  var AtomIdentifier = require( 'SHRED/AtomIdentifier' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var shred = require( 'SHRED/shred' );
+  const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const RadialGradient = require( 'SCENERY/util/RadialGradient' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const shred = require( 'SHRED/shred' );
 
   /**
    * @param {Particle} isotope
