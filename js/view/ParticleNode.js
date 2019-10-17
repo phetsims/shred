@@ -9,6 +9,7 @@ define( require => {
 
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const RadialGradient = require( 'SCENERY/util/RadialGradient' );
@@ -23,7 +24,7 @@ define( require => {
    */
   function ParticleNode( particleType, radius, options ) {
 
-    options = _.extend( {
+    options = merge( {
       tandem: Tandem.optional
     }, options );
 

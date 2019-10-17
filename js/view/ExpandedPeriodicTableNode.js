@@ -11,6 +11,7 @@ define( require => {
   const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   const inherit = require( 'PHET_CORE/inherit' );
   const Line = require( 'SCENERY/nodes/Line' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PeriodicTableNode = require( 'SHRED/view/PeriodicTableNode' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -43,7 +44,7 @@ define( require => {
    * @constructor
    */
   function ExpandedPeriodicTableNode( numberAtom, interactiveMax, options ) {
-    options = _.extend( {
+    options = merge( {
       tandem: Tandem.required
     }, options );
 

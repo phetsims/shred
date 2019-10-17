@@ -12,6 +12,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const shred = require( 'SHRED/shred' );
   const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -24,7 +25,7 @@ define( require => {
    * @constructor
    */
   function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {
-    options = _.extend( {
+    options = merge( {
       tandem: Tandem.required
     }, options );
 

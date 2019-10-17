@@ -11,6 +11,7 @@ define( require => {
   // modules
   const BooleanProperty = require( 'AXON/BooleanProperty' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const NumberIO = require( 'TANDEM/types/NumberIO' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const ParticleIO = require( 'SHRED/model/ParticleIO' );
@@ -34,7 +35,7 @@ define( require => {
    */
   function Particle( type, options ) {
 
-    options = _.extend( {
+    options = merge( {
       tandem: Tandem.required,
       maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
       phetioType: ParticleIO,

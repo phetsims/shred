@@ -10,6 +10,7 @@ define( require => {
   const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const RadialGradient = require( 'SCENERY/util/RadialGradient' );
@@ -23,7 +24,7 @@ define( require => {
    * @constructor
    */
   function IsotopeNode( isotope, radius, options ) {
-    options = _.extend( {
+    options = merge( {
       showLabel: true
     }, options );
 

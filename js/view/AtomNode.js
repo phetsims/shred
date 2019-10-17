@@ -14,6 +14,7 @@ define( require => {
   const ElectronCloudView = require( 'SHRED/view/ElectronCloudView' );
   const ElectronShellView = require( 'SHRED/view/ElectronShellView' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -43,7 +44,7 @@ define( require => {
    */
   function AtomNode( particleAtom, modelViewTransform, options ) {
 
-    options = _.extend( {
+    options = merge( {
         showCenterX: true,
         showElementNameProperty: new Property( true ),
         showNeutralOrIonProperty: new Property( true ),

@@ -18,6 +18,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LinearFunction = require( 'DOT/LinearFunction' );
+  const merge = require( 'PHET_CORE/merge' );
   const RadialGradient = require( 'SCENERY/util/RadialGradient' );
   const shred = require( 'SHRED/shred' );
   const Tandem = require( 'TANDEM/Tandem' );
@@ -35,7 +36,7 @@ define( require => {
    */
   function IsotopeElectronCloudView( numberAtom, modelViewTransform, options ) {
 
-    options = _.extend( {
+    options = merge( {
         tandem: Tandem.required
       },
       options

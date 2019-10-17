@@ -9,10 +9,11 @@ define( require => {
   'use strict';
 
   // modules
-  const EventType = require( 'TANDEM/EventType' );
   const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
+  const EventType = require( 'TANDEM/EventType' );
   const FireListener = require( 'SCENERY/listeners/FireListener' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Rectangle = require( 'SCENERY/nodes/Rectangle' );
@@ -32,7 +33,7 @@ define( require => {
    * @constructor
    */
   function PeriodicTableCell( atomicNumber, numberAtom, cellColor, options ) {
-    options = _.extend( {
+    options = merge( {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,

@@ -10,6 +10,7 @@ define( require => {
   const Bounds2 = require( 'DOT/Bounds2' );
   const inherit = require( 'PHET_CORE/inherit' );
   const IsotopeNode = require( 'SHRED/view/IsotopeNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const MovableDragHandler = require( 'SCENERY_PHET/input/MovableDragHandler' );
   const Node = require( 'SCENERY/nodes/Node' );
   const ParticleNode = require( 'SHRED/view/ParticleNode' );
@@ -44,7 +45,7 @@ define( require => {
    */
   function ParticleView( particle, modelViewTransform, options ) {
 
-    options = _.extend( {
+    options = merge( {
       dragBounds: Bounds2.EVERYTHING,
       tandem: Tandem.required
     }, options );

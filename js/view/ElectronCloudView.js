@@ -12,6 +12,7 @@ define( require => {
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const RadialGradient = require( 'SCENERY/util/RadialGradient' );
   const shred = require( 'SHRED/shred' );
   const ShredConstants = require( 'SHRED/ShredConstants' );
@@ -27,7 +28,7 @@ define( require => {
   function ElectronCloudView( atom, modelViewTransform, options ) {
 
     const self = this;
-    options = _.extend( { tandem: Tandem.required }, options );
+    options = merge( { tandem: Tandem.required }, options );
 
     Circle.call( this, {
         cursor: 'pointer',

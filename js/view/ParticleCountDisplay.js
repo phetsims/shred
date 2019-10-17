@@ -12,6 +12,7 @@ define( require => {
 
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Panel = require( 'SUN/Panel' );
   const ParticleNode = require( 'SHRED/view/ParticleNode' );
@@ -41,7 +42,7 @@ define( require => {
    */
   function ParticleCountDisplay( numberAtom, maxParticles, maxWidth, options ) {
 
-    options = _.extend( {
+    options = merge( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
       cornerRadius: 5,
       pickable: false,

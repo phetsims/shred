@@ -8,6 +8,7 @@ define( require => {
 
   const AtomIdentifier = require( 'SHRED/AtomIdentifier' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const PeriodicTableCell = require( 'SHRED/view/PeriodicTableCell' );
   const shred = require( 'SHRED/shred' );
@@ -38,7 +39,7 @@ define( require => {
    * @constructor
    */
   function PeriodicTableNode( numberAtom, options ) {
-    options = _.extend( {
+    options = merge( {
       interactiveMax: 0, //Atomic number of the heaviest element that should be interactive
       cellDimension: 25,
       showLabels: true,

@@ -15,6 +15,7 @@ define( require => {
   const DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   const inherit = require( 'PHET_CORE/inherit' );
   const LinearFunction = require( 'DOT/LinearFunction' );
+  const merge = require( 'PHET_CORE/merge' );
   const NumberIO = require( 'TANDEM/types/NumberIO' );
   const ObservableArray = require( 'AXON/ObservableArray' );
   const ObservableArrayIO = require( 'AXON/ObservableArrayIO' );
@@ -39,7 +40,7 @@ define( require => {
 
     const self = this;
 
-    options = _.extend( {
+    options = merge( {
       innerElectronShellRadius: 85,
       outerElectronShellRadius: 130,
       nucleonRadius: ShredConstants.NUCLEON_RADIUS,

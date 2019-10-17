@@ -15,6 +15,7 @@ define( require => {
   const DerivedPropertyIO = require( 'AXON/DerivedPropertyIO' );
   const Emitter = require( 'AXON/Emitter' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const NumberIO = require( 'TANDEM/types/NumberIO' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const shred = require( 'SHRED/shred' );
@@ -30,7 +31,7 @@ define( require => {
   function NumberAtom( options ) {
 
     // Default configuration.
-    options = _.extend( {
+    options = merge( {
       protonCount: 0,
       neutronCount: 0,
       electronCount: 0,

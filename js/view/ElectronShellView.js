@@ -13,6 +13,7 @@ define( require => {
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
   const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
   const shred = require( 'SHRED/shred' );
@@ -32,7 +33,7 @@ define( require => {
    */
   function ElectronShellView( atom, modelViewTransform, options ) {
     const self = this;
-    options = _.extend( {
+    options = merge( {
         tandem: Tandem.required
       },
       options
