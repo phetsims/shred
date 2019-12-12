@@ -47,7 +47,7 @@ define( require => {
 
     options = merge( {
       dragBounds: Bounds2.EVERYTHING,
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     Node.call( this ); // Call super constructor.

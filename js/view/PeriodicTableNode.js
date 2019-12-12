@@ -46,7 +46,7 @@ define( require => {
       enabledCellColor: ENABLED_CELL_COLOR,
       disabledCellColor: DISABLED_CELL_COLOR,
       selectedCellColor: SELECTED_CELL_COLOR,
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     Node.call( this ); // Call super constructor.

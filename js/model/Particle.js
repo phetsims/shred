@@ -36,7 +36,7 @@ define( require => {
   function Particle( type, options ) {
 
     options = merge( {
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
       maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
       phetioType: ParticleIO,
       phetioState: false

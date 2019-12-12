@@ -50,7 +50,7 @@ define( require => {
         showNeutralOrIonProperty: new Property( true ),
         showStableOrUnstableProperty: new Property( true ),
         electronShellDepictionProperty: new Property( 'orbits' ),
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       },
       options
     );

@@ -25,7 +25,7 @@ define( require => {
   function ParticleNode( particleType, radius, options ) {
 
     options = merge( {
-      tandem: Tandem.optional
+      tandem: Tandem.OPTIONAL
     }, options );
 
     Node.call( this, options ); // Call super constructor.

@@ -26,7 +26,7 @@ define( require => {
    */
   function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {
     options = merge( {
-      tandem: Tandem.required
+      tandem: Tandem.REQUIRED
     }, options );
 
     let activeParticle = null;

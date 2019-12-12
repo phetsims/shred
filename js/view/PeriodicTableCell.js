@@ -37,7 +37,7 @@ define( require => {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
-      tandem: Tandem.required,
+      tandem: Tandem.REQUIRED,
       phetioEventType: EventType.USER
     }, options );
 
