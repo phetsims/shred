@@ -12,7 +12,7 @@ define( require => {
   // modules
   const Circle = require( 'SCENERY/nodes/Circle' );
   const inherit = require( 'PHET_CORE/inherit' );
-  const KeyboardUtil = require( 'SCENERY/accessibility/KeyboardUtil' );
+  const KeyboardUtils = require( 'SCENERY/accessibility/KeyboardUtils' );
   const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Property = require( 'AXON/Property' );
@@ -134,10 +134,10 @@ define( require => {
       keydown: function( event ) {
         const domEvent = event.domEvent;
 
-        if ( domEvent.keyCode === KeyboardUtil.KEY_DOWN_ARROW || domEvent.keyCode === KeyboardUtil.KEY_RIGHT_ARROW ) {
+        if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW || domEvent.keyCode === KeyboardUtils.KEY_RIGHT_ARROW ) {
           currentIndex = ( currentIndex + 1 ) % optionNodes.length;
         }
-        else if ( domEvent.keyCode === KeyboardUtil.KEY_UP_ARROW || domEvent.keyCode === KeyboardUtil.KEY_LEFT_ARROW ) {
+        else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW || domEvent.keyCode === KeyboardUtils.KEY_LEFT_ARROW ) {
           currentIndex = currentIndex - 1;
           if ( currentIndex < 0 ) { currentIndex = optionNodes.length - 1; }
         }
