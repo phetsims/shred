@@ -11,7 +11,7 @@
 define( require => {
   'use strict';
   const shred = require( 'SHRED/shred' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
   // present on Earth.
@@ -950,7 +950,7 @@ define( require => {
            ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ] !== undefined ) {
 
         // the configuration is in the table, get it and round it to the needed number of decimal places
-        abundanceProportion = Util.toFixedNumber(
+        abundanceProportion = Utils.toFixedNumber(
           ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ].abundance,
           numDecimalPlaces
         );
