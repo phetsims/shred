@@ -81,8 +81,8 @@ define( require => {
 
     // @public (read-only) - derived properties based on the number of particles present in the atom
     // These are DerivedProperties in support of phet-io. We need to have the lengthProperty of ObservableArray instrumented.
-    // TODO: follow https://github.com/phetsims/axon/issues/149 and implement this correctly with the solution to that issue.
-    // NOTE: Changing these will most certainly break some wrapper code, like in the sonification wrapper.
+    // TODO: implement this correctly, see https://github.com/phetsims/shred/issues/25
+    // NOTE: Changing these may break some wrapper code, so be sure to check.
     this.protonCountProperty = new DerivedProperty(
       [ this.protons.lengthProperty ],
       function( length ) {

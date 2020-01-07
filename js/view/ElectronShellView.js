@@ -142,7 +142,6 @@ define( require => {
           if ( currentIndex < 0 ) { currentIndex = optionNodes.length - 1; }
         }
 
-
         // TODO: The requested design for a11y was to use the aria-activedescendant attribute to update the
         // active node without changing focus. That currently isn't supported by scenery, but may be in the future.
         // See https://github.com/phetsims/build-an-atom/issues/194 and
