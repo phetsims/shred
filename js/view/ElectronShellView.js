@@ -157,10 +157,8 @@ define( require => {
     // add each node to the view
     optionNodes.forEach( function( node ) { self.addChild( node ); } );
 
-    // whenever a nucleon is added or removed, change the highlight radius
-    Property.multilink( [ atom.protonCountProperty, atom.neutronCountProperty ], function( protonCount, neutronCount ) {
-
-      // TODO: Is there another way to link to the changing nucleus configuration
+    // whenever a nucleon is added or removed, update the configuration of the nucleus and the highlight radius
+    Property.multilink( [ atom.protonCountProperty, atom.neutronCountProperty ], function() {
       atom.reconfigureNucleus();
       const radiusOffset = atom.nucleusRadius === 0 ? 0 : 4;
       nucleusFocusHighlight.radius = atom.nucleusRadius + radiusOffset;
