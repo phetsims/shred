@@ -1,4 +1,4 @@
-// Copyright 2014-2019, University of Colorado Boulder
+// Copyright 2014-2020, University of Colorado Boulder
 
 /**
  * A model element that represents an atom that is comprised of a set of modeled subatomic particles. This model element
