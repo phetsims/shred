@@ -17,126 +17,246 @@ define( require => {
   // present on Earth.
   const TRACE_ABUNDANCE = 0.000000000001;
 
+  // strings
+  const hydrogenString = require( 'string!SHRED/hydrogen' );
+  const heliumString = require( 'string!SHRED/helium' );
+  const lithiumString = require( 'string!SHRED/lithium' );
+  const berylliumString = require( 'string!SHRED/beryllium' );
+  const boronString = require( 'string!SHRED/boron' );
+  const carbonString = require( 'string!SHRED/carbon' );
+  const nitrogenString = require( 'string!SHRED/nitrogen' );
+  const oxygenString = require( 'string!SHRED/oxygen' );
+  const fluorineString = require( 'string!SHRED/fluorine' );
+  const neonString = require( 'string!SHRED/neon' );
+  const sodiumString = require( 'string!SHRED/sodium' );
+  const magnesiumString = require( 'string!SHRED/magnesium' );
+  const aluminumString = require( 'string!SHRED/aluminum' );
+  const siliconString = require( 'string!SHRED/silicon' );
+  const phosphorusString = require( 'string!SHRED/phosphorus' );
+  const sulfurString = require( 'string!SHRED/sulfur' );
+  const chlorineString = require( 'string!SHRED/chlorine' );
+  const argonString = require( 'string!SHRED/argon' );
+  const potassiumString = require( 'string!SHRED/potassium' );
+  const calciumString = require( 'string!SHRED/calcium' );
+  const scandiumString = require( 'string!SHRED/scandium' );
+  const titaniumString = require( 'string!SHRED/titanium' );
+  const vanadiumString = require( 'string!SHRED/vanadium' );
+  const chromiumString = require( 'string!SHRED/chromium' );
+  const manganeseString = require( 'string!SHRED/manganese' );
+  const ironString = require( 'string!SHRED/iron' );
+  const cobaltString = require( 'string!SHRED/cobalt' );
+  const nickelString = require( 'string!SHRED/nickel' );
+  const copperString = require( 'string!SHRED/copper' );
+  const zincString = require( 'string!SHRED/zinc' );
+  const galliumString = require( 'string!SHRED/gallium' );
+  const germaniumString = require( 'string!SHRED/germanium' );
+  const arsenicString = require( 'string!SHRED/arsenic' );
+  const seleniumString = require( 'string!SHRED/selenium' );
+  const bromineString = require( 'string!SHRED/bromine' );
+  const kryptonString = require( 'string!SHRED/krypton' );
+  const rubidiumString = require( 'string!SHRED/rubidium' );
+  const strontiumString = require( 'string!SHRED/strontium' );
+  const yttriumString = require( 'string!SHRED/yttrium' );
+  const zirconiumString = require( 'string!SHRED/zirconium' );
+  const niobiumString = require( 'string!SHRED/niobium' );
+  const molybdenumString = require( 'string!SHRED/molybdenum' );
+  const technetiumString = require( 'string!SHRED/technetium' );
+  const rutheniumString = require( 'string!SHRED/ruthenium' );
+  const rhodiumString = require( 'string!SHRED/rhodium' );
+  const palladiumString = require( 'string!SHRED/palladium' );
+  const silverString = require( 'string!SHRED/silver' );
+  const cadmiumString = require( 'string!SHRED/cadmium' );
+  const indiumString = require( 'string!SHRED/indium' );
+  const tinString = require( 'string!SHRED/tin' );
+  const antimonyString = require( 'string!SHRED/antimony' );
+  const telluriumString = require( 'string!SHRED/tellurium' );
+  const iodineString = require( 'string!SHRED/iodine' );
+  const xenonString = require( 'string!SHRED/xenon' );
+  const cesiumString = require( 'string!SHRED/cesium' );
+  const bariumString = require( 'string!SHRED/barium' );
+  const lanthanumString = require( 'string!SHRED/lanthanum' );
+  const ceriumString = require( 'string!SHRED/cerium' );
+  const praseodymiumString = require( 'string!SHRED/praseodymium' );
+  const neodymiumString = require( 'string!SHRED/neodymium' );
+  const promethiumString = require( 'string!SHRED/promethium' );
+  const samariumString = require( 'string!SHRED/samarium' );
+  const europiumString = require( 'string!SHRED/europium' );
+  const gadoliniumString = require( 'string!SHRED/gadolinium' );
+  const terbiumString = require( 'string!SHRED/terbium' );
+  const dysprosiumString = require( 'string!SHRED/dysprosium' );
+  const holmiumString = require( 'string!SHRED/holmium' );
+  const erbiumString = require( 'string!SHRED/erbium' );
+  const thuliumString = require( 'string!SHRED/thulium' );
+  const ytterbiumString = require( 'string!SHRED/ytterbium' );
+  const lutetiumString = require( 'string!SHRED/lutetium' );
+  const hafniumString = require( 'string!SHRED/hafnium' );
+  const tantalumString = require( 'string!SHRED/tantalum' );
+  const tungstenString = require( 'string!SHRED/tungsten' );
+  const rheniumString = require( 'string!SHRED/rhenium' );
+  const osmiumString = require( 'string!SHRED/osmium' );
+  const iridiumString = require( 'string!SHRED/iridium' );
+  const platinumString = require( 'string!SHRED/platinum' );
+  const goldString = require( 'string!SHRED/gold' );
+  const mercuryString = require( 'string!SHRED/mercury' );
+  const thalliumString = require( 'string!SHRED/thallium' );
+  const leadString = require( 'string!SHRED/lead' );
+  const bismuthString = require( 'string!SHRED/bismuth' );
+  const poloniumString = require( 'string!SHRED/polonium' );
+  const astatineString = require( 'string!SHRED/astatine' );
+  const radonString = require( 'string!SHRED/radon' );
+  const franciumString = require( 'string!SHRED/francium' );
+  const radiumString = require( 'string!SHRED/radium' );
+  const actiniumString = require( 'string!SHRED/actinium' );
+  const thoriumString = require( 'string!SHRED/thorium' );
+  const protactiniumString = require( 'string!SHRED/protactinium' );
+  const uraniumString = require( 'string!SHRED/uranium' );
+  const neptuniumString = require( 'string!SHRED/neptunium' );
+  const plutoniumString = require( 'string!SHRED/plutonium' );
+  const americiumString = require( 'string!SHRED/americium' );
+  const curiumString = require( 'string!SHRED/curium' );
+  const berkeliumString = require( 'string!SHRED/berkelium' );
+  const californiumString = require( 'string!SHRED/californium' );
+  const einsteiniumString = require( 'string!SHRED/einsteinium' );
+  const fermiumString = require( 'string!SHRED/fermium' );
+  const mendeleviumString = require( 'string!SHRED/mendelevium' );
+  const nobeliumString = require( 'string!SHRED/nobelium' );
+  const lawrenciumString = require( 'string!SHRED/lawrencium' );
+  const rutherfordiumString = require( 'string!SHRED/rutherfordium' );
+  const dubniumString = require( 'string!SHRED/dubnium' );
+  const seaborgiumString = require( 'string!SHRED/seaborgium' );
+  const bohriumString = require( 'string!SHRED/bohrium' );
+  const hassiumString = require( 'string!SHRED/hassium' );
+  const meitneriumString = require( 'string!SHRED/meitnerium' );
+  const darmstadtiumString = require( 'string!SHRED/darmstadtium' );
+  const roentgeniumString = require( 'string!SHRED/roentgenium' );
+  const coperniciumString = require( 'string!SHRED/copernicium' );
+  const nihoniumString = require( 'string!SHRED/nihonium' );
+  const fleroviumString = require( 'string!SHRED/flerovium' );
+  const moscoviumString = require( 'string!SHRED/moscovium' );
+  const livermoriumString = require( 'string!SHRED/livermorium' );
+  const tennessineString = require( 'string!SHRED/tennessine' );
+  const oganessonString = require( 'string!SHRED/oganesson' );
+
   const nameTable = [
     '', // No element
-    require( 'string!SHRED/hydrogen' ),
-    require( 'string!SHRED/helium' ),
-    require( 'string!SHRED/lithium' ),
-    require( 'string!SHRED/beryllium' ),
-    require( 'string!SHRED/boron' ),
-    require( 'string!SHRED/carbon' ),
-    require( 'string!SHRED/nitrogen' ),
-    require( 'string!SHRED/oxygen' ),
-    require( 'string!SHRED/fluorine' ),
-    require( 'string!SHRED/neon' ),
-    require( 'string!SHRED/sodium' ),
-    require( 'string!SHRED/magnesium' ),
-    require( 'string!SHRED/aluminum' ),
-    require( 'string!SHRED/silicon' ),
-    require( 'string!SHRED/phosphorus' ),
-    require( 'string!SHRED/sulfur' ),
-    require( 'string!SHRED/chlorine' ),
-    require( 'string!SHRED/argon' ),
-    require( 'string!SHRED/potassium' ),
-    require( 'string!SHRED/calcium' ),
-    require( 'string!SHRED/scandium' ),
-    require( 'string!SHRED/titanium' ),
-    require( 'string!SHRED/vanadium' ),
-    require( 'string!SHRED/chromium' ),
-    require( 'string!SHRED/manganese' ),
-    require( 'string!SHRED/iron' ),
-    require( 'string!SHRED/cobalt' ),
-    require( 'string!SHRED/nickel' ),
-    require( 'string!SHRED/copper' ),
-    require( 'string!SHRED/zinc' ),
-    require( 'string!SHRED/gallium' ),
-    require( 'string!SHRED/germanium' ),
-    require( 'string!SHRED/arsenic' ),
-    require( 'string!SHRED/selenium' ),
-    require( 'string!SHRED/bromine' ),
-    require( 'string!SHRED/krypton' ),
-    require( 'string!SHRED/rubidium' ),
-    require( 'string!SHRED/strontium' ),
-    require( 'string!SHRED/yttrium' ),
-    require( 'string!SHRED/zirconium' ),
-    require( 'string!SHRED/niobium' ),
-    require( 'string!SHRED/molybdenum' ),
-    require( 'string!SHRED/technetium' ),
-    require( 'string!SHRED/ruthenium' ),
-    require( 'string!SHRED/rhodium' ),
-    require( 'string!SHRED/palladium' ),
-    require( 'string!SHRED/silver' ),
-    require( 'string!SHRED/cadmium' ),
-    require( 'string!SHRED/indium' ),
-    require( 'string!SHRED/tin' ),
-    require( 'string!SHRED/antimony' ),
-    require( 'string!SHRED/tellurium' ),
-    require( 'string!SHRED/iodine' ),
-    require( 'string!SHRED/xenon' ),
-    require( 'string!SHRED/cesium' ),
-    require( 'string!SHRED/barium' ),
-    require( 'string!SHRED/lanthanum' ),
-    require( 'string!SHRED/cerium' ),
-    require( 'string!SHRED/praseodymium' ),
-    require( 'string!SHRED/neodymium' ),
-    require( 'string!SHRED/promethium' ),
-    require( 'string!SHRED/samarium' ),
-    require( 'string!SHRED/europium' ),
-    require( 'string!SHRED/gadolinium' ),
-    require( 'string!SHRED/terbium' ),
-    require( 'string!SHRED/dysprosium' ),
-    require( 'string!SHRED/holmium' ),
-    require( 'string!SHRED/erbium' ),
-    require( 'string!SHRED/thulium' ),
-    require( 'string!SHRED/ytterbium' ),
-    require( 'string!SHRED/lutetium' ),
-    require( 'string!SHRED/hafnium' ),
-    require( 'string!SHRED/tantalum' ),
-    require( 'string!SHRED/tungsten' ),
-    require( 'string!SHRED/rhenium' ),
-    require( 'string!SHRED/osmium' ),
-    require( 'string!SHRED/iridium' ),
-    require( 'string!SHRED/platinum' ),
-    require( 'string!SHRED/gold' ),
-    require( 'string!SHRED/mercury' ),
-    require( 'string!SHRED/thallium' ),
-    require( 'string!SHRED/lead' ),
-    require( 'string!SHRED/bismuth' ),
-    require( 'string!SHRED/polonium' ),
-    require( 'string!SHRED/astatine' ),
-    require( 'string!SHRED/radon' ),
-    require( 'string!SHRED/francium' ),
-    require( 'string!SHRED/radium' ),
-    require( 'string!SHRED/actinium' ),
-    require( 'string!SHRED/thorium' ),
-    require( 'string!SHRED/protactinium' ),
-    require( 'string!SHRED/uranium' ),
-    require( 'string!SHRED/neptunium' ),
-    require( 'string!SHRED/plutonium' ),
-    require( 'string!SHRED/americium' ),
-    require( 'string!SHRED/curium' ),
-    require( 'string!SHRED/berkelium' ),
-    require( 'string!SHRED/californium' ),
-    require( 'string!SHRED/einsteinium' ),
-    require( 'string!SHRED/fermium' ),
-    require( 'string!SHRED/mendelevium' ),
-    require( 'string!SHRED/nobelium' ),
-    require( 'string!SHRED/lawrencium' ),
-    require( 'string!SHRED/rutherfordium' ),
-    require( 'string!SHRED/dubnium' ),
-    require( 'string!SHRED/seaborgium' ),
-    require( 'string!SHRED/bohrium' ),
-    require( 'string!SHRED/hassium' ),
-    require( 'string!SHRED/meitnerium' ),
-    require( 'string!SHRED/darmstadtium' ),
-    require( 'string!SHRED/roentgenium' ),
-    require( 'string!SHRED/copernicium' ),
-    require( 'string!SHRED/nihonium' ),
-    require( 'string!SHRED/flerovium' ),
-    require( 'string!SHRED/moscovium' ),
-    require( 'string!SHRED/livermorium' ),
-    require( 'string!SHRED/tennessine' ),
-    require( 'string!SHRED/oganesson' )
+    hydrogenString,
+    heliumString,
+    lithiumString,
+    berylliumString,
+    boronString,
+    carbonString,
+    nitrogenString,
+    oxygenString,
+    fluorineString,
+    neonString,
+    sodiumString,
+    magnesiumString,
+    aluminumString,
+    siliconString,
+    phosphorusString,
+    sulfurString,
+    chlorineString,
+    argonString,
+    potassiumString,
+    calciumString,
+    scandiumString,
+    titaniumString,
+    vanadiumString,
+    chromiumString,
+    manganeseString,
+    ironString,
+    cobaltString,
+    nickelString,
+    copperString,
+    zincString,
+    galliumString,
+    germaniumString,
+    arsenicString,
+    seleniumString,
+    bromineString,
+    kryptonString,
+    rubidiumString,
+    strontiumString,
+    yttriumString,
+    zirconiumString,
+    niobiumString,
+    molybdenumString,
+    technetiumString,
+    rutheniumString,
+    rhodiumString,
+    palladiumString,
+    silverString,
+    cadmiumString,
+    indiumString,
+    tinString,
+    antimonyString,
+    telluriumString,
+    iodineString,
+    xenonString,
+    cesiumString,
+    bariumString,
+    lanthanumString,
+    ceriumString,
+    praseodymiumString,
+    neodymiumString,
+    promethiumString,
+    samariumString,
+    europiumString,
+    gadoliniumString,
+    terbiumString,
+    dysprosiumString,
+    holmiumString,
+    erbiumString,
+    thuliumString,
+    ytterbiumString,
+    lutetiumString,
+    hafniumString,
+    tantalumString,
+    tungstenString,
+    rheniumString,
+    osmiumString,
+    iridiumString,
+    platinumString,
+    goldString,
+    mercuryString,
+    thalliumString,
+    leadString,
+    bismuthString,
+    poloniumString,
+    astatineString,
+    radonString,
+    franciumString,
+    radiumString,
+    actiniumString,
+    thoriumString,
+    protactiniumString,
+    uraniumString,
+    neptuniumString,
+    plutoniumString,
+    americiumString,
+    curiumString,
+    berkeliumString,
+    californiumString,
+    einsteiniumString,
+    fermiumString,
+    mendeleviumString,
+    nobeliumString,
+    lawrenciumString,
+    rutherfordiumString,
+    dubniumString,
+    seaborgiumString,
+    bohriumString,
+    hassiumString,
+    meitneriumString,
+    darmstadtiumString,
+    roentgeniumString,
+    coperniciumString,
+    nihoniumString,
+    fleroviumString,
+    moscoviumString,
+    livermoriumString,
+    tennessineString,
+    oganessonString
   ];
 
   // Used in PhET-iO data streams
