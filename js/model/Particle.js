@@ -30,7 +30,7 @@ define( require => {
 
   /**
    * @param {string} type
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function Particle( type, options ) {

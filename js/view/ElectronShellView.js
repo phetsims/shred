@@ -28,7 +28,7 @@ define( require => {
   /**
    * @param {ParticleAtom} atom
    * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function ElectronShellView( atom, modelViewTransform, options ) {

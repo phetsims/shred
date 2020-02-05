@@ -21,7 +21,7 @@ define( require => {
    * @param {Bucket} bucket
    * @param {BucketFront} bucketView
    * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {

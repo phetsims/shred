@@ -31,7 +31,7 @@ define( require => {
    *
    * @param {NumberAtom} numberAtom
    * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function IsotopeElectronCloudView( numberAtom, modelViewTransform, options ) {

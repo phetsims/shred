@@ -40,7 +40,7 @@ define( require => {
   /**
    * @param {NumberAtom} numberAtom
    * @param {number} interactiveMax
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function ExpandedPeriodicTableNode( numberAtom, interactiveMax, options ) {

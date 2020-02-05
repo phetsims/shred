@@ -33,7 +33,7 @@ define( require => {
   const NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
 
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function ParticleAtom( options ) {

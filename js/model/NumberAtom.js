@@ -25,7 +25,7 @@ define( require => {
   const NumberDerivedProperty = DerivedPropertyIO( NumberIO );
 
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function NumberAtom( options ) {
