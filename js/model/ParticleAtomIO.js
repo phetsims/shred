@@ -14,9 +14,6 @@ define( require => {
   const shred = require( 'SHRED/shred' );
   const validate = require( 'AXON/validate' );
 
-  // ifphetio
-  const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
-
   class ParticleAtomIO extends ObjectIO {
 
     /**
@@ -47,10 +44,10 @@ define( require => {
     static fromStateObject( stateObject ) {
       return {
         residentParticles: stateObject.residentParticleIDs.map( function( tandemID ) {
-          return phetioEngine.getPhetioObject( tandemID );
+          return phet.phetIo.phetioEngine.getPhetioObject( tandemID );
         } ),
         electronShellOccupants: stateObject.electronShellOccupantIDs.map( function( tandemID ) {
-          return tandemID ? phetioEngine.getPhetioObject( tandemID ) : null;
+          return tandemID ? phet.phetIo.phetioEngine.getPhetioObject( tandemID ) : null;
         } )
       };
     }
