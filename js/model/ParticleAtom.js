@@ -67,15 +67,15 @@ define( require => {
 
     // @private - particle collections
     this.protons = new ObservableArray( {
-      tandem: options.tandem.createTandem( 'protons' ),
+      // tandem: options.tandem.createTandem( 'protons' ),
       phetioType: ObservableArrayIO( ParticleIO )
     } );
     this.neutrons = new ObservableArray( {
-      tandem: options.tandem.createTandem( 'neutrons' ),
+      // tandem: options.tandem.createTandem( 'neutrons' ),
       phetioType: ObservableArrayIO( ParticleIO )
     } );
     this.electrons = new ObservableArray( {
-      tandem: options.tandem.createTandem( 'electrons' ),
+      // tandem: options.tandem.createTandem( 'electrons' ),
       phetioType: ObservableArrayIO( ParticleIO )
     } );
 

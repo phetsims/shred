@@ -24,7 +24,7 @@ define( require => {
     static toStateObject( particle ) {
 
       // Avoid circular JSON.stringify(), see https://github.com/phetsims/build-an-atom/issues/184
-      return particle.phetioID;
+      return particle.tandem.phetioID;
     }
   }
 
