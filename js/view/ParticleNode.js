@@ -4,50 +4,48 @@
  * Particle, represented as a circle with a gradient.  This type does not
  * track a particle, use ParticleView for that.
  */
-define( require => {
-  'use strict';
 
-  const Circle = require( 'SCENERY/nodes/Circle' );
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  const RadialGradient = require( 'SCENERY/util/RadialGradient' );
-  const shred = require( 'SHRED/shred' );
-  const Tandem = require( 'TANDEM/Tandem' );
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
+import Circle from '../../../scenery/js/nodes/Circle.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import shred from '../shred.js';
 
-  /**
-   * @param {string} particleType - proton, neutron, or electron
-   * @param {number} radius
-   * @param {Object} [options]
-   * @constructor
-   */
-  function ParticleNode( particleType, radius, options ) {
+/**
+ * @param {string} particleType - proton, neutron, or electron
+ * @param {number} radius
+ * @param {Object} [options]
+ * @constructor
+ */
+function ParticleNode( particleType, radius, options ) {
 
-    options = merge( {
-      tandem: Tandem.OPTIONAL
-    }, options );
+  options = merge( {
+    tandem: Tandem.OPTIONAL
+  }, options );
 
-    Node.call( this, options ); // Call super constructor.
+  Node.call( this, options ); // Call super constructor.
 
-    const colors = { proton: PhetColorScheme.RED_COLORBLIND, neutron: 'gray', electron: 'blue' };
-    let baseColor = colors[ particleType ];
-    if ( baseColor === undefined ) {
-      assert && assert( false, 'Unrecognized particle type: ' + particleType );
-      baseColor = 'black';
-    }
-
-    // Create the node a circle with a gradient.
-    this.addChild( new Circle( radius, {
-      fill: new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
-        .addColorStop( 0, 'white' )
-        .addColorStop( 1, baseColor ),
-      cursor: 'pointer'
-    } ) );
+  const colors = { proton: PhetColorScheme.RED_COLORBLIND, neutron: 'gray', electron: 'blue' };
+  let baseColor = colors[ particleType ];
+  if ( baseColor === undefined ) {
+    assert && assert( false, 'Unrecognized particle type: ' + particleType );
+    baseColor = 'black';
   }
 
-  shred.register( 'ParticleNode', ParticleNode );
+  // Create the node a circle with a gradient.
+  this.addChild( new Circle( radius, {
+    fill: new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
+      .addColorStop( 0, 'white' )
+      .addColorStop( 1, baseColor ),
+    cursor: 'pointer'
+  } ) );
+}
 
-  // Inherit from Node.
-  return inherit( Node, ParticleNode );
-} );
+shred.register( 'ParticleNode', ParticleNode );
+
+// Inherit from Node.
+inherit( Node, ParticleNode );
+export default ParticleNode;

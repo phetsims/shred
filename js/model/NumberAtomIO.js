@@ -7,45 +7,41 @@
  * @author John Blanco (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  const NumberAtom = require( 'SHRED/model/NumberAtom' );
-  const shred = require( 'SHRED/shred' );
-  const validate = require( 'AXON/validate' );
+import validate from '../../../axon/js/validate.js';
+import ObjectIO from '../../../tandem/js/types/ObjectIO.js';
+import shred from '../shred.js';
+import NumberAtom from './NumberAtom.js';
 
-  class NumberAtomIO extends ObjectIO {
+class NumberAtomIO extends ObjectIO {
 
-    /**
-     * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
-     * @param {NumberAtom} numberAtom
-     * @returns {Object}
-     * @override
-     */
-    static toStateObject( numberAtom ) {
-      validate( numberAtom, this.validator );
-      return {
-        protonCount: numberAtom.protonCountProperty.get(),
-        electronCount: numberAtom.electronCountProperty.get(),
-        neutronCount: numberAtom.neutronCountProperty.get()
-      };
-    }
-
-    /**
-     * @param {Object} stateObject
-     * @returns {}
-     * @override
-     */
-    static fromStateObject( stateObject ) { }
+  /**
+   * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
+   * @param {NumberAtom} numberAtom
+   * @returns {Object}
+   * @override
+   */
+  static toStateObject( numberAtom ) {
+    validate( numberAtom, this.validator );
+    return {
+      protonCount: numberAtom.protonCountProperty.get(),
+      electronCount: numberAtom.electronCountProperty.get(),
+      neutronCount: numberAtom.neutronCountProperty.get()
+    };
   }
 
-  NumberAtomIO.validator = { valueType: NumberAtom };
-  NumberAtomIO.documentation = 'A value type that contains quantities of electrons, protons, and neutrons.';
-  NumberAtomIO.typeName = 'NumberAtomIO';
-  ObjectIO.validateSubtype( NumberAtomIO );
+  /**
+   * @param {Object} stateObject
+   * @returns {}
+   * @override
+   */
+  static fromStateObject( stateObject ) { }
+}
 
-  return shred.register( 'NumberAtomIO', NumberAtomIO );
-} );
+NumberAtomIO.validator = { valueType: NumberAtom };
+NumberAtomIO.documentation = 'A value type that contains quantities of electrons, protons, and neutrons.';
+NumberAtomIO.typeName = 'NumberAtomIO';
+ObjectIO.validateSubtype( NumberAtomIO );
 
+shred.register( 'NumberAtomIO', NumberAtomIO );
+export default NumberAtomIO;

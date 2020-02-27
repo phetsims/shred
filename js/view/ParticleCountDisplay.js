@@ -7,186 +7,183 @@
  * @author John Blanco
  * @author Aadish Gupta
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const inherit = require( 'PHET_CORE/inherit' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const Panel = require( 'SUN/Panel' );
-  const ParticleNode = require( 'SHRED/view/ParticleNode' );
-  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  const shred = require( 'SHRED/shred' );
-  const ShredConstants = require( 'SHRED/ShredConstants' );
-  const Tandem = require( 'TANDEM/Tandem' );
-  const Text = require( 'SCENERY/nodes/Text' );
+import inherit from '../../../phet-core/js/inherit.js';
+import merge from '../../../phet-core/js/merge.js';
+import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import Node from '../../../scenery/js/nodes/Node.js';
+import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../scenery/js/nodes/Text.js';
+import Panel from '../../../sun/js/Panel.js';
+import Tandem from '../../../tandem/js/Tandem.js';
+import shredStrings from '../shred-strings.js';
+import shred from '../shred.js';
+import ShredConstants from '../ShredConstants.js';
+import ParticleNode from './ParticleNode.js';
 
-  // strings
-  const electronsColonString = require( 'string!SHRED/electronsColon' );
-  const neutronsColonString = require( 'string!SHRED/neutronsColon' );
-  const protonsColonString = require( 'string!SHRED/protonsColon' );
+const electronsColonString = shredStrings.electronsColon;
+const neutronsColonString = shredStrings.neutronsColon;
+const protonsColonString = shredStrings.protonsColon;
 
-  // constants
-  const TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
-  const MIN_VERTICAL_SPACING = 16; // Empirically Determined
-  const LABEL_FONT = new PhetFont( 12 );
+// constants
+const TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
+const MIN_VERTICAL_SPACING = 16; // Empirically Determined
+const LABEL_FONT = new PhetFont( 12 );
 
-  /**
-   * @param {NumberAtom} numberAtom Model representation of the atom
-   * @param {number} maxParticles The maximum number of particles to display
-   * @param {number} maxWidth The maximum width that this display should reach
-   * @param {Object} [options]
-   * @constructor
-   */
-  function ParticleCountDisplay( numberAtom, maxParticles, maxWidth, options ) {
+/**
+ * @param {NumberAtom} numberAtom Model representation of the atom
+ * @param {number} maxParticles The maximum number of particles to display
+ * @param {number} maxWidth The maximum width that this display should reach
+ * @param {Object} [options]
+ * @constructor
+ */
+function ParticleCountDisplay( numberAtom, maxParticles, maxWidth, options ) {
 
-    options = merge( {
-      fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
-      cornerRadius: 5,
-      pickable: false,
-      tandem: Tandem.REQUIRED
-    }, options );
+  options = merge( {
+    fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
+    cornerRadius: 5,
+    pickable: false,
+    tandem: Tandem.REQUIRED
+  }, options );
 
-    const panelContents = new Node();
+  const panelContents = new Node();
 
-    const protonTitle = new Text( protonsColonString, {
-      font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'protonTitle' )
-    } );
-    panelContents.addChild( protonTitle );
-    const neutronTitle = new Text( neutronsColonString, {
-      font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'neutronTitle' )
-    } );
-    panelContents.addChild( neutronTitle );
-    const electronTitle = new Text( electronsColonString, {
-      font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'electronTitle' )
-    } );
-    panelContents.addChild( electronTitle );
+  const protonTitle = new Text( protonsColonString, {
+    font: LABEL_FONT,
+    tandem: options.tandem.createTandem( 'protonTitle' )
+  } );
+  panelContents.addChild( protonTitle );
+  const neutronTitle = new Text( neutronsColonString, {
+    font: LABEL_FONT,
+    tandem: options.tandem.createTandem( 'neutronTitle' )
+  } );
+  panelContents.addChild( neutronTitle );
+  const electronTitle = new Text( electronsColonString, {
+    font: LABEL_FONT,
+    tandem: options.tandem.createTandem( 'electronTitle' )
+  } );
+  panelContents.addChild( electronTitle );
 
-    // Scale the title if more than allowed proportion width
-    const maxAllowableLabelWidth = maxWidth * TITLE_MAX_WIDTH_PROPORTION;
-    protonTitle.maxWidth = maxAllowableLabelWidth;
-    electronTitle.maxWidth = maxAllowableLabelWidth;
-    neutronTitle.maxWidth = maxAllowableLabelWidth;
+  // Scale the title if more than allowed proportion width
+  const maxAllowableLabelWidth = maxWidth * TITLE_MAX_WIDTH_PROPORTION;
+  protonTitle.maxWidth = maxAllowableLabelWidth;
+  electronTitle.maxWidth = maxAllowableLabelWidth;
+  neutronTitle.maxWidth = maxAllowableLabelWidth;
 
-    // Lay out the labels.
-    const maxLabelWidth = Math.max( Math.max( protonTitle.width, neutronTitle.width ), electronTitle.width );
-    protonTitle.right = maxLabelWidth;
-    protonTitle.top = 0;
-    neutronTitle.right = maxLabelWidth;
-    neutronTitle.bottom = protonTitle.bottom + Math.max( neutronTitle.height, MIN_VERTICAL_SPACING );
-    electronTitle.right = maxLabelWidth;
-    electronTitle.bottom = neutronTitle.bottom + Math.max( electronTitle.height, MIN_VERTICAL_SPACING );
+  // Lay out the labels.
+  const maxLabelWidth = Math.max( Math.max( protonTitle.width, neutronTitle.width ), electronTitle.width );
+  protonTitle.right = maxLabelWidth;
+  protonTitle.top = 0;
+  neutronTitle.right = maxLabelWidth;
+  neutronTitle.bottom = protonTitle.bottom + Math.max( neutronTitle.height, MIN_VERTICAL_SPACING );
+  electronTitle.right = maxLabelWidth;
+  electronTitle.bottom = neutronTitle.bottom + Math.max( electronTitle.height, MIN_VERTICAL_SPACING );
 
-    // Figure out the sizes of the particles and the inter-particle spacing based on the max width.
-    const totalParticleSpace = maxWidth - protonTitle.right - 10;
-    const nucleonRadius = totalParticleSpace / ( ( maxParticles * 2 ) + ( maxParticles - 1 ) + 2 );
-    const electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
-    const interParticleSpacing = nucleonRadius * 3;
+  // Figure out the sizes of the particles and the inter-particle spacing based on the max width.
+  const totalParticleSpace = maxWidth - protonTitle.right - 10;
+  const nucleonRadius = totalParticleSpace / ( ( maxParticles * 2 ) + ( maxParticles - 1 ) + 2 );
+  const electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
+  const interParticleSpacing = nucleonRadius * 3;
 
-    // Add an invisible spacer that will keep the control panel at a min width.
-    const spacer = new Rectangle( maxLabelWidth, 0, interParticleSpacing * 3, 1 );
+  // Add an invisible spacer that will keep the control panel at a min width.
+  const spacer = new Rectangle( maxLabelWidth, 0, interParticleSpacing * 3, 1 );
 
-    // Add the layer where the particles will live.
-    const particleLayer = new Node( { children: [ spacer ] } );
-    panelContents.addChild( particleLayer );
+  // Add the layer where the particles will live.
+  const particleLayer = new Node( { children: [ spacer ] } );
+  panelContents.addChild( particleLayer );
 
-    // stored ParticleNode instances that are positioned correctly, so we just have to add/remove the
-    // changed ones (faster than full rebuild)
-    const protons = [];
-    const neutrons = [];
-    const electrons = [];
+  // stored ParticleNode instances that are positioned correctly, so we just have to add/remove the
+  // changed ones (faster than full rebuild)
+  const protons = [];
+  const neutrons = [];
+  const electrons = [];
 
-    // counts of the displayed number of particles
-    let protonDisplayCount = 0;
-    let neutronDisplayCount = 0;
-    let electronDisplayCount = 0;
+  // counts of the displayed number of particles
+  let protonDisplayCount = 0;
+  let neutronDisplayCount = 0;
+  let electronDisplayCount = 0;
 
-    // increase the particle count by 1, and return the currently displayed quantity array
-    function incrementParticleCount( array, currentQuantity, particleType, radius, startX, startY ) {
-      const newIndex = currentQuantity;
-      if ( newIndex === array.length ) {
+  // increase the particle count by 1, and return the currently displayed quantity array
+  function incrementParticleCount( array, currentQuantity, particleType, radius, startX, startY ) {
+    const newIndex = currentQuantity;
+    if ( newIndex === array.length ) {
 
-        // we need to create a new particle
-        array.push( new ParticleNode( particleType, radius, {
-          x: startX + newIndex * interParticleSpacing,
-          y: startY
-        } ) );
-      }
-      particleLayer.addChild( array[ newIndex ] );
-      currentQuantity += 1;
-      return currentQuantity;
+      // we need to create a new particle
+      array.push( new ParticleNode( particleType, radius, {
+        x: startX + newIndex * interParticleSpacing,
+        y: startY
+      } ) );
     }
-
-    // decrease the particle count by 1, and return the currently displayed quantity array
-    function decrementParticleCount( array, currentQuantity ) {
-      currentQuantity -= 1;
-      particleLayer.removeChild( array[ currentQuantity ] );
-      array.splice( currentQuantity, 1 );
-      return currentQuantity;
-    }
-
-    // Function that updates that displayed particles.
-    const updateParticles = function( atom ) {
-      // feel free to refactor this, although we'd need to get a passable reference to the counts
-      // (that's why there is duplication now)
-      while ( atom.protonCountProperty.get() > protonDisplayCount ) {
-        protonDisplayCount = incrementParticleCount(
-          protons,
-          protonDisplayCount,
-          'proton',
-          nucleonRadius,
-          protonTitle.right + interParticleSpacing,
-          protonTitle.center.y
-        );
-      }
-      while ( atom.protonCountProperty.get() < protonDisplayCount ) {
-        protonDisplayCount = decrementParticleCount( protons, protonDisplayCount );
-      }
-
-      while ( atom.neutronCountProperty.get() > neutronDisplayCount ) {
-        neutronDisplayCount = incrementParticleCount(
-          neutrons,
-          neutronDisplayCount,
-          'neutron',
-          nucleonRadius,
-          neutronTitle.right + interParticleSpacing, neutronTitle.center.y
-        );
-      }
-      while ( atom.neutronCountProperty.get() < neutronDisplayCount ) {
-        neutronDisplayCount = decrementParticleCount( neutrons, neutronDisplayCount );
-      }
-
-      while ( atom.electronCountProperty.get() > electronDisplayCount ) {
-        electronDisplayCount = incrementParticleCount(
-          electrons,
-          electronDisplayCount,
-          'electron',
-          electronRadius,
-          electronTitle.right + interParticleSpacing, electronTitle.center.y
-        );
-      }
-      while ( atom.electronCountProperty.get() < electronDisplayCount ) {
-        electronDisplayCount = decrementParticleCount( electrons, electronDisplayCount );
-      }
-    };
-
-    // Hook up the update function.
-    numberAtom.particleCountProperty.link( function() {
-      updateParticles( numberAtom );
-    } );
-
-    // Initial update.
-    updateParticles( numberAtom );
-
-    Panel.call( this, panelContents, options );
+    particleLayer.addChild( array[ newIndex ] );
+    currentQuantity += 1;
+    return currentQuantity;
   }
 
-  shred.register( 'ParticleCountDisplay', ParticleCountDisplay );
+  // decrease the particle count by 1, and return the currently displayed quantity array
+  function decrementParticleCount( array, currentQuantity ) {
+    currentQuantity -= 1;
+    particleLayer.removeChild( array[ currentQuantity ] );
+    array.splice( currentQuantity, 1 );
+    return currentQuantity;
+  }
 
-  return inherit( Panel, ParticleCountDisplay );
-} );
+  // Function that updates that displayed particles.
+  const updateParticles = function( atom ) {
+    // feel free to refactor this, although we'd need to get a passable reference to the counts
+    // (that's why there is duplication now)
+    while ( atom.protonCountProperty.get() > protonDisplayCount ) {
+      protonDisplayCount = incrementParticleCount(
+        protons,
+        protonDisplayCount,
+        'proton',
+        nucleonRadius,
+        protonTitle.right + interParticleSpacing,
+        protonTitle.center.y
+      );
+    }
+    while ( atom.protonCountProperty.get() < protonDisplayCount ) {
+      protonDisplayCount = decrementParticleCount( protons, protonDisplayCount );
+    }
+
+    while ( atom.neutronCountProperty.get() > neutronDisplayCount ) {
+      neutronDisplayCount = incrementParticleCount(
+        neutrons,
+        neutronDisplayCount,
+        'neutron',
+        nucleonRadius,
+        neutronTitle.right + interParticleSpacing, neutronTitle.center.y
+      );
+    }
+    while ( atom.neutronCountProperty.get() < neutronDisplayCount ) {
+      neutronDisplayCount = decrementParticleCount( neutrons, neutronDisplayCount );
+    }
+
+    while ( atom.electronCountProperty.get() > electronDisplayCount ) {
+      electronDisplayCount = incrementParticleCount(
+        electrons,
+        electronDisplayCount,
+        'electron',
+        electronRadius,
+        electronTitle.right + interParticleSpacing, electronTitle.center.y
+      );
+    }
+    while ( atom.electronCountProperty.get() < electronDisplayCount ) {
+      electronDisplayCount = decrementParticleCount( electrons, electronDisplayCount );
+    }
+  };
+
+  // Hook up the update function.
+  numberAtom.particleCountProperty.link( function() {
+    updateParticles( numberAtom );
+  } );
+
+  // Initial update.
+  updateParticles( numberAtom );
+
+  Panel.call( this, panelContents, options );
+}
+
+shred.register( 'ParticleCountDisplay', ParticleCountDisplay );
+
+inherit( Panel, ParticleCountDisplay );
+export default ParticleCountDisplay;
