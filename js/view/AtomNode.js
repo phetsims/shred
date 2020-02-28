@@ -1,4 +1,4 @@
-// Copyright 2014-2019, University of Colorado Boulder
+// Copyright 2014-2020, University of Colorado Boulder
 
 /**
  * View representation of the atom. Mostly, this is responsible for displaying and updating the labels, since the atom
