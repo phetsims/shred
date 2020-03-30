@@ -291,7 +291,7 @@ export default inherit( PhetioObject, ParticleAtom, {
 
     // in phet-io mode, we can end up with attempts being made to add the same particle twice when state is being
     // set, so test for that case and bail if needed
-    if ( phet.phetio && this.containsParticle( particle ) ) {
+    if ( Tandem.PHET_IO_ENABLED && this.containsParticle( particle ) ) {
       // looks like someone beat us to it
       return;
     }
