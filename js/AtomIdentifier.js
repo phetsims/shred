@@ -9,7 +9,7 @@
  */
 
 import Utils from '../../dot/js/Utils.js';
-import shredStrings from './shred-strings.js';
+import shredStrings from './shredStrings.js';
 import shred from './shred.js';
 
 // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is

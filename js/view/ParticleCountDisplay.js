@@ -16,7 +16,7 @@ import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Panel from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import shredStrings from '../shred-strings.js';
+import shredStrings from '../shredStrings.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ParticleNode from './ParticleNode.js';
