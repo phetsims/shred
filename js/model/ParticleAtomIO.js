@@ -41,10 +41,10 @@ class ParticleAtomIO extends ObjectIO {
   static fromStateObject( stateObject ) {
     return {
       residentParticles: stateObject.residentParticleIDs.map( function( tandemID ) {
-        return phet.phetIo.phetioEngine.getPhetioObject( tandemID );
+        return phet.phetio.phetioEngine.getPhetioObject( tandemID );
       } ),
       electronShellOccupants: stateObject.electronShellOccupantIDs.map( function( tandemID ) {
-        return tandemID ? phet.phetIo.phetioEngine.getPhetioObject( tandemID ) : null;
+        return tandemID ? phet.phetio.phetioEngine.getPhetioObject( tandemID ) : null;
       } )
     };
   }
