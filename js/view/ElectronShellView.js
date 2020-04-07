@@ -40,7 +40,7 @@ function ElectronShellView( atom, modelViewTransform, options ) {
     pickable: false,
     tandem: options.tandem,
 
-    // a11y
+    // pdom
     tagName: 'div',
     ariaRole: 'listbox',
     focusable: true
@@ -54,7 +54,7 @@ function ElectronShellView( atom, modelViewTransform, options ) {
     pickable: false,
     tandem: options.tandem.createTandem( 'outerRing' ),
 
-    // a11y
+    // pdom
     tagName: 'div',
     ariaRole: 'option',
     innerContent: 'Outer Electron Ring'
@@ -74,30 +74,30 @@ function ElectronShellView( atom, modelViewTransform, options ) {
     innerContent: 'Inner Electron Ring'
   } );
 
-  // a11y - an invisible node that allows the nucleus to be highlighted.
+  // pdom - an invisible node that allows the nucleus to be highlighted.
   const centerOption = new Node( {
 
-    // a11y
+    // pdom
     tagName: 'div',
     ariaRole: 'option',
     innerContent: 'Nucleus'
   } );
 
-  // a11y - to focus around the actual nucleus, will change in size when the particles in the nucleus change
+  // pdom - to focus around the actual nucleus, will change in size when the particles in the nucleus change
   const nucleusFocusHighlight = new Circle( atom.nucleusRadius, {
     lineWidth: 2,
     stroke: 'red',
     translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
   } );
 
-  // a11y - to focus around the outer shell
+  // pdom - to focus around the outer shell
   const electronOuterFocusHighlight = new Circle( atom.outerElectronShellRadius, {
     lineWidth: 2,
     stroke: 'red',
     translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
   } );
 
-  // a11y - to focus around the inner shell
+  // pdom - to focus around the inner shell
   const electronInnerFocusHighlight = new Circle( atom.innerElectronShellRadius, {
     lineWidth: 2,
     stroke: 'red',
@@ -123,7 +123,7 @@ function ElectronShellView( atom, modelViewTransform, options ) {
     }
   } );
 
-  // a11y - set the selectProperty when the arrow keys change the html select menu's value.
+  // pdom - set the selectProperty when the arrow keys change the html select menu's value.
   const optionNodes = [ centerOption, innerRing, outerRing ];
   let currentIndex = 0;
   const keyListener = {
