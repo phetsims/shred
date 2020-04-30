@@ -89,7 +89,7 @@ function PeriodicTableCell( atomicNumber, numberAtom, cellColor, options ) {
 
 shred.register( 'PeriodicTableCell', PeriodicTableCell );
 
-export default inherit( Rectangle, PeriodicTableCell, {
+inherit( Rectangle, PeriodicTableCell, {
 
   setHighlighted: function( highLighted ) {
     this.fill = highLighted ? this.highlightedFill : this.normalFill;
@@ -105,3 +105,5 @@ export default inherit( Rectangle, PeriodicTableCell, {
     Rectangle.prototype.dispose.call( this );
   }
 } );
+
+export default PeriodicTableCell;

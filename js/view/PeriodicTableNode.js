@@ -110,7 +110,7 @@ function PeriodicTableNode( numberAtom, options ) {
 
 shred.register( 'PeriodicTableNode', PeriodicTableNode );
 // Inherit from Node.
-export default inherit( Node, PeriodicTableNode, {
+inherit( Node, PeriodicTableNode, {
 
   // @public
   dispose: function() {
@@ -119,3 +119,5 @@ export default inherit( Node, PeriodicTableNode, {
     Node.prototype.dispose.call( this );
   }
 } );
+
+export default PeriodicTableNode;

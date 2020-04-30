@@ -169,7 +169,7 @@ function ElectronShellView( atom, modelViewTransform, options ) {
 shred.register( 'ElectronShellView', ElectronShellView );
 
 // Inherit from Node.
-export default inherit( Node, ElectronShellView, {
+inherit( Node, ElectronShellView, {
 
   dispose: function() {
     this.disposeElectronShellView();
@@ -177,3 +177,5 @@ export default inherit( Node, ElectronShellView, {
     Node.prototype.dispose.call( this );
   }
 } );
+
+export default ElectronShellView;

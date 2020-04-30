@@ -246,7 +246,7 @@ function ParticleAtom( options ) {
 
 shred.register( 'ParticleAtom', ParticleAtom );
 
-export default inherit( PhetioObject, ParticleAtom, {
+inherit( PhetioObject, ParticleAtom, {
 
   dispose: function() {
 
@@ -600,3 +600,5 @@ export default inherit( PhetioObject, ParticleAtom, {
     this.nucleusRadius = nucleusRadius;
   }
 } );
+
+export default ParticleAtom;

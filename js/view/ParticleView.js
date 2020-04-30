@@ -106,9 +106,11 @@ function ParticleView( particle, modelViewTransform, options ) {
 
 shred.register( 'ParticleView', ParticleView );
 // Inherit from Node.
-export default inherit( Node, ParticleView, {
+inherit( Node, ParticleView, {
   dispose: function() {
     this.disposeParticleView();
     Node.prototype.dispose.call( this );
   }
 } );
+
+export default ParticleView;

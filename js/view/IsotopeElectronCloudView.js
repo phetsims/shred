@@ -72,7 +72,7 @@ function IsotopeElectronCloudView( numberAtom, modelViewTransform, options ) {
 }
 
 shred.register( 'IsotopeElectronCloudView', IsotopeElectronCloudView );
-export default inherit( Circle, IsotopeElectronCloudView, {
+inherit( Circle, IsotopeElectronCloudView, {
 
   // @public
   dispose: function() {
@@ -143,3 +143,5 @@ export default inherit( Circle, IsotopeElectronCloudView, {
     }
   }
 } );
+
+export default IsotopeElectronCloudView;

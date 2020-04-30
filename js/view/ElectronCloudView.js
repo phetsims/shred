@@ -102,7 +102,7 @@ function ElectronCloudView( atom, modelViewTransform, options ) {
 
 shred.register( 'ElectronCloudView', ElectronCloudView );
 
-export default inherit( Circle, ElectronCloudView, {
+inherit( Circle, ElectronCloudView, {
 
   // @public
   dispose: function() {
@@ -110,3 +110,5 @@ export default inherit( Circle, ElectronCloudView, {
     Circle.prototype.dispose.call( this );
   }
 } );
+
+export default ElectronCloudView;

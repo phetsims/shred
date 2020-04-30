@@ -90,7 +90,7 @@ function NumberAtom( options ) {
 
 shred.register( 'NumberAtom', NumberAtom );
 
-export default inherit( Object, NumberAtom, {
+inherit( Object, NumberAtom, {
 
   /**
    * Compare with other Number Atom
@@ -150,3 +150,5 @@ export default inherit( Object, NumberAtom, {
     this.atomUpdated.dispose();
   }
 } );
+
+export default NumberAtom;

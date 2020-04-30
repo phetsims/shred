@@ -77,7 +77,7 @@ function Particle( type, options ) {
 
 shred.register( 'Particle', Particle );
 
-export default inherit( PhetioObject, Particle, {
+inherit( PhetioObject, Particle, {
 
   /**
    * @param {number} dt
@@ -135,3 +135,5 @@ export default inherit( PhetioObject, Particle, {
 }, {
   MAX_LAYERS: 5
 } );
+
+export default Particle;

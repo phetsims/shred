@@ -250,7 +250,7 @@ function AtomNode( particleAtom, modelViewTransform, options ) {
 
 shred.register( 'AtomNode', AtomNode );
 
-export default inherit( Node, AtomNode, {
+inherit( Node, AtomNode, {
 
   //@public
   dispose: function() {
@@ -258,3 +258,5 @@ export default inherit( Node, AtomNode, {
     Node.prototype.dispose.call( this );
   }
 } );
+
+export default AtomNode;
