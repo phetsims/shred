@@ -17,6 +17,8 @@ class ParticleAtomIO extends ObjectIO {
    * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
    * @param {ParticleAtom} particleAtom
    * @returns {Object}
+   * @override
+   * @public
    */
   static toStateObject( particleAtom ) {
     validate( particleAtom, this.validator );
@@ -37,6 +39,8 @@ class ParticleAtomIO extends ObjectIO {
   /**
    * @param {string[]} stateObject
    * @returns {Object}
+   * @override
+   * @public
    */
   static fromStateObject( stateObject ) {
     return {

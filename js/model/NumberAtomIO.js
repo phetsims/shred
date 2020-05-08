@@ -20,6 +20,7 @@ class NumberAtomIO extends ObjectIO {
    * @param {NumberAtom} numberAtom
    * @returns {Object}
    * @override
+   * @public
    */
   static toStateObject( numberAtom ) {
     validate( numberAtom, this.validator );
@@ -34,6 +35,7 @@ class NumberAtomIO extends ObjectIO {
    * @param {Object} stateObject
    * @returns {}
    * @override
+   * @public
    */
   static fromStateObject( stateObject ) { }
 }

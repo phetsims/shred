@@ -17,6 +17,8 @@ class ParticleIO extends ObjectIO {
    * directly to use this implementation.
    * @param {Particle} particle
    * @returns {Object}
+   * @override
+   * @public
    */
   static toStateObject( particle ) {
 
