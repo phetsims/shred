@@ -25,9 +25,9 @@ class ParticleAtomIO extends ObjectIO {
     return {
 
       // an array of all the particles currently contained within the particle atom
-      residentParticleIDs: particleAtom.protons.getArray().map( getParticleTandemID )
-        .concat( particleAtom.neutrons.getArray().map( getParticleTandemID ) )
-        .concat( particleAtom.electrons.getArray().map( getParticleTandemID ) ),
+      residentParticleIDs: particleAtom.protons.map( getParticleTandemID )
+        .concat( particleAtom.neutrons.map( getParticleTandemID ) )
+        .concat( particleAtom.electrons.map( getParticleTandemID ) ),
 
       // an ordered array that tracks which electron, if any, is in each shell position
       electronShellOccupantIDs: particleAtom.electronShellPositions.map( function( electronShellPosition ) {
