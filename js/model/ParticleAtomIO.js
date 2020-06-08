@@ -56,6 +56,7 @@ class ParticleAtomIO extends ObjectIO {
   /**
    * @param {ParticleAtom} particleAtom
    * @param {Object} fromStateObject
+   * @public
    */
   static setValue( particleAtom, fromStateObject ) {
     validate( particleAtom, this.validator );
