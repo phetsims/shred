@@ -58,7 +58,7 @@ class ParticleAtomIO extends ObjectIO {
    * @param {Object} fromStateObject
    * @public
    */
-  static setValue( particleAtom, fromStateObject ) {
+  static applyState( particleAtom, fromStateObject ) {
     validate( particleAtom, this.validator );
 
     // remove all the particles from the observable arrays
