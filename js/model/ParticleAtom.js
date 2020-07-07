@@ -277,9 +277,9 @@ inherit( PhetioObject, ParticleAtom, {
    * @private
    */
   containsParticle: function( particle ) {
-    return this.protons.contains( particle ) ||
-           this.neutrons.contains( particle ) ||
-           this.electrons.contains( particle );
+    return this.protons.includes( particle ) ||
+           this.neutrons.includes( particle ) ||
+           this.electrons.includes( particle );
   },
 
   /**
@@ -301,7 +301,7 @@ inherit( PhetioObject, ParticleAtom, {
 
       // create a listener that will be called when this particle is removed
       var nucleonRemovedListener = function( userControlled ) {
-        if ( userControlled && particleArray.contains( particle ) ) {
+        if ( userControlled && particleArray.includes( particle ) ) {
           particleArray.remove( particle );
           self.reconfigureNucleus();
           particle.zLayerProperty.set( 0 );
@@ -350,7 +350,7 @@ inherit( PhetioObject, ParticleAtom, {
 
       // Listen for removal of the electron and handle it.
       var electronRemovedListener = function( userControlled ) {
-        if ( userControlled && self.electrons.contains( particle ) ) {
+        if ( userControlled && self.electrons.includes( particle ) ) {
           self.electrons.remove( particle );
           particle.zLayerProperty.set( 0 );
           particle.userControlledProperty.unlink( electronRemovedListener );
@@ -375,13 +375,13 @@ inherit( PhetioObject, ParticleAtom, {
    */
   removeParticle: function( particle ) {
 
-    if ( this.protons.contains( particle ) ) {
+    if ( this.protons.includes( particle ) ) {
       this.protons.remove( particle );
     }
-    else if ( this.neutrons.contains( particle ) ) {
+    else if ( this.neutrons.includes( particle ) ) {
       this.neutrons.remove( particle );
     }
-    else if ( this.electrons.contains( particle ) ) {
+    else if ( this.electrons.includes( particle ) ) {
       this.electrons.remove( particle );
     }
     else {
