@@ -37,13 +37,18 @@ class ParticleAtomIO extends ObjectIO {
   }
 
   /**
-   * @param {string[]} stateObject
-   * @returns {Object}
-   * @override
+   * @param {ParticleAtom} particleAtom
+   * @param {Object} stateObject
    * @public
+   * @override
    */
-  static fromStateObject( stateObject ) {
-    return {
+  static applyState( particleAtom, stateObject ) {
+    validate( particleAtom, this.validator );
+
+    // remove all the particles from the observable arrays
+    particleAtom.clear();
+
+    const deserializedState = {
       residentParticles: stateObject.residentParticleIDs.map( function( tandemID ) {
         return phet.phetio.phetioEngine.getPhetioObject( tandemID );
       } ),
@@ -51,24 +56,12 @@ class ParticleAtomIO extends ObjectIO {
         return tandemID ? phet.phetio.phetioEngine.getPhetioObject( tandemID ) : null;
       } )
     };
-  }
-
-  /**
-   * @param {ParticleAtom} particleAtom
-   * @param {Object} fromStateObject
-   * @public
-   */
-  static applyState( particleAtom, fromStateObject ) {
-    validate( particleAtom, this.validator );
-
-    // remove all the particles from the observable arrays
-    particleAtom.clear();
 
     // add back the particles
-    fromStateObject.residentParticles.forEach( function( value ) { particleAtom.addParticle( value ); } );
+    deserializedState.residentParticles.forEach( function( value ) { particleAtom.addParticle( value ); } );
 
     // set the electron shell occupancy state
-    fromStateObject.electronShellOccupants.forEach( function( electron, index ) {
+    deserializedState.electronShellOccupants.forEach( function( electron, index ) {
       particleAtom.electronShellPositions[ index ].electron = electron;
     } );
   }
