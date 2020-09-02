@@ -1,7 +1,7 @@
 // Copyright 2017-2020, University of Colorado Boulder
 
 /**
- * IO type for NumberAtom
+ * IO Type for NumberAtom
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
