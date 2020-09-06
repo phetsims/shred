@@ -74,7 +74,7 @@ ParticleAtomIO.documentation = 'A model of an atom that tracks and arranges the 
                                'appropriate places.  This object also keeps track of things like atomic number, mass number, and ' +
                                'charge.';
 ParticleAtomIO.typeName = 'ParticleAtomIO';
-ObjectIO.validateSubtype( ParticleAtomIO );
+ObjectIO.validateIOType( ParticleAtomIO );
 
 // helper function for retrieving the tandem for a particle
 function getParticleTandemID( particle ) {

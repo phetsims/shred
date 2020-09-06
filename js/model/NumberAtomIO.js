@@ -43,7 +43,7 @@ class NumberAtomIO extends ObjectIO {
 NumberAtomIO.validator = { valueType: NumberAtom };
 NumberAtomIO.documentation = 'A value type that contains quantities of electrons, protons, and neutrons.';
 NumberAtomIO.typeName = 'NumberAtomIO';
-ObjectIO.validateSubtype( NumberAtomIO );
+ObjectIO.validateIOType( NumberAtomIO );
 
 shred.register( 'NumberAtomIO', NumberAtomIO );
 export default NumberAtomIO;
