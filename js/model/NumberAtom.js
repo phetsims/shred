@@ -8,7 +8,6 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import DerivedPropertyIO from '../../../axon/js/DerivedPropertyIO.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import inherit from '../../../phet-core/js/inherit.js';
@@ -19,7 +18,7 @@ import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 
 // constants
-const NumberDerivedProperty = DerivedPropertyIO( NumberIO );
+const NumberDerivedProperty = DerivedProperty.DerivedPropertyIO( NumberIO );
 
 /**
  * @param {Object} [options]

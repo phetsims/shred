@@ -8,7 +8,6 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import DerivedPropertyIO from '../../../axon/js/DerivedPropertyIO.js';
 import ObservableArray from '../../../axon/js/ObservableArray.js';
 import ObservableArrayIO from '../../../axon/js/ObservableArrayIO.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
@@ -88,7 +87,7 @@ function ParticleAtom( options ) {
     {
       tandem: options.tandem.createTandem( 'protonCountProperty' ),
       numberType: 'Integer',
-      phetioType: DerivedPropertyIO( NumberIO )
+      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
     }
   );
   this.neutronCountProperty = new DerivedProperty(
@@ -99,7 +98,7 @@ function ParticleAtom( options ) {
     {
       tandem: options.tandem.createTandem( 'neutronCountProperty' ),
       numberType: 'Integer',
-      phetioType: DerivedPropertyIO( NumberIO )
+      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
     }
   );
   this.electronCountProperty = new DerivedProperty(
@@ -110,7 +109,7 @@ function ParticleAtom( options ) {
     {
       tandem: options.tandem.createTandem( 'electronCountProperty' ),
       numberType: 'Integer',
-      phetioType: DerivedPropertyIO( NumberIO )
+      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
     }
   );
   this.chargeProperty = new DerivedProperty(
@@ -121,7 +120,7 @@ function ParticleAtom( options ) {
     {
       tandem: options.tandem.createTandem( 'chargeProperty' ),
       numberType: 'Integer',
-      phetioType: DerivedPropertyIO( NumberIO )
+      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
     }
   );
   this.massNumberProperty = new DerivedProperty(
@@ -132,7 +131,7 @@ function ParticleAtom( options ) {
     {
       tandem: options.tandem.createTandem( 'massNumberProperty' ),
       numberType: 'Integer',
-      phetioType: DerivedPropertyIO( NumberIO )
+      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
     }
   );
   this.particleCountProperty = new DerivedProperty(
@@ -143,7 +142,7 @@ function ParticleAtom( options ) {
     {
       tandem: options.tandem.createTandem( 'particleCountProperty' ),
       numberType: 'Integer',
-      phetioType: DerivedPropertyIO( NumberIO )
+      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
     }
   );
 
