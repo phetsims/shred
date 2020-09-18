@@ -9,7 +9,6 @@
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import ObservableArray from '../../../axon/js/ObservableArray.js';
-import ObservableArrayIO from '../../../axon/js/ObservableArrayIO.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
@@ -64,15 +63,15 @@ function ParticleAtom( options ) {
   // @private - particle collections
   this.protons = new ObservableArray( {
     // tandem: options.tandem.createTandem( 'protons' ),
-    phetioType: ObservableArrayIO( ParticleIO )
+    phetioType: ObservableArray.ObservableArrayIO( ParticleIO )
   } );
   this.neutrons = new ObservableArray( {
     // tandem: options.tandem.createTandem( 'neutrons' ),
-    phetioType: ObservableArrayIO( ParticleIO )
+    phetioType: ObservableArray.ObservableArrayIO( ParticleIO )
   } );
   this.electrons = new ObservableArray( {
     // tandem: options.tandem.createTandem( 'electrons' ),
-    phetioType: ObservableArrayIO( ParticleIO )
+    phetioType: ObservableArray.ObservableArrayIO( ParticleIO )
   } );
 
   // @public (read-only) - derived properties based on the number of particles present in the atom
