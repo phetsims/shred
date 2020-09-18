@@ -8,42 +8,24 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import validate from '../../../axon/js/validate.js';
-import ObjectIO from '../../../tandem/js/types/ObjectIO.js';
+import IOType from '../../../tandem/js/types/IOType.js';
 import shred from '../shred.js';
 import NumberAtom from './NumberAtom.js';
 
-class NumberAtomIO extends ObjectIO {
+const NumberAtomIO = new IOType( 'NumberAtomIO', {
+  valueType: NumberAtom,
+  documentation: 'A value type that contains quantities of electrons, protons, and neutrons.',
 
-  /**
-   * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
-   * @param {NumberAtom} numberAtom
-   * @returns {Object}
-   * @override
-   * @public
-   */
-  static toStateObject( numberAtom ) {
-    validate( numberAtom, this.validator );
+  toStateObject( numberAtom ) {
     return {
       protonCount: numberAtom.protonCountProperty.get(),
       electronCount: numberAtom.electronCountProperty.get(),
       neutronCount: numberAtom.neutronCountProperty.get()
     };
-  }
+  },
 
-  /**
-   * @param {Object} stateObject
-   * @returns {}
-   * @override
-   * @public
-   */
-  static fromStateObject( stateObject ) { }
-}
-
-NumberAtomIO.validator = { valueType: NumberAtom };
-NumberAtomIO.documentation = 'A value type that contains quantities of electrons, protons, and neutrons.';
-NumberAtomIO.typeName = 'NumberAtomIO';
-ObjectIO.validateIOType( NumberAtomIO );
+  fromStateObject( stateObject ) { }
+} );
 
 shred.register( 'NumberAtomIO', NumberAtomIO );
 export default NumberAtomIO;

@@ -7,11 +7,15 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import validate from '../../../axon/js/validate.js';
-import ObjectIO from '../../../tandem/js/types/ObjectIO.js';
+import IOType from '../../../tandem/js/types/IOType.js';
 import shred from '../shred.js';
 
-class ParticleAtomIO extends ObjectIO {
+const ParticleAtomIO = new IOType( 'ParticleAtomIO', {
+  isValidValue: v => v instanceof phet.shred.ParticleAtom,
+  documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
+                 'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
+                 'appropriate places.  This object also keeps track of things like atomic number, mass number, and ' +
+                 'charge.',
 
   /**
    * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
@@ -20,8 +24,7 @@ class ParticleAtomIO extends ObjectIO {
    * @override
    * @public
    */
-  static toStateObject( particleAtom ) {
-    validate( particleAtom, this.validator );
+  toStateObject( particleAtom ) {
     return {
 
       // an array of all the particles currently contained within the particle atom
@@ -34,7 +37,7 @@ class ParticleAtomIO extends ObjectIO {
         return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
       } )
     };
-  }
+  },
 
   /**
    * @param {ParticleAtom} particleAtom
@@ -42,8 +45,7 @@ class ParticleAtomIO extends ObjectIO {
    * @public
    * @override
    */
-  static applyState( particleAtom, stateObject ) {
-    validate( particleAtom, this.validator );
+  applyState( particleAtom, stateObject ) {
 
     // remove all the particles from the observable arrays
     particleAtom.clear();
@@ -65,16 +67,7 @@ class ParticleAtomIO extends ObjectIO {
       particleAtom.electronShellPositions[ index ].electron = electron;
     } );
   }
-}
-
-ParticleAtomIO.validator = { isValidValue: v => v instanceof phet.shred.ParticleAtom };
-
-ParticleAtomIO.documentation = 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
-                               'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
-                               'appropriate places.  This object also keeps track of things like atomic number, mass number, and ' +
-                               'charge.';
-ParticleAtomIO.typeName = 'ParticleAtomIO';
-ObjectIO.validateIOType( ParticleAtomIO );
+} );
 
 // helper function for retrieving the tandem for a particle
 function getParticleTandemID( particle ) {

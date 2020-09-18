@@ -7,29 +7,14 @@
  * @author Andrew Adare (PhET Interactive Simulations)
  */
 
-import ObjectIO from '../../../tandem/js/types/ObjectIO.js';
+import IOType from '../../../tandem/js/types/IOType.js';
 import shred from '../shred.js';
 
-class ParticleIO extends ObjectIO {
-
-  /**
-   * Return the json that ObjectIO is wrapping.  This can be overriden by subclasses, or types can use ObjectIO type
-   * directly to use this implementation.
-   * @param {Particle} particle
-   * @returns {Object}
-   * @override
-   * @public
-   */
-  static toStateObject( particle ) {
-
-    // Avoid circular JSON.stringify(), see https://github.com/phetsims/build-an-atom/issues/184
-    return particle.tandem.phetioID;
-  }
-}
-
-ParticleIO.validator = { isValidValue: v => v instanceof phet.shred.Particle };
-ParticleIO.documentation = 'The model for a single particle such as an electron, proton, or neutron.';
-ParticleIO.typeName = 'ParticleIO';
+const ParticleIO = new IOType( 'ParticleIO', {
+  isValidValue: v => v instanceof phet.shred.Particle,
+  documentation: 'The model for a single particle such as an electron, proton, or neutron.',
+  toStateObject: particle => particle.tandem.phetioID // TODO: https://github.com/phetsims/tandem/issues/211 ReferenceIO
+} );
 
 shred.register( 'ParticleIO', ParticleIO );
 export default ParticleIO;
