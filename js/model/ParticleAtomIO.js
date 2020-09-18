@@ -24,20 +24,18 @@ const ParticleAtomIO = new IOType( 'ParticleAtomIO', {
    * @override
    * @public
    */
-  toStateObject( particleAtom ) {
-    return {
+  toStateObject: particleAtom => ( {
 
-      // an array of all the particles currently contained within the particle atom
-      residentParticleIDs: particleAtom.protons.map( getParticleTandemID )
-        .concat( particleAtom.neutrons.map( getParticleTandemID ) )
-        .concat( particleAtom.electrons.map( getParticleTandemID ) ),
+    // an array of all the particles currently contained within the particle atom
+    residentParticleIDs: particleAtom.protons.map( getParticleTandemID )
+      .concat( particleAtom.neutrons.map( getParticleTandemID ) )
+      .concat( particleAtom.electrons.map( getParticleTandemID ) ),
 
-      // an ordered array that tracks which electron, if any, is in each shell position
-      electronShellOccupantIDs: particleAtom.electronShellPositions.map( function( electronShellPosition ) {
-        return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
-      } )
-    };
-  },
+    // an ordered array that tracks which electron, if any, is in each shell position
+    electronShellOccupantIDs: particleAtom.electronShellPositions.map( function( electronShellPosition ) {
+      return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
+    } )
+  } ),
 
   /**
    * @param {ParticleAtom} particleAtom

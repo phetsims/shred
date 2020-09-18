@@ -15,14 +15,11 @@ import NumberAtom from './NumberAtom.js';
 const NumberAtomIO = new IOType( 'NumberAtomIO', {
   valueType: NumberAtom,
   documentation: 'A value type that contains quantities of electrons, protons, and neutrons.',
-
-  toStateObject( numberAtom ) {
-    return {
-      protonCount: numberAtom.protonCountProperty.get(),
-      electronCount: numberAtom.electronCountProperty.get(),
-      neutronCount: numberAtom.neutronCountProperty.get()
-    };
-  },
+  toStateObject: numberAtom => ( {
+    protonCount: numberAtom.protonCountProperty.get(),
+    electronCount: numberAtom.electronCountProperty.get(),
+    neutronCount: numberAtom.neutronCountProperty.get()
+  } ),
 
   fromStateObject( stateObject ) { }
 } );
