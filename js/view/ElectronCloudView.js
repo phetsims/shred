@@ -58,7 +58,6 @@ function ElectronCloudView( atom, modelViewTransform, options ) {
   // If the user clicks on the cloud, extract an electron.
   this.extractedElectron = null; // @private
   const simpleDragHandler = new SimpleDragHandler( {
-    activeParticle: null,
     start: function( event, trail ) {
 
       // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
