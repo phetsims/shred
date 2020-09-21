@@ -2,7 +2,7 @@
 
 /**
  * Node that represents the electron shell in an atom as a "cloud" that grows and shrinks depending on the number of
- * electrons that it contains.  This has also been referred to as the "Schroedinger model" representation.
+ * electrons that it contains.  This has also been referred to as the "Schrodinger model" representation.
  *
  * @author John Blanco
  */
