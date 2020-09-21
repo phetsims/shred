@@ -1,7 +1,7 @@
 // Copyright 2015-2020, University of Colorado Boulder
 
 /**
- * A drag handler specifically tailored for the particle buckets. This handler extracts a particle from a bucket and
+ * A drag listener specifically tailored for the particle buckets. This listener extracts a particle from a bucket and
  * manages it as though the user had clicked directly on the particle. This exists to make it easier for the users to
  * get particles out of the buckets when using a touch-based device.
  *
@@ -10,7 +10,7 @@
 
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
-import SimpleDragHandler from '../../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 
@@ -21,14 +21,14 @@ import shred from '../shred.js';
  * @param {Object} [options]
  * @constructor
  */
-function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {
+function BucketDragListener( bucket, bucketView, modelViewTransform, options ) {
   options = merge( {
     tandem: Tandem.REQUIRED
   }, options );
 
   let activeParticle = null;
-  const inputListenerOptions = {
-    tandem: options.tandem,
+
+  const dragListenerOptions = {
     start: function( event, trail ) {
       // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
       // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
@@ -52,12 +52,13 @@ function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {
       if ( activeParticle !== null ) {
         activeParticle.userControlledProperty.set( false );
       }
-    }
+    },
+    tandem: options.tandem
   };
-  SimpleDragHandler.call( this, inputListenerOptions ); // Call super constructor.
+
+  DragListener.call( this, dragListenerOptions );
 }
 
-// Inherit from base class.
-shred.register( 'BucketDragHandler', BucketDragHandler );
-inherit( SimpleDragHandler, BucketDragHandler );
-export default BucketDragHandler;
+shred.register( 'BucketDragListener', BucketDragListener );
+inherit( DragListener, BucketDragListener );
+export default BucketDragListener;
