@@ -1,7 +1,7 @@
 // Copyright 2015-2020, University of Colorado Boulder
 
 /**
- * A drag handler specifically tailored for the particle buckets. This handler extracts a particle from a bucket and
+ * A drag listener specifically tailored for the particle buckets. This listener extracts a particle from a bucket and
  * manages it as though the user had clicked directly on the particle. This exists to make it easier for the users to
  * get particles out of the buckets when using a touch-based device.
  *
@@ -21,7 +21,7 @@ import shred from '../shred.js';
  * @param {Object} [options]
  * @constructor
  */
-function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {
+function BucketDragListener( bucket, bucketView, modelViewTransform, options ) {
   options = merge( {
     tandem: Tandem.REQUIRED
   }, options );
@@ -58,6 +58,6 @@ function BucketDragHandler( bucket, bucketView, modelViewTransform, options ) {
 }
 
 // Inherit from base class.
-shred.register( 'BucketDragHandler', BucketDragHandler );
-inherit( SimpleDragHandler, BucketDragHandler );
-export default BucketDragHandler;
+shred.register( 'BucketDragListener', BucketDragListener );
+inherit( SimpleDragHandler, BucketDragListener );
+export default BucketDragListener;
