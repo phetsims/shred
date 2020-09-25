@@ -27,19 +27,21 @@ class ElectronCloudView extends Circle {
    */
   constructor( atom, modelViewTransform, options ) {
 
-    options = merge( { tandem: Tandem.REQUIRED }, options );
+    options = merge( {
+      cursor: 'pointer',
+      fill: 'pink',
+      tandem: Tandem.REQUIRED
+    }, options );
 
-    super( DEFAULT_RADIUS, {
-        cursor: 'pointer',
-        fill: 'pink',
-        translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
-      }
-    );
+    assert && assert( options.translation === undefined, 'ElectronCloudView sets translation' );
+    options.translation = modelViewTransform.modelToViewPosition( { x: 0, y: 0 } );
+
+    super( DEFAULT_RADIUS, options );
 
     // Function that updates the size of the cloud based on the number of electrons.
     const update = numElectrons => {
       if ( numElectrons === 0 ) {
-        this.radius = 1E-5; // Arbitrary non-zero value.
+        this.radius = 1E-5; // arbitrary non-zero value
         this.fill = 'transparent';
       }
       else {
@@ -97,14 +99,15 @@ class ElectronCloudView extends Circle {
       atom.electrons.lengthProperty.unlink( update );
       simpleDragHandler.dispose();
     };
-
-    this.mutate( options );
   }
 
-  // @public
+  /**
+   * @public
+   * @override
+   */
   dispose() {
     this.disposeElectronCloudView();
-    Circle.prototype.dispose.call( this );
+    super.dispose();
   }
 }
 
