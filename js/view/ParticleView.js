@@ -4,10 +4,11 @@
  * Type that represents a sub-atomic particle in the view.
  */
 
+import Property from '../../../axon/js/Property.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
-import MovableDragHandler from '../../../scenery-phet/js/input/MovableDragHandler.js';
+import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import Node from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
@@ -68,11 +69,13 @@ function ParticleView( particle, modelViewTransform, options ) {
   };
   particle.positionProperty.link( updateParticlePosition );
 
-  // Add a drag handler
-  const movableDragHandler = new MovableDragHandler( particle.destinationProperty, {
+  // add a drag handler
+  const dragListener = new DragListener( {
+
+    positionProperty: particle.destinationProperty,
     tandem: options.tandem ? options.tandem.createTandem( 'inputListener' ) : null,
 
-    startDrag: function( event, trail ) {
+    start: function( event, trail ) {
       self.particle.userControlledProperty.set( true );
 
       // if there is an animation in progress, cancel it be setting the destination to the position
@@ -81,26 +84,28 @@ function ParticleView( particle, modelViewTransform, options ) {
       }
     },
 
-    onDrag: function( event, trail ) {
-      // update the position immediately to match the destination (i.e. don't animate)
+    drag: () => {
+
+      // Because the destination property is what is being set by the drag handler, we need to tell the particle to go
+      // immediately to its destination when a drag occurs.
       self.particle.moveImmediatelyToDestination();
     },
 
-    endDrag: function( event, trail ) {
+    end: function( event, trail ) {
       self.particle.userControlledProperty.set( false );
     },
 
-    modelViewTransform: modelViewTransform,
-    dragBounds: options.dragBounds
+    transform: modelViewTransform,
+    dragBoundsProperty: options.dragBounds ? new Property( options.dragBounds ) : null
   } );
-  this.addInputListener( movableDragHandler );
+  this.addInputListener( dragListener );
   this.mutate( options );
 
   // @private called by dispose
   this.disposeParticleView = function() {
     particle.positionProperty.unlink( updateParticlePosition );
     particleNode.dispose();
-    movableDragHandler.dispose();
+    dragListener.dispose();
   };
 }
 
