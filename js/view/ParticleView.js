@@ -69,7 +69,7 @@ function ParticleView( particle, modelViewTransform, options ) {
   };
   particle.positionProperty.link( updateParticlePosition );
 
-  // add a drag handler
+  // add a drag listener
   const dragListener = new DragListener( {
 
     positionProperty: particle.destinationProperty,
@@ -86,7 +86,7 @@ function ParticleView( particle, modelViewTransform, options ) {
 
     drag: () => {
 
-      // Because the destination property is what is being set by the drag handler, we need to tell the particle to go
+      // Because the destination property is what is being set by the drag listener, we need to tell the particle to go
       // immediately to its destination when a drag occurs.
       self.particle.moveImmediatelyToDestination();
     },
