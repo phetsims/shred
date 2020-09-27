@@ -8,56 +8,67 @@
  * @author John Blanco
  */
 
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
-import SimpleDragHandler from '../../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 
-/**
- * @param {Bucket} bucket
- * @param {BucketFront} bucketView
- * @param {ModelViewTransform2} modelViewTransform
- * @param {Object} [options]
- * @constructor
- */
-function BucketDragListener( bucket, bucketView, modelViewTransform, options ) {
-  options = merge( {
-    tandem: Tandem.REQUIRED
-  }, options );
+class BucketDragListener extends DragListener {
 
-  let activeParticle = null;
-  const inputListenerOptions = {
-    tandem: options.tandem,
-    start: function( event, trail ) {
-      // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
-      // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
-      // potential improvement.
-      const positionInModelSpace = modelViewTransform.viewToModelPosition(
-        bucketView.getParents()[ 0 ].globalToLocalPoint( event.pointer.point )
-      );
+  /**
+   * @param {Bucket} bucket
+   * @param {BucketFront} bucketView
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param {Object} [options]
+   * @constructor
+   */
+  constructor( bucket, bucketView, modelViewTransform, options ) {
 
-      activeParticle = bucket.extractClosestParticle( positionInModelSpace );
-      if ( activeParticle !== null ) {
-        activeParticle.setPositionAndDestination( positionInModelSpace );
+    options = merge( {
+      tandem: Tandem.REQUIRED
+    }, options );
+
+    let activeParticle = null;
+    const inputListenerOptions = {
+      tandem: options.tandem,
+      start: event => {
+
+        // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
+        // JB, SR, and JO discussed potentially better ways to do it but didn't come up with anything. If this code is
+        // leveraged, this transform should be revisited for potential improvement.
+        const positionInModelSpace = modelViewTransform.viewToModelPosition(
+          bucketView.getParents()[ 0 ].globalToLocalPoint( event.pointer.point )
+        );
+
+        activeParticle = bucket.extractClosestParticle( positionInModelSpace );
+        if ( activeParticle !== null ) {
+          activeParticle.setPositionAndDestination( positionInModelSpace );
+        }
+      },
+
+      drag: event => {
+        if ( activeParticle !== null ) {
+
+          // see comment above about this transform
+          const positionInModelSpace = modelViewTransform.viewToModelPosition(
+            bucketView.getParents()[ 0 ].globalToLocalPoint( event.pointer.point )
+          );
+
+          activeParticle.setPositionAndDestination( positionInModelSpace );
+        }
+      },
+
+      end: () => {
+        if ( activeParticle !== null ) {
+          activeParticle.userControlledProperty.set( false );
+          activeParticle = null;
+        }
       }
-    },
-    translate: function( translationParams ) {
-      if ( activeParticle !== null ) {
-        activeParticle.setPositionAndDestination( activeParticle.positionProperty.get().plus(
-          modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
-      }
-    },
-    end: function( event ) {
-      if ( activeParticle !== null ) {
-        activeParticle.userControlledProperty.set( false );
-      }
-    }
-  };
-  SimpleDragHandler.call( this, inputListenerOptions ); // Call super constructor.
+    };
+
+    super( inputListenerOptions );
+  }
 }
 
-// Inherit from base class.
 shred.register( 'BucketDragListener', BucketDragListener );
-inherit( SimpleDragHandler, BucketDragListener );
 export default BucketDragListener;
