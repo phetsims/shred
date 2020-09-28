@@ -28,17 +28,23 @@ class BucketDragListener extends DragListener {
       tandem: Tandem.REQUIRED
     }, options );
 
+    // closure for converting a point in local coordinate frame to model coordinates
+    const localViewToModel = point => {
+
+      // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
+      // JB, SR, and JO discussed potentially better ways to do it but didn't come up with anything at the time. If
+      // this code is leveraged, this transform should be revisited for potential improvement.
+      return modelViewTransform.viewToModelPosition(
+        this.getParents()[ 0 ].globalToLocalPoint( point )
+      );
+    };
+
     let activeParticle = null;
     const inputListenerOptions = {
       tandem: options.tandem,
       start: event => {
 
-        // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
-        // JB, SR, and JO discussed potentially better ways to do it but didn't come up with anything. If this code is
-        // leveraged, this transform should be revisited for potential improvement.
-        const positionInModelSpace = modelViewTransform.viewToModelPosition(
-          bucketView.getParents()[ 0 ].globalToLocalPoint( event.pointer.point )
-        );
+        const positionInModelSpace = localViewToModel( event.pointer.point );
 
         activeParticle = bucket.extractClosestParticle( positionInModelSpace );
         if ( activeParticle !== null ) {
@@ -48,13 +54,7 @@ class BucketDragListener extends DragListener {
 
       drag: event => {
         if ( activeParticle !== null ) {
-
-          // see comment above about this transform
-          const positionInModelSpace = modelViewTransform.viewToModelPosition(
-            bucketView.getParents()[ 0 ].globalToLocalPoint( event.pointer.point )
-          );
-
-          activeParticle.setPositionAndDestination( positionInModelSpace );
+          activeParticle.setPositionAndDestination( localViewToModel( event.pointer.point ) );
         }
       },
 

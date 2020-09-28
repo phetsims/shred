@@ -8,7 +8,7 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import SimpleDragHandler from '../../../scenery/js/input/SimpleDragHandler.js';
+import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -59,17 +59,23 @@ class ElectronCloudView extends Circle {
     // Update the cloud size as electrons come and go.
     atom.electrons.lengthProperty.link( update );
 
+    // closure for converting a point in local coordinate frame to model coordinates
+    const localViewToModel = point => {
+
+      // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
+      // JB, SR, and JO discussed potentially better ways to do it but didn't come up with anything at the time. If
+      // this code is leveraged, this transform should be revisited for potential improvement.
+      return modelViewTransform.viewToModelPosition(
+        this.getParents()[ 0 ].globalToLocalPoint( point )
+      );
+    };
+
     // If the user clicks on the cloud, extract an electron.
     this.extractedElectron = null; // @private
-    const simpleDragHandler = new SimpleDragHandler( {
+    const dragListener = new DragListener( {
       start: event => {
 
-        // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
-        // JB, SR, and JO discussed potentially better ways to do it. If this code is leveraged, revisit this line for
-        // potential improvement.
-        const positionInModelSpace = modelViewTransform.viewToModelPosition(
-          this.getParents()[ 0 ].globalToLocalPoint( event.pointer.point )
-        );
+        const positionInModelSpace = localViewToModel( event.pointer.point );
 
         const electron = atom.extractParticle( 'electron' );
         if ( electron !== null ) {
@@ -78,26 +84,25 @@ class ElectronCloudView extends Circle {
           this.extractedElectron = electron;
         }
       },
-      translate: translationParams => {
+      drag: event => {
         if ( this.extractedElectron !== null ) {
-          this.extractedElectron.setPositionAndDestination(
-            this.extractedElectron.positionProperty.get().plus(
-              modelViewTransform.viewToModelDelta( translationParams.delta ) ) );
+          this.extractedElectron.setPositionAndDestination( localViewToModel( event.pointer.point ) );
         }
       },
       end: () => {
         if ( this.extractedElectron !== null ) {
           this.extractedElectron.userControlledProperty.set( false );
+          this.extractedElectron = null;
         }
       },
       tandem: options.tandem.createTandem( 'dragHandler' )
     } );
-    this.addInputListener( simpleDragHandler );
+    this.addInputListener( dragListener );
 
     // @private called by dispose
     this.disposeElectronCloudView = () => {
       atom.electrons.lengthProperty.unlink( update );
-      simpleDragHandler.dispose();
+      dragListener.dispose();
     };
   }
 
