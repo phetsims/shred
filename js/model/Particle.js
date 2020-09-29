@@ -9,7 +9,6 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
-import PropertyIO from '../../../axon/js/PropertyIO.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
@@ -71,7 +70,7 @@ function Particle( type, options ) {
     tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
     numberType: 'Integer',
     range: new Range( 0, options.maxZLayer ),
-    phetioType: PropertyIO( NumberIO )
+    phetioType: Property.PropertyIO( NumberIO )
   } ); // Used in view, integer value, higher means further back.
 }
 
