@@ -35,7 +35,7 @@ class BucketDragListener extends DragListener {
       // JB, SR, and JO discussed potentially better ways to do it but didn't come up with anything at the time. If
       // this code is leveraged, this transform should be revisited for potential improvement.
       return modelViewTransform.viewToModelPosition(
-        this.getParents()[ 0 ].globalToLocalPoint( point )
+        bucketView.getParents()[ 0 ].globalToLocalPoint( point )
       );
     };
 
