@@ -13,7 +13,7 @@ import shred from '../shred.js';
 const ParticleIO = new IOType( 'ParticleIO', {
   isValidValue: v => v instanceof phet.shred.Particle,
   documentation: 'The model for a single particle such as an electron, proton, or neutron.',
-  toStateObject: particle => particle.tandem.phetioID // TODO: https://github.com/phetsims/tandem/issues/211 ReferenceIO
+  toStateObject: particle => particle.tandem.phetioID // TODO: https://github.com/phetsims/tandem/issues/215 use ReferenceIO or equivalent
 } );
 
 shred.register( 'ParticleIO', ParticleIO );
