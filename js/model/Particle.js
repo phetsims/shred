@@ -16,10 +16,10 @@ import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
-import ParticleIO from './ParticleIO.js';
 
 // constants
 const DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
@@ -34,7 +34,7 @@ function Particle( type, options ) {
   options = merge( {
     tandem: Tandem.REQUIRED,
     maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
-    phetioType: ParticleIO,
+    phetioType: Particle.ParticleIO,
     phetioState: false
   }, options );
 
@@ -133,6 +133,12 @@ inherit( PhetioObject, Particle, {
   }
 }, {
   MAX_LAYERS: 5
+} );
+
+Particle.ParticleIO = new IOType( 'ParticleIO', {
+  valueType: Particle,
+  documentation: 'The model for a single particle such as an electron, proton, or neutron.',
+  toStateObject: particle => particle.tandem.phetioID // TODO: https://github.com/phetsims/tandem/issues/215 use ReferenceIO or equivalent
 } );
 
 export default Particle;

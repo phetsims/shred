@@ -22,7 +22,7 @@ import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
-import ParticleIO from './ParticleIO.js';
+import Particle from './Particle.js';
 
 // constants
 const NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
@@ -63,15 +63,15 @@ function ParticleAtom( options ) {
   // @private - particle collections
   this.protons = new ObservableArray( {
     // tandem: options.tandem.createTandem( 'protons' ),
-    phetioType: ObservableArray.ObservableArrayIO( ParticleIO )
+    phetioType: ObservableArray.ObservableArrayIO( Particle.ParticleIO )
   } );
   this.neutrons = new ObservableArray( {
     // tandem: options.tandem.createTandem( 'neutrons' ),
-    phetioType: ObservableArray.ObservableArrayIO( ParticleIO )
+    phetioType: ObservableArray.ObservableArrayIO( Particle.ParticleIO )
   } );
   this.electrons = new ObservableArray( {
     // tandem: options.tandem.createTandem( 'electrons' ),
-    phetioType: ObservableArray.ObservableArrayIO( ParticleIO )
+    phetioType: ObservableArray.ObservableArrayIO( Particle.ParticleIO )
   } );
 
   // @public (read-only) - derived properties based on the number of particles present in the atom
