@@ -16,12 +16,12 @@ import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
-import ParticleAtomIO from './ParticleAtomIO.js';
 import ParticleIO from './ParticleIO.js';
 
 // constants
@@ -40,7 +40,7 @@ function ParticleAtom( options ) {
     outerElectronShellRadius: 130,
     nucleonRadius: ShredConstants.NUCLEON_RADIUS,
     tandem: Tandem.REQUIRED,
-    phetioType: ParticleAtomIO
+    phetioType: ParticleAtom.ParticleAtomIO
   }, options );
 
   PhetioObject.call( this, options );
@@ -598,5 +598,51 @@ inherit( PhetioObject, ParticleAtom, {
     this.nucleusRadius = nucleusRadius;
   }
 } );
+
+ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
+  valueType: ParticleAtom,
+  documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
+                 'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
+                 'appropriate places.  This object also keeps track of things like atomic number, mass number, and ' +
+                 'charge.',
+  toStateObject: particleAtom => ( {
+
+    // an array of all the particles currently contained within the particle atom
+    residentParticleIDs: particleAtom.protons.map( getParticleTandemID )
+      .concat( particleAtom.neutrons.map( getParticleTandemID ) )
+      .concat( particleAtom.electrons.map( getParticleTandemID ) ),
+
+    // an ordered array that tracks which electron, if any, is in each shell position
+    electronShellOccupantIDs: particleAtom.electronShellPositions.map( function( electronShellPosition ) {
+      return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
+    } )
+  } ),
+  applyState: ( particleAtom, stateObject ) => {
+
+    // remove all the particles from the observable arrays
+    particleAtom.clear();
+
+    const deserializedState = {
+      residentParticles: stateObject.residentParticleIDs.map( function( tandemID ) {
+        return phet.phetio.phetioEngine.getPhetioObject( tandemID );
+      } ),
+      electronShellOccupants: stateObject.electronShellOccupantIDs.map( function( tandemID ) {
+        return tandemID ? phet.phetio.phetioEngine.getPhetioObject( tandemID ) : null;
+      } )
+    };
+
+    // add back the particles
+    deserializedState.residentParticles.forEach( function( value ) { particleAtom.addParticle( value ); } );
+
+    // set the electron shell occupancy state
+    deserializedState.electronShellOccupants.forEach( function( electron, index ) {
+      particleAtom.electronShellPositions[ index ].electron = electron;
+    } );
+  }
+} );
+
+// helper function for retrieving the tandem for a particle
+// TODO: Should this use ReferenceIO?  See https://github.com/phetsims/tandem/issues/215
+const getParticleTandemID = particle => particle.tandem.phetioID;
 
 export default ParticleAtom;
