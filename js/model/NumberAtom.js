@@ -13,6 +13,7 @@ import NumberProperty from '../../../axon/js/NumberProperty.js';
 import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
@@ -148,6 +149,17 @@ inherit( Object, NumberAtom, {
 
     this.atomUpdated.dispose();
   }
+} );
+
+NumberAtom.NumberAtomIO = new IOType( 'NumberAtomIO', {
+  valueType: NumberAtom,
+  documentation: 'A value type that contains quantities of electrons, protons, and neutrons',
+  toStateObject: numberAtom => ( {
+    protonCount: numberAtom.protonCountProperty.get(),
+    electronCount: numberAtom.electronCountProperty.get(),
+    neutronCount: numberAtom.neutronCountProperty.get()
+  } ),
+  fromStateObject( stateObject ) { } // TODO: Should this be implemented?
 } );
 
 export default NumberAtom;
