@@ -75,7 +75,8 @@ function ParticleAtom( options ) {
   } );
 
   // @public (read-only) - derived properties based on the number of particles present in the atom
-  // These are DerivedProperties in support of phet-io. We need to have the lengthProperty of ObservableArray instrumented.
+  // These are DerivedProperties in support of phet-io. We need to have the lengthProperty of ObservableArrayDef
+  // instrumented.
   // TODO: implement this correctly, see https://github.com/phetsims/shred/issues/25
   // NOTE: Changing these may break some wrapper code, so be sure to check.
   this.protonCountProperty = new DerivedProperty(
