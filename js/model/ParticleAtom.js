@@ -8,7 +8,7 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
-import ObservableArray from '../../../axon/js/ObservableArray.js';
+import createObservableArray from '../../../axon/js/createObservableArray.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
@@ -61,17 +61,17 @@ function ParticleAtom( options ) {
   } );
 
   // @private - particle collections
-  this.protons = new ObservableArray( {
+  this.protons = createObservableArray( {
     // tandem: options.tandem.createTandem( 'protons' ),
-    phetioType: ObservableArray.ObservableArrayIO( Particle.ParticleIO )
+    phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
   } );
-  this.neutrons = new ObservableArray( {
+  this.neutrons = createObservableArray( {
     // tandem: options.tandem.createTandem( 'neutrons' ),
-    phetioType: ObservableArray.ObservableArrayIO( Particle.ParticleIO )
+    phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
   } );
-  this.electrons = new ObservableArray( {
+  this.electrons = createObservableArray( {
     // tandem: options.tandem.createTandem( 'electrons' ),
-    phetioType: ObservableArray.ObservableArrayIO( Particle.ParticleIO )
+    phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
   } );
 
   // @public (read-only) - derived properties based on the number of particles present in the atom
