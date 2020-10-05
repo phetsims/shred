@@ -436,10 +436,12 @@ inherit( PhetioObject, ParticleAtom, {
    * @public
    */
   clear: function() {
-    const self = this;
-    this.protons.forEach( function( particle ) { self.removeParticle( particle ); } );
-    this.neutrons.forEach( function( particle ) { self.removeParticle( particle ); } );
-    this.electrons.forEach( function( particle ) { self.removeParticle( particle ); } );
+    const protons = [ ...this.protons ];
+    protons.forEach( particle => { this.removeParticle( particle ); } );
+    const neutrons = [ ...this.neutrons ];
+    neutrons.forEach( particle => { this.removeParticle( particle ); } );
+    const electrons = [ ...this.electrons ];
+    electrons.forEach( particle => { this.removeParticle( particle ); } );
   },
 
   /**
