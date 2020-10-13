@@ -12,7 +12,6 @@ import Property from '../../../axon/js/Property.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -24,65 +23,92 @@ import ShredConstants from '../ShredConstants.js';
 // constants
 const DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
 
-/**
- * @param {string} type
- * @param {Object} [options]
- * @constructor
- */
-function Particle( type, options ) {
+class Particle extends PhetioObject {
 
-  options = merge( {
-    tandem: Tandem.REQUIRED,
-    maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
-    phetioType: Particle.ParticleIO,
-    phetioState: false
-  }, options );
+  /**
+   * @param {string} type
+   * @param {Object} [options]
+   */
+  constructor( type, options ) {
 
-  PhetioObject.call( this, options );
+    options = merge( {
+      tandem: Tandem.REQUIRED,
+      maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
+      phetioType: Particle.ParticleIO,
+      phetioState: false
+    }, options );
 
-  this.type = type; // @public (read-only)
+    super( options );
 
-  // @public
-  this.positionProperty = new Vector2Property( Vector2.ZERO, {
-    useDeepEquality: true,
-    tandem: options.tandem && options.tandem.createTandem( 'positionProperty' )
-  } );
-  this.destinationProperty = new Vector2Property( Vector2.ZERO, {
-    useDeepEquality: true,
-    tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' )
-  } );
-  this.radiusProperty = new NumberProperty( type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
-    tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
-    phetioDocumentation: 'The radius of the particle.  Changes to radius may not be reflected in view.'
-  } );
-  this.animationVelocityProperty = new NumberProperty( DEFAULT_PARTICLE_VELOCITY, {
-    tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
-    range: new Range( 0, 10 * DEFAULT_PARTICLE_VELOCITY ), // limited for the PhET-iO Studio wrapper, code can handle any value
-    units: 'view-coordinates/second'
-  } );
-  this.userControlledProperty = new BooleanProperty( false, {
-    tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' )
-  } );
-  this.zLayerProperty = new Property( 0, {
-    isValidValue: function( value ) {
-      return value >= 0 && value <= options.maxZLayer;
-    },
-    tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
-    numberType: 'Integer',
-    range: new Range( 0, options.maxZLayer ),
-    phetioType: Property.PropertyIO( NumberIO )
-  } ); // Used in view, integer value, higher means further back.
-}
+    // @public (read-only)
+    this.type = type;
 
-shred.register( 'Particle', Particle );
+    // @public
+    this.positionProperty = new Vector2Property( Vector2.ZERO, {
+      useDeepEquality: true,
+      tandem: options.tandem && options.tandem.createTandem( 'positionProperty' )
+    } );
 
-inherit( PhetioObject, Particle, {
+    // @public
+    this.destinationProperty = new Vector2Property( Vector2.ZERO, {
+      useDeepEquality: true,
+      tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' )
+    } );
+
+    // @public
+    this.radiusProperty = new NumberProperty( type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
+      tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
+      phetioDocumentation: 'The radius of the particle.  Changes to radius may not be reflected in view.'
+    } );
+
+    // @public
+    this.animationVelocityProperty = new NumberProperty( DEFAULT_PARTICLE_VELOCITY, {
+      tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
+      range: new Range( 0, 10 * DEFAULT_PARTICLE_VELOCITY ), // limited for the PhET-iO Studio wrapper, code can handle any value
+      units: 'view-coordinates/second'
+    } );
+
+    // @public
+    this.userControlledProperty = new BooleanProperty( false, {
+      tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' )
+    } );
+
+    // @public Used in view, integer value, higher means further back.
+    this.zLayerProperty = new Property( 0, {
+      isValidValue: function( value ) {
+        return value >= 0 && value <= options.maxZLayer;
+      },
+      tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
+      numberType: 'Integer',
+      range: new Range( 0, options.maxZLayer ),
+      phetioType: Property.PropertyIO( NumberIO )
+    } );
+
+    // @private
+    this.disposeParticle = () => {
+      this.positionProperty.dispose();
+      this.destinationProperty.dispose();
+      this.radiusProperty.dispose();
+      this.animationVelocityProperty.dispose();
+      this.userControlledProperty.dispose();
+      this.zLayerProperty.dispose();
+    };
+  }
+
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeParticle();
+    super.dispose();
+  }
 
   /**
    * @param {number} dt
    * @public
    */
-  step: function( dt ) {
+  step( dt ) {
     if ( !this.userControlledProperty.get() ) {
       const position = this.positionProperty.get();
       const destination = this.destinationProperty.get();
@@ -104,36 +130,28 @@ inherit( PhetioObject, Particle, {
         this.moveImmediatelyToDestination();
       }
     }
-  },
+  }
 
   // @public
-  moveImmediatelyToDestination: function() {
+  moveImmediatelyToDestination() {
     this.positionProperty.set( this.destinationProperty.get() );
-  },
+  }
 
   /**
    * @param {Vector2} newPosition
    * @public
    */
-  setPositionAndDestination: function( newPosition ) {
+  setPositionAndDestination( newPosition ) {
     assert && assert( newPosition instanceof Vector2, 'Attempt to set non-vector position.' );
     if ( newPosition instanceof Vector2 ) {
       this.destinationProperty.set( newPosition );
       this.moveImmediatelyToDestination();
     }
-  },
-  dispose: function() {
-    this.positionProperty.dispose();
-    this.destinationProperty.dispose();
-    this.radiusProperty.dispose();
-    this.animationVelocityProperty.dispose();
-    this.userControlledProperty.dispose();
-    this.zLayerProperty.dispose();
-    PhetioObject.prototype.dispose.call( this );
   }
-}, {
-  MAX_LAYERS: 5
-} );
+}
+
+// @public
+Particle.MAX_LAYERS = 5;
 
 Particle.ParticleIO = new IOType( 'ParticleIO', {
   valueType: Particle,
@@ -141,4 +159,5 @@ Particle.ParticleIO = new IOType( 'ParticleIO', {
   toStateObject: particle => particle.tandem.phetioID // TODO: https://github.com/phetsims/tandem/issues/215 use ReferenceIO or equivalent
 } );
 
+shred.register( 'Particle', Particle );
 export default Particle;
