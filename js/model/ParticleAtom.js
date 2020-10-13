@@ -7,12 +7,11 @@
  * @author John Blanco
  */
 
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import createObservableArray from '../../../axon/js/createObservableArray.js';
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -27,227 +26,227 @@ import Particle from './Particle.js';
 // constants
 const NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function ParticleAtom( options ) {
+class ParticleAtom extends PhetioObject {
 
-  const self = this;
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  options = merge( {
-    innerElectronShellRadius: 85,
-    outerElectronShellRadius: 130,
-    nucleonRadius: ShredConstants.NUCLEON_RADIUS,
-    tandem: Tandem.REQUIRED,
-    phetioType: ParticleAtom.ParticleAtomIO
-  }, options );
+    options = merge( {
+      innerElectronShellRadius: 85,
+      outerElectronShellRadius: 130,
+      nucleonRadius: ShredConstants.NUCLEON_RADIUS,
+      tandem: Tandem.REQUIRED,
+      phetioType: ParticleAtom.ParticleAtomIO
+    }, options );
 
-  PhetioObject.call( this, options );
+    super( options );
 
-  this.nucleonRadius = options.nucleonRadius; // @private
+    this.nucleonRadius = options.nucleonRadius; // @private
 
-  // @public (read-only) - radius of the nucleus in view coordinates, which is rougly pixels
-  this.nucleusRadius = 0;
+    // @public (read-only) - radius of the nucleus in view coordinates, which is rougly pixels
+    this.nucleusRadius = 0;
 
-  // @public
-  this.positionProperty = new Vector2Property( Vector2.ZERO, {
-    useDeepEquality: true,
-    tandem: options.tandem.createTandem( 'positionProperty' )
-  } );
-  this.nucleusOffsetProperty = new Vector2Property( Vector2.ZERO, {
-    useDeepEquality: true,
-    tandem: options.tandem.createTandem( 'nucleusOffsetProperty' )
-  } );
+    // @public
+    this.positionProperty = new Vector2Property( Vector2.ZERO, {
+      useDeepEquality: true,
+      tandem: options.tandem.createTandem( 'positionProperty' )
+    } );
+    this.nucleusOffsetProperty = new Vector2Property( Vector2.ZERO, {
+      useDeepEquality: true,
+      tandem: options.tandem.createTandem( 'nucleusOffsetProperty' )
+    } );
 
-  // @private - particle collections
-  this.protons = createObservableArray( {
-    // tandem: options.tandem.createTandem( 'protons' ),
-    phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
-  } );
-  this.neutrons = createObservableArray( {
-    // tandem: options.tandem.createTandem( 'neutrons' ),
-    phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
-  } );
-  this.electrons = createObservableArray( {
-    // tandem: options.tandem.createTandem( 'electrons' ),
-    phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
-  } );
+    // @private - particle collections
+    this.protons = createObservableArray( {
+      // tandem: options.tandem.createTandem( 'protons' ),
+      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
+    } );
+    this.neutrons = createObservableArray( {
+      // tandem: options.tandem.createTandem( 'neutrons' ),
+      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
+    } );
+    this.electrons = createObservableArray( {
+      // tandem: options.tandem.createTandem( 'electrons' ),
+      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
+    } );
 
-  // @public (read-only) - derived properties based on the number of particles present in the atom
-  // These are DerivedProperties in support of phet-io. We need to have the lengthProperty of ObservableArrayDef
-  // instrumented.
-  // TODO: implement this correctly, see https://github.com/phetsims/shred/issues/25
-  // NOTE: Changing these may break some wrapper code, so be sure to check.
-  this.protonCountProperty = new DerivedProperty(
-    [ this.protons.lengthProperty ],
-    function( length ) {
-      return length;
-    },
-    {
-      tandem: options.tandem.createTandem( 'protonCountProperty' ),
-      numberType: 'Integer',
-      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
-    }
-  );
-  this.neutronCountProperty = new DerivedProperty(
-    [ this.neutrons.lengthProperty ],
-    function( length ) {
-      return length;
-    },
-    {
-      tandem: options.tandem.createTandem( 'neutronCountProperty' ),
-      numberType: 'Integer',
-      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
-    }
-  );
-  this.electronCountProperty = new DerivedProperty(
-    [ this.electrons.lengthProperty ],
-    function( length ) {
-      return length;
-    },
-    {
-      tandem: options.tandem.createTandem( 'electronCountProperty' ),
-      numberType: 'Integer',
-      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
-    }
-  );
-  this.chargeProperty = new DerivedProperty(
-    [ this.protonCountProperty, this.electronCountProperty ],
-    function( protonCount, electronCount ) {
-      return protonCount - electronCount;
-    },
-    {
-      tandem: options.tandem.createTandem( 'chargeProperty' ),
-      numberType: 'Integer',
-      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
-    }
-  );
-  this.massNumberProperty = new DerivedProperty(
-    [ this.protonCountProperty, this.neutronCountProperty ],
-    function( protonCount, neutronCount ) {
-      return protonCount + neutronCount;
-    },
-    {
-      tandem: options.tandem.createTandem( 'massNumberProperty' ),
-      numberType: 'Integer',
-      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
-    }
-  );
-  this.particleCountProperty = new DerivedProperty(
-    [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
-    function( protonCount, neutronCount, electronCount ) {
-      return protonCount + neutronCount + electronCount;
-    },
-    {
-      tandem: options.tandem.createTandem( 'particleCountProperty' ),
-      numberType: 'Integer',
-      phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
-    }
-  );
+    // @public (read-only) - derived properties based on the number of particles present in the atom
+    // These are DerivedProperties in support of phet-io. We need to have the lengthProperty of ObservableArrayDef
+    // instrumented.
+    // TODO: implement this correctly, see https://github.com/phetsims/shred/issues/25
+    // NOTE: Changing these may break some wrapper code, so be sure to check.
+    this.protonCountProperty = new DerivedProperty(
+      [ this.protons.lengthProperty ],
+      function( length ) {
+        return length;
+      },
+      {
+        tandem: options.tandem.createTandem( 'protonCountProperty' ),
+        numberType: 'Integer',
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+      }
+    );
+    this.neutronCountProperty = new DerivedProperty(
+      [ this.neutrons.lengthProperty ],
+      function( length ) {
+        return length;
+      },
+      {
+        tandem: options.tandem.createTandem( 'neutronCountProperty' ),
+        numberType: 'Integer',
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+      }
+    );
+    this.electronCountProperty = new DerivedProperty(
+      [ this.electrons.lengthProperty ],
+      function( length ) {
+        return length;
+      },
+      {
+        tandem: options.tandem.createTandem( 'electronCountProperty' ),
+        numberType: 'Integer',
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+      }
+    );
+    this.chargeProperty = new DerivedProperty(
+      [ this.protonCountProperty, this.electronCountProperty ],
+      function( protonCount, electronCount ) {
+        return protonCount - electronCount;
+      },
+      {
+        tandem: options.tandem.createTandem( 'chargeProperty' ),
+        numberType: 'Integer',
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+      }
+    );
+    this.massNumberProperty = new DerivedProperty(
+      [ this.protonCountProperty, this.neutronCountProperty ],
+      function( protonCount, neutronCount ) {
+        return protonCount + neutronCount;
+      },
+      {
+        tandem: options.tandem.createTandem( 'massNumberProperty' ),
+        numberType: 'Integer',
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+      }
+    );
+    this.particleCountProperty = new DerivedProperty(
+      [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
+      function( protonCount, neutronCount, electronCount ) {
+        return protonCount + neutronCount + electronCount;
+      },
+      {
+        tandem: options.tandem.createTandem( 'particleCountProperty' ),
+        numberType: 'Integer',
+        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+      }
+    );
 
-  // Make shell radii publicly accessible.
-  this.innerElectronShellRadius = options.innerElectronShellRadius; // @public
-  this.outerElectronShellRadius = options.outerElectronShellRadius; // @public
+    // Make shell radii publicly accessible.
+    this.innerElectronShellRadius = options.innerElectronShellRadius; // @public
+    this.outerElectronShellRadius = options.outerElectronShellRadius; // @public
 
-  // Set the default electron add/remove mode.  Valid values are 'proximal' and 'random'.
-  this.electronAddMode = 'proximal'; // @private
+    // Set the default electron add/remove mode.  Valid values are 'proximal' and 'random'.
+    this.electronAddMode = 'proximal'; // @private
 
-  // Initialize the positions where an electron can be placed.
-  this.electronShellPositions = new Array( NUM_ELECTRON_POSITIONS ); // @private
-  this.electronShellPositions[ 0 ] = {
-    electron: null,
-    position: new Vector2( self.innerElectronShellRadius, 0 )
-  };
-  this.electronShellPositions[ 1 ] = {
-    electron: null,
-    position: new Vector2( -self.innerElectronShellRadius, 0 )
-  };
-  const numSlotsInOuterShell = 8;
-
-  // Stagger inner and outer electron shell positions, tweaked a bit for better interaction with labels.
-  let angle = Math.PI / numSlotsInOuterShell * 1.2;
-  for ( let i = 0; i < numSlotsInOuterShell; i++ ) {
-    this.electronShellPositions[ i + 2 ] = {
+    // Initialize the positions where an electron can be placed.
+    this.electronShellPositions = new Array( NUM_ELECTRON_POSITIONS ); // @private
+    this.electronShellPositions[ 0 ] = {
       electron: null,
-      position: new Vector2(
-        Math.cos( angle ) * self.outerElectronShellRadius,
-        Math.sin( angle ) * self.outerElectronShellRadius
-      )
+      position: new Vector2( this.innerElectronShellRadius, 0 )
     };
-    angle += 2 * Math.PI / numSlotsInOuterShell;
-  }
+    this.electronShellPositions[ 1 ] = {
+      electron: null,
+      position: new Vector2( -this.innerElectronShellRadius, 0 )
+    };
+    const numSlotsInOuterShell = 8;
 
-  // When an electron is removed, clear the corresponding shell position.
-  this.electrons.addItemRemovedListener( function( electron ) {
-    self.electronShellPositions.forEach( function( electronShellPosition ) {
-      if ( electronShellPosition.electron === electron ) {
-        electronShellPosition.electron = null;
-        if ( Math.abs( electronShellPosition.position.magnitude - self.innerElectronShellRadius ) < 1E-5 ) {
+    // Stagger inner and outer electron shell positions, tweaked a bit for better interaction with labels.
+    let angle = Math.PI / numSlotsInOuterShell * 1.2;
+    for ( let i = 0; i < numSlotsInOuterShell; i++ ) {
+      this.electronShellPositions[ i + 2 ] = {
+        electron: null,
+        position: new Vector2(
+          Math.cos( angle ) * this.outerElectronShellRadius,
+          Math.sin( angle ) * this.outerElectronShellRadius
+        )
+      };
+      angle += 2 * Math.PI / numSlotsInOuterShell;
+    }
 
-          // An inner-shell electron was removed.  If there are electrons in the outer shell, move one of them in.
-          let occupiedOuterShellPositions = _.filter( self.electronShellPositions, function( electronShellPosition ) {
-            return ( electronShellPosition.electron !== null &&
-                     Utils.roughlyEqual( electronShellPosition.position.magnitude,
-                       self.outerElectronShellRadius,
-                       1E-5
-                     )
-            );
-          } );
-          occupiedOuterShellPositions = _.sortBy( occupiedOuterShellPositions, function( occupiedShellPosition ) {
-            return occupiedShellPosition.position.distance( electronShellPosition.position );
-          } );
-          if ( occupiedOuterShellPositions.length > 0 ) {
-            // Move outer electron to inner spot.
-            electronShellPosition.electron = occupiedOuterShellPositions[ 0 ].electron;
-            occupiedOuterShellPositions[ 0 ].electron = null;
-            electronShellPosition.electron.destinationProperty.set( electronShellPosition.position );
+    // When an electron is removed, clear the corresponding shell position.
+    const self = this;
+    this.electrons.addItemRemovedListener( function( electron ) {
+      self.electronShellPositions.forEach( function( electronShellPosition ) {
+        if ( electronShellPosition.electron === electron ) {
+          electronShellPosition.electron = null;
+          if ( Math.abs( electronShellPosition.position.magnitude - self.innerElectronShellRadius ) < 1E-5 ) {
+
+            // An inner-shell electron was removed.  If there are electrons in the outer shell, move one of them in.
+            let occupiedOuterShellPositions = _.filter( self.electronShellPositions, function( electronShellPosition ) {
+              return ( electronShellPosition.electron !== null &&
+                       Utils.roughlyEqual( electronShellPosition.position.magnitude,
+                         self.outerElectronShellRadius,
+                         1E-5
+                       )
+              );
+            } );
+            occupiedOuterShellPositions = _.sortBy( occupiedOuterShellPositions, function( occupiedShellPosition ) {
+              return occupiedShellPosition.position.distance( electronShellPosition.position );
+            } );
+            if ( occupiedOuterShellPositions.length > 0 ) {
+              // Move outer electron to inner spot.
+              electronShellPosition.electron = occupiedOuterShellPositions[ 0 ].electron;
+              occupiedOuterShellPositions[ 0 ].electron = null;
+              electronShellPosition.electron.destinationProperty.set( electronShellPosition.position );
+            }
           }
         }
+      } );
+    } );
+
+    // Utility function to translate all particles.
+    const translateParticle = function( particle, translation ) {
+      if ( particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
+        particle.setPositionAndDestination( particle.positionProperty.get().plus( translation ) );
       }
+      else {
+        // Particle is moving, only change the destination.
+        particle.destinationProperty.set( particle.destinationProperty.get().plus( translation ) );
+      }
+    };
+
+    // When the nucleus offset changes, update all nucleon positions.
+    this.nucleusOffsetProperty.link( ( newOffset, oldOffset ) => {
+      const translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
+      this.protons.forEach( function( particle ) {
+        translateParticle( particle, translation );
+      } );
+      this.neutrons.forEach( function( particle ) {
+        translateParticle( particle, translation );
+      } );
     } );
-  } );
 
-  // Utility function to translate all particles.
-  const translateParticle = function( particle, translation ) {
-    if ( particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
-      particle.setPositionAndDestination( particle.positionProperty.get().plus( translation ) );
-    }
-    else {
-      // Particle is moving, only change the destination.
-      particle.destinationProperty.set( particle.destinationProperty.get().plus( translation ) );
-    }
-  };
-
-  // When the nucleus offset changes, update all nucleon positions.
-  this.nucleusOffsetProperty.link( function( newOffset, oldOffset ) {
-    const translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
-    self.protons.forEach( function( particle ) {
-      translateParticle( particle, translation );
+    // When the particle position changes, update all nucleon positions.  This is to be used in Isotopes and Atomic
+    // Mass when a particle gets moved to sit at the correct spot on the scale.
+    this.positionProperty.link( ( newOffset, oldOffset ) => {
+      const translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
+      this.protons.forEach( function( particle ) {
+        translateParticle( particle, translation );
+      } );
+      this.neutrons.forEach( function( particle ) {
+        translateParticle( particle, translation );
+      } );
     } );
-    self.neutrons.forEach( function( particle ) {
-      translateParticle( particle, translation );
-    } );
-  } );
+  }
 
-  // When the particle position changes, update all nucleon positions.  This is to be used in Isotopes and Atomic
-  // Mass when a particle gets moved to sit at the correct spot on the scale.
-  this.positionProperty.link( function( newOffset, oldOffset ) {
-    const translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
-    self.protons.forEach( function( particle ) {
-      translateParticle( particle, translation );
-    } );
-    self.neutrons.forEach( function( particle ) {
-      translateParticle( particle, translation );
-    } );
-  } );
-}
-
-shred.register( 'ParticleAtom', ParticleAtom );
-
-inherit( PhetioObject, ParticleAtom, {
-
-  dispose: function() {
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
 
     this.particleCountProperty.dispose();
     this.massNumberProperty.dispose();
@@ -266,8 +265,8 @@ inherit( PhetioObject, ParticleAtom, {
     this.neutrons.dispose();
     this.electrons.dispose();
 
-    PhetioObject.prototype.dispose.call( this );
-  },
+    super.dispose();
+  }
 
   /**
    * test this this particle atom contains a particular particle
@@ -275,18 +274,18 @@ inherit( PhetioObject, ParticleAtom, {
    * @returns {boolean}
    * @private
    */
-  containsParticle: function( particle ) {
+  containsParticle( particle ) {
     return this.protons.includes( particle ) ||
            this.neutrons.includes( particle ) ||
            this.electrons.includes( particle );
-  },
+  }
 
   /**
    * Add a particle to the atom.
    * @param {Particle} particle
    * @public
    */
-  addParticle: function( particle ) {
+  addParticle( particle ) {
 
     // in phet-io mode, we can end up with attempts being made to add the same particle twice when state is being
     // set, so test for that case and bail if needed
@@ -365,14 +364,14 @@ inherit( PhetioObject, ParticleAtom, {
     else {
       throw new Error( 'Unexpected particle type.' );
     }
-  },
+  }
 
   /**
    * Remove the specified particle from this particle atom.
    * @param {Particle} particle
    * @public
    */
-  removeParticle: function( particle ) {
+  removeParticle( particle ) {
 
     if ( this.protons.includes( particle ) ) {
       this.protons.remove( particle );
@@ -391,7 +390,7 @@ inherit( PhetioObject, ParticleAtom, {
     particle.userControlledProperty.unlink( particle.particleAtomRemovalListener );
 
     delete particle.particleAtomRemovalListener;
-  },
+  }
 
   /**
    * Extract an arbitrary instance of the specified particle, assuming one exists.
@@ -399,7 +398,7 @@ inherit( PhetioObject, ParticleAtom, {
    * @returns {Particle} particle
    * @public
    */
-  extractParticle: function( particleType ) {
+  extractParticle( particleType ) {
     let particle = null;
     switch( particleType ) {
       case 'proton':
@@ -429,48 +428,48 @@ inherit( PhetioObject, ParticleAtom, {
     }
 
     return particle;
-  },
+  }
 
   /**
    * Remove all the particles but don't reconfigure the nucleus as they go. This makes it a quicker operation.
    * @public
    */
-  clear: function() {
+  clear() {
     const protons = [ ...this.protons ];
     protons.forEach( particle => { this.removeParticle( particle ); } );
     const neutrons = [ ...this.neutrons ];
     neutrons.forEach( particle => { this.removeParticle( particle ); } );
     const electrons = [ ...this.electrons ];
     electrons.forEach( particle => { this.removeParticle( particle ); } );
-  },
+  }
 
   /**
    * Move all the particles to their destinations. This is generally used when animation is not desired.
    * @public
    */
-  moveAllParticlesToDestination: function() {
+  moveAllParticlesToDestination() {
     this.protons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
     this.neutrons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
     this.electrons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
-  },
+  }
 
   // @public
-  getWeight: function() {
+  getWeight() {
     return this.protonCountProperty.get() + this.neutronCountProperty.get();
-  },
+  }
 
   // @public
-  getCharge: function() {
+  getCharge() {
     return this.protonCountProperty.get() - this.electronCountProperty.get();
-  },
+  }
 
   // @public
-  getIsotopeAtomicMass: function() {
+  getIsotopeAtomicMass() {
     return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
-  },
+  }
 
   // @public
-  reconfigureNucleus: function() {
+  reconfigureNucleus() {
 
     // Convenience variables.
     const centerX = this.positionProperty.get().x + this.nucleusOffsetProperty.get().x;
@@ -600,7 +599,11 @@ inherit( PhetioObject, ParticleAtom, {
 
     this.nucleusRadius = nucleusRadius;
   }
-} );
+}
+
+// helper function for retrieving the tandem for a particle
+// TODO: Should this use ReferenceIO?  See https://github.com/phetsims/tandem/issues/215
+const getParticleTandemID = particle => particle.tandem.phetioID;
 
 ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
   valueType: ParticleAtom,
@@ -644,8 +647,5 @@ ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
   }
 } );
 
-// helper function for retrieving the tandem for a particle
-// TODO: Should this use ReferenceIO?  See https://github.com/phetsims/tandem/issues/215
-const getParticleTandemID = particle => particle.tandem.phetioID;
-
+shred.register( 'ParticleAtom', ParticleAtom );
 export default ParticleAtom;
