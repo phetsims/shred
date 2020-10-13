@@ -7,7 +7,6 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
@@ -21,161 +20,160 @@ const LINE_DASH = [ 4, 5 ];
 // options for the focus highlight, these will be cycled through with the arrow keys
 const FOCUS_HIGHLIGHTS = [ 'CENTER_OPTION', 'INNER_RING', 'OUTER_RING' ];
 
-/**
- * @param {ParticleAtom} atom
- * @param {ModelViewTransform2} modelViewTransform
- * @param {Object} [options]
- * @constructor
- */
-function ElectronShellView( atom, modelViewTransform, options ) {
-  const self = this;
-  options = merge( {
+class ElectronShellView extends Node {
+
+  /**
+   * @param {ParticleAtom} atom
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param {Object} [options]
+   */
+  constructor( atom, modelViewTransform, options ) {
+
+    options = merge( {
       tandem: Tandem.REQUIRED
-    },
-    options
-  );
+    }, options );
 
-  // Call super constructor.
-  Node.call( this, {
-    pickable: false,
-    tandem: options.tandem,
+    super( {
+      pickable: false,
 
-    // pdom
-    tagName: 'div',
-    ariaRole: 'listbox',
-    focusable: true
-  } );
+      // phet-io
+      tandem: options.tandem,
 
-  const outerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
-    stroke: 'blue',
-    lineWidth: 1.5,
-    lineDash: LINE_DASH,
-    translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } ),
-    pickable: false,
-    tandem: options.tandem.createTandem( 'outerRing' ),
+      // pdom
+      tagName: 'div',
+      ariaRole: 'listbox',
+      focusable: true
+    } );
 
-    // pdom
-    tagName: 'div',
-    ariaRole: 'option',
-    innerContent: 'Outer Electron Ring'
-  } );
+    const outerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius ), {
+      stroke: 'blue',
+      lineWidth: 1.5,
+      lineDash: LINE_DASH,
+      translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } ),
+      pickable: false,
+      tandem: options.tandem.createTandem( 'outerRing' ),
 
-  const innerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
-    stroke: 'blue',
-    lineWidth: 1.5,
-    lineDash: LINE_DASH,
-    translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } ),
-    pickable: false,
-    tandem: options.tandem.createTandem( 'innerRing' ),
+      // pdom
+      tagName: 'div',
+      ariaRole: 'option',
+      innerContent: 'Outer Electron Ring'
+    } );
 
-    //a11y
-    tagName: 'div',
-    ariaRole: 'option',
-    innerContent: 'Inner Electron Ring'
-  } );
+    const innerRing = new Circle( modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ), {
+      stroke: 'blue',
+      lineWidth: 1.5,
+      lineDash: LINE_DASH,
+      translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } ),
+      pickable: false,
+      tandem: options.tandem.createTandem( 'innerRing' ),
 
-  // pdom - an invisible node that allows the nucleus to be highlighted.
-  const centerOption = new Node( {
+      //a11y
+      tagName: 'div',
+      ariaRole: 'option',
+      innerContent: 'Inner Electron Ring'
+    } );
 
-    // pdom
-    tagName: 'div',
-    ariaRole: 'option',
-    innerContent: 'Nucleus'
-  } );
+    // pdom - an invisible node that allows the nucleus to be highlighted.
+    const centerOption = new Node( {
 
-  // pdom - to focus around the actual nucleus, will change in size when the particles in the nucleus change
-  const nucleusFocusHighlight = new Circle( atom.nucleusRadius, {
-    lineWidth: 2,
-    stroke: 'red',
-    translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
-  } );
+      // pdom
+      tagName: 'div',
+      ariaRole: 'option',
+      innerContent: 'Nucleus'
+    } );
 
-  // pdom - to focus around the outer shell
-  const electronOuterFocusHighlight = new Circle( atom.outerElectronShellRadius, {
-    lineWidth: 2,
-    stroke: 'red',
-    translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
-  } );
+    // pdom - to focus around the actual nucleus, will change in size when the particles in the nucleus change
+    const nucleusFocusHighlight = new Circle( atom.nucleusRadius, {
+      lineWidth: 2,
+      stroke: 'red',
+      translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
+    } );
 
-  // pdom - to focus around the inner shell
-  const electronInnerFocusHighlight = new Circle( atom.innerElectronShellRadius, {
-    lineWidth: 2,
-    stroke: 'red',
-    translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
-  } );
+    // pdom - to focus around the outer shell
+    const electronOuterFocusHighlight = new Circle( atom.outerElectronShellRadius, {
+      lineWidth: 2,
+      stroke: 'red',
+      translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
+    } );
 
-  const selectValueProperty = new Property( 'none' );
+    // pdom - to focus around the inner shell
+    const electronInnerFocusHighlight = new Circle( atom.innerElectronShellRadius, {
+      lineWidth: 2,
+      stroke: 'red',
+      translation: modelViewTransform.modelToViewPosition( { x: 0, y: 0 } )
+    } );
 
-  // Link the property's value to change the focus highlight outlining the different particle placement possibilities.
-  selectValueProperty.lazyLink( function( newValue ) {
-    switch( newValue ) {
-      case ( FOCUS_HIGHLIGHTS[ 0 ] ):
-        self.setFocusHighlight( electronOuterFocusHighlight );
-        break;
-      case ( FOCUS_HIGHLIGHTS[ 1 ] ):
-        self.setFocusHighlight( electronInnerFocusHighlight );
-        break;
-      case ( FOCUS_HIGHLIGHTS[ 2 ] ):
-        self.setFocusHighlight( nucleusFocusHighlight );
-        break;
-      default:
-        throw new Error( 'You tried to set the selectValueProperty to an unsupported value.' );
-    }
-  } );
+    const selectValueProperty = new Property( 'none' );
 
-  // pdom - set the selectProperty when the arrow keys change the html select menu's value.
-  const optionNodes = [ centerOption, innerRing, outerRing ];
-  let currentIndex = 0;
-  const keyListener = {
-    keydown: function( event ) {
-      const domEvent = event.domEvent;
-
-      if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW || domEvent.keyCode === KeyboardUtils.KEY_RIGHT_ARROW ) {
-        currentIndex = ( currentIndex + 1 ) % optionNodes.length;
+    // Link the property's value to change the focus highlight outlining the different particle placement possibilities.
+    selectValueProperty.lazyLink( newValue => {
+      switch( newValue ) {
+        case ( FOCUS_HIGHLIGHTS[ 0 ] ):
+          this.setFocusHighlight( electronOuterFocusHighlight );
+          break;
+        case ( FOCUS_HIGHLIGHTS[ 1 ] ):
+          this.setFocusHighlight( electronInnerFocusHighlight );
+          break;
+        case ( FOCUS_HIGHLIGHTS[ 2 ] ):
+          this.setFocusHighlight( nucleusFocusHighlight );
+          break;
+        default:
+          throw new Error( 'You tried to set the selectValueProperty to an unsupported value.' );
       }
-      else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW || domEvent.keyCode === KeyboardUtils.KEY_LEFT_ARROW ) {
-        currentIndex = currentIndex - 1;
-        if ( currentIndex < 0 ) { currentIndex = optionNodes.length - 1; }
+    } );
+
+    // pdom - set the selectProperty when the arrow keys change the html select menu's value.
+    const optionNodes = [ centerOption, innerRing, outerRing ];
+    let currentIndex = 0;
+    const keyListener = {
+      keydown: event => {
+        const domEvent = event.domEvent;
+
+        if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW || domEvent.keyCode === KeyboardUtils.KEY_RIGHT_ARROW ) {
+          currentIndex = ( currentIndex + 1 ) % optionNodes.length;
+        }
+        else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW || domEvent.keyCode === KeyboardUtils.KEY_LEFT_ARROW ) {
+          currentIndex = currentIndex - 1;
+          if ( currentIndex < 0 ) { currentIndex = optionNodes.length - 1; }
+        }
+
+        // TODO: The requested design for a11y was to use the aria-activedescendant attribute to update the
+        // active node without changing focus. As of this writing, that isn't supported by scenery, but may be in the
+        // future.  When it is, this should be updated.  See https://github.com/phetsims/shred/issues/26.
+        // this.setAccessibleAttribute( 'aria-activedescendant', nextElementId );
+        const nextElementId = FOCUS_HIGHLIGHTS[ currentIndex ];
+        selectValueProperty.set( nextElementId );
       }
+    };
+    this.addInputListener( keyListener );
 
-      // TODO: The requested design for a11y was to use the aria-activedescendant attribute to update the
-      // active node without changing focus. As of this writing, that isn't supported by scenery, but may be in the
-      // future.  When it is, this should be updated.  See https://github.com/phetsims/shred/issues/26.
-      // self.setAccessibleAttribute( 'aria-activedescendant', nextElementId );
-      const nextElementId = FOCUS_HIGHLIGHTS[ currentIndex ];
-      selectValueProperty.set( nextElementId );
-    }
-  };
-  this.addInputListener( keyListener );
+    // add each node to the view
+    optionNodes.forEach( node => this.addChild( node ) );
 
-  // add each node to the view
-  optionNodes.forEach( function( node ) { self.addChild( node ); } );
+    // whenever a nucleon is added or removed, update the configuration of the nucleus and the highlight radius
+    Property.multilink( [ atom.protonCountProperty, atom.neutronCountProperty ], () => {
+      atom.reconfigureNucleus();
+      const radiusOffset = atom.nucleusRadius === 0 ? 0 : 4;
+      nucleusFocusHighlight.radius = atom.nucleusRadius + radiusOffset;
+    } );
 
-  // whenever a nucleon is added or removed, update the configuration of the nucleus and the highlight radius
-  Property.multilink( [ atom.protonCountProperty, atom.neutronCountProperty ], function() {
-    atom.reconfigureNucleus();
-    const radiusOffset = atom.nucleusRadius === 0 ? 0 : 4;
-    nucleusFocusHighlight.radius = atom.nucleusRadius + radiusOffset;
-  } );
+    // @private called by dispose
+    this.disposeElectronShellView = () => {
+      this.removeInputListener( keyListener );
+      outerRing.dispose();
+      innerRing.dispose();
+    };
+  }
 
-  // @private called by dispose
-  this.disposeElectronShellView = function() {
-    self.removeInputListener( keyListener );
-    outerRing.dispose();
-    innerRing.dispose();
-  };
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
+    this.disposeElectronShellView();
+    super.dispose();
+  }
 }
 
 shred.register( 'ElectronShellView', ElectronShellView );
-
-// Inherit from Node.
-inherit( Node, ElectronShellView, {
-
-  dispose: function() {
-    this.disposeElectronShellView();
-
-    Node.prototype.dispose.call( this );
-  }
-} );
-
 export default ElectronShellView;
