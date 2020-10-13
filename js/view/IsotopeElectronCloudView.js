@@ -3,9 +3,7 @@
 /**
  * Node that represents the electron shells in an isotope as a "cloud" that grows and shrinks depending on the number
  * of electrons that it contains.  This particular class implements behavior needed for the Isotopes simulation, which
- * is somewhat different from that needed for Build an Atom.  Note that the name 'IsotopeselfView' was chosen
- * in order to keep up with electron cloud naming conventions in Build an Atom (i.e. selfView,
- * ElectronShellView).
+ * is somewhat different from that needed for Build an Atom.
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -13,7 +11,6 @@
  */
 
 import LinearFunction from '../../../dot/js/LinearFunction.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
@@ -23,62 +20,59 @@ import shred from '../shred.js';
 // constants
 const MAX_ELECTRONS = 10; // For neon.
 
-/**
- * Constructor for the Isotope Electron Cloud.
- *
- * @param {NumberAtom} numberAtom
- * @param {ModelViewTransform2} modelViewTransform
- * @param {Object} [options]
- * @constructor
- */
-function IsotopeElectronCloudView( numberAtom, modelViewTransform, options ) {
+class IsotopeElectronCloudView extends Circle {
 
-  options = merge( {
+  /**
+   * Constructor for the Isotope Electron Cloud.
+   *
+   * @param {NumberAtom} numberAtom
+   * @param {ModelViewTransform2} modelViewTransform
+   * @param {Object} [options]
+   */
+  constructor( numberAtom, modelViewTransform, options ) {
+
+    options = merge( {
+      pickable: false,
       tandem: Tandem.REQUIRED
-    },
-    options
-  );
+    }, options );
+    assert && assert( !options.pickable, 'IsotopeElectronCloudView cannot be pickable' );
 
-  options.pickable = false; // this is never allowed to be pickable
+    // Call super constructor using dummy radius and actual is updated below.
+    super( 1, options );
 
-  // Call super constructor using dummy radius and actual is updated below.
-  Circle.call( this, 1, options );
+    const updateNode = numElectrons => {
+      if ( numElectrons === 0 ) {
+        this.radius = 1E-5; // Arbitrary non-zero value.
+        this.fill = 'transparent';
+      }
+      else {
+        this.radius = modelViewTransform.modelToViewDeltaX( this.getElectronShellDiameter( numElectrons ) / 2 );
+        // empirically determined adjustment factor according to the weighing scale
+        this.radius = this.radius * 1.2;
+        this.fill = new RadialGradient( 0, 0, 0, 0, 0, this.radius )
+          .addColorStop( 0, 'rgba( 0, 0, 255, 0 )' )
+          .addColorStop( 1, 'rgba( 0, 0, 255, 0.4 )' );
+      }
+    };
+    updateNode( numberAtom.electronCountProperty.get() );
 
-  // carry this through the scope
-  const self = this;
+    // Update the cloud size as electrons come and go.
+    numberAtom.protonCountProperty.link( updateNode );
 
-  const updateNode = function( numElectrons ) {
-    if ( numElectrons === 0 ) {
-      self.radius = 1E-5; // Arbitrary non-zero value.
-      self.fill = 'transparent';
-    }
-    else {
-      self.radius = modelViewTransform.modelToViewDeltaX( self.getElectronShellDiameter( numElectrons ) / 2 );
-      // empirically determined adjustment factor according to the weighing scale
-      self.radius = self.radius * 1.2;
-      self.fill = new RadialGradient( 0, 0, 0, 0, 0, self.radius )
-        .addColorStop( 0, 'rgba( 0, 0, 255, 0 )' )
-        .addColorStop( 1, 'rgba( 0, 0, 255, 0.4 )' );
-    }
-  };
-  updateNode( numberAtom.electronCountProperty.get() );
+    // @private
+    this.disposeIsotopeElectronCloudView = function() {
+      numberAtom.protonCountProperty.unlink( updateNode );
+    };
+  }
 
-  // Update the cloud size as electrons come and go.
-  numberAtom.protonCountProperty.link( updateNode );
-
-  this.disposeIsotopeElectronCloudView = function() {
-    numberAtom.protonCountProperty.unlink( updateNode );
-  };
-}
-
-shred.register( 'IsotopeElectronCloudView', IsotopeElectronCloudView );
-inherit( Circle, IsotopeElectronCloudView, {
-
-  // @public
-  dispose: function() {
+  /**
+   * @public
+   * @override
+   */
+  dispose() {
     this.disposeIsotopeElectronCloudView();
-    Circle.prototype.dispose.call( this );
-  },
+    super.dispose();
+  }
 
   /**
    * Maps a number of electrons to a diameter in screen coordinates for the electron shell.  This mapping function is
@@ -87,7 +81,7 @@ inherit( Circle, IsotopeElectronCloudView, {
    * @param {number} numElectrons
    * @public
    */
-  getElectronShellDiameter: function( numElectrons ) {
+  getElectronShellDiameter( numElectrons ) {
 
     // This data structure maps the number of electrons to a radius for an atom.  It assumes a stable, neutral atom.
     // The basic values are the covalent radii, and were taken from a Wikipedia entry entitled "Atomic radii of the
@@ -142,6 +136,7 @@ inherit( Circle, IsotopeElectronCloudView, {
       return 0;
     }
   }
-} );
+}
 
+shred.register( 'IsotopeElectronCloudView', IsotopeElectronCloudView );
 export default IsotopeElectronCloudView;
