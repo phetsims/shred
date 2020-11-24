@@ -17,6 +17,7 @@ import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
+import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 
@@ -156,7 +157,7 @@ Particle.MAX_LAYERS = 5;
 Particle.ParticleIO = new IOType( 'ParticleIO', {
   valueType: Particle,
   documentation: 'The model for a single particle such as an electron, proton, or neutron.',
-  toStateObject: particle => particle.tandem.phetioID // TODO: https://github.com/phetsims/tandem/issues/215 use ReferenceIO or equivalent
+  supertype: ReferenceIO( IOType.ObjectIO )
 } );
 
 shred.register( 'Particle', Particle );
