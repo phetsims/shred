@@ -25,7 +25,10 @@ class ParticleView extends Node {
 
     options = merge( {
       dragBounds: Bounds2.EVERYTHING,
-      tandem: Tandem.REQUIRED
+      tandem: Tandem.REQUIRED,
+
+      // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
+      highContrastProperty: null
     }, options );
 
     super();
@@ -36,6 +39,7 @@ class ParticleView extends Node {
     const particleNode = createParticleNode(
       particle,
       modelViewTransform,
+      options.highContrastProperty,
       options.tandem.createTandem( 'particleNode' )
     );
     this.addChild( particleNode );
@@ -100,10 +104,11 @@ class ParticleView extends Node {
  * Creates the proper view for a particle.
  * @param {Particle} particle
  * @param {ModelViewTransform2} modelViewTransform
+ * @param {BooleanProperty|null} highContrastProperty
  * @param {Tandem} tandem
  * @returns {Node}
  */
-function createParticleNode( particle, modelViewTransform, tandem ) {
+function createParticleNode( particle, modelViewTransform, highContrastProperty, tandem ) {
   let particleNode;
   if ( particle.type === 'Isotope' ) {
     particleNode = new IsotopeNode(
@@ -116,7 +121,10 @@ function createParticleNode( particle, modelViewTransform, tandem ) {
     particleNode = new ParticleNode(
       particle.type,
       modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
-      { tandem: tandem }
+      {
+        highContrastProperty: highContrastProperty,
+        tandem: tandem
+      }
     );
   }
   return particleNode;
