@@ -28,6 +28,10 @@ define( function( require ) {
    */
   function InteractiveSchematicAtom( model, modelViewTransform, options ) {
     options = _.extend( {
+
+      // {Property.<boolean>|null} - Property that controls whether high-contrast particle are used, created if not provided
+      highContrastProperty: null,
+
       tandem: Tandem.tandemRequired()
     }, options );
 
@@ -69,6 +73,7 @@ define( function( require ) {
     var electronGroupTandem = options.tandem && options.tandem.createGroupTandem( 'electrons' );
     model.nucleons.forEach( function( nucleon ) {
       var particleView = new ParticleView( nucleon, modelViewTransform, {
+        highContrastProperty: options.highContrastProperty,
         tandem: nucleonGroupTandem && nucleonGroupTandem.createNextTandem()
       } );
       nucleonLayers[ nucleon.zLayerProperty.get() ].addChild( particleView );
@@ -111,6 +116,7 @@ define( function( require ) {
     // Add the electron particle views.
     model.electrons.forEach( function( electron ) {
       var particleView = new ParticleView( electron, modelViewTransform, {
+        highContrastProperty: options.highContrastProperty,
         tandem: electronGroupTandem.createNextTandem()
       } );
       electronLayer.addChild( particleView );
