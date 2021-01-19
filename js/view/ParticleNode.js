@@ -54,12 +54,11 @@ class ParticleNode extends Circle {
 
     // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
     const gradientFill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
-      .addColorStop( 0, baseColor.colorUtilsBrighter( 0.65 ) )
-      .addColorStop( 1, baseColor.colorUtilsDarker( 0.5 ) );
+      .addColorStop( 0, 'white' )
+      .addColorStop( 1, baseColor );
 
     // Set the options for the default look.
     options.fill = gradientFill;
-    options.stroke = baseColor.colorUtilsDarker( 0.5 );
     options.lineWidth = DEFAULT_LINE_WIDTH;
 
     super( radius, options );
@@ -70,6 +69,7 @@ class ParticleNode extends Circle {
     if ( options.highContrastProperty ) {
       highContrastListener = highContrast => {
         this.fill = highContrast ? baseColor : gradientFill;
+        this.stroke = highContrast ? baseColor.colorUtilsDarker( 0.5 ) : null;
         this.lineWidth = highContrast ? HIGH_CONTRAST_LINE_WIDTH : DEFAULT_LINE_WIDTH;
       };
       options.highContrastProperty.link( highContrastListener );
