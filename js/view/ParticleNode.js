@@ -8,6 +8,7 @@ define( function( require ) {
   'use strict';
 
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -29,20 +30,44 @@ define( function( require ) {
 
     Node.call( this, options ); // Call super constructor.
 
-    var colors = { proton: PhetColorScheme.RED_COLORBLIND, neutron: 'gray', electron: 'blue' };
+    var colors = {
+      proton: PhetColorScheme.RED_COLORBLIND,
+      neutron: Color.gray,
+      electron: Color.blue
+    };
     var baseColor = colors[ particleType ];
     if ( baseColor === undefined ) {
       assert && assert( false, 'Unrecognized particle type: ' + particleType );
       baseColor = 'black';
     }
+    var gradientFill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
+      .addColorStop( 0, 'white' )
+      .addColorStop( 1, baseColor );
 
-    // Create the node a circle with a gradient.
-    this.addChild( new Circle( radius, {
-      fill: new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
-        .addColorStop( 0, 'white' )
-        .addColorStop( 1, baseColor ),
+    // Create the circle node.
+    var circle = new Circle( radius, {
+      fill: gradientFill,
       cursor: 'pointer'
-    } ) );
+    } );
+    this.addChild( circle );
+
+    // If a highContrastProperty is provided, update the particle appearance based on its value.
+    var highContrastListener = null;
+    if ( options.highContrastProperty ) {
+      highContrastListener = function( highContrast ){
+        circle.fill = highContrast ? baseColor : gradientFill;
+        circle.stroke = highContrast ? baseColor.colorUtilsDarker( 0.5 ) : null;
+        circle.lineWidth = highContrast ? 2 : 0.5;
+      };
+      options.highContrastProperty.link( highContrastListener );
+    }
+
+    // @private - internal dispose function
+    this.disposeParticleNode = function(){
+      if ( highContrastListener ) {
+        options.highContrastProperty.unlink( highContrastListener );
+      }
+    };
   }
 
   shred.register( 'ParticleNode', ParticleNode );

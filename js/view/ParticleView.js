@@ -17,7 +17,7 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
 
   // helper factory function
-  function createParticleNode( particle, modelViewTransform, tandem ) {
+  function createParticleNode( particle, modelViewTransform, highContrastProperty, tandem ) {
     var particleNode;
     if ( particle.type === 'Isotope' ) {
       particleNode = new IsotopeNode(
@@ -30,7 +30,10 @@ define( function( require ) {
       particleNode = new ParticleNode(
         particle.type,
         modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
-        { tandem: tandem }
+        {
+          highContrastProperty: highContrastProperty,
+          tandem: tandem
+        }
       );
     }
     return particleNode;
@@ -46,6 +49,10 @@ define( function( require ) {
 
     options = _.extend( {
       dragBounds: Bounds2.EVERYTHING,
+
+      // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
+      highContrastProperty: null,
+
       tandem: Tandem.tandemRequired()
     }, options );
 
@@ -60,6 +67,7 @@ define( function( require ) {
     this.addChild( createParticleNode(
       particle,
       modelViewTransform,
+      options.highContrastProperty,
       options.tandem.createTandem( 'particleRepresentation' )
     ) );
 
