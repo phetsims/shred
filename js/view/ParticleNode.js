@@ -58,7 +58,9 @@ class ParticleNode extends Circle {
       .addColorStop( 1, baseColor );
 
     // Set the options for the default look.
+    const nonHighContrastStroke = baseColor.colorUtilsDarker( 0.33 );
     options.fill = gradientFill;
+    options.stroke = nonHighContrastStroke;
     options.lineWidth = DEFAULT_LINE_WIDTH;
 
     super( radius, options );
@@ -69,7 +71,7 @@ class ParticleNode extends Circle {
     if ( options.highContrastProperty ) {
       highContrastListener = highContrast => {
         this.fill = highContrast ? baseColor : gradientFill;
-        this.stroke = highContrast ? baseColor.colorUtilsDarker( 0.5 ) : null;
+        this.stroke = highContrast ? baseColor.colorUtilsDarker( 0.5 ) : nonHighContrastStroke;
         this.lineWidth = highContrast ? HIGH_CONTRAST_LINE_WIDTH : DEFAULT_LINE_WIDTH;
       };
       options.highContrastProperty.link( highContrastListener );
