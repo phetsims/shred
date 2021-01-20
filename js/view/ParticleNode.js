@@ -7,6 +7,7 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -15,6 +16,9 @@ define( function( require ) {
   var RadialGradient = require( 'SCENERY/util/RadialGradient' );
   var shred = require( 'SHRED/shred' );
   var Tandem = require( 'TANDEM/Tandem' );
+
+  // constants
+  var DEFAULT_LINE_WIDTH = 0.5;
 
   /**
    * @param {string} particleType - proton, neutron, or electron
@@ -43,10 +47,13 @@ define( function( require ) {
     var gradientFill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
       .addColorStop( 0, 'white' )
       .addColorStop( 1, baseColor );
+    var nonHighContrastStroke = baseColor.colorUtilsDarker( 0.33 );
 
     // Create the circle node.
     var circle = new Circle( radius, {
       fill: gradientFill,
+      stroke: nonHighContrastStroke,
+      lineWidth: DEFAULT_LINE_WIDTH,
       cursor: 'pointer'
     } );
     this.addChild( circle );
@@ -54,10 +61,10 @@ define( function( require ) {
     // If a highContrastProperty is provided, update the particle appearance based on its value.
     var highContrastListener = null;
     if ( options.highContrastProperty ) {
-      highContrastListener = function( highContrast ){
+      highContrastListener = function( highContrast ) {
         circle.fill = highContrast ? baseColor : gradientFill;
-        circle.stroke = highContrast ? baseColor.colorUtilsDarker( 0.5 ) : null;
-        circle.lineWidth = highContrast ? 2 : 0.5;
+        circle.stroke = highContrast ? baseColor.colorUtilsDarker( 0.5 ) : nonHighContrastStroke;
+        circle.lineWidth = highContrast ? 2 : DEFAULT_LINE_WIDTH;
       };
       options.highContrastProperty.link( highContrastListener );
     }
