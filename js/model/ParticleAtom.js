@@ -9,6 +9,7 @@
 
 import createObservableArray from '../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import dotRandom from '../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
@@ -333,7 +334,7 @@ class ParticleAtom extends PhetioObject {
         } );
       }
       else {
-        sortedOpenPositions = phet.joist.random.shuffle( openPositions );
+        sortedOpenPositions = dotRandom.shuffle( openPositions );
       }
 
       // Put the inner shell positions in front.
