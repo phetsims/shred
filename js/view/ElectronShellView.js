@@ -140,7 +140,7 @@ class ElectronShellView extends Node {
         // TODO: The requested design for a11y was to use the aria-activedescendant attribute to update the
         // active node without changing focus. As of this writing, that isn't supported by scenery, but may be in the
         // future.  When it is, this should be updated.  See https://github.com/phetsims/shred/issues/26.
-        // this.setAccessibleAttribute( 'aria-activedescendant', nextElementId );
+        // this.setPDOMAttribute( 'aria-activedescendant', nextElementId );
         const nextElementId = FOCUS_HIGHLIGHTS[ currentIndex ];
         selectValueProperty.set( nextElementId );
       }
