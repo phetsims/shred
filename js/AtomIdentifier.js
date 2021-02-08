@@ -1,8 +1,8 @@
 // Copyright 2014-2020, University of Colorado Boulder
 
 /**
- * Object that can be used to identify various things about an atom given its configuration, i.e. number of protons,
- * neutrons, and/or electrons.
+ * AtomIdentifier is an object that can be used to identify various things about an atom given its configuration, such
+ * as its name, chemical symbols, and stable isotopes.
  *
  * @author John Blanco
  * @author Jesse Greenberg
@@ -681,7 +681,6 @@ const numNeutronsInMostStableIsotope = [
 // keys of type atomic number
 //  subkeys of type mass number
 //    subkeys of type atomicMass and abundance, which hold the values for each isotope.
-
 const ISOTOPE_INFO_TABLE = {
   1: { // atomic number
     1: { // massNumber
@@ -1128,14 +1127,10 @@ const AtomIdentifier = {
       if ( this.isStable( numProtons, numNeutrons ) ) {
         stableIsotopesList.push( [ numProtons, numNeutrons, numProtons ] );
       }
-
     }
 
-
     return stableIsotopesList;
-
   }
-
 };
 
 shred.register( 'AtomIdentifier', AtomIdentifier );
