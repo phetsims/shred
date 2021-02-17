@@ -127,7 +127,7 @@ class ElectronShellView extends Node {
     let currentIndex = 0;
     const keyListener = {
       keydown: event => {
-        const key = event.domEvent.key.toLowerCase();
+        const key = KeyboardUtils.getKeyDef( event.domEvent );
 
         if ( key === KeyboardUtils.KEY_DOWN_ARROW || key === KeyboardUtils.KEY_RIGHT_ARROW ) {
           currentIndex = ( currentIndex + 1 ) % optionNodes.length;
