@@ -102,7 +102,7 @@ class NumberAtom {
   }
 
   /**
-   * Compare with other Number Atom
+   * compare with another atom
    * @param {NumberAtom|ImmutableAtomConfig} otherAtom
    * @public
    */
