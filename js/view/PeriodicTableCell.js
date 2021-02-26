@@ -75,7 +75,7 @@ class PeriodicTableCell extends Rectangle {
           atomicNumber,
           AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
           atomicNumber
-          )
+        )
       } );
       this.addInputListener( buttonListener );
     }
