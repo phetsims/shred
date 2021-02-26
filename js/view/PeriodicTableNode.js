@@ -54,9 +54,9 @@ class PeriodicTableNode extends Node {
     for ( let i = 0; i < POPULATED_CELLS.length; i++ ) {
       const populatedCellsInRow = POPULATED_CELLS[ i ];
       const cellColor = {
-        'enabled': options.enabledCellColor,
-        'disabled': options.disabledCellColor,
-        'selected': options.selectedCellColor
+        enabled: options.enabledCellColor,
+        disabled: options.disabledCellColor,
+        selected: options.selectedCellColor
       };
       for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
         const cell = new PeriodicTableCell( elementIndex, numberAtom, cellColor, {
