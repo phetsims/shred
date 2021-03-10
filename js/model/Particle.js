@@ -8,7 +8,6 @@
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
-import Property from '../../../axon/js/Property.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
@@ -16,7 +15,6 @@ import merge from '../../../phet-core/js/merge.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
-import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -75,14 +73,13 @@ class Particle extends PhetioObject {
     } );
 
     // @public Used in view, integer value, higher means further back.
-    this.zLayerProperty = new Property( 0, {
+    this.zLayerProperty = new NumberProperty( 0, {
       isValidValue: function( value ) {
         return value >= 0 && value <= options.maxZLayer;
       },
       tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
       numberType: 'Integer',
-      range: new Range( 0, options.maxZLayer ),
-      phetioType: Property.PropertyIO( NumberIO )
+      range: new Range( 0, options.maxZLayer )
     } );
 
     // @private
