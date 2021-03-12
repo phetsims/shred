@@ -299,7 +299,7 @@ class ParticleAtom extends PhetioObject {
     if ( particle.type === 'proton' || particle.type === 'neutron' ) {
 
       // create a listener that will be called when this particle is removed
-      var nucleonRemovedListener = function( userControlled ) {
+      const nucleonRemovedListener = function( userControlled ) {
         if ( userControlled && particleArray.includes( particle ) ) {
           particleArray.remove( particle );
           self.reconfigureNucleus();
@@ -314,7 +314,7 @@ class ParticleAtom extends PhetioObject {
       particle.particleAtomRemovalListener = nucleonRemovedListener;
 
       // add the particle and update the counts
-      var particleArray = particle.type === 'proton' ? this.protons : this.neutrons;
+      const particleArray = particle.type === 'proton' ? this.protons : this.neutrons;
       particleArray.push( particle );
       this.reconfigureNucleus();
     }
@@ -348,7 +348,7 @@ class ParticleAtom extends PhetioObject {
       particle.destinationProperty.set( sortedOpenPositions[ 0 ].position );
 
       // Listen for removal of the electron and handle it.
-      var electronRemovedListener = function( userControlled ) {
+      const electronRemovedListener = function( userControlled ) {
         if ( userControlled && self.electrons.includes( particle ) ) {
           self.electrons.remove( particle );
           particle.zLayerProperty.set( 0 );
