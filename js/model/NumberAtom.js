@@ -53,9 +53,9 @@ class NumberAtom {
     } );
 
     this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
-      function( protonCount, electronCount ) {
+      ( ( protonCount, electronCount ) => {
         return protonCount - electronCount;
-      }, {
+      } ), {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         numberType: 'Integer',
         phetioType: NumberDerivedProperty
@@ -63,9 +63,9 @@ class NumberAtom {
     );
 
     this.massNumberProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty ],
-      function( protonCount, neutronCount ) {
+      ( ( protonCount, neutronCount ) => {
         return protonCount + neutronCount;
-      }, {
+      } ), {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         numberType: 'Integer',
         phetioType: NumberDerivedProperty
@@ -73,9 +73,9 @@ class NumberAtom {
     );
 
     this.particleCountProperty = new DerivedProperty( [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
-      function( protonCount, neutronCount, electronCount ) {
+      ( ( protonCount, neutronCount, electronCount ) => {
         return protonCount + neutronCount + electronCount;
-      }, {
+      } ), {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         numberType: 'Integer',
         phetioType: NumberDerivedProperty

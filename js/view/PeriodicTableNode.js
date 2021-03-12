@@ -102,7 +102,7 @@ class PeriodicTableNode extends Node {
     // @private - unlink from Properties
     this.disposePeriodicTableNode = () => {
       numberAtom.protonCountProperty.hasListener( updateHighlightedCell ) && numberAtom.protonCountProperty.unlink( updateHighlightedCell );
-      this.cells.forEach( function( cell ) { !cell.isDisposed && cell.dispose();} );
+      this.cells.forEach( cell => { !cell.isDisposed && cell.dispose();} );
     };
   }
 

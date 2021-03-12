@@ -173,7 +173,7 @@ class ParticleCountDisplay extends Panel {
     };
 
     // Hook up the update function.
-    numberAtom.particleCountProperty.link( function() {
+    numberAtom.particleCountProperty.link( () => {
       updateParticles( numberAtom );
     } );
 

@@ -80,9 +80,9 @@ class ParticleAtom extends PhetioObject {
     // NOTE: Changing these may break some wrapper code, so be sure to check.
     this.protonCountProperty = new DerivedProperty(
       [ this.protons.lengthProperty ],
-      function( length ) {
+      ( length => {
         return length;
-      },
+      } ),
       {
         tandem: options.tandem.createTandem( 'protonCountProperty' ),
         numberType: 'Integer',
@@ -91,9 +91,9 @@ class ParticleAtom extends PhetioObject {
     );
     this.neutronCountProperty = new DerivedProperty(
       [ this.neutrons.lengthProperty ],
-      function( length ) {
+      ( length => {
         return length;
-      },
+      } ),
       {
         tandem: options.tandem.createTandem( 'neutronCountProperty' ),
         numberType: 'Integer',
@@ -102,9 +102,9 @@ class ParticleAtom extends PhetioObject {
     );
     this.electronCountProperty = new DerivedProperty(
       [ this.electrons.lengthProperty ],
-      function( length ) {
+      ( length => {
         return length;
-      },
+      } ),
       {
         tandem: options.tandem.createTandem( 'electronCountProperty' ),
         numberType: 'Integer',
@@ -113,9 +113,9 @@ class ParticleAtom extends PhetioObject {
     );
     this.chargeProperty = new DerivedProperty(
       [ this.protonCountProperty, this.electronCountProperty ],
-      function( protonCount, electronCount ) {
+      ( ( protonCount, electronCount ) => {
         return protonCount - electronCount;
-      },
+      } ),
       {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         numberType: 'Integer',
@@ -124,9 +124,9 @@ class ParticleAtom extends PhetioObject {
     );
     this.massNumberProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty ],
-      function( protonCount, neutronCount ) {
+      ( ( protonCount, neutronCount ) => {
         return protonCount + neutronCount;
-      },
+      } ),
       {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         numberType: 'Integer',
@@ -135,9 +135,9 @@ class ParticleAtom extends PhetioObject {
     );
     this.particleCountProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
-      function( protonCount, neutronCount, electronCount ) {
+      ( ( protonCount, neutronCount, electronCount ) => {
         return protonCount + neutronCount + electronCount;
-      },
+      } ),
       {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         numberType: 'Integer',
@@ -179,14 +179,14 @@ class ParticleAtom extends PhetioObject {
 
     // When an electron is removed, clear the corresponding shell position.
     const self = this;
-    this.electrons.addItemRemovedListener( function( electron ) {
-      self.electronShellPositions.forEach( function( electronShellPosition ) {
+    this.electrons.addItemRemovedListener( electron => {
+      self.electronShellPositions.forEach( electronShellPosition => {
         if ( electronShellPosition.electron === electron ) {
           electronShellPosition.electron = null;
           if ( Math.abs( electronShellPosition.position.magnitude - self.innerElectronShellRadius ) < 1E-5 ) {
 
             // An inner-shell electron was removed.  If there are electrons in the outer shell, move one of them in.
-            let occupiedOuterShellPositions = _.filter( self.electronShellPositions, function( electronShellPosition ) {
+            let occupiedOuterShellPositions = _.filter( self.electronShellPositions, electronShellPosition => {
               return ( electronShellPosition.electron !== null &&
                        Utils.roughlyEqual( electronShellPosition.position.magnitude,
                          self.outerElectronShellRadius,
@@ -194,7 +194,7 @@ class ParticleAtom extends PhetioObject {
                        )
               );
             } );
-            occupiedOuterShellPositions = _.sortBy( occupiedOuterShellPositions, function( occupiedShellPosition ) {
+            occupiedOuterShellPositions = _.sortBy( occupiedOuterShellPositions, occupiedShellPosition => {
               return occupiedShellPosition.position.distance( electronShellPosition.position );
             } );
             if ( occupiedOuterShellPositions.length > 0 ) {
@@ -222,10 +222,10 @@ class ParticleAtom extends PhetioObject {
     // When the nucleus offset changes, update all nucleon positions.
     this.nucleusOffsetProperty.link( ( newOffset, oldOffset ) => {
       const translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
-      this.protons.forEach( function( particle ) {
+      this.protons.forEach( particle => {
         translateParticle( particle, translation );
       } );
-      this.neutrons.forEach( function( particle ) {
+      this.neutrons.forEach( particle => {
         translateParticle( particle, translation );
       } );
     } );
@@ -234,10 +234,10 @@ class ParticleAtom extends PhetioObject {
     // Mass when a particle gets moved to sit at the correct spot on the scale.
     this.positionProperty.link( ( newOffset, oldOffset ) => {
       const translation = oldOffset === null ? Vector2.ZERO : newOffset.minus( oldOffset );
-      this.protons.forEach( function( particle ) {
+      this.protons.forEach( particle => {
         translateParticle( particle, translation );
       } );
-      this.neutrons.forEach( function( particle ) {
+      this.neutrons.forEach( particle => {
         translateParticle( particle, translation );
       } );
     } );
@@ -322,12 +322,12 @@ class ParticleAtom extends PhetioObject {
       this.electrons.push( particle );
 
       // Find an open position in the electron shell.
-      const openPositions = this.electronShellPositions.filter( function( electronPosition ) {
+      const openPositions = this.electronShellPositions.filter( electronPosition => {
         return ( electronPosition.electron === null );
       } );
       let sortedOpenPositions;
       if ( this.electronAddMode === 'proximal' ) {
-        sortedOpenPositions = openPositions.sort( function( p1, p2 ) {
+        sortedOpenPositions = openPositions.sort( ( p1, p2 ) => {
           // Sort first by distance to particle.
           return ( particle.positionProperty.get().distance( p1.position ) -
                    particle.positionProperty.get().distance( p2.position ) );
@@ -338,7 +338,7 @@ class ParticleAtom extends PhetioObject {
       }
 
       // Put the inner shell positions in front.
-      sortedOpenPositions = sortedOpenPositions.sort( function( p1, p2 ) {
+      sortedOpenPositions = sortedOpenPositions.sort( ( p1, p2 ) => {
         return ( self.positionProperty.get().distance( p1.position ) -
                  self.positionProperty.get().distance( p2.position ) );
       } );
@@ -449,9 +449,9 @@ class ParticleAtom extends PhetioObject {
    * @public
    */
   moveAllParticlesToDestination() {
-    this.protons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
-    this.neutrons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
-    this.electrons.forEach( function( p ) { p.moveImmediatelyToDestination(); } );
+    this.protons.forEach( p => { p.moveImmediatelyToDestination(); } );
+    this.neutrons.forEach( p => { p.moveImmediatelyToDestination(); } );
+    this.electrons.forEach( p => { p.moveImmediatelyToDestination(); } );
   }
 
   // @public
@@ -620,7 +620,7 @@ ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
       .concat( particleAtom.electrons.map( getParticleTandemID ) ),
 
     // an ordered array that tracks which electron, if any, is in each shell position
-    electronShellOccupantIDs: particleAtom.electronShellPositions.map( function( electronShellPosition ) {
+    electronShellOccupantIDs: particleAtom.electronShellPositions.map( electronShellPosition => {
       return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
     } )
   } ),
@@ -630,19 +630,19 @@ ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
     particleAtom.clear();
 
     const deserializedState = {
-      residentParticles: stateObject.residentParticleIDs.map( function( tandemID ) {
+      residentParticles: stateObject.residentParticleIDs.map( tandemID => {
         return phet.phetio.phetioEngine.getPhetioObject( tandemID );
       } ),
-      electronShellOccupants: stateObject.electronShellOccupantIDs.map( function( tandemID ) {
+      electronShellOccupants: stateObject.electronShellOccupantIDs.map( tandemID => {
         return tandemID ? phet.phetio.phetioEngine.getPhetioObject( tandemID ) : null;
       } )
     };
 
     // add back the particles
-    deserializedState.residentParticles.forEach( function( value ) { particleAtom.addParticle( value ); } );
+    deserializedState.residentParticles.forEach( value => { particleAtom.addParticle( value ); } );
 
     // set the electron shell occupancy state
-    deserializedState.electronShellOccupants.forEach( function( electron, index ) {
+    deserializedState.electronShellOccupants.forEach( ( electron, index ) => {
       particleAtom.electronShellPositions[ index ].electron = electron;
     } );
   }
