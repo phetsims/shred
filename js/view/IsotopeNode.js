@@ -44,7 +44,7 @@ class IsotopeNode extends Node {
 
     if ( options.showLabel ) {
       const symbol = AtomIdentifier.getSymbol( isotope.protonCount );
-      const label = new RichText( ' <sup>' + isotope.massNumber + '</sup>' + symbol, {
+      const label = new RichText( ` <sup>${isotope.massNumber}</sup>${symbol}`, {
         font: new PhetFont( 10 ),
         // making sure that text doesn't goes beyond the sphere boundaries, -2 is empirically determined
         maxWidth: 2 * radius - 2

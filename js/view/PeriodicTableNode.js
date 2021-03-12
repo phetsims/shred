@@ -63,7 +63,7 @@ class PeriodicTableNode extends Node {
           interactive: elementIndex <= options.interactiveMax,
           showLabels: options.showLabels,
           length: options.cellDimension,
-          tandem: options.tandem.createTandem( AtomIdentifier.getEnglishName( elementIndex ) + 'Cell' )
+          tandem: options.tandem.createTandem( `${AtomIdentifier.getEnglishName( elementIndex )}Cell` )
         } );
         cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );
         this.addChild( cell );

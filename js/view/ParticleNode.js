@@ -50,7 +50,7 @@ class ParticleNode extends Circle {
 
     // Get the color to use as the basis for the gradients, fills, strokes and such.
     const baseColor = PARTICLE_COLORS[ particleType ];
-    assert && assert( baseColor, 'Unrecognized particle type: ' + particleType );
+    assert && assert( baseColor, `Unrecognized particle type: ${particleType}` );
 
     // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
     const gradientFill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )

@@ -132,7 +132,7 @@ class IsotopeElectronCloudView extends Circle {
       return reduceRadiusRange( mapElectronCountToRadius[ numElectrons ] );
     }
     else {
-      assert && assert( numElectrons <= MAX_ELECTRONS, 'Atom has more than supported number of electrons, ' + numElectrons );
+      assert && assert( numElectrons <= MAX_ELECTRONS, `Atom has more than supported number of electrons, ${numElectrons}` );
       return 0;
     }
   }
