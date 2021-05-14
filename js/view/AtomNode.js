@@ -69,7 +69,7 @@ class AtomNode extends Node {
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y + sizeInPixels / 2 );
       centerMarker.moveTo( center.x - sizeInPixels / 2, center.y + sizeInPixels / 2 );
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y - sizeInPixels / 2 );
-      atomCenterMarker = new Path( centerMarker, { // eslint-disable-line no-var
+      atomCenterMarker = new Path( centerMarker, {
         stroke: 'orange',
         lineWidth: 5,
         pickable: false,
