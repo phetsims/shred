@@ -16,8 +16,11 @@ import Vector2Property from '../../../dot/js/Vector2Property.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
+import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
+import StringIO from '../../../tandem/js/types/StringIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -624,6 +627,10 @@ ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
       return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
     } )
   } ),
+  stateSchema: {
+    residentParticleIDs: ArrayIO( StringIO ),
+    electronShellOccupantIDs: ArrayIO( NullableIO( StringIO ) )
+  },
   applyState: ( particleAtom, stateObject ) => {
 
     // remove all the particles from the observable arrays
