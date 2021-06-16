@@ -7,8 +7,8 @@
  * @author Luisa Vargas
  */
 
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
+import ArrowNode from '../../../scenery-phet/js/ArrowNode.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import FireListener from '../../../scenery/js/listeners/FireListener.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
@@ -17,7 +17,6 @@ import EventType from '../../../tandem/js/EventType.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
-import ArrowNode from '../../../scenery-phet/js/ArrowNode.js';
 
 // constants
 const NOMINAL_CELL_DIMENSION = 25;
@@ -51,135 +50,199 @@ const POPULATED_CELLS = [
   [ 1 ]
 ];
 
-/**
- * @param {number} atomicNumber - Atomic number of atom represented by this cell.
- * @param {NumberAtom} numberAtom - Atom that is set if this cell is selected by the user.
- * @param {Color} cellColor - Color to be used for selected enabled and disabled cell
- * @param {number} neutronNumber - Neutron number of nuclide represented by this cell.
- * @param {string[]} decay - String array of decay types to determine where white decay arrow(s) point(s).
- * @param {Object} [options]
- * @constructor
- */
-function NuclideChartCell( atomicNumber, numberAtom, cellColor, neutronNumber, decay, options ) {
-  options = merge( {
-    length: 25, //Width and height of cell (cells are square).
-    interactive: false, // Boolean flag that determines whether cell is interactive.
-    showLabels: true,
-    tandem: Tandem.REQUIRED,
-    phetioEventType: EventType.USER
-  }, options );
+class NuclideChartCell extends Rectangle {
+  /**
+   * @param {number} atomicNumber - Atomic number of atom represented by this cell.
+   * @param {NumberAtom} numberAtom - Atom that is set if this cell is selected by the user.
+   * @param {Color} cellColor - Color to be used for selected enabled and disabled cell
+   * @param {number} neutronNumber - Neutron number of nuclide represented by this cell.
+   * @param {string[]} decay - String array of decay types to determine where white decay arrow(s) point(s).
+   * @param {Object} [options]
+   */
+  constructor( atomicNumber, numberAtom, cellColor, neutronNumber, decay, options ) {
+    options = merge( {
+      length: 25, //Width and height of cell (cells are square).
+      interactive: false, // Boolean flag that determines whether cell is interactive.
+      showLabels: true,
+      tandem: Tandem.REQUIRED,
+      phetioEventType: EventType.USER
+    }, options );
 
-  this.type = 'NuclideCell';
-  this.options = options;
-  this.protonNumber = atomicNumber;
-  this.neutronNumber = neutronNumber;
-  this.decay = decay;
-  this.arrows = []; // Stores daughter arrows as they're added
-  this.daughters = getDaughterNuclides( this );
+    const normalFill = chart_material[ getMaterialIndex( decay[ 0 ] ) ];
 
-  // @private
-  this.normalFill = chart_material[ getMaterialIndex( decay[ 0 ] ) ];
-
-  Rectangle.call( this, 0, 0, options.length, options.length, 0, 0, {
-    stroke: 'black',
-    lineWidth: 1,
-    fill: this.normalFill,
-    cursor: options.interactive ? 'pointer' : null,
-    tandem: options.tandem,
-    phetioType: options.phetioType
-  } ); // Call super constructor.
-
-  //to go on top of arrows
-  this.cover = new Rectangle( 0, 0, options.length, options.length, 0, 0, {
-    stroke: 'black',
-    lineWidth: 2,
-    fill: cellColor.selected,
-    cursor: options.interactive ? 'pointer' : null,
-    tandem: options.tandem,
-    phetioType: options.phetioType
-  } );
-
-  //add lines if magic proton
-  if ( this.protonNumber === 2 || this.protonNumber === 8 ) {
-    this.topBorder = new Rectangle( 1, 1, options.length - 2, options.length / 5, {
+    super( 0, 0, options.length, options.length, 0, 0, {
       stroke: 'black',
-      lineWidth: 0,
-      fill: '#cccccc',
+      lineWidth: 1,
+      fill: normalFill,
       cursor: options.interactive ? 'pointer' : null,
       tandem: options.tandem,
       phetioType: options.phetioType
     } ); // Call super constructor.
-    this.addChild( this.topBorder );
-    this.cover.addChild( this.topBorder );
-    this.bottomBorder = new Rectangle( 1, ( options.length / 5 * 4 ) - 1, options.length - 2, options.length / 5, {
-      stroke: 'black',
-      lineWidth: 0,
-      fill: '#cccccc',
-      cursor: options.interactive ? 'pointer' : null,
-      tandem: options.tandem,
-      phetioType: options.phetioType
-    } ); // Call super constructor.
-    this.addChild( this.bottomBorder );
-    this.cover.addChild( this.bottomBorder );
-  }
-  //add lines if magic neutron
-  if ( this.neutronNumber === 2 || this.neutronNumber === 8 ) {
-    this.leftBorder = new Rectangle( 1, 1, options.length / 5, options.length - 2, {
-      stroke: 'black',
-      lineWidth: 0,
-      fill: '#cccccc',
-      cursor: options.interactive ? 'pointer' : null,
-      tandem: options.tandem,
-      phetioType: options.phetioType
-    } ); // Call super constructor.
-    this.addChild( this.leftBorder );
-    this.cover.addChild( this.leftBorder );
-    this.rightBorder = new Rectangle( ( options.length / 5 * 4 ) - 1, 1, options.length / 5, options.length - 2, {
-      stroke: 'black',
-      lineWidth: 0,
-      fill: '#cccccc',
-      cursor: options.interactive ? 'pointer' : null,
-      tandem: options.tandem,
-      phetioType: options.phetioType
-    } ); // Call super constructor.
-    this.addChild( this.rightBorder );
-    this.cover.addChild( this.rightBorder );
-  }
 
-  if ( options.showLabels ) {
+    this.type = 'NuclideCell';
+    this.options = options;
+    this.protonNumber = atomicNumber;
+    this.neutronNumber = neutronNumber;
+    this.decay = decay;
+    this.arrows = []; // Stores daughter arrows as they're added
+    this.daughters = getDaughterNuclides( this );
+
     // @private
-    this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
-      font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
-      fontWeight: 'bold',
-      center: this.center,
-      maxWidth: options.length - 5,
-      tandem: options.tandem.createTandem( 'label' )
+    this.normalFill = normalFill;
+
+    //to go on top of arrows
+    this.cover = new Rectangle( 0, 0, options.length, options.length, 0, 0, {
+      stroke: 'black',
+      lineWidth: 2,
+      fill: cellColor.selected,
+      cursor: options.interactive ? 'pointer' : null,
+      tandem: options.tandem,
+      phetioType: options.phetioType
     } );
-    this.cover.addChild( this.label );
+
+    //add lines if magic proton
+    if ( this.protonNumber === 2 || this.protonNumber === 8 ) {
+      this.topBorder = new Rectangle( 1, 1, options.length - 2, options.length / 5, {
+        stroke: 'black',
+        lineWidth: 0,
+        fill: '#cccccc',
+        cursor: options.interactive ? 'pointer' : null,
+        tandem: options.tandem,
+        phetioType: options.phetioType
+      } ); // Call super constructor.
+      this.addChild( this.topBorder );
+      this.cover.addChild( this.topBorder );
+      this.bottomBorder = new Rectangle( 1, ( options.length / 5 * 4 ) - 1, options.length - 2, options.length / 5, {
+        stroke: 'black',
+        lineWidth: 0,
+        fill: '#cccccc',
+        cursor: options.interactive ? 'pointer' : null,
+        tandem: options.tandem,
+        phetioType: options.phetioType
+      } ); // Call super constructor.
+      this.addChild( this.bottomBorder );
+      this.cover.addChild( this.bottomBorder );
+    }
+    //add lines if magic neutron
+    if ( this.neutronNumber === 2 || this.neutronNumber === 8 ) {
+      this.leftBorder = new Rectangle( 1, 1, options.length / 5, options.length - 2, {
+        stroke: 'black',
+        lineWidth: 0,
+        fill: '#cccccc',
+        cursor: options.interactive ? 'pointer' : null,
+        tandem: options.tandem,
+        phetioType: options.phetioType
+      } ); // Call super constructor.
+      this.addChild( this.leftBorder );
+      this.cover.addChild( this.leftBorder );
+      this.rightBorder = new Rectangle( ( options.length / 5 * 4 ) - 1, 1, options.length / 5, options.length - 2, {
+        stroke: 'black',
+        lineWidth: 0,
+        fill: '#cccccc',
+        cursor: options.interactive ? 'pointer' : null,
+        tandem: options.tandem,
+        phetioType: options.phetioType
+      } ); // Call super constructor.
+      this.addChild( this.rightBorder );
+      this.cover.addChild( this.rightBorder );
+    }
+
+    if ( options.showLabels ) {
+      // @private
+      this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
+        font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
+        fontWeight: 'bold',
+        center: this.center,
+        maxWidth: options.length - 5,
+        tandem: options.tandem.createTandem( 'label' )
+      } );
+      this.cover.addChild( this.label );
+    }
+
+    // If interactive, add a listener to set the atom when this cell is pressed.
+    let buttonListener = null; // scope for disposal
+    if ( options.interactive ) {
+      buttonListener = new FireListener( {
+        tandem: options.tandem.createTandem( 'inputListener' ),
+        fire: evt => {
+          numberAtom.setSubAtomicParticleCount(
+            atomicNumber,
+            AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
+            atomicNumber
+          );
+        }
+      } );
+      this.addInputListener( buttonListener );
+    }
+
+    // @private called by dispose
+    this.disposeNuclideChartCell = function() {
+      //this.label.dispose();
+      this.cover.dispose();
+      buttonListener && buttonListener.dispose();
+    };
   }
 
-  // If interactive, add a listener to set the atom when this cell is pressed.
-  let buttonListener = null; // scope for disposal
-  if ( options.interactive ) {
-    buttonListener = new FireListener( {
-      tandem: options.tandem.createTandem( 'inputListener' ),
-      fire: function( evt ) {
-        numberAtom.setSubAtomicParticleCount(
-          atomicNumber,
-          AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
-          atomicNumber
-        );
+  /**
+   * @public
+   */
+  removeArrows() {
+    for ( let i = 0; i < this.arrows.length; i++ ) {
+      if ( this.hasChild( this.arrows[ i ] ) ) {
+        this.removeChild( this.arrows[ i ] );
       }
-    } );
-    this.addInputListener( buttonListener );
+    }
   }
 
-  // @private called by dispose
-  this.disposeNuclideChartCell = function() {
-    //this.label.dispose();
-    this.cover.dispose();
-    buttonListener && buttonListener.dispose();
-  };
+  /**
+   * @public
+   */
+  makeArrow( cellArrowNum, tailX, tailY, headX, headY ) {
+    if ( typeof this.arrows[ cellArrowNum ] === 'undefined' ) {
+      this.arrows[ cellArrowNum ] = new ArrowNode( tailX, tailY, headX, headY, {
+        headHeight: 8,
+        headWidth: 8,
+        tailWidth: 4,
+        fill: '#FFFFFF'
+      } );
+    }
+  }
+
+  /**
+   * @public
+   */
+  drawArrows() {
+    for ( let i = 0; i < this.arrows.length; i++ ) {
+      if ( !this.hasChild( this.arrows[ i ] ) ) {
+        this.addChild( this.arrows[ i ] );
+      }
+    }
+  }
+
+  /**
+   * @public
+   */
+  setHighlighted( highLighted ) {
+    this.lineWidth = highLighted ? 2 : 1;
+    if ( highLighted ) {
+      if ( !this.hasChild( this.cover ) ) {
+        this.addChild( this.cover );
+      }
+    }
+    else {
+      if ( this.hasChild( this.cover ) ) {
+        this.removeChild( this.cover );
+      }
+    }
+  }
+
+  /**
+   * @public
+   */
+  dispose() {
+    this.disposeNuclideChartCell();
+    super.dispose();
+  }
 }
 
 function getMaterialIndex( type ) {
@@ -229,12 +292,13 @@ function getMaterialIndex( type ) {
 }
 
 function getDaughterNuclides( parent ) {//get daughter nuclides position
-  let to_n, to_p;
-  let daughters = [];
-  let decay = parent.decay;
-  let proton = parent.protonNumber;
-  let neutron = parent.neutronNumber;
-  let len = decay.length;
+  let to_n;
+  let to_p;
+  const daughters = [];
+  const decay = parent.decay;
+  const proton = parent.protonNumber;
+  const neutron = parent.neutronNumber;
+  const len = decay.length;
   for ( let i = 0; i < len; i++ ) {
     switch( decay[ i ] ) {
       case 'b-':
@@ -330,8 +394,8 @@ function getDaughterNuclides( parent ) {//get daughter nuclides position
         to_p = 0;
         break;
     }
-    let aProton = nuclides.length - 1 - to_p;
-    let aNeutron = POPULATED_CELLS[ aProton ].indexOf( to_n );
+    const aProton = nuclides.length - 1 - to_p;
+    const aNeutron = POPULATED_CELLS[ aProton ].indexOf( to_n );
     if ( aNeutron !== null && aNeutron !== undefined ) {
       daughters.push( [ aProton, to_n ] );
     }
@@ -345,54 +409,5 @@ function getDaughterNuclides( parent ) {//get daughter nuclides position
 }
 
 shred.register( 'NuclideChartCell', NuclideChartCell );
-
-inherit( Rectangle, NuclideChartCell, {
-
-  removeArrows: function() {
-    for ( let i = 0; i < this.arrows.length; i++ ) {
-      if ( this.hasChild( this.arrows[ i ] ) ) {
-        this.removeChild( this.arrows[ i ] );
-      }
-    }
-  },
-
-  makeArrow: function( cellArrowNum, tailX, tailY, headX, headY ) {
-    if ( typeof this.arrows[ cellArrowNum ] === 'undefined' ) {
-      this.arrows[ cellArrowNum ] = new ArrowNode( tailX, tailY, headX, headY, {
-        headHeight: 8,
-        headWidth: 8,
-        tailWidth: 4,
-        fill: '#FFFFFF'
-      } );
-    }
-  },
-
-  drawArrows: function() {
-    for ( let i = 0; i < this.arrows.length; i++ ) {
-      if ( !this.hasChild( this.arrows[ i ] ) ) {
-        this.addChild( this.arrows[ i ] );
-      }
-    }
-  },
-
-  setHighlighted: function( highLighted ) {
-    this.lineWidth = highLighted ? 2 : 1;
-    if ( highLighted ) {
-      if ( !this.hasChild( this.cover ) ) {
-        this.addChild( this.cover );
-      }
-    }
-    else {
-      if ( this.hasChild( this.cover ) ) {
-        this.removeChild( this.cover );
-      }
-    }
-  },
-
-  dispose: function() {
-    this.disposeNuclideChartCell();
-    Rectangle.prototype.dispose.call( this );
-  }
-} );
 
 export default NuclideChartCell;
