@@ -43,11 +43,13 @@ class ParticleCountDisplay extends Panel {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
       cornerRadius: 5,
       pickable: false,
+      includeElectron: true,
       tandem: Tandem.REQUIRED
     }, options );
 
-    const panelContents = new Node();
+    const maxAllowableLabelWidth = maxWidth * TITLE_MAX_WIDTH_PROPORTION;
 
+    const panelContents = new Node();
     const protonTitle = new Text( protonsColonString, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'protonTitle' )
@@ -58,31 +60,35 @@ class ParticleCountDisplay extends Panel {
       tandem: options.tandem.createTandem( 'neutronTitle' )
     } );
     panelContents.addChild( neutronTitle );
-    const electronTitle = new Text( electronsColonString, {
-      font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'electronTitle' )
-    } );
-    panelContents.addChild( electronTitle );
+    if ( options.includeElectron ) {
+      const electronTitle = new Text( electronsColonString, {
+        font: LABEL_FONT,
+        tandem: options.tandem.createTandem( 'electronTitle' )
+      } );
+      panelContents.addChild( electronTitle );
 
+      electronTitle.maxWidth = maxAllowableLabelWidth;
+    }
     // Scale the title if more than allowed proportion width
-    const maxAllowableLabelWidth = maxWidth * TITLE_MAX_WIDTH_PROPORTION;
     protonTitle.maxWidth = maxAllowableLabelWidth;
-    electronTitle.maxWidth = maxAllowableLabelWidth;
     neutronTitle.maxWidth = maxAllowableLabelWidth;
 
     // Lay out the labels.
-    const maxLabelWidth = Math.max( Math.max( protonTitle.width, neutronTitle.width ), electronTitle.width );
+    const maxProtonNeutronLabelWidth = Math.max( protonTitle.width, neutronTitle.width );
+    const maxLabelWidth = options.includeElectron ? Math.max( maxProtonNeutronLabelWidth, electronTitle.width ) :
+                          maxProtonNeutronLabelWidth;
     protonTitle.right = maxLabelWidth;
     protonTitle.top = 0;
     neutronTitle.right = maxLabelWidth;
     neutronTitle.bottom = protonTitle.bottom + Math.max( neutronTitle.height, MIN_VERTICAL_SPACING );
-    electronTitle.right = maxLabelWidth;
-    electronTitle.bottom = neutronTitle.bottom + Math.max( electronTitle.height, MIN_VERTICAL_SPACING );
+    if ( options.includeElectron ) {
+      electronTitle.right = maxLabelWidth;
+      electronTitle.bottom = neutronTitle.bottom + Math.max( electronTitle.height, MIN_VERTICAL_SPACING );
+    }
 
     // Figure out the sizes of the particles and the inter-particle spacing based on the max width.
     const totalParticleSpace = maxWidth - protonTitle.right - 10;
     const nucleonRadius = totalParticleSpace / ( ( maxParticles * 2 ) + ( maxParticles - 1 ) + 2 );
-    const electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
     const interParticleSpacing = nucleonRadius * 3;
 
     // Add an invisible spacer that will keep the control panel at a min width.
@@ -93,15 +99,20 @@ class ParticleCountDisplay extends Panel {
     panelContents.addChild( particleLayer );
 
     // stored ParticleNode instances that are positioned correctly, so we just have to add/remove the
-    // changed ones (faster than full rebuild)
+    // changed ones (faster than full rebuild
     const protons = [];
     const neutrons = [];
-    const electrons = [];
 
     // counts of the displayed number of particles
     let protonDisplayCount = 0;
     let neutronDisplayCount = 0;
-    let electronDisplayCount = 0;
+
+    let electronDisplayCount;
+    if ( options.includeElectron ) {
+      const electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
+      const electrons = [];
+      electronDisplayCount = 0;
+    }
 
     // increase the particle count by 1, and return the currently displayed quantity array
     function incrementParticleCount( array, currentQuantity, particleType, radius, startX, startY ) {
@@ -158,17 +169,20 @@ class ParticleCountDisplay extends Panel {
         neutronDisplayCount = decrementParticleCount( neutrons, neutronDisplayCount );
       }
 
-      while ( atom.electronCountProperty.get() > electronDisplayCount ) {
-        electronDisplayCount = incrementParticleCount(
-          electrons,
-          electronDisplayCount,
-          'electron',
-          electronRadius,
-          electronTitle.right + interParticleSpacing, electronTitle.center.y
-        );
-      }
-      while ( atom.electronCountProperty.get() < electronDisplayCount ) {
-        electronDisplayCount = decrementParticleCount( electrons, electronDisplayCount );
+      if ( options.includeElectron ) {
+
+        while ( atom.electronCountProperty.get() > electronDisplayCount ) {
+          electronDisplayCount = incrementParticleCount(
+            electrons,
+            electronDisplayCount,
+            'electron',
+            electronRadius,
+            electronTitle.right + interParticleSpacing, electronTitle.center.y
+          );
+        }
+        while ( atom.electronCountProperty.get() < electronDisplayCount ) {
+          electronDisplayCount = decrementParticleCount( electrons, electronDisplayCount );
+        }
       }
     };
 
