@@ -606,7 +606,7 @@ class ParticleAtom extends PhetioObject {
 }
 
 // helper function for retrieving the tandem for a particle
-// TODO: Should this use ReferenceIO?  See https://github.com/phetsims/tandem/issues/215
+// TODO: Should this use ReferenceIO?  See https://github.com/phetsims/shred/issues/30
 const getParticleTandemID = particle => particle.tandem.phetioID;
 
 ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
