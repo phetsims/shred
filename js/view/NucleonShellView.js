@@ -202,10 +202,10 @@ class NucleonShellView extends Node {
       keydown: event => {
         const domEvent = event.domEvent;
 
-        if ( domEvent.keyCode === KeyboardUtils.KEY_DOWN_ARROW || domEvent.keyCode === KeyboardUtils.KEY_RIGHT_ARROW ) {
+        if ( domEvent.code === KeyboardUtils.KEY_DOWN_ARROW || domEvent.code === KeyboardUtils.KEY_RIGHT_ARROW ) {
           currentIndex = ( currentIndex + 1 ) % optionNodes.length;
         }
-        else if ( domEvent.keyCode === KeyboardUtils.KEY_UP_ARROW || domEvent.keyCode === KeyboardUtils.KEY_LEFT_ARROW ) {
+        else if ( domEvent.code === KeyboardUtils.KEY_UP_ARROW || domEvent.code === KeyboardUtils.KEY_LEFT_ARROW ) {
           currentIndex = currentIndex - 1;
           if ( currentIndex < 0 ) { currentIndex = optionNodes.length - 1; }
         }
