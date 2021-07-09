@@ -41,7 +41,7 @@ class NucleusNode extends Node {
         showCenterX: false,
         showElementNameProperty: new Property( true ),
         showStableOrUnstableProperty: new Property( true ),
-        electronShellDepictionProperty: new Property( 'orbitals' ),
+        electronShellDepictionProperty: new Property( 'orbits' ),
         tandem: Tandem.REQUIRED
       },
       options
@@ -85,7 +85,7 @@ class NucleusNode extends Node {
     } );
     this.addChild( nucleonOrbital );
     const updateElectronShellDepictionVisibility = depiction => {
-      nucleonOrbital.visible = depiction === 'orbitals';
+      nucleonOrbital.visible = depiction === 'orbits';
     };
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
 
