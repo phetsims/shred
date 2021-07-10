@@ -20,7 +20,7 @@ import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
-import StringIO from '../../../tandem/js/types/StringIO.js';
+import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -606,8 +606,8 @@ class ParticleAtom extends PhetioObject {
 }
 
 // helper function for retrieving the tandem for a particle
-// TODO: Should this use ReferenceIO?  See https://github.com/phetsims/shred/issues/30
-const getParticleTandemID = particle => particle.tandem.phetioID;
+const ParticleReferenceIO = ReferenceIO( Particle.ParticleIO );
+const NullableParticleReferenceIO = NullableIO( ReferenceIO( Particle.ParticleIO ) );
 
 ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
   valueType: ParticleAtom,
@@ -618,18 +618,16 @@ ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
   toStateObject: particleAtom => ( {
 
     // an array of all the particles currently contained within the particle atom
-    residentParticleIDs: particleAtom.protons.map( getParticleTandemID )
-      .concat( particleAtom.neutrons.map( getParticleTandemID ) )
-      .concat( particleAtom.electrons.map( getParticleTandemID ) ),
+    residentParticleIDs: particleAtom.protons.map( ParticleReferenceIO.toStateObject )
+      .concat( particleAtom.neutrons.map( ParticleReferenceIO.toStateObject ) )
+      .concat( particleAtom.electrons.map( ParticleReferenceIO.toStateObject ) ),
 
     // an ordered array that tracks which electron, if any, is in each shell position
-    electronShellOccupantIDs: particleAtom.electronShellPositions.map( electronShellPosition => {
-      return electronShellPosition.electron ? getParticleTandemID( electronShellPosition.electron ) : null;
-    } )
+    electronShellOccupantIDs: particleAtom.electronShellPositions.map( e => e.electron ).map( NullableParticleReferenceIO.toStateObject )
   } ),
   stateSchema: {
-    residentParticleIDs: ArrayIO( StringIO ),
-    electronShellOccupantIDs: ArrayIO( NullableIO( StringIO ) )
+    residentParticleIDs: ArrayIO( ParticleReferenceIO ),
+    electronShellOccupantIDs: ArrayIO( NullableParticleReferenceIO )
   },
   applyState: ( particleAtom, stateObject ) => {
 
@@ -637,12 +635,8 @@ ParticleAtom.ParticleAtomIO = new IOType( 'ParticleAtomIO', {
     particleAtom.clear();
 
     const deserializedState = {
-      residentParticles: stateObject.residentParticleIDs.map( tandemID => {
-        return phet.phetio.phetioEngine.getPhetioObject( tandemID );
-      } ),
-      electronShellOccupants: stateObject.electronShellOccupantIDs.map( tandemID => {
-        return tandemID ? phet.phetio.phetioEngine.getPhetioObject( tandemID ) : null;
-      } )
+      residentParticles: stateObject.residentParticleIDs.map( ParticleReferenceIO.fromStateObject ),
+      electronShellOccupants: stateObject.electronShellOccupantIDs.map( NullableParticleReferenceIO.fromStateObject )
     };
 
     // add back the particles
