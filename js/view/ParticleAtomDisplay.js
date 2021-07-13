@@ -1,4 +1,4 @@
-// Copyright 2021, University of Colorado Boulder
+// Copyright 2014-2020, University of Colorado Boulder
 
 /**
  * A node that presents a representation of the atom. Uses ParticleNode's instead of the regular atom
