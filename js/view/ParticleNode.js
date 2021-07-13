@@ -5,8 +5,6 @@
  * track a particle, use ParticleView for that.
  */
 
-import NumberProperty from '../../../axon/js/NumberProperty.js';
-import Range from '../../../dot/js/Range.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
@@ -41,8 +39,6 @@ class ParticleNode extends Circle {
 
       // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
       highContrastProperty: null,
-
-      addZLayerProperty: false,
 
       // phet-io
       tandem: Tandem.OPTIONAL
@@ -79,17 +75,6 @@ class ParticleNode extends Circle {
         this.lineWidth = highContrast ? HIGH_CONTRAST_LINE_WIDTH : DEFAULT_LINE_WIDTH;
       };
       options.highContrastProperty.link( highContrastListener );
-    }
-
-    if ( options.addZLayerProperty ) {
-      this.zLayerProperty = new NumberProperty( 0, {
-        isValidValue: function( value ) {
-          return value >= 0 && value <= options.maxZLayer;
-        },
-        tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
-        numberType: 'Integer',
-        range: new Range( 0, Number.POSITIVE_INFINITY )
-      } ); // Used in view, integer value, higher means further back.
     }
 
     // @private - internal dispose function
