@@ -60,10 +60,8 @@ class ParticleCountDisplay extends Panel {
       tandem: options.tandem.createTandem( 'neutronTitle' )
     } );
     panelContents.addChild( neutronTitle );
-
-    let electronTitle;
     if ( options.includeElectron ) {
-      electronTitle = new Text( electronsColonString, {
+      const electronTitle = new Text( electronsColonString, {
         font: LABEL_FONT,
         tandem: options.tandem.createTandem( 'electronTitle' )
       } );
@@ -110,11 +108,9 @@ class ParticleCountDisplay extends Panel {
     let neutronDisplayCount = 0;
 
     let electronDisplayCount;
-    let electronRadius;
-    let electrons;
     if ( options.includeElectron ) {
-      electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
-      electrons = [];
+      const electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
+      const electrons = [];
       electronDisplayCount = 0;
     }
 
