@@ -573,8 +573,8 @@ class ParticleAtom extends PhetioObject {
       const radiusB = 10;
       const scaleFactorA = 2.4;
       const scaleFactorB = 1.35;
-      const scaleFunction = LinearFunction( radiusA, radiusB, scaleFactorA, scaleFactorB, this.nucleonRadius );
-      const scaleFactor = scaleFunction( this.nucleonRadius );
+      const scaleFunction = new LinearFunction( radiusA, radiusB, scaleFactorA, scaleFactorB, this.nucleonRadius );
+      const scaleFactor = scaleFunction.evaluate( this.nucleonRadius );
 
       for ( let i = 0; i < nucleons.length; i++ ) {
         nucleons[ i ].destinationProperty.set( new Vector2( centerX + placementRadius * Math.cos( placementAngle ),

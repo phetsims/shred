@@ -125,7 +125,7 @@ class IsotopeElectronCloudView extends Circle {
       const maxChangedRadius = 55;
 
       const compressionFunction = new LinearFunction( minShellRadius, maxShellRadius, minChangedRadius, maxChangedRadius );
-      return compressionFunction( value );
+      return compressionFunction.evaluate( value );
     };
 
     if ( numElectrons in mapElectronCountToRadius ) {
