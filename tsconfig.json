@@ -6,7 +6,7 @@
     }
   ],
   "include": [
-    "../build-an-atom/js/buildAnAtomStrings.js",
+    "../build-an-atom/js/buildAnAtomStrings.ts",
     "../build-an-atom/js/buildAnAtom.js",
 
     "js/**/*",
