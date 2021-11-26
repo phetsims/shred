@@ -8,9 +8,9 @@
  */
 
 import merge from '../../../phet-core/js/merge.js';
-import DragListener from '../../../scenery/js/listeners/DragListener.js';
-import Circle from '../../../scenery/js/nodes/Circle.js';
-import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
+import { DragListener } from '../../../scenery/js/imports.js';
+import { Circle } from '../../../scenery/js/imports.js';
+import { RadialGradient } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';

@@ -12,8 +12,8 @@
 
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import merge from '../../../phet-core/js/merge.js';
-import Circle from '../../../scenery/js/nodes/Circle.js';
-import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
+import { Circle } from '../../../scenery/js/imports.js';
+import { RadialGradient } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 

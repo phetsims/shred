@@ -8,9 +8,9 @@
 
 import Property from '../../../axon/js/Property.js';
 import merge from '../../../phet-core/js/merge.js';
-import KeyboardUtils from '../../../scenery/js/accessibility/KeyboardUtils.js';
-import Circle from '../../../scenery/js/nodes/Circle.js';
-import Node from '../../../scenery/js/nodes/Node.js';
+import { KeyboardUtils } from '../../../scenery/js/imports.js';
+import { Circle } from '../../../scenery/js/imports.js';
+import { Node } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 

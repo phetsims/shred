@@ -7,9 +7,9 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
-import Circle from '../../../scenery/js/nodes/Circle.js';
-import Color from '../../../scenery/js/util/Color.js';
-import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
+import { Circle } from '../../../scenery/js/imports.js';
+import { Color } from '../../../scenery/js/imports.js';
+import { RadialGradient } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 
