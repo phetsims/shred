@@ -21,7 +21,8 @@ const HIGH_CONTRAST_LINE_WIDTH = 2;
 const PARTICLE_COLORS = {
   proton: PhetColorScheme.RED_COLORBLIND,
   neutron: Color.GRAY,
-  electron: Color.BLUE
+  electron: Color.BLUE,
+  positron: new Color( 16, 160, 70 )
 };
 
 class ParticleNode extends Circle {
