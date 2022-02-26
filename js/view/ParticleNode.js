@@ -59,9 +59,6 @@ class ParticleNode extends Circle {
       .addColorStop( 1, baseColor );
 
     // Set the options for the default look.
-    if ( particleType === 'positron' ) {
-      console.log( baseColor.colorUtilsDarker( 0.33 ) + '???' );
-    }
     const nonHighContrastStroke = baseColor.colorUtilsDarker( 0.33 );
     options.fill = gradientFill;
     options.stroke = nonHighContrastStroke;
