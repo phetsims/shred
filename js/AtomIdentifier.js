@@ -1,4 +1,4 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
 /**
  * AtomIdentifier is an object that can be used to identify various things about an atom given its configuration, such
