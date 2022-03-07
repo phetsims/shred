@@ -31,6 +31,8 @@ const NUMBER_FONT = new PhetFont( 70 );
 const NUMBER_INSET = 20; // In screen coords, which are roughly pixels.
 
 class SymbolNode extends Node {
+  public readonly massNumberDisplay: Text;
+  public readonly chargeDisplay: Text | undefined;
 
   constructor( protonCountProperty: NumberProperty | DerivedProperty<number, [ protonCount: number ]>,
                massNumberProperty: DerivedProperty<number, [ protonCount: number, neutronCount: number ]>,
@@ -87,36 +89,36 @@ class SymbolNode extends Node {
     } );
 
     // Add the mass number display.
-    const massNumberDisplay = new Text( '0', {
+    this.massNumberDisplay = new Text( '0', {
       font: NUMBER_FONT,
       fill: 'black'
       // tandem: options.tandem.createTandem( 'massNumberDisplay' )
     } );
-    boundingBox.addChild( massNumberDisplay );
+    boundingBox.addChild( this.massNumberDisplay );
 
     // Add the listener to update the mass number.
     massNumberProperty.link( massNumber => {
-      massNumberDisplay.text = massNumber;
-      massNumberDisplay.left = NUMBER_INSET;
-      massNumberDisplay.top = NUMBER_INSET;
+      this.massNumberDisplay.text = massNumber;
+      this.massNumberDisplay.left = NUMBER_INSET;
+      this.massNumberDisplay.top = NUMBER_INSET;
     } );
 
     if ( options.chargeProperty ) {
 
       // Add the charge display.
-      const chargeDisplay = new Text( '0', {
+      this.chargeDisplay = new Text( '0', {
         font: NUMBER_FONT,
         fill: 'black'
         // tandem: options.tandem.createTandem( 'chargeDisplay' )
       } );
-      boundingBox.addChild( chargeDisplay );
+      boundingBox.addChild( this.chargeDisplay );
 
       // Add the listener to update the charge.
       options.chargeProperty.link( charge => {
-        chargeDisplay.text = ( charge > 0 ? '+' : '' ) + charge;
-        chargeDisplay.fill = ShredConstants.CHARGE_TEXT_COLOR( charge );
-        chargeDisplay.right = SYMBOL_BOX_WIDTH - NUMBER_INSET;
-        chargeDisplay.top = NUMBER_INSET;
+        this.chargeDisplay!.text = ( charge > 0 ? '+' : '' ) + charge;
+        this.chargeDisplay!.fill = ShredConstants.CHARGE_TEXT_COLOR( charge );
+        this.chargeDisplay!.right = SYMBOL_BOX_WIDTH - NUMBER_INSET;
+        this.chargeDisplay!.top = NUMBER_INSET;
       } );
 
     }
