@@ -32,8 +32,10 @@ const NUMBER_INSET = 20; // In screen coords, which are roughly pixels.
 
 class SymbolNode extends Node {
 
-  constructor( protonCountProperty: NumberProperty, massNumberProperty: DerivedProperty<number, [ protonCount: number, neutronCount: number ]>,
-               providedOptions: SymbolNodeOptions ) {
+  constructor( protonCountProperty: NumberProperty | DerivedProperty<number, [ protonCount: number ]>,
+               massNumberProperty: DerivedProperty<number, [ protonCount: number, neutronCount: number ]>,
+               providedOptions: SymbolNodeOptions
+  ) {
 
     const options = optionize<SymbolNodeOptions, SelfOptions, NodeOptions>( {
       chargeProperty: null,
@@ -73,7 +75,7 @@ class SymbolNode extends Node {
     const protonCountDisplay = new Text( '0', {
       font: NUMBER_FONT,
       fill: PhetColorScheme.RED_COLORBLIND
-     // tandem: options.tandem.createTandem( 'atomicNumberDisplay' )
+      // tandem: options.tandem.createTandem( 'atomicNumberDisplay' )
     } );
     boundingBox.addChild( protonCountDisplay );
 
