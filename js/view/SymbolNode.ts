@@ -1,7 +1,7 @@
 // Copyright 2022, University of Colorado Boulder
 
 /**
- * Scenery node that represents an atomic symbol, meaning that it shows the symbol text, the proton count, and the
+ * Node that represents an atomic symbol, meaning that it shows the symbol text, the proton count, and the
  * atomic number. It also optionally shows the charge.
  *
  * @author John Blanco
@@ -31,8 +31,9 @@ const NUMBER_FONT = new PhetFont( 70 );
 const NUMBER_INSET = 20; // In screen coords, which are roughly pixels.
 
 class SymbolNode extends Node {
-  public readonly massNumberDisplay: Text;
-  public readonly chargeDisplay: Text | undefined;
+  protected readonly massNumberDisplay: Text;
+  protected readonly chargeDisplay: Text | undefined;
+  protected readonly boundingBox: Rectangle;
 
   constructor( protonCountProperty: NumberProperty | DerivedProperty<number, [ protonCount: number ]>,
                massNumberProperty: DerivedProperty<number, [ protonCount: number, neutronCount: number ]>,
@@ -41,20 +42,20 @@ class SymbolNode extends Node {
 
     const options = optionize<SymbolNodeOptions, SelfOptions, NodeOptions>( {
       chargeProperty: null,
-      tandem: Tandem.REQUIRED // TODO: How to support phet-brand and sub-instrumented components?
+      tandem: Tandem.REQUIRED // TODO: How to support phet-brand and sub-instrumented components? This applies to all the commented out tandems
     }, providedOptions );
 
     super( options );
 
     // Add the bounding box, which is also the root node for everything else
     // that comprises this node.
-    const boundingBox = new Rectangle( 0, 0, SYMBOL_BOX_WIDTH, SYMBOL_BOX_HEIGHT, 0, 0, {
+    this.boundingBox = new Rectangle( 0, 0, SYMBOL_BOX_WIDTH, SYMBOL_BOX_HEIGHT, 0, 0, {
       stroke: 'black',
       lineWidth: 2,
       fill: 'white'
       // tandem: options.tandem.createTandem( 'boundingBox' )
     } );
-    this.addChild( boundingBox );
+    this.addChild( this.boundingBox );
 
     // Add the symbol text.
     const symbolText = new Text( '', {
@@ -71,7 +72,7 @@ class SymbolNode extends Node {
       symbolText.text = protonCount > 0 ? symbol : '';
       symbolText.center = textCenter;
     } );
-    boundingBox.addChild( symbolText );
+    this.boundingBox.addChild( symbolText );
 
     // Add the proton count display.
     const protonCountDisplay = new Text( '0', {
@@ -79,7 +80,7 @@ class SymbolNode extends Node {
       fill: PhetColorScheme.RED_COLORBLIND
       // tandem: options.tandem.createTandem( 'atomicNumberDisplay' )
     } );
-    boundingBox.addChild( protonCountDisplay );
+    this.boundingBox.addChild( protonCountDisplay );
 
     // Add the listener to update the proton count.
     protonCountProperty.link( protonCount => {
@@ -94,7 +95,7 @@ class SymbolNode extends Node {
       fill: 'black'
       // tandem: options.tandem.createTandem( 'massNumberDisplay' )
     } );
-    boundingBox.addChild( this.massNumberDisplay );
+    this.boundingBox.addChild( this.massNumberDisplay );
 
     // Add the listener to update the mass number.
     massNumberProperty.link( massNumber => {
@@ -111,7 +112,7 @@ class SymbolNode extends Node {
         fill: 'black'
         // tandem: options.tandem.createTandem( 'chargeDisplay' )
       } );
-      boundingBox.addChild( this.chargeDisplay );
+      this.boundingBox.addChild( this.chargeDisplay );
 
       // Add the listener to update the charge.
       options.chargeProperty.link( charge => {
