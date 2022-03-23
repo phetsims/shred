@@ -14140,19 +14140,15 @@ const AtomIdentifier = {
     return false;
   },
 
-  // TODO: follows different pattern than half-life (in terms of null and undefined), is that alright?
-  // Get the available decays for an unstable nuclide. Returns an empty array if the decays are unknown and null if the
+  // TODO: follows different pattern than half-life (in terms of null and undefined, doesn't return those), is that alright?
+  // Get the available decays for an unstable nuclide. Returns an empty array if the decays are unknown or if the
   // nuclide does not exist or is stable.
-  getNuclideAvailableDecays: function( numProtons, numNeutrons ) {
+  getAvailableDecays: function( numProtons, numNeutrons ) {
     const allDecaysAndPercents = DECAYS_INFO_TABLE[ numProtons ][ numNeutrons ];
 
-    // the nuclide is stable or does not exist, meaning there are no available decays
-    if ( allDecaysAndPercents === undefined ) {
-      return null;
-    }
-
-    // the nuclide is unstable and the available decays are unknown
-    else if ( allDecaysAndPercents === null ) {
+    // undefined means the nuclide is stable or does not exist, meaning there are no available decays
+    // null the nuclide is unstable and the available decays are unknown
+    if ( allDecaysAndPercents === undefined || allDecaysAndPercents === null ) {
       return [];
     }
 
@@ -14163,62 +14159,64 @@ const AtomIdentifier = {
       for ( let i = 0; i < allDecays.length; i++ ) {
         switch( allDecays[ i ] ) {
           case 'B-':
-            if ( basicDecays.indexOf( 'B-' ) === -1 ) {
-              basicDecays.push( 'B-' );
+            if ( basicDecays.indexOf( 'BETA_MINUS_DECAY' ) === -1 ) {
+              basicDecays.push( 'BETA_MINUS_DECAY' );
             }
             break;
           case '2B-':
             break;
           case 'EC+B+':
-            if ( basicDecays.indexOf( 'B+' ) === -1 ) {
-              basicDecays.push( 'B+' );
+            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+              basicDecays.push( 'BETA_PLUS_DECAY' );
             }
             break;
           case 'EC':
-            if ( basicDecays.indexOf( 'B+' ) === -1 ) {
-              basicDecays.push( 'B+' );
+            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+              basicDecays.push( 'BETA_PLUS_DECAY' );
             }
             break;
           case 'B+':
-            if ( basicDecays.indexOf( 'B+' ) === -1 ) {
-              basicDecays.push( 'B+' );
+            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+              basicDecays.push( 'BETA_PLUS_DECAY' );
             }
             break;
           case 'B++EC':
             break;
           case '2EC':
-            if ( basicDecays.indexOf( 'B+' ) === -1 ) {
-              basicDecays.push( 'B+' );
+            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+              basicDecays.push( 'BETA_PLUS_DECAY' );
             }
             break;
           case '2B+':
             break;
           case 'A':
-            basicDecays.push( 'A' );
+            if ( basicDecays.indexOf( 'ALPHA_DECAY' ) === -1 ) {
+              basicDecays.push( 'ALPHA_DECAY' );
+            }
             break;
           case 'P':
-            if ( basicDecays.indexOf( 'P' ) === -1 ) {
-              basicDecays.push( 'P' );
+            if ( basicDecays.indexOf( 'PROTON_EMISSION' ) === -1 ) {
+              basicDecays.push( 'PROTON_EMISSION' );
             }
             break;
           case 'N':
-            if ( basicDecays.indexOf( 'N' ) === -1 ) {
-              basicDecays.push( 'N' );
+            if ( basicDecays.indexOf( 'NEUTRON_EMISSION' ) === -1 ) {
+              basicDecays.push( 'NEUTRON_EMISSION' );
             }
             break;
           case '2P':
-            if ( basicDecays.indexOf( 'P' ) === -1 ) {
-              basicDecays.push( 'P' );
+            if ( basicDecays.indexOf( 'PROTON_EMISSION' ) === -1 ) {
+              basicDecays.push( 'PROTON_EMISSION' );
             }
             break;
           case '2N':
-            if ( basicDecays.indexOf( 'N' ) === -1 ) {
-              basicDecays.push( 'N' );
+            if ( basicDecays.indexOf( 'NEUTRON_EMISSION' ) === -1 ) {
+              basicDecays.push( 'NEUTRON_EMISSION' );
             }
             break;
           case 'B+A':
-            if ( basicDecays.indexOf( 'B+' ) === -1 ) {
-              basicDecays.push( 'B+' );
+            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+              basicDecays.push( 'BETA_PLUS_DECAY' );
             }
             break;
           case 'ECA':
