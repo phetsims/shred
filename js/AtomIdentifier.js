@@ -14101,6 +14101,11 @@ const AtomIdentifier = {
 
   // Get the half-life of a nuclide with the specified number of protons and neutrons.
   getNuclideHalfLife: function( numProtons, numNeutrons ) {
+
+    // TODO: why is it that HalfLifeConstants[ 0 ][ -1 ] = undefined but HalfLifeConstants[ -1 ][ 0 ] an error? why do I have to check HalfLifeConstants[ -1 ] first?
+    if ( !HalfLifeConstants[ numProtons ] ) {
+      return undefined;
+    }
     return HalfLifeConstants[ numProtons ][ numNeutrons ];
   },
 
@@ -14143,6 +14148,11 @@ const AtomIdentifier = {
       return [ numProtons + increaseProtons, numNeutrons ];
     }
     return false;
+  },
+
+  // Return if the previous isotone of the given nuclide exists
+  doesPreviousIsotoneExist: function( numProtons, numNeutrons ) {
+    return this.getNuclideHalfLife( numProtons - 1, numNeutrons ) !== undefined || this.isStable( numProtons - 1, numNeutrons );
   },
 
   // Get the available decays for an unstable nuclide. Returns an empty array if the decays are unknown or if the
