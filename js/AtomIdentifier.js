@@ -14123,6 +14123,11 @@ const AtomIdentifier = {
     return false;
   },
 
+  // Return if the previous isotope of the given nuclide exists
+  doesPreviousIsotopeExist: function( numProtons, numNeutrons ) {
+    return this.getNuclideHalfLife( numProtons, numNeutrons - 1 ) !== undefined || this.isStable( numProtons, numNeutrons - 1 );
+  },
+
   // Get the next isotone for the given nuclide that exists, if there is one, otherwise return false
   getNextExistingIsotone: function( numProtons, numNeutrons ) {
     let increaseProtons = 0;
@@ -14140,7 +14145,6 @@ const AtomIdentifier = {
     return false;
   },
 
-  // TODO: follows different pattern than half-life (in terms of null and undefined, doesn't return those), is that alright?
   // Get the available decays for an unstable nuclide. Returns an empty array if the decays are unknown or if the
   // nuclide does not exist or is stable.
   getAvailableDecays: function( numProtons, numNeutrons ) {
