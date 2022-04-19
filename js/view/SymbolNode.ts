@@ -40,7 +40,7 @@ class SymbolNode extends Node {
                providedOptions: SymbolNodeOptions
   ) {
 
-    const options = optionize<SymbolNodeOptions, SelfOptions, NodeOptions>( {
+    const options = optionize<SymbolNodeOptions, SelfOptions, NodeOptions>()( {
       chargeProperty: null,
       tandem: Tandem.REQUIRED // TODO: How to support phet-brand and sub-instrumented components? This applies to all the commented out tandems
     }, providedOptions );
