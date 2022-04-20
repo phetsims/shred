@@ -51,7 +51,7 @@ class ParticleView extends Node {
     particle.positionProperty.link( updateParticlePosition );
 
     // add a drag listener
-    const dragListener = new DragListener( {
+    this.dragListener = new DragListener( {
 
       positionProperty: particle.destinationProperty,
       transform: modelViewTransform,
@@ -76,9 +76,13 @@ class ParticleView extends Node {
 
       end: () => {
         this.particle.userControlledProperty.set( false );
+
+        if ( !this.isDisposed ) {
+          particle.dragEndedEmitter.emit( particle );
+        }
       }
     } );
-    this.addInputListener( dragListener );
+    this.addInputListener( this.dragListener );
 
     this.mutate( options );
 
@@ -86,7 +90,7 @@ class ParticleView extends Node {
     this.disposeParticleView = function() {
       particle.positionProperty.unlink( updateParticlePosition );
       particleNode.dispose();
-      dragListener.dispose();
+      this.dragListener.dispose();
     };
   }
 
@@ -97,6 +101,14 @@ class ParticleView extends Node {
   dispose() {
     this.disposeParticleView();
     super.dispose();
+  }
+
+  /**
+   * @public
+   * @param {PressListenerEvent} event
+   */
+  startSyntheticDrag( event ) {
+    this.dragListener.press( event );
   }
 }
 

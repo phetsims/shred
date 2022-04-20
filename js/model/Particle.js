@@ -7,6 +7,7 @@
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
@@ -18,6 +19,9 @@ import IOType from '../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
+
+// Incremented for Particle IDs
+let nextParticleId = 1;
 
 // constants
 const DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
@@ -38,6 +42,12 @@ class Particle extends PhetioObject {
     }, options );
 
     super( options );
+
+    // @public (read-only) - IDs needed for map-like lookup
+    this.id = nextParticleId++;
+
+    // @public - Fires when the user stops dragging a particle.
+    this.dragEndedEmitter = new Emitter( { parameters: [ { valueType: Particle } ] } );
 
     // @public (read-only)
     this.type = type;
