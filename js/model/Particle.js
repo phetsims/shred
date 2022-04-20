@@ -49,6 +49,9 @@ class Particle extends PhetioObject {
     // @public - Fires when the user stops dragging a particle.
     this.dragEndedEmitter = new Emitter( { parameters: [ { valueType: Particle } ] } );
 
+    // @public - Fires when the particle reaches its destination via animation in step
+    this.animationEndedEmitter = new Emitter();
+
     // @public (read-only)
     this.type = type;
 
@@ -136,6 +139,7 @@ class Particle extends PhetioObject {
       else if ( distanceToDestination > 0 ) {
         // Less than one time step away, so just go to the destination.
         this.moveImmediatelyToDestination();
+        this.animationEndedEmitter.emit();
       }
     }
   }
