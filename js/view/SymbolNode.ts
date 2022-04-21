@@ -16,9 +16,9 @@ import NumberProperty from '../../../axon/js/NumberProperty.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import ShredConstants from '../ShredConstants.js';
-import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
 
 // types
 type SelfOptions = { chargeProperty?: NumberProperty | null };
@@ -35,8 +35,8 @@ class SymbolNode extends Node {
   protected readonly chargeDisplay: Text | undefined;
   protected readonly boundingBox: Rectangle;
 
-  constructor( protonCountProperty: NumberProperty | DerivedProperty<number, [ protonCount: number ]>,
-               massNumberProperty: DerivedProperty<number, [ protonCount: number, neutronCount: number ]>,
+  constructor( protonCountProperty: NumberProperty | IReadOnlyProperty<number>,
+               massNumberProperty: IReadOnlyProperty<number>,
                providedOptions: SymbolNodeOptions
   ) {
 
