@@ -14116,43 +14116,29 @@ const AtomIdentifier = {
     return !( !isStable && halfLife === undefined );
   },
 
-  // Get the next isotope for the given nuclide that exists, if there is one, otherwise return false
-  getNextExistingIsotope: function( numProtons, numNeutrons ) {
-    let increaseNeutrons = 0;
-    while ( increaseNeutrons <= 2 && this.getNuclideHalfLife( numProtons, numNeutrons + increaseNeutrons ) === undefined ) {
-      increaseNeutrons++;
-    }
-    if ( this.getNuclideHalfLife( numProtons, numNeutrons + increaseNeutrons ) !== undefined ) {
-      return [ numProtons, numNeutrons + increaseNeutrons ];
-    }
-    return false;
+  // Return if the next isotope of the given nuclide exists
+  doesNextIsotopeExist: function( numProtons, numNeutrons ) {
+    return this.getNuclideHalfLife( numProtons, numNeutrons + 1 ) !== undefined ||
+      this.isStable( numProtons, numNeutrons + 1 );
+
   },
 
   // Return if the previous isotope of the given nuclide exists
   doesPreviousIsotopeExist: function( numProtons, numNeutrons ) {
-    return this.getNuclideHalfLife( numProtons, numNeutrons - 1 ) !== undefined || this.isStable( numProtons, numNeutrons - 1 );
+    return this.getNuclideHalfLife( numProtons, numNeutrons - 1 ) !== undefined ||
+           this.isStable( numProtons, numNeutrons - 1 );
   },
 
-  // Get the next isotone for the given nuclide that exists, if there is one, otherwise return false
-  getNextExistingIsotone: function( numProtons, numNeutrons ) {
-    let increaseProtons = 0;
-    while ( increaseProtons <= 2 &&
-            this.getNuclideHalfLife( numProtons + increaseProtons, numNeutrons ) === undefined &&
-            !this.isStable( numProtons + increaseProtons, numNeutrons )
-      ) {
-      increaseProtons++;
-    }
-    if ( this.getNuclideHalfLife( numProtons + increaseProtons, numNeutrons ) !== undefined ||
-         this.isStable( numProtons + increaseProtons, numNeutrons )
-    ) {
-      return [ numProtons + increaseProtons, numNeutrons ];
-    }
-    return false;
+  // Return if the next isotone of the given nuclide exists
+  doesNextIsotoneExist: function( numProtons, numNeutrons ) {
+    return this.getNuclideHalfLife( numProtons + 1, numNeutrons ) !== undefined ||
+           this.isStable( numProtons + 1, numNeutrons );
   },
 
   // Return if the previous isotone of the given nuclide exists
   doesPreviousIsotoneExist: function( numProtons, numNeutrons ) {
-    return this.getNuclideHalfLife( numProtons - 1, numNeutrons ) !== undefined || this.isStable( numProtons - 1, numNeutrons );
+    return this.getNuclideHalfLife( numProtons - 1, numNeutrons ) !== undefined ||
+           this.isStable( numProtons - 1, numNeutrons );
   },
 
   // Get the available decays for an unstable nuclide. Returns an empty array if the decays are unknown or if the

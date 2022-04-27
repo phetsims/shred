@@ -46,6 +46,7 @@ class Particle extends PhetioObject {
     // @public (read-only) - IDs needed for map-like lookup
     this.id = nextParticleId++;
 
+    // TODO: investigate getting rid of this and using userControlledProperty
     // @public - Fires when the user stops dragging a particle.
     this.dragEndedEmitter = new Emitter( { parameters: [ { valueType: Particle } ] } );
 

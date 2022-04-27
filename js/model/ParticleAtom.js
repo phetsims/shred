@@ -276,7 +276,7 @@ class ParticleAtom extends PhetioObject {
    * test this this particle atom contains a particular particle
    * @param {Particle} particle
    * @returns {boolean}
-   * @private
+   * @public
    */
   containsParticle( particle ) {
     return this.protons.includes( particle ) ||
