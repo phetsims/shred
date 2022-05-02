@@ -14141,6 +14141,12 @@ const AtomIdentifier = {
            this.isStable( numProtons - 1, numNeutrons );
   },
 
+  // Return if the nuclide of the given nuclide minus one proton and minus one neutrons exists
+  doesPreviousNuclideExist: function( numProtons, numNeutrons ) {
+    return this.getNuclideHalfLife( numProtons - 1, numNeutrons - 1 ) !== undefined ||
+           this.isStable( numProtons - 1, numNeutrons - 1 );
+  },
+
   // Get the available decays for an unstable nuclide. Returns an empty array if the decays are unknown or if the
   // nuclide does not exist or is stable.
   getAvailableDecays: function( numProtons, numNeutrons ) {
