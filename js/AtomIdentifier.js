@@ -731,6 +731,106 @@ const numNeutronsInMostStableIsotope = [
   161
 ];
 
+// This data structure maps the number of electrons to a radius for an atom.  It assumes a stable, neutral atom.
+// The basic values are the covalent radii, and were taken from a Wikipedia entry entitled "Atomic radii of the
+// elements" which, at the time of this writing, can be found here:
+// https://en.wikipedia.org/wiki/Atomic_radii_of_the_elements_(data_page).
+// The values are in picometers.
+const mapElectronCountToRadius = {
+  1: 53,
+  2: 31,
+  3: 167,
+  4: 112,
+  5: 87,
+  6: 67,
+  7: 56,
+  8: 48,
+  9: 42,
+  10: 38,
+  11: 190,
+  12: 145,
+  13: 118,
+  14: 111,
+  15: 98,
+  16: 88,
+  17: 79,
+  18: 71,
+  19: 243,
+  20: 194,
+  21: 184,
+  22: 176,
+  23: 171,
+  24: 166,
+  25: 161,
+  26: 156,
+  27: 152,
+  28: 149,
+  29: 145,
+  30: 142,
+  31: 136,
+  32: 125,
+  33: 114,
+  34: 103,
+  35: 94,
+  36: 88,
+  37: 265,
+  38: 219,
+  39: 212,
+  40: 206,
+  41: 198,
+  42: 190,
+  43: 183,
+  44: 178,
+  45: 173,
+  46: 169,
+  47: 165,
+  48: 161,
+  49: 156,
+  50: 145,
+  51: 133,
+  52: 123,
+  53: 115,
+  54: 108,
+  55: 298,
+  56: 253,
+  57: 226,
+  58: 210,
+  59: 247,
+  60: 206,
+  61: 205,
+  62: 238,
+  63: 231,
+  64: 233,
+  65: 225,
+  66: 228,
+  67: 226,
+  68: 226,
+  69: 222,
+  70: 222,
+  71: 217,
+  72: 208,
+  73: 200,
+  74: 193,
+  75: 188,
+  76: 185,
+  77: 180,
+  78: 177,
+  79: 174,
+  80: 171,
+  81: 156,
+  82: 154,
+  83: 143,
+  84: 135,
+  85: 127,
+  86: 120,
+  87: 348,
+  88: 215,
+  89: 195,
+  90: 180,
+  91: 180,
+  92: 175
+};
+
 // Table which contains information about the all the possible decays an unstable nuclide can undergo and the percentage
 // likelihood that the nuclide will undergo each type of decay. If the decay(s) are unknown or if the percentage
 // likelihood is unknown, null is used as a placeholder. The data was obtained from the Nuclear Data Services (NDS) of
@@ -14261,6 +14361,10 @@ const AtomIdentifier = {
       }
       return basicDecays;
     }
+  },
+
+  getAtomicRadius: function( numElectrons ) {
+    return mapElectronCountToRadius[ numElectrons ];
   }
 };
 
