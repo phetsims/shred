@@ -11094,6 +11094,7 @@ const standardMassTable = [
 // and 4 neutrons ( HalfLifeConstants[ 1 ][ 4 ] ) would have a half-life of 8.60826E-23 seconds.
 const HalfLifeConstants = {
   0: {
+    0: null, // a placeholder to allow a nuclide with 0 protons and 0 neutrons to exist as a base case
     1: 613.9,
     4: 1.75476E-22,
     6: null
