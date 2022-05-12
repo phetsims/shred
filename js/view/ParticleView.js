@@ -135,6 +135,7 @@ function createParticleNode( particle, modelViewTransform, highContrastProperty,
       modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
       {
         highContrastProperty: highContrastProperty,
+        typeProperty: particle.typeProperty,
         tandem: tandem
       }
     );

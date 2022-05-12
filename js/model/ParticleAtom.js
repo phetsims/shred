@@ -13,6 +13,7 @@ import dotRandom from '../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
+import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -602,6 +603,30 @@ class ParticleAtom extends PhetioObject {
     }
 
     this.nucleusRadius = nucleusRadius;
+  }
+
+  /**
+   * Change the nucleon type of a particle to the other nucleon type.
+   * @param {Particle} particle
+   * @public
+   */
+  changeNucleonType( particle ) {
+    assert && assert( this.containsParticle( particle ), 'ParticleAtom does not contain this particle ' + particle.id );
+    assert && assert( particle.type === 'proton' || particle.type === 'neutron', 'Particle type must be a proton or a neutron.' );
+
+    const isParticleTypeProton = particle.type === 'proton';
+    const particleTypes = {
+      newParticleType: isParticleTypeProton ? 'neutron' : 'proton',
+      oldParticleArray: isParticleTypeProton ? this.protons : this.neutrons,
+      newParticleArray: isParticleTypeProton ? this.neutrons : this.protons
+    };
+    particle.typeProperty.value = particleTypes.newParticleType;
+
+    // defer the massNumberProperty links until the particle arrays are correct so the nucleus does not reconfigure
+    this.massNumberProperty.setDeferred( true );
+    arrayRemove( particleTypes.oldParticleArray, particle );
+    particleTypes.newParticleArray.push( particle );
+    this.massNumberProperty.setDeferred( false );
   }
 }
 

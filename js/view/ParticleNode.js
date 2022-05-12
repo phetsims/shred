@@ -41,6 +41,8 @@ class ParticleNode extends Circle {
       // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
       highContrastProperty: null,
 
+      typeProperty: null,
+
       // phet-io
       tandem: Tandem.OPTIONAL
     }, options );
@@ -65,6 +67,27 @@ class ParticleNode extends Circle {
     options.lineWidth = DEFAULT_LINE_WIDTH;
 
     super( radius, options );
+
+    // change the color of the particle if its type changes
+    options.typeProperty && options.typeProperty.lazyLink( type => {
+
+      // Get the color to use as the basis for the gradients, fills, strokes and such.
+      const baseColor = PARTICLE_COLORS[ type ];
+      assert && assert( baseColor, `Unrecognized particle type: ${type}` );
+
+      // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
+      const gradientFill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
+        .addColorStop( 0, 'white' )
+        .addColorStop( 1, baseColor );
+
+      // Set the options for the default look.
+      const nonHighContrastStroke = baseColor.colorUtilsDarker( 0.33 );
+      const newOptions = {};
+      newOptions.fill = gradientFill;
+      newOptions.stroke = nonHighContrastStroke;
+
+      this.mutate( newOptions );
+    } );
 
     // If a highContrastProperty is provided, update the particle appearance based on its value.
     // Set up the fill and the strokes based on whether the highContrastProperty option is provided.
