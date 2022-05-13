@@ -1,17 +1,9 @@
 {
   "extends": "../chipper/tsconfig-core.json",
-  "references": [
-    {
-      "path": "../joist/tsconfig-module.json"
-    }
-  ],
   "include": [
-    "../build-an-atom/js/buildAnAtomStrings.ts",
-    "../build-an-atom/js/buildAnAtom.js",
-
     "js/**/*",
-    "sounds/**/*",
+    "images/**/*",
     "mipmaps/**/*",
-    "images/**/*"
+    "sounds/**/*"
   ]
 }
