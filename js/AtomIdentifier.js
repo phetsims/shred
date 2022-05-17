@@ -14202,8 +14202,6 @@ const AtomIdentifier = {
 
   // Get the half-life of a nuclide with the specified number of protons and neutrons.
   getNuclideHalfLife: function( numProtons, numNeutrons ) {
-
-    // TODO: why is it that HalfLifeConstants[ 0 ][ -1 ] = undefined but HalfLifeConstants[ -1 ][ 0 ] an error? why do I have to check HalfLifeConstants[ -1 ] first?
     if ( !HalfLifeConstants[ numProtons ] ) {
       return undefined;
     }
