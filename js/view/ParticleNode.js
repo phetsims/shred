@@ -5,6 +5,7 @@
  * track a particle, use ParticleView for that.
  */
 
+import stepTimer from '../../../axon/js/stepTimer.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import { Circle } from '../../../scenery/js/imports.js';
@@ -24,6 +25,15 @@ const PARTICLE_COLORS = {
   electron: Color.BLUE,
   positron: Color.GREEN
 };
+
+// color gradient between the color of a proton and a neutron
+const NUCLEON_COLOR_GRADIENT = [
+  PARTICLE_COLORS.proton,
+  new Color( '#e06020' ), // 1/4 point
+  new Color( '#c06b40' ), // half-way point
+  new Color( '#a07660' ), // 3/4 point
+  PARTICLE_COLORS.neutron
+];
 
 class ParticleNode extends Circle {
 
@@ -68,25 +78,52 @@ class ParticleNode extends Circle {
 
     super( radius, options );
 
-    // change the color of the particle if its type changes
-    options.typeProperty && options.typeProperty.lazyLink( type => {
-
-      // Get the color to use as the basis for the gradients, fills, strokes and such.
-      const baseColor = PARTICLE_COLORS[ type ];
-      assert && assert( baseColor, `Unrecognized particle type: ${type}` );
+    // function to change the color of a particle
+    const changeParticleColor = newColor => {
 
       // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
       const gradientFill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
         .addColorStop( 0, 'white' )
-        .addColorStop( 1, baseColor );
+        .addColorStop( 1, newColor );
 
       // Set the options for the default look.
-      const nonHighContrastStroke = baseColor.colorUtilsDarker( 0.33 );
+      const nonHighContrastStroke = newColor.colorUtilsDarker( 0.33 );
       const newOptions = {};
       newOptions.fill = gradientFill;
       newOptions.stroke = nonHighContrastStroke;
 
       this.mutate( newOptions );
+    };
+
+    // change the color of the particle if its type changes
+    options.typeProperty && options.typeProperty.lazyLink( type => {
+
+      let nucleonChangeColorChange;
+      if ( type === 'proton' ) {
+        nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice( 0, 3 ).reverse();
+      }
+      else if ( type === 'neutron' ) {
+        nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice( 1 );
+      }
+
+      // TODO: should this slow color change maybe be an option? instead of 'on' by default if its a change to a nucleon
+      if ( type === 'neutron' || type === 'proton' ) {
+        // TODO: to use an animation instead, animate a number property that's tracking the index of color array
+        let timeBetweenColorChanges = 0;
+        nucleonChangeColorChange.forEach( nucleonColor => {
+          stepTimer.setTimeout( () => {
+            changeParticleColor( nucleonColor );
+          }, timeBetweenColorChanges += 100 );
+        } );
+      }
+      else {
+
+        // Get the color to use as the basis for the gradients, fills, strokes and such.
+        const baseColor = PARTICLE_COLORS[ type ];
+        assert && assert( baseColor, `Unrecognized particle type: ${type}` );
+
+        changeParticleColor( baseColor );
+      }
     } );
 
     // If a highContrastProperty is provided, update the particle appearance based on its value.
