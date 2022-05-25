@@ -5,14 +5,17 @@
  * track a particle, use ParticleView for that.
  */
 
-import stepTimer from '../../../axon/js/stepTimer.js';
+import NumberProperty from '../../../axon/js/NumberProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import { Circle } from '../../../scenery/js/imports.js';
 import { Color } from '../../../scenery/js/imports.js';
 import { RadialGradient } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import Easing from '../../../twixt/js/Easing.js';
 import shred from '../shred.js';
+import Animation from '../../../twixt/js/Animation.js';
+import Utils from '../../../dot/js/Utils.js';
 
 // constants
 const DEFAULT_LINE_WIDTH = 0.5;
@@ -95,26 +98,40 @@ class ParticleNode extends Circle {
       this.mutate( newOptions );
     };
 
+    //  keep track of the index in the nucleonColorChange gradient
+    const colorGradientIndexNumberProperty = new NumberProperty( 0 );
+
     // change the color of the particle if its type changes
     options.typeProperty && options.typeProperty.lazyLink( type => {
 
       let nucleonChangeColorChange;
       if ( type === 'proton' ) {
-        nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice( 0, 3 ).reverse();
+        nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice().reverse();
       }
       else if ( type === 'neutron' ) {
-        nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice( 1 );
+        nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice();
       }
 
-      // TODO: should this slow color change maybe be an option? instead of 'on' by default if its a change to a nucleon
       if ( type === 'neutron' || type === 'proton' ) {
-        // TODO: to use an animation instead, animate a number property that's tracking the index of color array
-        let timeBetweenColorChanges = 0;
-        nucleonChangeColorChange.forEach( nucleonColor => {
-          stepTimer.setTimeout( () => {
-            changeParticleColor( nucleonColor );
-          }, timeBetweenColorChanges += 100 );
+
+        // animate through the values in nucleonColorChange to 'slowly' change the color of the nucleon
+        const colorChangeAnimation = new Animation( {
+          from: colorGradientIndexNumberProperty.initialValue,
+          to: nucleonChangeColorChange.length - 1,
+          setValue: indexValue => { colorGradientIndexNumberProperty.value = indexValue; },
+          duration: 0.5,
+          easing: Easing.LINEAR
         } );
+
+        colorGradientIndexNumberProperty.link( indexValue => {
+
+          // the value is close to an integer
+          if ( Math.floor( indexValue * 10 ) / 10 % 1 === 0 ) {
+            changeParticleColor( nucleonChangeColorChange[ Utils.toFixed( indexValue, 0 ) ] );
+          }
+        } );
+
+        colorChangeAnimation.start();
       }
       else {
 
