@@ -119,7 +119,7 @@ class ParticleNode extends Circle {
           from: colorGradientIndexNumberProperty.initialValue,
           to: nucleonChangeColorChange.length - 1,
           setValue: indexValue => { colorGradientIndexNumberProperty.value = indexValue; },
-          duration: 0.5,
+          duration: 1,
           easing: Easing.LINEAR
         } );
 
