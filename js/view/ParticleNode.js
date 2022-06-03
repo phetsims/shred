@@ -5,16 +5,13 @@
  * track a particle, use ParticleView for that.
  */
 
-import NumberProperty from '../../../axon/js/NumberProperty.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import { Circle } from '../../../scenery/js/imports.js';
 import { Color } from '../../../scenery/js/imports.js';
 import { RadialGradient } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import Easing from '../../../twixt/js/Easing.js';
 import shred from '../shred.js';
-import Animation from '../../../twixt/js/Animation.js';
 import Utils from '../../../dot/js/Utils.js';
 
 // constants
@@ -55,6 +52,8 @@ class ParticleNode extends Circle {
       highContrastProperty: null,
 
       typeProperty: null,
+
+      colorGradientIndexNumberProperty: null,
 
       // phet-io
       tandem: Tandem.OPTIONAL
@@ -98,48 +97,22 @@ class ParticleNode extends Circle {
       this.mutate( newOptions );
     };
 
-    //  keep track of the index in the nucleonColorChange gradient
-    const colorGradientIndexNumberProperty = new NumberProperty( 0 );
+    // change the color of the particle
+    options.colorGradientIndexNumberProperty && options.colorGradientIndexNumberProperty.link( indexValue => {
+      if ( options.typeProperty.value === 'proton' || options.typeProperty.value === 'neutron' ) {
 
-    // change the color of the particle if its type changes
-    options.typeProperty && options.typeProperty.lazyLink( type => {
+        let nucleonChangeColorChange;
+        if ( options.typeProperty.value === 'proton' ) {
+          nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice().reverse();
+        }
+        else if ( options.typeProperty.value === 'neutron' ) {
+          nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice();
+        }
 
-      let nucleonChangeColorChange;
-      if ( type === 'proton' ) {
-        nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice().reverse();
-      }
-      else if ( type === 'neutron' ) {
-        nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice();
-      }
-
-      if ( type === 'neutron' || type === 'proton' ) {
-
-        // animate through the values in nucleonColorChange to 'slowly' change the color of the nucleon
-        const colorChangeAnimation = new Animation( {
-          from: colorGradientIndexNumberProperty.initialValue,
-          to: nucleonChangeColorChange.length - 1,
-          setValue: indexValue => { colorGradientIndexNumberProperty.value = indexValue; },
-          duration: 1,
-          easing: Easing.LINEAR
-        } );
-
-        colorGradientIndexNumberProperty.link( indexValue => {
-
-          // the value is close to an integer
-          if ( Math.floor( indexValue * 10 ) / 10 % 1 === 0 ) {
-            changeParticleColor( nucleonChangeColorChange[ Utils.toFixed( indexValue, 0 ) ] );
-          }
-        } );
-
-        colorChangeAnimation.start();
-      }
-      else {
-
-        // Get the color to use as the basis for the gradients, fills, strokes and such.
-        const baseColor = PARTICLE_COLORS[ type ];
-        assert && assert( baseColor, `Unrecognized particle type: ${type}` );
-
-        changeParticleColor( baseColor );
+        // the value is close to an integer
+        if ( Math.floor( indexValue * 10 ) / 10 % 1 === 0 ) {
+          changeParticleColor( nucleonChangeColorChange[ Utils.toFixed( indexValue, 0 ) ] );
+        }
       }
     } );
 

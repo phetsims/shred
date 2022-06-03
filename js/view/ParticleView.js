@@ -136,6 +136,7 @@ function createParticleNode( particle, modelViewTransform, highContrastProperty,
       {
         highContrastProperty: highContrastProperty,
         typeProperty: particle.typeProperty,
+        colorGradientIndexNumberProperty: particle.colorGradientIndexNumberProperty,
         tandem: tandem
       }
     );
