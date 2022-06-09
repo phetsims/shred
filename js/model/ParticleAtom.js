@@ -380,7 +380,7 @@ class ParticleAtom extends PhetioObject {
 
     }
     else {
-      throw new Error( 'Unexpected particle type.' );
+      assert && assert( false, 'Unexpected particle type ' + particle.type );
     }
   }
 
