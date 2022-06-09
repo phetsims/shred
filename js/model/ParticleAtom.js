@@ -90,6 +90,13 @@ class ParticleAtom extends PhetioObject {
       phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
     } );
 
+    // array of all live animations
+    this.liveAnimations = createObservableArray();
+    this.liveAnimations.addItemRemovedListener( animation => {
+      animation && animation.stop();
+      animation = null;
+    } );
+
     // @public (read-only) - derived properties based on the number of particles present in the atom
     // These are DerivedProperties in support of phet-io. We need to have the lengthProperty of ObservableArrayDef
     // instrumented.
@@ -459,6 +466,8 @@ class ParticleAtom extends PhetioObject {
     neutrons.forEach( particle => { this.removeParticle( particle ); } );
     const electrons = [ ...this.electrons ];
     electrons.forEach( particle => { this.removeParticle( particle ); } );
+
+    this.liveAnimations.clear();
   }
 
   /**
@@ -660,6 +669,9 @@ class ParticleAtom extends PhetioObject {
       duration: 0.7,
       easing: Easing.LINEAR
     } );
+
+    this.liveAnimations.push( initialColorChangeAnimation );
+    this.liveAnimations.push( finalColorChangeAnimation );
 
     initialColorChangeAnimation.then( finalColorChangeAnimation );
     initialColorChangeAnimation.start();
