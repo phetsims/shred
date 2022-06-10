@@ -69,7 +69,7 @@ class SymbolNode extends Node {
     const textCenter = new Vector2( SYMBOL_BOX_WIDTH / 2, SYMBOL_BOX_HEIGHT / 2 );
     protonCountProperty.link( protonCount => {
       const symbol = AtomIdentifier.getSymbol( protonCount );
-      symbolText.text = protonCount > 0 ? symbol : '';
+      symbolText.text = protonCount > 0 ? symbol : '-';
       symbolText.center = textCenter;
     } );
     this.boundingBox.addChild( symbolText );

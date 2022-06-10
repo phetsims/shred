@@ -568,6 +568,7 @@ const stableElementTable = [
   [ 50, 51, 52, 54 ],
   [ 52 ],
   [ 50, 52, 53, 54, 55, 56 ],
+  [],
   [ 52, 54, 55, 56, 57, 58, 60 ],
   [ 58 ],
   [ 56, 58, 59, 60, 62, 64 ],
@@ -585,6 +586,7 @@ const stableElementTable = [
   [ 78, 82 ],
   [ 82 ],
   [ 82, 83, 85, 86, 88 ],
+  [],
   [ 82, 87, 88, 90, 92 ],
   [ 90 ],
   [ 90, 91, 92, 93, 94, 96 ],
@@ -14202,8 +14204,6 @@ const AtomIdentifier = {
 
   // Get the half-life of a nuclide with the specified number of protons and neutrons.
   getNuclideHalfLife: function( numProtons, numNeutrons ) {
-
-    // TODO: why is it that HalfLifeConstants[ 0 ][ -1 ] = undefined but HalfLifeConstants[ -1 ][ 0 ] an error? why do I have to check HalfLifeConstants[ -1 ] first?
     if ( !HalfLifeConstants[ numProtons ] ) {
       return undefined;
     }
