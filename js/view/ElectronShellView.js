@@ -152,8 +152,7 @@ class ElectronShellView extends Node {
 
     // whenever a nucleon is added or removed, update the configuration of the nucleus and the highlight radius
     // TODO: !!!WARNING!!! This used to be a multilink with the protonCountProperty and neutronCountProperty, is this okay
-    //  across all usages of ParticleAtom and AtomNode?
-    //  Before merging the build-a-nucleus branch into Shred master, be sure to include this in the code review discussion
+    //  across all usages of ParticleAtom and AtomNode? See https://github.com/phetsims/shred/issues/34.
     atom.massNumberProperty.link( () => {
       atom.reconfigureNucleus();
       const radiusOffset = atom.nucleusRadius === 0 ? 0 : 4;
