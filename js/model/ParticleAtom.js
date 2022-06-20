@@ -13,7 +13,10 @@ import dotRandom from '../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
+import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import merge from '../../../phet-core/js/merge.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
+import { Color } from '../../../scenery/js/imports.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
@@ -21,6 +24,8 @@ import IOType from '../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
+import Animation from '../../../twixt/js/Animation.js';
+import Easing from '../../../twixt/js/Easing.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -29,6 +34,15 @@ import Particle from './Particle.js';
 
 // constants
 const NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
+
+// color gradient between the color of a proton and a neutron
+const NUCLEON_COLOR_GRADIENT = [
+  PhetColorScheme.RED_COLORBLIND,
+  new Color( '#e06020' ), // 1/4 point
+  new Color( '#c06b40' ), // half-way point
+  new Color( '#a07660' ), // 3/4 point
+  Color.GRAY
+];
 
 class ParticleAtom extends PhetioObject {
 
@@ -74,6 +88,13 @@ class ParticleAtom extends PhetioObject {
     this.electrons = createObservableArray( {
       // tandem: options.tandem.createTandem( 'electrons' ),
       phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
+    } );
+
+    // array of all live animations
+    this.liveAnimations = createObservableArray();
+    this.liveAnimations.addItemRemovedListener( animation => {
+      animation && animation.stop();
+      animation = null;
     } );
 
     // @public (read-only) - derived properties based on the number of particles present in the atom
@@ -445,6 +466,8 @@ class ParticleAtom extends PhetioObject {
     neutrons.forEach( particle => { this.removeParticle( particle ); } );
     const electrons = [ ...this.electrons ];
     electrons.forEach( particle => { this.removeParticle( particle ); } );
+
+    this.liveAnimations.clear();
   }
 
   /**
@@ -602,6 +625,66 @@ class ParticleAtom extends PhetioObject {
     }
 
     this.nucleusRadius = nucleusRadius;
+  }
+
+  /**
+   * Change the nucleon type of a particle to the other nucleon type.
+   * @param {Particle} particle
+   * @param animateAndRemoveParticle
+   * @public
+   */
+  changeNucleonType( particle, animateAndRemoveParticle ) {
+    assert && assert( this.containsParticle( particle ), 'ParticleAtom does not contain this particle ' + particle.id );
+    assert && assert( particle.type === 'proton' || particle.type === 'neutron', 'Particle type must be a proton or a neutron.' );
+
+    const isParticleTypeProton = particle.type === 'proton';
+    const particleTypes = {
+      newParticleType: isParticleTypeProton ? 'neutron' : 'proton',
+      oldParticleArray: isParticleTypeProton ? this.protons : this.neutrons,
+      newParticleArray: isParticleTypeProton ? this.neutrons : this.protons
+    };
+    particle.typeProperty.value = particleTypes.newParticleType;
+
+    let nucleonChangeColorChange;
+    if ( particle.typeProperty.value === 'proton' ) {
+      nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice().reverse();
+    }
+    else if ( particle.typeProperty.value === 'neutron' ) {
+      nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice();
+    }
+
+    // animate through the values in nucleonColorChange to 'slowly' change the color of the nucleon
+    const initialColorChangeAnimation = new Animation( {
+      from: particle.colorGradientIndexNumberProperty.initialValue,
+      to: 1,
+      setValue: indexValue => { particle.colorGradientIndexNumberProperty.value = indexValue; },
+      duration: 0.3,
+      easing: Easing.LINEAR
+    } );
+
+    const finalColorChangeAnimation = new Animation( {
+      from: 1,
+      to: nucleonChangeColorChange.length - 1,
+      setValue: indexValue => { particle.colorGradientIndexNumberProperty.value = indexValue; },
+      duration: 0.7,
+      easing: Easing.LINEAR
+    } );
+
+    this.liveAnimations.push( initialColorChangeAnimation );
+    this.liveAnimations.push( finalColorChangeAnimation );
+
+    initialColorChangeAnimation.then( finalColorChangeAnimation );
+    initialColorChangeAnimation.start();
+
+    initialColorChangeAnimation.finishEmitter.addListener( () => {
+      animateAndRemoveParticle();
+    } );
+
+    // defer the massNumberProperty links until the particle arrays are correct so the nucleus does not reconfigure
+    this.massNumberProperty.setDeferred( true );
+    arrayRemove( particleTypes.oldParticleArray, particle );
+    particleTypes.newParticleArray.push( particle );
+    this.massNumberProperty.setDeferred( false );
   }
 }
 

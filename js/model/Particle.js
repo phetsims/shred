@@ -9,6 +9,7 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
+import StringProperty from '../../../axon/js/StringProperty.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
@@ -54,7 +55,11 @@ class Particle extends PhetioObject {
     this.animationEndedEmitter = new Emitter();
 
     // @public (read-only)
-    this.type = type;
+    this.typeProperty = new StringProperty( type );
+
+    // @public - keep track of the index in the nucleonColorChange gradient
+    // the default is 4 since there are 5 colors in the color gradient array. See the NUCLEON_COLOR_GRADIENT array in ParticleNode.js.
+    this.colorGradientIndexNumberProperty = new NumberProperty( 4 );
 
     // @public
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
@@ -69,7 +74,7 @@ class Particle extends PhetioObject {
     } );
 
     // @public
-    this.radiusProperty = new NumberProperty( type === 'electron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
+    this.radiusProperty = new NumberProperty( type === 'electron' || type === 'positron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
       tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
       phetioDocumentation: 'The radius of the particle.  Changes to radius may not be reflected in view.'
     } );
@@ -98,6 +103,8 @@ class Particle extends PhetioObject {
 
     // @private
     this.disposeParticle = () => {
+      this.typeProperty.dispose();
+      this.colorGradientIndexNumberProperty.dispose();
       this.positionProperty.dispose();
       this.destinationProperty.dispose();
       this.radiusProperty.dispose();
@@ -144,6 +151,8 @@ class Particle extends PhetioObject {
       }
     }
   }
+
+  get type() { return this.typeProperty.value; }
 
   // @public
   moveImmediatelyToDestination() {

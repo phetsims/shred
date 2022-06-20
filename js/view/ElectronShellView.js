@@ -7,7 +7,6 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import Multilink from '../../../axon/js/Multilink.js';
 import merge from '../../../phet-core/js/merge.js';
 import { KeyboardUtils } from '../../../scenery/js/imports.js';
 import { Circle } from '../../../scenery/js/imports.js';
@@ -152,7 +151,10 @@ class ElectronShellView extends Node {
     optionNodes.forEach( node => this.addChild( node ) );
 
     // whenever a nucleon is added or removed, update the configuration of the nucleus and the highlight radius
-    Multilink.multilink( [ atom.protonCountProperty, atom.neutronCountProperty ], () => {
+    // TODO: !!!WARNING!!! This used to be a multilink with the protonCountProperty and neutronCountProperty, is this okay
+    //  across all usages of ParticleAtom and AtomNode?
+    //  Before merging the build-a-nucleus branch into Shred master, be sure to include this in the code review discussion
+    atom.massNumberProperty.link( () => {
       atom.reconfigureNucleus();
       const radiusOffset = atom.nucleusRadius === 0 ? 0 : 4;
       nucleusFocusHighlight.radius = atom.nucleusRadius + radiusOffset;
