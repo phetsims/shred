@@ -35,7 +35,7 @@ class SymbolNode extends Node {
   protected readonly chargeDisplay: Text | undefined;
   protected readonly boundingBox: Rectangle;
 
-  constructor( protonCountProperty: NumberProperty | IReadOnlyProperty<number>,
+  public constructor( protonCountProperty: NumberProperty | IReadOnlyProperty<number>,
                massNumberProperty: IReadOnlyProperty<number>,
                providedOptions: SymbolNodeOptions
   ) {
