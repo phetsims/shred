@@ -10,8 +10,8 @@
  */
 
 import Utils from '../../dot/js/Utils.js';
-import shredStrings from './shredStrings.js';
 import shred from './shred.js';
+import shredStrings from './shredStrings.js';
 
 // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
 // present on Earth.

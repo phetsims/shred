@@ -7,8 +7,7 @@
 import Property from '../../../axon/js/Property.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import merge from '../../../phet-core/js/merge.js';
-import { DragListener } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
+import { DragListener, Node } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 import IsotopeNode from './IsotopeNode.js';

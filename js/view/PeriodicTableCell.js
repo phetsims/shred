@@ -9,9 +9,7 @@
 import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { FireListener } from '../../../scenery/js/imports.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { FireListener, Rectangle, Text } from '../../../scenery/js/imports.js';
 import EventType from '../../../tandem/js/EventType.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';

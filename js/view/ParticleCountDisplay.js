@@ -10,9 +10,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { Rectangle } from '../../../scenery/js/imports.js';
-import { Text } from '../../../scenery/js/imports.js';
+import { Node, Rectangle, Text } from '../../../scenery/js/imports.js';
 import Panel from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';

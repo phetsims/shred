@@ -7,10 +7,7 @@
 
 import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { Circle } from '../../../scenery/js/imports.js';
-import { Node } from '../../../scenery/js/imports.js';
-import { RichText } from '../../../scenery/js/imports.js';
-import { RadialGradient } from '../../../scenery/js/imports.js';
+import { Circle, Node, RadialGradient, RichText } from '../../../scenery/js/imports.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 

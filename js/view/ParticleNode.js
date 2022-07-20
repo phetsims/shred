@@ -5,14 +5,12 @@
  * track a particle, use ParticleView for that.
  */
 
+import Utils from '../../../dot/js/Utils.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
-import { Circle } from '../../../scenery/js/imports.js';
-import { Color } from '../../../scenery/js/imports.js';
-import { RadialGradient } from '../../../scenery/js/imports.js';
+import { Circle, Color, RadialGradient } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
-import Utils from '../../../dot/js/Utils.js';
 
 // constants
 const DEFAULT_LINE_WIDTH = 0.5;
