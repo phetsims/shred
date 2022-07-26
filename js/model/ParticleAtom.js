@@ -631,6 +631,7 @@ class ParticleAtom extends PhetioObject {
    * Change the nucleon type of a particle to the other nucleon type.
    * @param {Particle} particle
    * @param animateAndRemoveParticle
+   * @returns {Animation}
    * @public
    */
   changeNucleonType( particle, animateAndRemoveParticle ) {
@@ -685,6 +686,8 @@ class ParticleAtom extends PhetioObject {
     arrayRemove( particleTypes.oldParticleArray, particle );
     particleTypes.newParticleArray.push( particle );
     this.massNumberProperty.setDeferred( false );
+
+    return initialColorChangeAnimation;
   }
 }
 
