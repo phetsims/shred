@@ -18,7 +18,7 @@ import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import ShredConstants from '../ShredConstants.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import IReadOnlyProperty from '../../../axon/js/IReadOnlyProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 // types
 type SelfOptions = { chargeProperty?: NumberProperty | null };
@@ -35,8 +35,8 @@ class SymbolNode extends Node {
   protected readonly chargeDisplay: Text | undefined;
   protected readonly boundingBox: Rectangle;
 
-  public constructor( protonCountProperty: NumberProperty | IReadOnlyProperty<number>,
-               massNumberProperty: IReadOnlyProperty<number>,
+  public constructor( protonCountProperty: NumberProperty | TReadOnlyProperty<number>,
+               massNumberProperty: TReadOnlyProperty<number>,
                providedOptions: SymbolNodeOptions
   ) {
 
