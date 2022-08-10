@@ -17,9 +17,6 @@ import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 
-// constants
-const NumberDerivedProperty = DerivedProperty.DerivedPropertyIO( NumberIO );
-
 class NumberAtom {
 
   /**
@@ -58,7 +55,7 @@ class NumberAtom {
       } ), {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         numberType: 'Integer',
-        phetioType: NumberDerivedProperty
+        phetioValueType: NumberIO
       }
     );
 
@@ -68,7 +65,7 @@ class NumberAtom {
       } ), {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         numberType: 'Integer',
-        phetioType: NumberDerivedProperty
+        phetioValueType: NumberIO
       }
     );
 
@@ -78,7 +75,7 @@ class NumberAtom {
       } ), {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         numberType: 'Integer',
-        phetioType: NumberDerivedProperty
+        phetioValueType: NumberIO
       }
     );
 

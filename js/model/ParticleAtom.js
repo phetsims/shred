@@ -110,7 +110,7 @@ class ParticleAtom extends PhetioObject {
       {
         tandem: options.tandem.createTandem( 'protonCountProperty' ),
         numberType: 'Integer',
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+        phetioValueType: NumberIO
       }
     );
     this.neutronCountProperty = new DerivedProperty(
@@ -121,7 +121,7 @@ class ParticleAtom extends PhetioObject {
       {
         tandem: options.tandem.createTandem( 'neutronCountProperty' ),
         numberType: 'Integer',
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+        phetioValueType: NumberIO
       }
     );
     this.electronCountProperty = new DerivedProperty(
@@ -132,7 +132,7 @@ class ParticleAtom extends PhetioObject {
       {
         tandem: options.tandem.createTandem( 'electronCountProperty' ),
         numberType: 'Integer',
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+        phetioValueType: NumberIO
       }
     );
     this.chargeProperty = new DerivedProperty(
@@ -143,7 +143,7 @@ class ParticleAtom extends PhetioObject {
       {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
         numberType: 'Integer',
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+        phetioValueType: NumberIO
       }
     );
     this.massNumberProperty = new DerivedProperty(
@@ -154,7 +154,7 @@ class ParticleAtom extends PhetioObject {
       {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
         numberType: 'Integer',
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+        phetioValueType: NumberIO
       }
     );
     this.particleCountProperty = new DerivedProperty(
@@ -165,7 +165,7 @@ class ParticleAtom extends PhetioObject {
       {
         tandem: options.tandem.createTandem( 'particleCountProperty' ),
         numberType: 'Integer',
-        phetioType: DerivedProperty.DerivedPropertyIO( NumberIO )
+        phetioValueType: NumberIO
       }
     );
 
