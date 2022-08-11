@@ -1,4 +1,4 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2022, University of Colorado Boulder
 
 /**
  * Model of an atom that represents the atom as a set of numbers which represent the quantity of the various subatomic
