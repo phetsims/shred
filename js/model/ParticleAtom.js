@@ -659,7 +659,7 @@ class ParticleAtom extends PhetioObject {
       from: particle.colorGradientIndexNumberProperty.initialValue,
       to: 1,
       setValue: indexValue => { particle.colorGradientIndexNumberProperty.value = indexValue; },
-      duration: 0.3,
+      duration: 0.1,
       easing: Easing.LINEAR
     } );
 
@@ -667,7 +667,7 @@ class ParticleAtom extends PhetioObject {
       from: 1,
       to: nucleonChangeColorChange.length - 1,
       setValue: indexValue => { particle.colorGradientIndexNumberProperty.value = indexValue; },
-      duration: 0.7,
+      duration: 0.4,
       easing: Easing.LINEAR
     } );
 
