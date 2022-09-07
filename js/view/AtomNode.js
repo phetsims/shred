@@ -17,15 +17,15 @@ import { Node, Path, Text } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
-import shredStrings from '../shredStrings.js';
+import ShredStrings from '../ShredStrings.js';
 import ElectronCloudView from './ElectronCloudView.js';
 import ElectronShellView from './ElectronShellView.js';
 
-const minusSignIonString = shredStrings.minusSignIon;
-const neutralAtomString = shredStrings.neutralAtom;
-const positiveSignIonString = shredStrings.positiveSignIon;
-const stableString = shredStrings.stable;
-const unstableString = shredStrings.unstable;
+const minusSignIonString = ShredStrings.minusSignIon;
+const neutralAtomString = ShredStrings.neutralAtom;
+const positiveSignIonString = ShredStrings.positiveSignIon;
+const stableString = ShredStrings.stable;
+const unstableString = ShredStrings.unstable;
 
 // constants
 const ELEMENT_NAME_FONT_SIZE = 22;

@@ -15,12 +15,12 @@ import Panel from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
-import shredStrings from '../shredStrings.js';
+import ShredStrings from '../ShredStrings.js';
 import ParticleNode from './ParticleNode.js';
 
-const electronsColonString = shredStrings.electronsColon;
-const neutronsColonString = shredStrings.neutronsColon;
-const protonsColonString = shredStrings.protonsColon;
+const electronsColonString = ShredStrings.electronsColon;
+const neutronsColonString = ShredStrings.neutronsColon;
+const protonsColonString = ShredStrings.protonsColon;
 
 // constants
 const TITLE_MAX_WIDTH_PROPORTION = 1 / 3;

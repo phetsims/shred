@@ -265,8 +265,8 @@ type StringsType = {
   'periodicTableStringProperty': TReadOnlyProperty<string>;
 };
 
-const shredStrings = getStringModule( 'SHRED' ) as StringsType;
+const ShredStrings = getStringModule( 'SHRED' ) as StringsType;
 
-shred.register( 'shredStrings', shredStrings );
+shred.register( 'ShredStrings', ShredStrings );
 
-export default shredStrings;
+export default ShredStrings;
