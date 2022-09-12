@@ -100,19 +100,19 @@ class AtomNode extends Node {
     };
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
 
-    const elementNameCenterPos = modelViewTransform.modelToViewPosition(
+    const elementNameTextCenterPos = modelViewTransform.modelToViewPosition(
       particleAtom.positionProperty.get().plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) )
     );
 
     // @private - Create the textual readout for the element name.
-    this.elementName = new Text( '', {
+    this.elementNameText = new Text( '', {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
       fill: PhetColorScheme.RED_COLORBLIND,
-      center: elementNameCenterPos,
+      center: elementNameTextCenterPos,
       pickable: false,
-      tandem: options.tandem.createTandem( 'elementName' )
+      tandem: options.tandem.createTandem( 'elementNameText' )
     } );
-    this.addChild( this.elementName );
+    this.addChild( this.elementNameText );
 
     // Define the update function for the element name.
     const updateElementName = () => {
@@ -120,11 +120,11 @@ class AtomNode extends Node {
       if ( name.length === 0 ) {
         name = '';
       }
-      this.elementName.text = name;
-      this.elementName.setScaleMagnitude( 1 );
+      this.elementNameText.text = name;
+      this.elementNameText.setScaleMagnitude( 1 );
       const maxLabelWidth = modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 );
-      this.elementName.setScaleMagnitude( Math.min( maxLabelWidth / this.elementName.width, 1 ) );
-      this.elementName.center = elementNameCenterPos;
+      this.elementNameText.setScaleMagnitude( Math.min( maxLabelWidth / this.elementNameText.width, 1 ) );
+      this.elementNameText.center = elementNameTextCenterPos;
     };
     updateElementName(); // Do the initial update.
 
@@ -132,44 +132,44 @@ class AtomNode extends Node {
     particleAtom.protonCountProperty.link( updateElementName );
 
     const updateElementNameVisibility = visible => {
-      this.elementName.visible = visible;
+      this.elementNameText.visible = visible;
     };
     options.showElementNameProperty.link( updateElementNameVisibility );
 
-    const ionIndicatorTranslation = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
+    const ionIndicatorTextTranslation = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
     // @private - Create the textual readout for the ion indicator, set by trial and error.
-    this.ionIndicator = new Text( '', {
+    this.ionIndicatorText = new Text( '', {
       font: new PhetFont( 20 ),
       fill: 'black',
-      translation: ionIndicatorTranslation,
+      translation: ionIndicatorTextTranslation,
       pickable: false,
       maxWidth: 150,
-      tandem: options.tandem.createTandem( 'ionIndicator' )
+      tandem: options.tandem.createTandem( 'ionIndicatorText' )
     } );
-    this.addChild( this.ionIndicator );
+    this.addChild( this.ionIndicatorText );
 
     // Define the update function for the ion indicator.
     const updateIonIndicator = () => {
       if ( this.atom.protonCountProperty.get() > 0 ) {
         const charge = this.atom.getCharge();
         if ( charge < 0 ) {
-          this.ionIndicator.text = minusSignIonString;
-          this.ionIndicator.fill = 'blue';
+          this.ionIndicatorText.text = minusSignIonString;
+          this.ionIndicatorText.fill = 'blue';
         }
         else if ( charge > 0 ) {
-          this.ionIndicator.text = positiveSignIonString;
-          this.ionIndicator.fill = PhetColorScheme.RED_COLORBLIND;
+          this.ionIndicatorText.text = positiveSignIonString;
+          this.ionIndicatorText.fill = PhetColorScheme.RED_COLORBLIND;
         }
         else {
-          this.ionIndicator.text = neutralAtomString;
-          this.ionIndicator.fill = 'black';
+          this.ionIndicatorText.text = neutralAtomString;
+          this.ionIndicatorText.fill = 'black';
         }
       }
       else {
-        this.ionIndicator.text = '';
-        this.ionIndicator.fill = 'black';
+        this.ionIndicatorText.text = '';
+        this.ionIndicatorText.fill = 'black';
       }
     };
     updateIonIndicator(); // Do the initial update.
@@ -177,39 +177,39 @@ class AtomNode extends Node {
     particleAtom.protonCountProperty.link( updateIonIndicator );
     particleAtom.electronCountProperty.link( updateIonIndicator );
     const updateIonIndicatorVisibility = visible => {
-      this.ionIndicator.visible = visible;
+      this.ionIndicatorText.visible = visible;
     };
     options.showNeutralOrIonProperty.link( updateIonIndicatorVisibility );
 
     // Create the textual readout for the stability indicator.
-    const stabilityIndicatorCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
+    const stabilityIndicatorTextCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
     // @private
-    this.stabilityIndicator = new Text( '', {
+    this.stabilityIndicatorText = new Text( '', {
       font: new PhetFont( 20 ),
       fill: 'black',
-      center: stabilityIndicatorCenterPos,
+      center: stabilityIndicatorTextCenterPos,
       pickable: false,
       maxWidth: modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 ),
-      tandem: options.tandem.createTandem( 'stabilityIndicator' )
+      tandem: options.tandem.createTandem( 'stabilityIndicatorText' )
     } );
-    this.addChild( this.stabilityIndicator );
+    this.addChild( this.stabilityIndicatorText );
 
     // Define the update function for the stability indicator.
     const updateStabilityIndicator = () => {
       if ( this.atom.protonCountProperty.get() > 0 ) {
         if ( AtomIdentifier.isStable( this.atom.protonCountProperty.get(), this.atom.neutronCountProperty.get() ) ) {
-          this.stabilityIndicator.text = stableString;
+          this.stabilityIndicatorText.text = stableString;
         }
         else {
-          this.stabilityIndicator.text = unstableString;
+          this.stabilityIndicatorText.text = unstableString;
         }
       }
       else {
-        this.stabilityIndicator.text = '';
+        this.stabilityIndicatorText.text = '';
       }
-      this.stabilityIndicator.center = stabilityIndicatorCenterPos;
+      this.stabilityIndicatorText.center = stabilityIndicatorTextCenterPos;
     };
     updateStabilityIndicator(); // Do initial update.
 
@@ -217,7 +217,7 @@ class AtomNode extends Node {
     particleAtom.protonCountProperty.link( updateStabilityIndicator );
     particleAtom.neutronCountProperty.link( updateStabilityIndicator );
     const updateStabilityIndicatorVisibility = visible => {
-      this.stabilityIndicator.visible = visible;
+      this.stabilityIndicatorText.visible = visible;
     };
     options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );
 
@@ -243,9 +243,9 @@ class AtomNode extends Node {
       options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
       atomCenterMarker && atomCenterMarker.dispose();
       electronShell.dispose();
-      this.elementName.dispose();
-      this.ionIndicator.dispose();
-      this.stabilityIndicator.dispose();
+      this.elementNameText.dispose();
+      this.ionIndicatorText.dispose();
+      this.stabilityIndicatorText.dispose();
     };
 
     this.mutate( options );

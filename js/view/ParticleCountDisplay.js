@@ -48,17 +48,17 @@ class ParticleCountDisplay extends Panel {
 
     const protonTitle = new Text( protonsColonString, {
       font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'protonTitle' )
+      tandem: options.tandem.createTandem( 'protonTitleText' )
     } );
     panelContents.addChild( protonTitle );
     const neutronTitle = new Text( neutronsColonString, {
       font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'neutronTitle' )
+      tandem: options.tandem.createTandem( 'neutronTitleText' )
     } );
     panelContents.addChild( neutronTitle );
     const electronTitle = new Text( electronsColonString, {
       font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'electronTitle' )
+      tandem: options.tandem.createTandem( 'electronTitleText' )
     } );
     panelContents.addChild( electronTitle );
 

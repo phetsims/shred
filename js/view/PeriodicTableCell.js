@@ -55,13 +55,13 @@ class PeriodicTableCell extends Rectangle {
 
     if ( options.showLabels ) {
       // @private
-      this.label = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
+      this.labelText = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
         font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
         center: this.center,
         maxWidth: options.length - 5,
-        tandem: options.tandem.createTandem( 'label' )
+        tandem: options.tandem.createTandem( 'labelText' )
       } );
-      this.addChild( this.label );
+      this.addChild( this.labelText );
     }
 
     // If interactive, add a listener to set the atom when this cell is pressed.
@@ -80,7 +80,7 @@ class PeriodicTableCell extends Rectangle {
 
     // @private called by dispose
     this.disposePeriodicTableCell = () => {
-      this.label.dispose();
+      this.labelText.dispose();
       buttonListener && buttonListener.dispose();
     };
   }
@@ -91,7 +91,7 @@ class PeriodicTableCell extends Rectangle {
     this.stroke = highLighted ? PhetColorScheme.RED_COLORBLIND : 'black';
     this.lineWidth = highLighted ? 2 : 1;
     if ( this.options.showLabels ) {
-      this.label.fontWeight = highLighted ? 'bold' : 'normal';
+      this.labelText.fontWeight = highLighted ? 'bold' : 'normal';
     }
   }
 
