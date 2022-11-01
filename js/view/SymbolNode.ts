@@ -9,7 +9,7 @@
  */
 
 import shred from '../shred.js';
-import { Node, NodeOptions, Rectangle, Text } from '../../../scenery/js/imports.js';
+import { Node, NodeOptions, Rectangle, TColor, Text } from '../../../scenery/js/imports.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
@@ -21,7 +21,13 @@ import optionize from '../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 // types
-type SelfOptions = { chargeProperty?: NumberProperty | null };
+type SelfOptions = {
+  chargeProperty?: NumberProperty | null;
+  fill?: TColor;
+  symbolTextFill?: TColor;
+  protonCountDisplayFill?: TColor;
+  massNumberDisplayFill?: TColor;
+};
 type SymbolNodeOptions = SelfOptions & NodeOptions;
 
 // constants
@@ -34,6 +40,7 @@ class SymbolNode extends Node {
   protected readonly massNumberDisplay: Text;
   protected readonly chargeDisplay: Text | undefined;
   protected readonly boundingBox: Rectangle;
+  private readonly symbolText: Text;
 
   public constructor( protonCountProperty: NumberProperty | TReadOnlyProperty<number>,
                massNumberProperty: TReadOnlyProperty<number>,
@@ -42,6 +49,10 @@ class SymbolNode extends Node {
 
     const options = optionize<SymbolNodeOptions, SelfOptions, NodeOptions>()( {
       chargeProperty: null,
+      fill: 'white',
+      symbolTextFill: 'black',
+      protonCountDisplayFill: PhetColorScheme.RED_COLORBLIND,
+      massNumberDisplayFill: 'black',
       tandem: Tandem.REQUIRED // TODO: How to support phet-brand and sub-instrumented components? This applies to all the commented out tandems
     }, providedOptions );
 
@@ -52,15 +63,15 @@ class SymbolNode extends Node {
     this.boundingBox = new Rectangle( 0, 0, SYMBOL_BOX_WIDTH, SYMBOL_BOX_HEIGHT, 0, 0, {
       stroke: 'black',
       lineWidth: 2,
-      fill: 'white'
+      fill: options.fill
       // tandem: options.tandem.createTandem( 'boundingBox' )
     } );
     this.addChild( this.boundingBox );
 
     // Add the symbol text.
-    const symbolText = new Text( '', {
+    this.symbolText = new Text( '', {
       font: new PhetFont( 150 ),
-      fill: 'black',
+      fill: options.symbolTextFill,
       center: new Vector2( SYMBOL_BOX_WIDTH / 2, SYMBOL_BOX_HEIGHT / 2 )
       // tandem: options.tandem.createTandem( 'symbolText' )
     } );
@@ -69,15 +80,15 @@ class SymbolNode extends Node {
     const textCenter = new Vector2( SYMBOL_BOX_WIDTH / 2, SYMBOL_BOX_HEIGHT / 2 );
     protonCountProperty.link( protonCount => {
       const symbol = AtomIdentifier.getSymbol( protonCount );
-      symbolText.text = protonCount > 0 ? symbol : '-';
-      symbolText.center = textCenter;
+      this.symbolText.text = protonCount > 0 ? symbol : '-';
+      this.symbolText.center = textCenter;
     } );
-    this.boundingBox.addChild( symbolText );
+    this.boundingBox.addChild( this.symbolText );
 
     // Add the proton count display.
     const protonCountDisplay = new Text( '0', {
       font: NUMBER_FONT,
-      fill: PhetColorScheme.RED_COLORBLIND
+      fill: options.protonCountDisplayFill
       // tandem: options.tandem.createTandem( 'atomicNumberDisplay' )
     } );
     this.boundingBox.addChild( protonCountDisplay );
@@ -92,7 +103,7 @@ class SymbolNode extends Node {
     // Add the mass number display.
     this.massNumberDisplay = new Text( '0', {
       font: NUMBER_FONT,
-      fill: 'black'
+      fill: options.massNumberDisplayFill
       // tandem: options.tandem.createTandem( 'massNumberDisplay' )
     } );
     this.boundingBox.addChild( this.massNumberDisplay );
@@ -123,6 +134,20 @@ class SymbolNode extends Node {
       } );
 
     }
+  }
+
+  /**
+   * Set the fill color of the bounding box of the symbol node.
+   */
+  public setFillColor( fill: TColor ): void {
+    this.boundingBox.fill = fill;
+  }
+
+  /**
+   * Set the color of the symbol text.
+   */
+  public setSymbolTextColor( fill: TColor ): void {
+    this.symbolText.fill = fill;
   }
 }
 
