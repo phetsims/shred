@@ -12,6 +12,7 @@ import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import PeriodicTableCell from './PeriodicTableCell.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 
 // constants
 // 2D array that defines the table structure.
@@ -40,7 +41,9 @@ class PeriodicTableNode extends Node {
       interactiveMax: 0, //Atomic number of the heaviest element that should be interactive
       cellDimension: 25,
       showLabels: true,
-      invertColors: false,
+      strokeHighlightWidth: 2,
+      strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
+      labelTextHighlightFill: 'black',
       enabledCellColor: ENABLED_CELL_COLOR,
       disabledCellColor: DISABLED_CELL_COLOR,
       selectedCellColor: SELECTED_CELL_COLOR,
@@ -63,7 +66,9 @@ class PeriodicTableNode extends Node {
         const cell = new PeriodicTableCell( elementIndex, numberAtom, cellColor, {
           interactive: elementIndex <= options.interactiveMax,
           showLabels: options.showLabels,
-          invertColors: options.invertColors,
+          strokeHighlightWidth: options.strokeHighlightWidth,
+          strokeHighlightColor: options.strokeHighlightColor,
+          labelTextHighlightFill: options.labelTextHighlightFill,
           length: options.cellDimension,
           tandem: options.tandem.createTandem( `${AtomIdentifier.getEnglishName( elementIndex )}Cell` )
         } );

@@ -33,7 +33,9 @@ class PeriodicTableCell extends Rectangle {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
-      invertColors: false, // Boolean flag that inverts the label text color and removes stroke highlight
+      strokeHighlightWidth: 2,
+      strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
+      labelTextHighlightFill: 'black', // fill of label text when highlighted
       tandem: Tandem.REQUIRED,
       phetioEventType: EventType.USER
     }, options );
@@ -89,13 +91,9 @@ class PeriodicTableCell extends Rectangle {
   // @public
   setHighlighted( highLighted ) {
     this.fill = highLighted ? this.highlightedFill : this.normalFill;
-    if ( !this.options.invertColors ) {
-      this.stroke = highLighted ? PhetColorScheme.RED_COLORBLIND : 'black';
-      this.lineWidth = highLighted ? 2 : 1;
-    }
-    else {
-      this.labelText.fill = highLighted ? 'white' : 'black';
-    }
+    this.stroke = highLighted ? this.options.strokeHighlightColor : 'black';
+    this.lineWidth = highLighted ? this.options.strokeHighlightWidth : 1;
+    this.labelText.fill = highLighted ? this.options.labelTextHighlightFill : 'black';
     if ( this.options.showLabels ) {
       this.labelText.fontWeight = highLighted ? 'bold' : 'normal';
     }
