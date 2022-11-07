@@ -93,9 +93,9 @@ class PeriodicTableCell extends Rectangle {
     this.fill = highLighted ? this.highlightedFill : this.normalFill;
     this.stroke = highLighted ? this.options.strokeHighlightColor : 'black';
     this.lineWidth = highLighted ? this.options.strokeHighlightWidth : 1;
-    this.labelText.fill = highLighted ? this.options.labelTextHighlightFill : 'black';
     if ( this.options.showLabels ) {
       this.labelText.fontWeight = highLighted ? 'bold' : 'normal';
+      this.labelText.fill = highLighted ? this.options.labelTextHighlightFill : 'black';
     }
   }
 
