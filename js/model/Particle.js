@@ -63,13 +63,13 @@ class Particle extends PhetioObject {
 
     // @public
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
-      useDeepEquality: true,
+      valueComparisonStrategy: 'equalsFunction',
       tandem: options.tandem && options.tandem.createTandem( 'positionProperty' )
     } );
 
     // @public
     this.destinationProperty = new Vector2Property( Vector2.ZERO, {
-      useDeepEquality: true,
+      valueComparisonStrategy: 'equalsFunction',
       tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' )
     } );
 

@@ -68,11 +68,11 @@ class ParticleAtom extends PhetioObject {
 
     // @public
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
-      useDeepEquality: true,
+      valueComparisonStrategy: 'equalsFunction',
       tandem: options.tandem.createTandem( 'positionProperty' )
     } );
     this.nucleusOffsetProperty = new Vector2Property( Vector2.ZERO, {
-      useDeepEquality: true,
+      valueComparisonStrategy: 'equalsFunction',
       tandem: options.tandem.createTandem( 'nucleusOffsetProperty' )
     } );
 
