@@ -80,7 +80,7 @@ class SymbolNode extends Node {
     const textCenter = new Vector2( SYMBOL_BOX_WIDTH / 2, SYMBOL_BOX_HEIGHT / 2 );
     protonCountProperty.link( protonCount => {
       const symbol = AtomIdentifier.getSymbol( protonCount );
-      this.symbolText.text = protonCount > 0 ? symbol : '-';
+      this.symbolText.string = protonCount > 0 ? symbol : '-';
       this.symbolText.center = textCenter;
     } );
     this.boundingBox.addChild( this.symbolText );
@@ -95,7 +95,7 @@ class SymbolNode extends Node {
 
     // Add the listener to update the proton count.
     protonCountProperty.link( protonCount => {
-      protonCountDisplay.text = protonCount;
+      protonCountDisplay.string = protonCount;
       protonCountDisplay.left = NUMBER_INSET;
       protonCountDisplay.bottom = SYMBOL_BOX_HEIGHT - NUMBER_INSET;
     } );
@@ -110,7 +110,7 @@ class SymbolNode extends Node {
 
     // Add the listener to update the mass number.
     massNumberProperty.link( massNumber => {
-      this.massNumberDisplay.text = massNumber;
+      this.massNumberDisplay.string = massNumber;
       this.massNumberDisplay.left = NUMBER_INSET;
       this.massNumberDisplay.top = NUMBER_INSET;
     } );
@@ -127,7 +127,7 @@ class SymbolNode extends Node {
 
       // Add the listener to update the charge.
       options.chargeProperty.link( charge => {
-        this.chargeDisplay!.text = ( charge > 0 ? '+' : '' ) + charge;
+        this.chargeDisplay!.string = ( charge > 0 ? '+' : '' ) + charge;
         this.chargeDisplay!.fill = ShredConstants.CHARGE_TEXT_COLOR( charge );
         this.chargeDisplay!.right = SYMBOL_BOX_WIDTH - NUMBER_INSET;
         this.chargeDisplay!.top = NUMBER_INSET;

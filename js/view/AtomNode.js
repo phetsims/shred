@@ -120,7 +120,7 @@ class AtomNode extends Node {
       if ( name.length === 0 ) {
         name = '';
       }
-      this.elementNameText.text = name;
+      this.elementNameText.string = name;
       this.elementNameText.setScaleMagnitude( 1 );
       const maxLabelWidth = modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 );
       this.elementNameText.setScaleMagnitude( Math.min( maxLabelWidth / this.elementNameText.width, 1 ) );
@@ -155,20 +155,20 @@ class AtomNode extends Node {
       if ( this.atom.protonCountProperty.get() > 0 ) {
         const charge = this.atom.getCharge();
         if ( charge < 0 ) {
-          this.ionIndicatorText.text = minusSignIonString;
+          this.ionIndicatorText.string = minusSignIonString;
           this.ionIndicatorText.fill = 'blue';
         }
         else if ( charge > 0 ) {
-          this.ionIndicatorText.text = positiveSignIonString;
+          this.ionIndicatorText.string = positiveSignIonString;
           this.ionIndicatorText.fill = PhetColorScheme.RED_COLORBLIND;
         }
         else {
-          this.ionIndicatorText.text = neutralAtomString;
+          this.ionIndicatorText.string = neutralAtomString;
           this.ionIndicatorText.fill = 'black';
         }
       }
       else {
-        this.ionIndicatorText.text = '';
+        this.ionIndicatorText.string = '';
         this.ionIndicatorText.fill = 'black';
       }
     };
@@ -200,14 +200,14 @@ class AtomNode extends Node {
     const updateStabilityIndicator = () => {
       if ( this.atom.protonCountProperty.get() > 0 ) {
         if ( AtomIdentifier.isStable( this.atom.protonCountProperty.get(), this.atom.neutronCountProperty.get() ) ) {
-          this.stabilityIndicatorText.text = stableString;
+          this.stabilityIndicatorText.string = stableString;
         }
         else {
-          this.stabilityIndicatorText.text = unstableString;
+          this.stabilityIndicatorText.string = unstableString;
         }
       }
       else {
-        this.stabilityIndicatorText.text = '';
+        this.stabilityIndicatorText.string = '';
       }
       this.stabilityIndicatorText.center = stabilityIndicatorTextCenterPos;
     };
