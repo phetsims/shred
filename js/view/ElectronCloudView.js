@@ -93,7 +93,7 @@ class ElectronCloudView extends Circle {
           this.extractedElectron = null;
         }
       },
-      tandem: options.tandem.createTandem( 'dragHandler' )
+      tandem: options.tandem.createTandem( 'dragListener' )
     } );
     this.addInputListener( dragListener );
 
