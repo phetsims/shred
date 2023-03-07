@@ -57,6 +57,9 @@ class Particle extends PhetioObject {
     // @public (read-only)
     this.typeProperty = new StringProperty( type );
 
+    // @public (read-only)
+    this.inputEnabledProperty = new BooleanProperty( true );
+
     // @public - keep track of the index in the nucleonColorChange gradient
     // the default is 4 since there are 5 colors in the color gradient array. See the NUCLEON_COLOR_GRADIENT array in ParticleNode.js.
     this.colorGradientIndexNumberProperty = new NumberProperty( 4 );

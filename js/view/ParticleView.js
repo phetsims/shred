@@ -43,6 +43,10 @@ class ParticleView extends Node {
     );
     this.addChild( particleNode );
 
+    particle.inputEnabledProperty.link( inputEnabled => {
+      this.inputEnabled = inputEnabled;
+    } );
+
     // Listen to the model position and update.
     const updateParticlePosition = position => {
       this.translation = modelViewTransform.modelToViewPosition( position );
