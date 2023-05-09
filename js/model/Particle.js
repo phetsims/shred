@@ -36,12 +36,10 @@ class Particle extends PhetioObject {
   constructor( type, options ) {
 
     options = merge( {
-      inputEnabled: true,
-      nucleonRadius: ShredConstants.NUCLEON_RADIUS,
+      tandem: Tandem.REQUIRED,
       maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
       phetioType: Particle.ParticleIO,
-      phetioState: false,
-      tandem: Tandem.REQUIRED
+      phetioState: false
     }, options );
 
     super( options );
@@ -60,7 +58,7 @@ class Particle extends PhetioObject {
     this.typeProperty = new StringProperty( type );
 
     // @public (read-only)
-    this.inputEnabledProperty = new BooleanProperty( options.inputEnabled );
+    this.inputEnabledProperty = new BooleanProperty( true );
 
     // @public - keep track of the index in the nucleonColorChange gradient
     // the default is 4 since there are 5 colors in the color gradient array. See the NUCLEON_COLOR_GRADIENT array in ParticleNode.js.
@@ -79,7 +77,7 @@ class Particle extends PhetioObject {
     } );
 
     // @public
-    this.radiusProperty = new NumberProperty( type === 'electron' || type === 'positron' ? ShredConstants.ELECTRON_RADIUS : options.nucleonRadius, {
+    this.radiusProperty = new NumberProperty( type === 'electron' || type === 'positron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
       tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
       phetioDocumentation: 'The radius of the particle.  Changes to radius may not be reflected in view.'
     } );
