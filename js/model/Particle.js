@@ -21,7 +21,7 @@ import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 
-// Incremented for Particle IDs
+// used to give each particle a unique ID
 let nextParticleId = 1;
 
 // constants
@@ -60,8 +60,8 @@ class Particle extends PhetioObject {
     // @public (read-only)
     this.inputEnabledProperty = new BooleanProperty( true );
 
-    // @public - keep track of the index in the nucleonColorChange gradient
-    // the default is 4 since there are 5 colors in the color gradient array. See the NUCLEON_COLOR_GRADIENT array in ParticleNode.js.
+    // @public - Keep track of the index in the nucleonColorChange gradient.  The default is 4 since there are 5 colors
+    // in the color gradient array. See the NUCLEON_COLOR_GRADIENT array in ParticleNode.js.
     this.colorGradientIndexNumberProperty = new NumberProperty( 4 );
 
     // @public
@@ -77,10 +77,13 @@ class Particle extends PhetioObject {
     } );
 
     // @public
-    this.radiusProperty = new NumberProperty( type === 'electron' || type === 'positron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS, {
-      tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
-      phetioDocumentation: 'The radius of the particle.  Changes to radius may not be reflected in view.'
-    } );
+    this.radiusProperty = new NumberProperty(
+      type === 'electron' || type === 'positron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS,
+      {
+        tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
+        phetioDocumentation: 'The radius of the particle.  Changes to radius may not be reflected in view.'
+      }
+    );
 
     // @public
     this.animationVelocityProperty = new NumberProperty( DEFAULT_PARTICLE_VELOCITY, {
