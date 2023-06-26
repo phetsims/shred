@@ -11,7 +11,6 @@ import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import merge from '../../../phet-core/js/merge.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
@@ -28,23 +27,22 @@ class NumberAtom {
     options = merge( {
       protonCount: 0,
       neutronCount: 0,
-      electronCount: 0,
-      tandem: Tandem.OPTIONAL // Tandem must be supplied when running in PhET-iO
+      electronCount: 0
     }, options );
 
     // @public
     this.protonCountProperty = new NumberProperty( options.protonCount, {
-      tandem: options.tandem.createTandem( 'protonCountProperty' ),
+      tandem: options.tandem?.createTandem( 'protonCountProperty' ),
       documentation: 'this property is updated by the model and should not be set by users',
       numberType: 'Integer'
     } );
     this.neutronCountProperty = new NumberProperty( options.neutronCount, {
-      tandem: options.tandem.createTandem( 'neutronCountProperty' ),
+      tandem: options.tandem?.createTandem( 'neutronCountProperty' ),
       numberType: 'Integer',
       documentation: 'this property is updated by the model and should not be set by users'
     } );
     this.electronCountProperty = new NumberProperty( options.electronCount, {
-      tandem: options.tandem.createTandem( 'electronCountProperty' ),
+      tandem: options.tandem?.createTandem( 'electronCountProperty' ),
       numberType: 'Integer',
       documentation: 'this property is updated by the model and should not be set by users'
     } );
@@ -53,7 +51,7 @@ class NumberAtom {
       ( ( protonCount, electronCount ) => {
         return protonCount - electronCount;
       } ), {
-        tandem: options.tandem.createTandem( 'chargeProperty' ),
+        tandem: options.tandem?.createTandem( 'chargeProperty' ),
         numberType: 'Integer',
         phetioValueType: NumberIO
       }
@@ -63,7 +61,7 @@ class NumberAtom {
       ( ( protonCount, neutronCount ) => {
         return protonCount + neutronCount;
       } ), {
-        tandem: options.tandem.createTandem( 'massNumberProperty' ),
+        tandem: options.tandem?.createTandem( 'massNumberProperty' ),
         numberType: 'Integer',
         phetioValueType: NumberIO
       }
@@ -73,7 +71,7 @@ class NumberAtom {
       ( ( protonCount, neutronCount, electronCount ) => {
         return protonCount + neutronCount + electronCount;
       } ), {
-        tandem: options.tandem.createTandem( 'particleCountProperty' ),
+        tandem: options.tandem?.createTandem( 'particleCountProperty' ),
         numberType: 'Integer',
         phetioValueType: NumberIO
       }
@@ -81,7 +79,7 @@ class NumberAtom {
 
     // @public - events emitted by instances of this type
     this.atomUpdated = new Emitter( {
-      tandem: options.tandem.createTandem( 'atomUpdatedEmitter' )
+      tandem: options.tandem?.createTandem( 'atomUpdatedEmitter' )
     } );
   }
 

@@ -9,7 +9,6 @@ import Utils from '../../../dot/js/Utils.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import { Circle, Color, RadialGradient } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 
 // constants
@@ -51,10 +50,7 @@ class ParticleNode extends Circle {
 
       typeProperty: null,
 
-      colorGradientIndexNumberProperty: null,
-
-      // phet-io
-      tandem: Tandem.OPTIONAL
+      colorGradientIndexNumberProperty: null
     }, options );
 
     assert && assert( options.fill === undefined, 'fill will be set programmatically and should not be specified' );
