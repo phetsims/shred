@@ -5,7 +5,7 @@
  * atomic number. It also optionally shows the charge.
  *
  * @author John Blanco
- * @author Luisa Vargas
+ @author Luisa Vargas
  */
 
 import shred from '../shred.js';
@@ -28,7 +28,7 @@ type SelfOptions = {
   protonCountDisplayFill?: TColor;
   massNumberDisplayFill?: TColor;
 };
-type SymbolNodeOptions = SelfOptions & NodeOptions;
+export type SymbolNodeOptions = SelfOptions & NodeOptions;
 
 // constants
 const SYMBOL_BOX_WIDTH = 275; // In screen coords, which are roughly pixels.
@@ -40,11 +40,11 @@ class SymbolNode extends Node {
   protected readonly massNumberDisplay: Text;
   protected readonly chargeDisplay: Text | undefined;
   protected readonly boundingBox: Rectangle;
-  private readonly symbolText: Text;
+  protected readonly symbolText: Text;
 
   public constructor( protonCountProperty: NumberProperty | TReadOnlyProperty<number>,
-               massNumberProperty: TReadOnlyProperty<number>,
-               providedOptions: SymbolNodeOptions
+                      massNumberProperty: TReadOnlyProperty<number>,
+                      providedOptions?: SymbolNodeOptions
   ) {
 
     const options = optionize<SymbolNodeOptions, SelfOptions, NodeOptions>()( {
@@ -81,6 +81,10 @@ class SymbolNode extends Node {
     protonCountProperty.link( protonCount => {
       const symbol = AtomIdentifier.getSymbol( protonCount );
       this.symbolText.string = protonCount > 0 ? symbol : '-';
+    } );
+
+    // Don't center in the above listener, in case subtypes want to change the symbol.
+    this.symbolText.stringProperty.link( () => {
       this.symbolText.center = textCenter;
     } );
     this.boundingBox.addChild( this.symbolText );
