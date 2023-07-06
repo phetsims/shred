@@ -27,6 +27,7 @@ type SelfOptions = {
   symbolTextFill?: TColor;
   protonCountDisplayFill?: TColor;
   massNumberDisplayFill?: TColor;
+  boundingBoxStroke?: TColor;
 };
 export type SymbolNodeOptions = SelfOptions & NodeOptions;
 
@@ -53,6 +54,7 @@ class SymbolNode extends Node {
       symbolTextFill: 'black',
       protonCountDisplayFill: PhetColorScheme.RED_COLORBLIND,
       massNumberDisplayFill: 'black',
+      boundingBoxStroke: 'black',
       tandem: Tandem.REQUIRED // TODO: How to support phet-brand and sub-instrumented components? This applies to all the commented out tandems
     }, providedOptions );
 
@@ -61,7 +63,7 @@ class SymbolNode extends Node {
     // Add the bounding box, which is also the root node for everything else
     // that comprises this node.
     this.boundingBox = new Rectangle( 0, 0, SYMBOL_BOX_WIDTH, SYMBOL_BOX_HEIGHT, 0, 0, {
-      stroke: 'black',
+      stroke: options.boundingBoxStroke,
       lineWidth: 2,
       fill: options.fill
       // tandem: options.tandem.createTandem( 'boundingBox' )
