@@ -16,7 +16,6 @@ import NumberProperty from '../../../axon/js/NumberProperty.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import ShredConstants from '../ShredConstants.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
@@ -43,10 +42,9 @@ class SymbolNode extends Node {
   protected readonly boundingBox: Rectangle;
   protected readonly symbolText: Text;
 
-  public constructor( protonCountProperty: NumberProperty | TReadOnlyProperty<number>,
+  public constructor( protonCountProperty: TReadOnlyProperty<number>,
                       massNumberProperty: TReadOnlyProperty<number>,
-                      providedOptions?: SymbolNodeOptions
-  ) {
+                      providedOptions?: SymbolNodeOptions ) {
 
     const options = optionize<SymbolNodeOptions, SelfOptions, NodeOptions>()( {
       chargeProperty: null,
@@ -54,8 +52,7 @@ class SymbolNode extends Node {
       symbolTextFill: 'black',
       protonCountDisplayFill: PhetColorScheme.RED_COLORBLIND,
       massNumberDisplayFill: 'black',
-      boundingBoxStroke: 'black',
-      tandem: Tandem.REQUIRED // TODO: How to support phet-brand and sub-instrumented components? This applies to all the commented out tandems
+      boundingBoxStroke: 'black'
     }, providedOptions );
 
     super( options );
@@ -66,7 +63,6 @@ class SymbolNode extends Node {
       stroke: options.boundingBoxStroke,
       lineWidth: 2,
       fill: options.fill
-      // tandem: options.tandem.createTandem( 'boundingBox' )
     } );
     this.addChild( this.boundingBox );
 
@@ -75,7 +71,6 @@ class SymbolNode extends Node {
       font: new PhetFont( 150 ),
       fill: options.symbolTextFill,
       center: new Vector2( SYMBOL_BOX_WIDTH / 2, SYMBOL_BOX_HEIGHT / 2 )
-      // tandem: options.tandem.createTandem( 'symbolText' )
     } );
 
     // Add the listener to update the symbol text.
@@ -95,7 +90,6 @@ class SymbolNode extends Node {
     const protonCountDisplay = new Text( '0', {
       font: NUMBER_FONT,
       fill: options.protonCountDisplayFill
-      // tandem: options.tandem.createTandem( 'atomicNumberDisplay' )
     } );
     this.boundingBox.addChild( protonCountDisplay );
 
@@ -110,7 +104,6 @@ class SymbolNode extends Node {
     this.massNumberDisplay = new Text( '0', {
       font: NUMBER_FONT,
       fill: options.massNumberDisplayFill
-      // tandem: options.tandem.createTandem( 'massNumberDisplay' )
     } );
     this.boundingBox.addChild( this.massNumberDisplay );
 
@@ -127,7 +120,6 @@ class SymbolNode extends Node {
       this.chargeDisplay = new Text( '0', {
         font: NUMBER_FONT,
         fill: 'black'
-        // tandem: options.tandem.createTandem( 'chargeDisplay' )
       } );
       this.boundingBox.addChild( this.chargeDisplay );
 
