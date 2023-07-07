@@ -27,7 +27,6 @@ type SelfOptions = {
   symbolTextFill?: TColor;
   protonCountDisplayFill?: TColor;
   massNumberDisplayFill?: TColor;
-  boundingBoxStroke?: TColor;
 };
 export type SymbolNodeOptions = SelfOptions & NodeOptions;
 
@@ -52,8 +51,7 @@ class SymbolNode extends Node {
       fill: 'white',
       symbolTextFill: 'black',
       protonCountDisplayFill: PhetColorScheme.RED_COLORBLIND,
-      massNumberDisplayFill: 'black',
-      boundingBoxStroke: 'black'
+      massNumberDisplayFill: 'black'
     }, providedOptions );
 
     super( options );
@@ -61,7 +59,7 @@ class SymbolNode extends Node {
     // Add the bounding box, which is also the root node for everything else
     // that comprises this node.
     this.boundingBox = new Rectangle( 0, 0, SYMBOL_BOX_WIDTH, SYMBOL_BOX_HEIGHT, 0, 0, {
-      stroke: options.boundingBoxStroke,
+      stroke: 'black',
       lineWidth: 2,
       fill: options.fill
     } );
