@@ -14220,7 +14220,7 @@ const AtomIdentifier = {
   // Return if the next isotope of the given nuclide exists
   doesNextIsotopeExist: function( numProtons, numNeutrons ) {
     return this.getNuclideHalfLife( numProtons, numNeutrons + 1 ) !== undefined ||
-      this.isStable( numProtons, numNeutrons + 1 );
+           this.isStable( numProtons, numNeutrons + 1 );
 
   },
 
@@ -14250,6 +14250,11 @@ const AtomIdentifier = {
 
   // Get the available decays, and likelihood percents of those decays, for an unstable nuclide. Returns an empty array
   // if the decays are unknown or if the nuclide does not exist or is stable.
+  /**
+   * @param {number} numProtons
+   * @param {number} numNeutrons
+   * @returns {Object.<string,number>[]}
+   */
   getAvailableDecaysAndPercents: function( numProtons, numNeutrons ) {
     const allDecaysAndPercents = DECAYS_INFO_TABLE[ numProtons ][ numNeutrons ];
 
