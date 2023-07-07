@@ -18,6 +18,7 @@ import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import ShredConstants from '../ShredConstants.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import MathSymbols from '../../../scenery-phet/js/MathSymbols.js';
 
 // types
 type SelfOptions = {
@@ -125,7 +126,8 @@ class SymbolNode extends Node {
 
       // Add the listener to update the charge.
       options.chargeProperty.link( charge => {
-        this.chargeDisplay!.string = ( charge > 0 ? '+' : '' ) + charge;
+        const chargeSign = charge > 0 ? MathSymbols.PLUS : charge < 0 ? MathSymbols.MINUS : '';
+        this.chargeDisplay!.string = `${Math.abs( charge )}${chargeSign}`;
         this.chargeDisplay!.fill = ShredConstants.CHARGE_TEXT_COLOR( charge );
         this.chargeDisplay!.right = SYMBOL_BOX_WIDTH - NUMBER_INSET;
         this.chargeDisplay!.top = NUMBER_INSET;
