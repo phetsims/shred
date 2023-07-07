@@ -133,20 +133,6 @@ class SymbolNode extends Node {
 
     }
   }
-
-  /**
-   * Set the fill color of the bounding box of the symbol node.
-   */
-  public setFillColor( fill: TColor ): void {
-    this.boundingBox.fill = fill;
-  }
-
-  /**
-   * Set the color of the symbol text.
-   */
-  public setSymbolTextColor( fill: TColor ): void {
-    this.symbolText.fill = fill;
-  }
 }
 
 shred.register( 'SymbolNode', SymbolNode );
