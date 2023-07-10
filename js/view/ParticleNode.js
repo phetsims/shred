@@ -1,8 +1,8 @@
 // Copyright 2014-2023, University of Colorado Boulder
 
 /**
- * Particle, represented as a circle with a gradient.  This type does not
- * track a particle, use ParticleView for that.
+ * Particle, represented as a circle with a gradient. This type does not
+ * track a particle, use ParticleView for that. Basically this is just an icon.
  */
 
 import Utils from '../../../dot/js/Utils.js';
