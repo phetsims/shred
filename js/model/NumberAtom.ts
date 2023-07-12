@@ -32,7 +32,7 @@ type NumberAtomLike = {
   protonCount: number;
   neutronCount: number;
   electronCount: number;
-}
+};
 
 class NumberAtom {
   public readonly protonCountProperty: TProperty<number>;
@@ -41,7 +41,7 @@ class NumberAtom {
   public readonly chargeProperty: TReadOnlyProperty<number>;
   public readonly massNumberProperty: TReadOnlyProperty<number>;
   public readonly particleCountProperty: TReadOnlyProperty<number>;
-  public readonly atomUpdated: Emitter;
+  public readonly atomUpdated: Emitter; // events emitted by instances of this type
 
   public constructor( providedOptions?: NumberAtomOptions ) {
 
@@ -51,7 +51,6 @@ class NumberAtom {
       electronCount: 0
     }, providedOptions );
 
-    // @public
     this.protonCountProperty = new NumberProperty( options.protonCount, {
       tandem: options.tandem?.createTandem( 'protonCountProperty' ),
       phetioDocumentation: 'this property is updated by the model and should not be set by users',
@@ -95,22 +94,20 @@ class NumberAtom {
       }
     );
 
-    // @public - events emitted by instances of this type
     this.atomUpdated = new Emitter( {
       tandem: options.tandem?.createTandem( 'atomUpdatedEmitter' )
     } );
   }
 
-  // @public - ES5 getters for particle counts
-  get protonCount() {
+  public get protonCount(): number {
     return this.protonCountProperty.value;
   }
 
-  get neutronCount() {
+  public get neutronCount(): number {
     return this.neutronCountProperty.value;
   }
 
-  get electronCount() {
+  public get electronCount(): number {
     return this.electronCountProperty.value;
   }
 
@@ -123,12 +120,10 @@ class NumberAtom {
            this.electronCount === otherAtom.electronCount;
   }
 
-  // @public
   public getStandardAtomicMass(): number {
     return AtomIdentifier.getStandardAtomicMass( this.protonCountProperty.get() + this.neutronCountProperty.get() );
   }
 
-  // @public
   public getIsotopeAtomicMass(): number {
     return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
   }
@@ -140,9 +135,6 @@ class NumberAtom {
     this.atomUpdated.emit();
   }
 
-  /**
-   * @public
-   */
   public dispose(): void {
     this.chargeProperty.dispose();
     this.massNumberProperty.dispose();
@@ -164,8 +156,8 @@ class NumberAtom {
       electronCount: numberAtom.electronCountProperty.get(),
       neutronCount: numberAtom.neutronCountProperty.get()
     } ),
-    fromStateObject( stateObject ) { } // TODO: Should this be implemented?
-  } )
+    fromStateObject( stateObject ) { /* TODO: Should this be implemented? */ }
+  } );
 }
 
 shred.register( 'NumberAtom', NumberAtom );
