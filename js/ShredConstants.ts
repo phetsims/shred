@@ -10,6 +10,9 @@ import Bounds2 from '../../dot/js/Bounds2.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import shred from './shred.js';
+import { TColor } from '../../scenery/js/imports.js';
+
+type Level = 'periodic-table-game' | 'mass-and-charge-game' | 'symbol-game' | 'advanced-symbol-game';
 
 const ShredConstants = {
 
@@ -32,15 +35,15 @@ const ShredConstants = {
   ACCORDION_BOX_TITLE_MAX_WIDTH: 225, // empirically determined
 
   // Function for choosing text color based on charge value.
-  CHARGE_TEXT_COLOR: function( charge ) {
+  CHARGE_TEXT_COLOR: function( charge: number ): TColor {
     return charge > 0 ? PhetColorScheme.RED_COLORBLIND : charge < 0 ? 'blue' : 'black';
   },
 
   // Names of the various game levels.
-  LEVEL_NAMES: [ 'periodic-table-game', 'mass-and-charge-game', 'symbol-game', 'advanced-symbol-game' ],
+  LEVEL_NAMES: [ 'periodic-table-game', 'mass-and-charge-game', 'symbol-game', 'advanced-symbol-game' ] satisfies Level[],
 
   // Level name to level number converter.
-  MAP_LEVEL_NAME_TO_NUMBER: function( levelName ) { return this.LEVEL_NAMES.indexOf( levelName ); }
+  MAP_LEVEL_NAME_TO_NUMBER: function( levelName: Level ): number { return this.LEVEL_NAMES.indexOf( levelName ); }
 };
 shred.register( 'ShredConstants', ShredConstants );
 export default ShredConstants;

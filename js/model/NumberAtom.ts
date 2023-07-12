@@ -10,41 +10,62 @@
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
-import merge from '../../../phet-core/js/merge.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import TProperty from '../../../axon/js/TProperty.js';
+import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+
+type SelfOptions = {
+  protonCount?: number;
+  neutronCount?: number;
+  electronCount?: number;
+};
+
+type ParentOptions = Pick<PhetioObjectOptions, 'tandem'>;
+export type NumberAtomOptions = SelfOptions & ParentOptions;
+
+type NumberAtomLike = {
+  protonCount: number;
+  neutronCount: number;
+  electronCount: number;
+}
 
 class NumberAtom {
+  public readonly protonCountProperty: TProperty<number>;
+  public readonly neutronCountProperty: TProperty<number>;
+  public readonly electronCountProperty: TProperty<number>;
+  public readonly chargeProperty: TReadOnlyProperty<number>;
+  public readonly massNumberProperty: TReadOnlyProperty<number>;
+  public readonly particleCountProperty: TReadOnlyProperty<number>;
+  public readonly atomUpdated: Emitter;
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  public constructor( providedOptions?: NumberAtomOptions ) {
 
-    // Default configuration.
-    options = merge( {
+    const options = optionize<NumberAtomOptions, SelfOptions, ParentOptions>()( {
       protonCount: 0,
       neutronCount: 0,
       electronCount: 0
-    }, options );
+    }, providedOptions );
 
     // @public
     this.protonCountProperty = new NumberProperty( options.protonCount, {
       tandem: options.tandem?.createTandem( 'protonCountProperty' ),
-      documentation: 'this property is updated by the model and should not be set by users',
+      phetioDocumentation: 'this property is updated by the model and should not be set by users',
       numberType: 'Integer'
     } );
     this.neutronCountProperty = new NumberProperty( options.neutronCount, {
       tandem: options.tandem?.createTandem( 'neutronCountProperty' ),
       numberType: 'Integer',
-      documentation: 'this property is updated by the model and should not be set by users'
+      phetioDocumentation: 'this property is updated by the model and should not be set by users'
     } );
     this.electronCountProperty = new NumberProperty( options.electronCount, {
       tandem: options.tandem?.createTandem( 'electronCountProperty' ),
       numberType: 'Integer',
-      documentation: 'this property is updated by the model and should not be set by users'
+      phetioDocumentation: 'this property is updated by the model and should not be set by users'
     } );
 
     this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
@@ -52,7 +73,6 @@ class NumberAtom {
         return protonCount - electronCount;
       } ), {
         tandem: options.tandem?.createTandem( 'chargeProperty' ),
-        numberType: 'Integer',
         phetioValueType: NumberIO
       }
     );
@@ -62,7 +82,6 @@ class NumberAtom {
         return protonCount + neutronCount;
       } ), {
         tandem: options.tandem?.createTandem( 'massNumberProperty' ),
-        numberType: 'Integer',
         phetioValueType: NumberIO
       }
     );
@@ -72,7 +91,6 @@ class NumberAtom {
         return protonCount + neutronCount + electronCount;
       } ), {
         tandem: options.tandem?.createTandem( 'particleCountProperty' ),
-        numberType: 'Integer',
         phetioValueType: NumberIO
       }
     );
@@ -98,32 +116,24 @@ class NumberAtom {
 
   /**
    * compare with another atom
-   * @param {NumberAtom|ImmutableAtomConfig} otherAtom
-   * @public
    */
-  equals( otherAtom ) {
+  public equals( otherAtom: NumberAtomLike ): boolean {
     return this.protonCount === otherAtom.protonCount &&
            this.neutronCount === otherAtom.neutronCount &&
            this.electronCount === otherAtom.electronCount;
   }
 
   // @public
-  getStandardAtomicMass() {
+  public getStandardAtomicMass(): number {
     return AtomIdentifier.getStandardAtomicMass( this.protonCountProperty.get() + this.neutronCountProperty.get() );
   }
 
   // @public
-  getIsotopeAtomicMass() {
+  public getIsotopeAtomicMass(): number {
     return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
   }
 
-  /**
-   * @param {number} protonCount
-   * @param {number} neutronCount
-   * @param {number} electronCount
-   * @public
-   */
-  setSubAtomicParticleCount( protonCount, neutronCount, electronCount ) {
+  public setSubAtomicParticleCount( protonCount: number, neutronCount: number, electronCount: number ): void {
     this.protonCountProperty.set( protonCount );
     this.electronCountProperty.set( electronCount );
     this.neutronCountProperty.set( neutronCount );
@@ -133,7 +143,7 @@ class NumberAtom {
   /**
    * @public
    */
-  dispose() {
+  public dispose(): void {
     this.chargeProperty.dispose();
     this.massNumberProperty.dispose();
     this.particleCountProperty.dispose();
@@ -145,18 +155,18 @@ class NumberAtom {
 
     this.atomUpdated.dispose();
   }
-}
 
-NumberAtom.NumberAtomIO = new IOType( 'NumberAtomIO', {
-  valueType: NumberAtom,
-  documentation: 'A value type that contains quantities of electrons, protons, and neutrons',
-  toStateObject: numberAtom => ( {
-    protonCount: numberAtom.protonCountProperty.get(),
-    electronCount: numberAtom.electronCountProperty.get(),
-    neutronCount: numberAtom.neutronCountProperty.get()
-  } ),
-  fromStateObject( stateObject ) { } // TODO: Should this be implemented?
-} );
+  public static NumberAtomIO = new IOType( 'NumberAtomIO', {
+    valueType: NumberAtom,
+    documentation: 'A value type that contains quantities of electrons, protons, and neutrons',
+    toStateObject: numberAtom => ( {
+      protonCount: numberAtom.protonCountProperty.get(),
+      electronCount: numberAtom.electronCountProperty.get(),
+      neutronCount: numberAtom.neutronCountProperty.get()
+    } ),
+    fromStateObject( stateObject ) { } // TODO: Should this be implemented?
+  } )
+}
 
 shred.register( 'NumberAtom', NumberAtom );
 export default NumberAtom;

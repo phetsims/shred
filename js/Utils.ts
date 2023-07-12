@@ -9,17 +9,14 @@
 import shred from './shred.js';
 
 const Utils = {
+
   /**
    * Determine if two values are equal within a tolerance.
-   *
-   * @param {number} value1
-   * @param {number} value2
-   * @param {number} tolerance
-   * @public
    */
-  roughlyEqual: function( value1, value2, tolerance ) {
+  roughlyEqual: function( value1: number, value2: number, tolerance: number ): boolean {
     return Math.abs( value1 - value2 ) < tolerance;
   }
 };
+
 shred.register( 'Utils', Utils );
 export default Utils;
