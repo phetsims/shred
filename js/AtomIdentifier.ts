@@ -14277,8 +14277,7 @@ const AtomIdentifier = {
         switch( allDecays[ i ] ) {
           case 'B-':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'BETA_MINUS_DECAY' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.BETA_MINUS_DECAY ) ) {
               basicDecays.push( { BETA_MINUS_DECAY: allDecaysAndPercents[ 'B-' ] } );
             }
             break;
@@ -14286,22 +14285,19 @@ const AtomIdentifier = {
             break;
           case 'EC+B+':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ 'EC+B+' ] } );
             }
             break;
           case 'EC':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents.EC } );
             }
             break;
           case 'B+':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ 'B+' ] } );
             }
             break;
@@ -14309,8 +14305,7 @@ const AtomIdentifier = {
             break;
           case '2EC':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ '2EC' ] } );
             }
             break;
@@ -14318,43 +14313,37 @@ const AtomIdentifier = {
             break;
           case 'A':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'ALPHA_DECAY' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.ALPHA_DECAY ) ) {
               basicDecays.push( { ALPHA_DECAY: allDecaysAndPercents.A } );
             }
             break;
           case 'P':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'PROTON_EMISSION' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.PROTON_EMISSION ) ) {
               basicDecays.push( { PROTON_EMISSION: allDecaysAndPercents.P } );
             }
             break;
           case 'N':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'NEUTRON_EMISSION' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.NEUTRON_EMISSION ) ) {
               basicDecays.push( { NEUTRON_EMISSION: allDecaysAndPercents.N } );
             }
             break;
           case '2P':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'PROTON_EMISSION' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.PROTON_EMISSION ) ) {
               basicDecays.push( { PROTON_EMISSION: allDecaysAndPercents[ '2P' ] } );
             }
             break;
           case '2N':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'NEUTRON_EMISSION' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.NEUTRON_EMISSION ) ) {
               basicDecays.push( { NEUTRON_EMISSION: allDecaysAndPercents[ '2N' ] } );
             }
             break;
           case 'B+A':
 
-            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
-            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
+            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ 'B+A' ] } );
             }
             break;
