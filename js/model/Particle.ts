@@ -64,6 +64,9 @@ class Particle extends PhetioObject {
   public readonly zLayerProperty: TProperty<number>;
   private readonly disposeParticle: () => void;
 
+  // Assigned by other parties as a way to clean up animations.
+  public particleAtomRemovalListener: null | ( ( userControlled: boolean ) => void ) = null;
+
   public constructor( type: string, providedOptions?: ParticleOptions ) {
 
     const options = optionize<ParticleOptions, SelfOptions, PhetioObjectOptions>()( {
