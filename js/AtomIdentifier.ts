@@ -12,6 +12,7 @@
 import Utils from '../../dot/js/Utils.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
+import type NumberAtom from './model/NumberAtom.js';
 
 // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
 // present on Earth.
@@ -738,7 +739,7 @@ const numNeutronsInMostStableIsotope = [
 // elements" which, at the time of this writing, can be found here:
 // https://en.wikipedia.org/wiki/Atomic_radii_of_the_elements_(data_page).
 // The values are in picometers.
-const mapElectronCountToRadius = {
+const mapElectronCountToRadius: Record<number, number> = {
   1: 53,
   2: 31,
   3: 167,
@@ -840,10 +841,15 @@ const mapElectronCountToRadius = {
 //
 // The object is first indexed by the proton number, and then by the neutron number. For example, a nuclide with 1 proton
 // and 4 neutrons ( HalfLifeConstants[ 1 ][ 4 ] ) would undergo a decay of type "2N" 100% of the time that it decays.
-//
+type DecayAmount = number | null;
+type DecayPercent = Record<string, DecayAmount>;
+
+// First by proton, then by neutron.
+type DecaysInfo = Record<number, Record<number, null | DecayPercent>>;
+
 // 'quote-props' lint rule is disabled in order to have consistent styling.
 /* eslint-disable quote-props */
-const DECAYS_INFO_TABLE = {
+const DECAYS_INFO_TABLE: DecaysInfo = {
   0: {
     1: {
       'B-': 100
@@ -10781,7 +10787,12 @@ const DECAYS_INFO_TABLE = {
 // keys of type atomic number
 //  subkeys of type mass number
 //    subkeys of type atomicMass and abundance, which hold the values for each isotope.
-const ISOTOPE_INFO_TABLE = {
+type IsotopeInfo = {
+  atomicMass: number;
+  abundance: number;
+};
+
+const ISOTOPE_INFO_TABLE: Record<number, Record<number, IsotopeInfo>> = {
   1: { // atomic number
     1: { // massNumber
       atomicMass: 1.00782503207,
@@ -11087,6 +11098,10 @@ const standardMassTable = [
   208.9804 // 83, BISMUTH
 ];
 
+// Null if unknown
+type Halflife = number | null;
+type HalfLifeConstantsType = Record<number, Record<number, Halflife>>;
+
 // HalfLifeConstants is an object with the half-life constants of unstable nuclides. If the half-life of an unstable
 // nuclide is unknown, null is set as a placeholder. The half-life is in seconds and some numbers are in scientific
 // notation. The data was obtained from the Nuclear Data Services (NDS) of the International Atomic Energy Agency (IAEA)
@@ -11094,7 +11109,7 @@ const standardMassTable = [
 //
 // The object is first indexed by the proton number, and then by the neutron number. For example, a nuclide with 1 proton
 // and 4 neutrons ( HalfLifeConstants[ 1 ][ 4 ] ) would have a half-life of 8.60826E-23 seconds.
-const HalfLifeConstants = {
+const HalfLifeConstants: HalfLifeConstantsType = {
   0: {
     0: null, // a placeholder to allow a nuclide with 0 protons and 0 neutrons to exist as a base case
     1: 613.9,
@@ -14057,57 +14072,59 @@ const HalfLifeConstants = {
   }
 };
 
+
+export type DecayTypeStrings = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DECAY' | 'PROTON_EMISSION' | 'NEUTRON_EMISSION';
+
+type DecayPercentageMap = Partial<Record<DecayTypeStrings, DecayAmount>>;
+type IsotopeInfoIdentifier = [ number, number, number ];
+
+
 const AtomIdentifier = {
 
   // Get the chemical symbol for an atom with the specified number of protons.
-  getSymbol: function( numProtons ) {
+  getSymbol: function( numProtons: number ): string {
     return symbolTable[ numProtons ];
   },
 
   /**
    * Get the internationalized element name for an atom with the specified number of protons.
-   * @param {number} numProtons
-   * @returns {string}
    */
-  getName: function( numProtons ) {
+  getName: function( numProtons: number ): string {
     return nameTable[ numProtons ];
   },
 
   /**
    * Get the English name for an atom with the specified number of protons, lowercased with no whitespace and suitable
    * for usage in PhET-iO data stream
-   * @param {number} numProtons
-   * @returns {string}
    */
-  getEnglishName: function( numProtons ) {
+  getEnglishName: function( numProtons: number ): string {
     return englishNameTable[ numProtons ];
   },
 
   // Identifies whether a given atomic nucleus is stable.
-  isStable: function( numProtons, numNeutrons ) {
+  isStable: function( numProtons: number, numNeutrons: number ): boolean {
     const tableEntry = stableElementTable[ numProtons ];
     if ( typeof ( tableEntry ) === 'undefined' ) {
       return false;
     }
+
+    // TODO: should not require jquery dependency, https://github.com/phetsims/shred/issues/38
     return $.inArray( numNeutrons, tableEntry ) > -1;
   },
 
-  getNumNeutronsInMostCommonIsotope: function( atomicNumber ) {
+  getNumNeutronsInMostCommonIsotope: function( atomicNumber: number ): number {
     return numNeutronsInMostStableIsotope[ atomicNumber ] || 0;
   },
 
-  getStandardAtomicMass: function( numProtons ) {
+  getStandardAtomicMass: function( numProtons: number ): number {
     return standardMassTable[ numProtons ];
   },
 
   /**
    * Get the atomic mass of an isotope fom an isotope key.   Input parameters are the number of protons and neutrons
    * which hold the information necessary to determine isotope information.
-   *
-   * @param {number} protons
-   * @param {number} neutrons
    */
-  getIsotopeAtomicMass: function( protons, neutrons ) {
+  getIsotopeAtomicMass: function( protons: number, neutrons: number ): number {
     if ( protons !== 0 ) {
       const tableEntry = ISOTOPE_INFO_TABLE[ protons ][ protons + neutrons ];
       if ( typeof ( tableEntry ) === 'undefined' ) {
@@ -14124,13 +14141,8 @@ const AtomIdentifier = {
   /**
    * Returns the natural abundance of the specified isotope on present day Earth (year 2018) as a proportion (NOT a
    * percentage) with the specified number of decimal places.
-   *
-   * @param {NumberAtom} isotope
-   * @param {number} numDecimalPlaces - number of decimal places in the result
-   * @returns {number}
-   * @public
    */
-  getNaturalAbundance: function( isotope, numDecimalPlaces ) {
+  getNaturalAbundance: function( isotope: NumberAtom, numDecimalPlaces: number ): number {
     assert && assert( numDecimalPlaces !== undefined, 'must specify number of decimal places for proportion' );
     let abundanceProportion = 0;
     if ( isotope.protonCountProperty.get() > 0 &&
@@ -14150,11 +14162,8 @@ const AtomIdentifier = {
    * Returns true if the isotope exists only in trace amounts on present day Earth (~year 2018), false if there is
    * more or less than that.  The definition that is used for deciding which isotopes exist in trace amounts is from
    * https://en.wikipedia.org/wiki/Trace_radioisotope.
-   * @param {NumberAtom} isotope
-   * @returns {boolean}
-   * @public
    */
-  existsInTraceAmounts: function( isotope ) {
+  existsInTraceAmounts: function( isotope: NumberAtom ): boolean {
     const tableEntry = ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ];
     return tableEntry !== undefined && tableEntry.abundance === TRACE_ABUNDANCE;
   },
@@ -14165,14 +14174,15 @@ const AtomIdentifier = {
    * @param atomicNumber
    * @return
    */
-  getAllIsotopesOfElement: function( atomicNumber ) {
-    const isotopesList = [];
+  getAllIsotopesOfElement: function( atomicNumber: number ): IsotopeInfoIdentifier[] {
+    const isotopesList: IsotopeInfoIdentifier[] = [];
 
     for ( const massNumber in ISOTOPE_INFO_TABLE[ atomicNumber ] ) {
-      const numNeutrons = massNumber - atomicNumber;
-      const moleculeNumberList = [ atomicNumber, numNeutrons, atomicNumber ];
 
-      isotopesList.push( moleculeNumberList );
+      // parseInt was that best I could think of to support TypeScript
+      const numNeutrons = Number.parseInt( massNumber, 10 ) - atomicNumber; // eslint-disable-line bad-sim-text
+
+      isotopesList.push( [ atomicNumber, numNeutrons, atomicNumber ] );
     }
 
     return isotopesList;
@@ -14186,24 +14196,24 @@ const AtomIdentifier = {
    * @param atomicNumber
    * @return
    */
-  getStableIsotopesOfElement: function( atomicNumber ) {
+  getStableIsotopesOfElement: function( atomicNumber: number ): IsotopeInfoIdentifier[] {
     const isotopesList = this.getAllIsotopesOfElement( atomicNumber );
-    const stableIsotopesList = [];
+    const stableIsotopesList: IsotopeInfoIdentifier[] = [];
 
-    for ( const isotopeIndex in isotopesList ) {
-      const numProtons = isotopesList[ isotopeIndex ][ 0 ];
-      const numNeutrons = isotopesList[ isotopeIndex ][ 1 ];
+    isotopesList.forEach( isotopeIdentifier => {
+      const numProtons = isotopeIdentifier[ 0 ];
+      const numNeutrons = isotopeIdentifier[ 1 ];
 
       if ( this.isStable( numProtons, numNeutrons ) ) {
         stableIsotopesList.push( [ numProtons, numNeutrons, numProtons ] );
       }
-    }
+    } );
 
     return stableIsotopesList;
   },
 
   // Get the half-life of a nuclide with the specified number of protons and neutrons.
-  getNuclideHalfLife: function( numProtons, numNeutrons ) {
+  getNuclideHalfLife: function( numProtons: number, numNeutrons: number ): number | null | undefined {
     if ( !HalfLifeConstants[ numProtons ] ) {
       return undefined;
     }
@@ -14211,51 +14221,46 @@ const AtomIdentifier = {
   },
 
   // Identifies whether a given nuclide exists
-  doesExist: function( numProtons, numNeutrons ) {
+  doesExist: function( numProtons: number, numNeutrons: number ): boolean {
     const isStable = this.isStable( numProtons, numNeutrons );
     const halfLife = this.getNuclideHalfLife( numProtons, numNeutrons );
     return !( !isStable && halfLife === undefined );
   },
 
   // Return if the next isotope of the given nuclide exists
-  doesNextIsotopeExist: function( numProtons, numNeutrons ) {
+  doesNextIsotopeExist: function( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons, numNeutrons + 1 ) !== undefined ||
            this.isStable( numProtons, numNeutrons + 1 );
 
   },
 
   // Return if the previous isotope of the given nuclide exists
-  doesPreviousIsotopeExist: function( numProtons, numNeutrons ) {
+  doesPreviousIsotopeExist: function( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons, numNeutrons - 1 ) !== undefined ||
            this.isStable( numProtons, numNeutrons - 1 );
   },
 
   // Return if the next isotone of the given nuclide exists
-  doesNextIsotoneExist: function( numProtons, numNeutrons ) {
+  doesNextIsotoneExist: function( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons + 1, numNeutrons ) !== undefined ||
            this.isStable( numProtons + 1, numNeutrons );
   },
 
   // Return if the previous isotone of the given nuclide exists
-  doesPreviousIsotoneExist: function( numProtons, numNeutrons ) {
+  doesPreviousIsotoneExist: function( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons - 1, numNeutrons ) !== undefined ||
            this.isStable( numProtons - 1, numNeutrons );
   },
 
   // Return if the nuclide of the given nuclide minus one proton and minus one neutrons exists
-  doesPreviousNuclideExist: function( numProtons, numNeutrons ) {
+  doesPreviousNuclideExist: function( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons - 1, numNeutrons - 1 ) !== undefined ||
            this.isStable( numProtons - 1, numNeutrons - 1 );
   },
 
   // Get the available decays, and likelihood percents of those decays, for an unstable nuclide. Returns an empty array
   // if the decays are unknown or if the nuclide does not exist or is stable.
-  /**
-   * @param {number} numProtons
-   * @param {number} numNeutrons
-   * @returns {Object.<string,number>[]}
-   */
-  getAvailableDecaysAndPercents: function( numProtons, numNeutrons ) {
+  getAvailableDecaysAndPercents: function( numProtons: number, numNeutrons: number ): DecayPercentageMap[] {
     const allDecaysAndPercents = DECAYS_INFO_TABLE[ numProtons ][ numNeutrons ];
 
     // undefined means the nuclide is stable or does not exist, meaning there are no available decays
@@ -14267,67 +14272,89 @@ const AtomIdentifier = {
     // the nuclide is unstable and the available decays are known
     else {
       const allDecays = Object.keys( allDecaysAndPercents );
-      const basicDecays = [];
+      const basicDecays: DecayPercentageMap[] = [];
       for ( let i = 0; i < allDecays.length; i++ ) {
         switch( allDecays[ i ] ) {
           case 'B-':
-            if ( basicDecays.indexOf( 'BETA_MINUS_DECAY' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'BETA_MINUS_DECAY' ) ) {
               basicDecays.push( { BETA_MINUS_DECAY: allDecaysAndPercents[ 'B-' ] } );
             }
             break;
           case '2B-':
             break;
           case 'EC+B+':
-            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ 'EC+B+' ] } );
             }
             break;
           case 'EC':
-            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents.EC } );
             }
             break;
           case 'B+':
-            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ 'B+' ] } );
             }
             break;
           case 'B++EC':
             break;
           case '2EC':
-            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ '2EC' ] } );
             }
             break;
           case '2B+':
             break;
           case 'A':
-            if ( basicDecays.indexOf( 'ALPHA_DECAY' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'ALPHA_DECAY' ) ) {
               basicDecays.push( { ALPHA_DECAY: allDecaysAndPercents.A } );
             }
             break;
           case 'P':
-            if ( basicDecays.indexOf( 'PROTON_EMISSION' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'PROTON_EMISSION' ) ) {
               basicDecays.push( { PROTON_EMISSION: allDecaysAndPercents.P } );
             }
             break;
           case 'N':
-            if ( basicDecays.indexOf( 'NEUTRON_EMISSION' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'NEUTRON_EMISSION' ) ) {
               basicDecays.push( { NEUTRON_EMISSION: allDecaysAndPercents.N } );
             }
             break;
           case '2P':
-            if ( basicDecays.indexOf( 'PROTON_EMISSION' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'PROTON_EMISSION' ) ) {
               basicDecays.push( { PROTON_EMISSION: allDecaysAndPercents[ '2P' ] } );
             }
             break;
           case '2N':
-            if ( basicDecays.indexOf( 'NEUTRON_EMISSION' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'NEUTRON_EMISSION' ) ) {
               basicDecays.push( { NEUTRON_EMISSION: allDecaysAndPercents[ '2N' ] } );
             }
             break;
           case 'B+A':
-            if ( basicDecays.indexOf( 'BETA_PLUS_DECAY' ) === -1 ) {
+
+            // @ts-expect-error this is so buggy, not sure what to do here, https://github.com/phetsims/shred/issues/38
+            if ( basicDecays.includes( 'BETA_PLUS_DECAY' ) ) {
               basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ 'B+A' ] } );
             }
             break;
@@ -14369,7 +14396,7 @@ const AtomIdentifier = {
     }
   },
 
-  getAtomicRadius: function( numElectrons ) {
+  getAtomicRadius: function( numElectrons: number ): number {
     return mapElectronCountToRadius[ numElectrons ];
   }
 };
