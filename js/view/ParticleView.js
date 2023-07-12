@@ -111,7 +111,9 @@ class ParticleView extends Node {
    * @param {PressListenerEvent} event
    */
   startSyntheticDrag( event ) {
-    this.dragListener.press( event );
+
+    // forward this Node as the target of the drag because the creator Node may be default target otherwise
+    this.dragListener.press( event, this );
   }
 }
 
