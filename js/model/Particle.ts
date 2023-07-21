@@ -126,6 +126,8 @@ class Particle extends PhetioObject {
       this.animationVelocityProperty.dispose();
       this.userControlledProperty.dispose();
       this.zLayerProperty.dispose();
+      this.animationEndedEmitter.dispose();
+      this.dragEndedEmitter.dispose();
     };
   }
 
