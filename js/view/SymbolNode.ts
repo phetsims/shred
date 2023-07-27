@@ -5,11 +5,11 @@
  * atomic number. It also optionally shows the charge.
  *
  * @author John Blanco
- @author Luisa Vargas
+ * @author Luisa Vargas
  */
 
 import shred from '../shred.js';
-import { Node, NodeOptions, Rectangle, TColor, Text } from '../../../scenery/js/imports.js';
+import { Node, NodeOptions, Rectangle, Text } from '../../../scenery/js/imports.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
@@ -23,10 +23,6 @@ import MathSymbols from '../../../scenery-phet/js/MathSymbols.js';
 // types
 type SelfOptions = {
   chargeProperty?: NumberProperty | null;
-  fill?: TColor;
-  symbolTextFill?: TColor;
-  protonCountDisplayFill?: TColor;
-  massNumberDisplayFill?: TColor;
 };
 export type SymbolNodeOptions = SelfOptions & NodeOptions;
 
@@ -47,11 +43,7 @@ class SymbolNode extends Node {
                       providedOptions?: SymbolNodeOptions ) {
 
     const options = optionize<SymbolNodeOptions, SelfOptions, NodeOptions>()( {
-      chargeProperty: null,
-      fill: 'white',
-      symbolTextFill: 'black',
-      protonCountDisplayFill: PhetColorScheme.RED_COLORBLIND,
-      massNumberDisplayFill: 'black'
+      chargeProperty: null
     }, providedOptions );
 
     super( options );
@@ -61,14 +53,14 @@ class SymbolNode extends Node {
     this.boundingBox = new Rectangle( 0, 0, SYMBOL_BOX_WIDTH, SYMBOL_BOX_HEIGHT, 0, 0, {
       stroke: 'black',
       lineWidth: 2,
-      fill: options.fill
+      fill: 'white'
     } );
     this.addChild( this.boundingBox );
 
     // Add the symbol text.
     this.symbolText = new Text( '', {
       font: new PhetFont( 150 ),
-      fill: options.symbolTextFill,
+      fill: 'black',
       center: new Vector2( SYMBOL_BOX_WIDTH / 2, SYMBOL_BOX_HEIGHT / 2 )
     } );
 
@@ -88,7 +80,7 @@ class SymbolNode extends Node {
     // Add the proton count display.
     const protonCountDisplay = new Text( '0', {
       font: NUMBER_FONT,
-      fill: options.protonCountDisplayFill
+      fill: PhetColorScheme.RED_COLORBLIND
     } );
     this.boundingBox.addChild( protonCountDisplay );
 
@@ -102,7 +94,7 @@ class SymbolNode extends Node {
     // Add the mass number display.
     this.massNumberDisplay = new Text( '0', {
       font: NUMBER_FONT,
-      fill: options.massNumberDisplayFill
+      fill: 'black'
     } );
     this.boundingBox.addChild( this.massNumberDisplay );
 
