@@ -121,11 +121,13 @@ class ParticleAtom extends PhetioObject {
 
     this.protons = createObservableArray( {
       // tandem: options.tandem.createTandem( 'protons' ),
-      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
+      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO ),
+      hasListenerOrderDependencies: true // TODO: Not positive that this is true, but CT will let us know, see https://github.com/phetsims/build-a-nucleus/issues/105
     } );
     this.neutrons = createObservableArray( {
       // tandem: options.tandem.createTandem( 'neutrons' ),
-      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
+      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO ),
+      hasListenerOrderDependencies: true // TODO: Not positive that this is true, but CT will let us know, see https://github.com/phetsims/build-a-nucleus/issues/105
     } );
     this.electrons = createObservableArray( {
       // tandem: options.tandem.createTandem( 'electrons' ),
@@ -395,7 +397,7 @@ class ParticleAtom extends PhetioObject {
     assert && assert( typeof ( particle.particleAtomRemovalListener ) === 'function',
       'No particle removal listener attached to particle.'
     );
-    particle.userControlledProperty.unlink( particle.particleAtomRemovalListener ! );
+    particle.userControlledProperty.unlink( particle.particleAtomRemovalListener! );
 
     particle.particleAtomRemovalListener = null;
   }
