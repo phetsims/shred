@@ -437,6 +437,41 @@ class ParticleAtom extends PhetioObject {
     return particle as unknown as Particle;
   }
 
+  public extractParticleClosestToCenter( particleType: ParticleTypeString ): Particle {
+    let particle = null;
+    switch( particleType ) {
+      case 'proton':
+        if ( this.protons.length > 0 ) {
+          particle = _.sortBy( [ ...this.protons ], proton =>
+            proton.positionProperty.value.distance( this.positionProperty.value ) )[ 0 ];
+        }
+        break;
+
+      case 'neutron':
+        if ( this.neutrons.length > 0 ) {
+          particle = _.sortBy( [ ...this.neutrons ], neutron =>
+            neutron.positionProperty.value.distance( this.positionProperty.value ) )[ 0 ];
+        }
+        break;
+
+      case 'electron':
+        if ( this.electrons.length > 0 ) {
+          particle = _.sortBy( [ ...this.electrons ], electron =>
+            electron.positionProperty.value.distance( this.positionProperty.value ) )[ 0 ];
+        }
+        break;
+
+      default:
+        throw new Error( 'Attempt to remove unknown particle type.' );
+    }
+
+    if ( particle !== null ) {
+      this.removeParticle( particle );
+    }
+
+    return particle as unknown as Particle;
+  }
+
   /**
    * Remove all the particles but don't reconfigure the nucleus as they go. This makes it a quicker operation.
    */
