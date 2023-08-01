@@ -29,7 +29,7 @@ import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
-import Particle from './Particle.js';
+import Particle, { ParticleType } from './Particle.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
@@ -637,7 +637,7 @@ class ParticleAtom extends PhetioObject {
 
     const isParticleTypeProton = particle.type === 'proton';
     const particleTypes = {
-      newParticleType: isParticleTypeProton ? 'neutron' : 'proton',
+      newParticleType: ( isParticleTypeProton ? 'neutron' : 'proton' ) as ParticleType,
       oldParticleArray: isParticleTypeProton ? this.protons : this.neutrons,
       newParticleArray: isParticleTypeProton ? this.neutrons : this.protons
     };
@@ -690,6 +690,20 @@ class ParticleAtom extends PhetioObject {
     this.massNumberProperty.setDeferred( false );
 
     return initialColorChangeAnimation;
+  }
+
+  // This function was only created to support flexibility in the "numberAtom" parameter for PeriodicTableNode, use carefully.
+  public setSubAtomicParticleCount( protonCount: number, neutronCount: number, electronCount: number ): void {
+    this.clear();
+    for ( let i = 0; i < protonCount; i++ ) {
+      this.addParticle( new Particle( 'proton' ) );
+    }
+    for ( let i = 0; i < neutronCount; i++ ) {
+      this.addParticle( new Particle( 'neutron' ) );
+    }
+    for ( let i = 0; i < electronCount; i++ ) {
+      this.addParticle( new Particle( 'electron' ) );
+    }
   }
 
   public static ParticleAtomIO = new IOType( 'ParticleAtomIO', {

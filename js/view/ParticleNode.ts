@@ -6,21 +6,24 @@
  */
 
 import Utils from '../../../dot/js/Utils.js';
-import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
-import { Circle, Color, RadialGradient } from '../../../scenery/js/imports.js';
+import { Circle, CircleOptions, Color, RadialGradient } from '../../../scenery/js/imports.js';
 import shred from '../shred.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { ParticleType } from '../model/Particle.js';
 
 // constants
 const DEFAULT_LINE_WIDTH = 0.5;
 const HIGH_CONTRAST_LINE_WIDTH = 2;
 
 // map of particle type to color information
-const PARTICLE_COLORS = {
+const PARTICLE_COLORS: Record<ParticleType, Color> = {
   proton: PhetColorScheme.RED_COLORBLIND,
   neutron: Color.GRAY,
   electron: Color.BLUE,
-  positron: Color.GREEN
+  positron: Color.GREEN,
+  Isotope: Color.BLACK
 };
 
 // color gradient between the color of a proton and a neutron
@@ -32,26 +35,31 @@ const NUCLEON_COLOR_GRADIENT = [
   PARTICLE_COLORS.neutron
 ];
 
+
+type SelfOptions = {
+
+  // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
+  highContrastProperty?: TReadOnlyProperty<boolean> | null;
+  typeProperty?: TReadOnlyProperty<ParticleType> | null;
+  colorGradientIndexNumberProperty?: TReadOnlyProperty<number> | null;
+};
+type ParticleNodeOptions = SelfOptions & CircleOptions;
+
 class ParticleNode extends Circle {
+  private readonly disposeParticleNode: () => void;
 
-  /**
-   * @param {string} particleType - proton, neutron, or electron
-   * @param {number} radius
-   * @param {Object} [options]
-   */
-  constructor( particleType, radius, options ) {
+  public constructor( particleType: ParticleType, radius: number, providedOptions?: ParticleNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<ParticleNodeOptions, SelfOptions, CircleOptions>()( {
 
       cursor: 'pointer',
 
-      // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
       highContrastProperty: null,
 
       typeProperty: null,
 
       colorGradientIndexNumberProperty: null
-    }, options );
+    }, providedOptions );
 
     assert && assert( options.fill === undefined, 'fill will be set programmatically and should not be specified' );
     assert && assert( options.stroke === undefined, 'stroke will be set programmatically and should not be specified' );
@@ -75,7 +83,7 @@ class ParticleNode extends Circle {
     super( radius, options );
 
     // function to change the color of a particle
-    const changeParticleColor = newColor => {
+    const changeParticleColor = ( newColor: Color ) => {
 
       // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
       const gradientFill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
@@ -84,7 +92,7 @@ class ParticleNode extends Circle {
 
       // Set the options for the default look.
       const nonHighContrastStroke = newColor.colorUtilsDarker( 0.33 );
-      const newOptions = {};
+      const newOptions: CircleOptions = {};
       newOptions.fill = gradientFill;
       newOptions.stroke = nonHighContrastStroke;
 
@@ -93,26 +101,27 @@ class ParticleNode extends Circle {
 
     // change the color of the particle
     options.colorGradientIndexNumberProperty && options.colorGradientIndexNumberProperty.link( indexValue => {
-      if ( options.typeProperty.value === 'proton' || options.typeProperty.value === 'neutron' ) {
+      const typeProperty = options.typeProperty!;
+      if ( typeProperty.value === 'proton' || typeProperty.value === 'neutron' ) {
 
-        let nucleonChangeColorChange;
-        if ( options.typeProperty.value === 'proton' ) {
+        let nucleonChangeColorChange: Color[] = [ Color.BLACK ];
+        if ( typeProperty.value === 'proton' ) {
           nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice().reverse();
         }
-        else if ( options.typeProperty.value === 'neutron' ) {
+        else if ( typeProperty.value === 'neutron' ) {
           nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice();
         }
 
         // the value is close to an integer
         if ( Math.floor( indexValue * 10 ) / 10 % 1 === 0 ) {
-          changeParticleColor( nucleonChangeColorChange[ Utils.toFixed( indexValue, 0 ) ] );
+          changeParticleColor( nucleonChangeColorChange[ Utils.toFixed( indexValue, 0 ) as unknown as number ] );
         }
       }
     } );
 
     // If a highContrastProperty is provided, update the particle appearance based on its value.
     // Set up the fill and the strokes based on whether the highContrastProperty option is provided.
-    let highContrastListener = null;
+    let highContrastListener: ( ( highContrast: boolean ) => void ) | null = null;
     if ( options.highContrastProperty ) {
       highContrastListener = highContrast => {
         this.fill = highContrast ? baseColor : gradientFill;
@@ -122,19 +131,14 @@ class ParticleNode extends Circle {
       options.highContrastProperty.link( highContrastListener );
     }
 
-    // @private - internal dispose function
     this.disposeParticleNode = () => {
       if ( highContrastListener ) {
-        options.highContrastProperty.unlink( highContrastListener );
+        options.highContrastProperty!.unlink( highContrastListener );
       }
     };
   }
 
-  /**
-   * release memory references
-   * @public
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeParticleNode();
     super.dispose();
   }

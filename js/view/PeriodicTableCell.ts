@@ -6,30 +6,55 @@
  * @author Aadish Gupta
  */
 
-import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { FireListener, Rectangle, Text } from '../../../scenery/js/imports.js';
+import { FireListener, Rectangle, RectangleOptions, TColor, Text } from '../../../scenery/js/imports.js';
 import EventType from '../../../tandem/js/EventType.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
+import NumberAtom from '../model/NumberAtom.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import ParticleAtom from '../model/ParticleAtom.js';
 
 // constants
 const NOMINAL_CELL_DIMENSION = 25;
 const NOMINAL_FONT_SIZE = 14;
 
+type SelfOptions = {
+  length?: number; // Width and height of cell (cells are square).
+  interactive?: boolean; // Boolean flag that determines whether cell is interactive.
+  showLabels?: boolean;
+  strokeHighlightWidth?: number;
+  strokeHighlightColor?: TColor;
+  labelTextHighlightFill?: TColor; // fill of label text when highlighted
+};
+type PeriodicTableCellOptions = SelfOptions & RectangleOptions;
+type CellColor = {
+  enabled: TColor;
+  disabled: TColor;
+  selected: TColor;
+};
+
 class PeriodicTableCell extends Rectangle {
+  private readonly disposePeriodicTableCell: () => void;
+  private readonly strokeHighlightColor: TColor;
+  private readonly strokeHighlightWidth: number;
+  private readonly showLabels: boolean;
+  private readonly labelTextHighlightFill: TColor;
+  private readonly normalFill: TColor;
+  private readonly highlightedFill: TColor;
+  private readonly labelText: Text | null;
 
   /**
-   * @param {number} atomicNumber - Atomic number of atom represented by this cell.
-   * @param {NumberAtom} numberAtom - Atom that is set if this cell is selected by the user.
-   * @param {Color} cellColor - Color to be used for selected enabled and disabled cell
-   * @param {Object} [options]
+   * @param atomicNumber - Atomic number of atom represented by this cell.
+   * @param numberAtom - Atom that is set if this cell is selected by the user.
+   * @param cellColor - Color to be used for selected enabled and disabled cell
+   * @param providedOptions
    */
-  constructor( atomicNumber, numberAtom, cellColor, options ) {
+  public constructor( atomicNumber: number, numberAtom: NumberAtom | ParticleAtom, cellColor: CellColor, providedOptions?: PeriodicTableCellOptions ) {
 
-    options = merge( {
+    const options = optionize<PeriodicTableCellOptions, SelfOptions, RectangleOptions>()( {
       length: 25, //Width and height of cell (cells are square).
       interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
@@ -38,7 +63,7 @@ class PeriodicTableCell extends Rectangle {
       labelTextHighlightFill: 'black', // fill of label text when highlighted
       tandem: Tandem.REQUIRED,
       phetioEventType: EventType.USER
-    }, options );
+    }, providedOptions );
 
     const normalFill = options.interactive ? cellColor.enabled : cellColor.disabled;
 
@@ -51,13 +76,14 @@ class PeriodicTableCell extends Rectangle {
       phetioType: options.phetioType
     } );
 
-    // @private
-    this.options = options;
+    this.strokeHighlightColor = options.strokeHighlightColor;
+    this.strokeHighlightWidth = options.strokeHighlightWidth;
+    this.showLabels = options.showLabels;
+    this.labelTextHighlightFill = options.labelTextHighlightFill;
     this.normalFill = normalFill;
     this.highlightedFill = cellColor.selected;
-
+    this.labelText = null;
     if ( options.showLabels ) {
-      // @private
       this.labelText = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
         font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
         center: this.center,
@@ -68,7 +94,7 @@ class PeriodicTableCell extends Rectangle {
     }
 
     // If interactive, add a listener to set the atom when this cell is pressed.
-    let buttonListener = null; // scope for disposal
+    let buttonListener: FireListener | null = null; // scope for disposal
     if ( options.interactive ) {
       buttonListener = new FireListener( {
         tandem: options.tandem.createTandem( 'fireListener' ),
@@ -81,29 +107,23 @@ class PeriodicTableCell extends Rectangle {
       this.addInputListener( buttonListener );
     }
 
-    // @private called by dispose
     this.disposePeriodicTableCell = () => {
-      this.labelText.dispose();
+      this.labelText && this.labelText.dispose();
       buttonListener && buttonListener.dispose();
     };
   }
 
-  // @public
-  setHighlighted( highLighted ) {
-    this.fill = highLighted ? this.highlightedFill : this.normalFill;
-    this.stroke = highLighted ? this.options.strokeHighlightColor : 'black';
-    this.lineWidth = highLighted ? this.options.strokeHighlightWidth : 1;
-    if ( this.options.showLabels ) {
-      this.labelText.fontWeight = highLighted ? 'bold' : 'normal';
-      this.labelText.fill = highLighted ? this.options.labelTextHighlightFill : 'black';
+  public setHighlighted( highlighted: boolean ): void {
+    this.fill = highlighted ? this.highlightedFill : this.normalFill;
+    this.stroke = highlighted ? this.strokeHighlightColor : 'black';
+    this.lineWidth = highlighted ? this.strokeHighlightWidth : 1;
+    if ( this.showLabels ) {
+      this.labelText!.fontWeight = highlighted ? 'bold' : 'normal';
+      this.labelText!.fill = highlighted ? this.labelTextHighlightFill : 'black';
     }
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposePeriodicTableCell();
     super.dispose();
   }

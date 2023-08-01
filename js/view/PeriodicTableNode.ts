@@ -5,14 +5,16 @@
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Node } from '../../../scenery/js/imports.js';
+import { Node, NodeOptions, TColor } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import PeriodicTableCell from './PeriodicTableCell.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import NumberAtom from '../model/NumberAtom.js';
+import ParticleAtom from '../model/ParticleAtom.js';
 
 // constants
 // 2D array that defines the table structure.
@@ -29,15 +31,35 @@ const ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
 const DISABLED_CELL_COLOR = '#EEEEEE';
 const SELECTED_CELL_COLOR = '#FA8072'; //salmon
 
+type SelfOptions = {
+
+  // Atomic number of the heaviest element that should be interactive
+  interactiveMax?: 0;
+  cellDimension?: 25;
+  showLabels?: true;
+  strokeHighlightWidth?: 2;
+  strokeHighlightColor?: TColor;
+  labelTextHighlightFill?: TColor;
+  enabledCellColor?: TColor;
+  disabledCellColor?: TColor;
+  selectedCellColor?: TColor;
+};
+
+type PeriodicTableNodeOptions = SelfOptions & NodeOptions;
+
 class PeriodicTableNode extends Node {
 
-  /**
-   * @param {NumberAtom} numberAtom - Atom that defines which element is currently highlighted.
-   * @param {Object} [options]
-   */
-  constructor( numberAtom, options ) {
+  // the cells of the table
+  private readonly cells: PeriodicTableCell[] = [];
+  private readonly disposePeriodicTableNode: () => void;
 
-    options = merge( {
+  /**
+   * @param numberAtom - Atom that defines which element is currently highlighted.
+   * @param providedOptions
+   */
+  public constructor( numberAtom: NumberAtom | ParticleAtom, providedOptions?: PeriodicTableNodeOptions ) {
+
+    const options = optionize<PeriodicTableNodeOptions, SelfOptions, NodeOptions>()( {
       interactiveMax: 0, //Atomic number of the heaviest element that should be interactive
       cellDimension: 25,
       showLabels: true,
@@ -48,12 +70,10 @@ class PeriodicTableNode extends Node {
       disabledCellColor: DISABLED_CELL_COLOR,
       selectedCellColor: SELECTED_CELL_COLOR,
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     super();
 
-    // @private the cells of the table
-    this.cells = [];
     let elementIndex = 1;
     for ( let i = 0; i < POPULATED_CELLS.length; i++ ) {
       const populatedCellsInRow = POPULATED_CELLS[ i ];
@@ -86,8 +106,8 @@ class PeriodicTableNode extends Node {
     }
 
     // Highlight the cell that corresponds to the atom.
-    let highlightedCell = null;
-    const updateHighlightedCell = protonCount => {
+    let highlightedCell: PeriodicTableCell | null = null;
+    const updateHighlightedCell = ( protonCount: number ) => {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
       }
@@ -106,19 +126,14 @@ class PeriodicTableNode extends Node {
     };
     numberAtom.protonCountProperty.link( updateHighlightedCell );
 
-    // @private - unlink from Properties
     this.disposePeriodicTableNode = () => {
+      this.children.forEach( node => node.dispose() );
       numberAtom.protonCountProperty.hasListener( updateHighlightedCell ) && numberAtom.protonCountProperty.unlink( updateHighlightedCell );
       this.cells.forEach( cell => { !cell.isDisposed && cell.dispose();} );
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
-    this.children.forEach( node => node.dispose() );
+  public override dispose(): void {
     this.disposePeriodicTableNode();
     super.dispose();
   }

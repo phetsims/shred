@@ -5,27 +5,29 @@
  * track a particle, use ParticleView for that.
  */
 
-import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { Circle, Node, RadialGradient, RichText } from '../../../scenery/js/imports.js';
+import { Circle, CircleOptions, Node, NodeOptions, RadialGradient, RichText } from '../../../scenery/js/imports.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
+import Particle from '../model/Particle.js';
+import optionize from '../../../phet-core/js/optionize.js';
 
-/**
- * @param {Particle} isotope
- * @param {number} radius
- * @param {Object} [options]
- * @constructor
- */
+
+type SelfOptions = {
+  showLabel?: boolean;
+};
+type IsotopeNodeOptions = SelfOptions & CircleOptions;
+
 class IsotopeNode extends Node {
-  constructor( isotope, radius, options ) {
-    options = merge( {
+  public constructor( isotope: Particle, radius: number, providedOptions?: IsotopeNodeOptions ) {
+    const options = optionize<IsotopeNodeOptions, SelfOptions, NodeOptions>()( {
       showLabel: true
-    }, options );
+    }, providedOptions );
 
     // Call super constructor.
     super( options );
 
+    // @ts-expect-error - Seems like some work needs to be done here when Isotopes And Atomic Mass is converted to TypeScript
     let baseColor = isotope.color;
     if ( baseColor === undefined ) {
       assert && assert( false, 'Unrecognized Isotope' );
@@ -40,7 +42,9 @@ class IsotopeNode extends Node {
     this.addChild( isotopeSphere );
 
     if ( options.showLabel ) {
+      // @ts-expect-error - Seems like some work needs to be done here when Isotopes And Atomic Mass is converted to TypeScript
       const symbol = AtomIdentifier.getSymbol( isotope.protonCount );
+      // @ts-expect-error - Seems like some work needs to be done here when Isotopes And Atomic Mass is converted to TypeScript
       const label = new RichText( ` <sup>${isotope.massNumber}</sup>${symbol}`, {
         font: new PhetFont( 10 ),
         // making sure that text doesn't goes beyond the sphere boundaries, -2 is empirically determined

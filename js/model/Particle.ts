@@ -9,7 +9,6 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
-import StringProperty from '../../../axon/js/StringProperty.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
@@ -21,12 +20,15 @@ import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import TProperty from '../../../axon/js/TProperty.js';
+import Property from '../../../axon/js/Property.js';
 
 // used to give each particle a unique ID
 let nextParticleId = 1;
 
 // constants
 const DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
+
+export type ParticleType = 'proton' | 'neutron' | 'electron' | 'positron' | 'Isotope';
 
 type SelfOptions = {
   maxZLayer?: number;
@@ -43,8 +45,8 @@ class Particle extends PhetioObject {
 
   // TODO: investigate getting rid of this and using userControlledProperty
   // Fires when the user stops dragging a particle.
-  public readonly dragEndedEmitter = new Emitter( { parameters: [ { valueType: Particle } ] } );
-  public readonly typeProperty: TProperty<string>;
+  public readonly dragEndedEmitter = new Emitter<[ Particle ]>( { parameters: [ { valueType: Particle } ] } );
+  public readonly typeProperty: TProperty<ParticleType>;
 
   // Fires when the particle reaches its destination via animation in step
   public readonly animationEndedEmitter = new Emitter();
@@ -67,7 +69,7 @@ class Particle extends PhetioObject {
   // Assigned by other parties as a way to clean up animations.
   public particleAtomRemovalListener: null | ( ( userControlled: boolean ) => void ) = null;
 
-  public constructor( type: string, providedOptions?: ParticleOptions ) {
+  public constructor( type: ParticleType, providedOptions?: ParticleOptions ) {
 
     const options = optionize<ParticleOptions, SelfOptions, PhetioObjectOptions>()( {
       tandem: Tandem.REQUIRED,
@@ -78,7 +80,7 @@ class Particle extends PhetioObject {
 
     super( options );
 
-    this.typeProperty = new StringProperty( type );
+    this.typeProperty = new Property<ParticleType>( type );
 
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
       valueComparisonStrategy: 'equalsFunction',
@@ -161,7 +163,7 @@ class Particle extends PhetioObject {
     }
   }
 
-  public get type(): string { return this.typeProperty.value; }
+  public get type(): ParticleType { return this.typeProperty.value; }
 
   public moveImmediatelyToDestination(): void {
     this.positionProperty.set( this.destinationProperty.get() );
