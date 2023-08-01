@@ -34,10 +34,10 @@ const SELECTED_CELL_COLOR = '#FA8072'; //salmon
 type SelfOptions = {
 
   // Atomic number of the heaviest element that should be interactive
-  interactiveMax?: 0;
-  cellDimension?: 25;
-  showLabels?: true;
-  strokeHighlightWidth?: 2;
+  interactiveMax?: number;
+  cellDimension?: number;
+  showLabels?: boolean;
+  strokeHighlightWidth?: number;
   strokeHighlightColor?: TColor;
   labelTextHighlightFill?: TColor;
   enabledCellColor?: TColor;

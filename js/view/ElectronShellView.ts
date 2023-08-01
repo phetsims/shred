@@ -7,26 +7,24 @@
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';
-import merge from '../../../phet-core/js/merge.js';
-import { Circle, Node } from '../../../scenery/js/imports.js';
+import { Circle, Node, NodeOptions } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
+import ParticleAtom from '../model/ParticleAtom.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 
 // constants
 const LINE_DASH = [ 4, 5 ];
 
 class ElectronShellView extends Node {
+  private readonly disposeElectronShellView: () => void;
 
-  /**
-   * @param {ParticleAtom} atom
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options]
-   */
-  constructor( atom, modelViewTransform, options ) {
-
-    options = merge( {
+  public constructor( atom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: NodeOptions ) {
+    const options = optionize<NodeOptions, EmptySelfOptions, NodeOptions>()( {
       tandem: Tandem.REQUIRED
-    }, options );
+
+    }, providedOptions );
 
     super( {
       pickable: false,
@@ -70,18 +68,13 @@ class ElectronShellView extends Node {
     } );
     this.addChild( innerRing );
 
-    // @private called by dispose
     this.disposeElectronShellView = () => {
       outerRing.dispose();
       innerRing.dispose();
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeElectronShellView();
     super.dispose();
   }

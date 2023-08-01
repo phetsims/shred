@@ -6,9 +6,8 @@
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';
-import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { Line, Node, Text } from '../../../scenery/js/imports.js';
+import { Line, Node, NodeOptions, Text } from '../../../scenery/js/imports.js';
 import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
@@ -16,6 +15,8 @@ import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredStrings from '../ShredStrings.js';
 import PeriodicTableNode from './PeriodicTableNode.js';
+import NumberAtom from '../model/NumberAtom.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 
 // constants
 // 2D array that defines the table structure.
@@ -28,19 +29,15 @@ const POPULATED_CELLS = [
 const ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
 const SELECTED_CELL_COLOR = '#FA8072'; //salmon
 const BUTTON_SIZE = 50;
+type ExpandedPeriodicTableNodeOptions = NodeOptions;
 
 class ExpandedPeriodicTableNode extends Node {
 
-  /**
-   * @param {NumberAtom} numberAtom
-   * @param {number} interactiveMax
-   * @param {Object} [options]
-   */
-  constructor( numberAtom, interactiveMax, options ) {
+  public constructor( numberAtom: NumberAtom, interactiveMax: number, providedOptions?: ExpandedPeriodicTableNodeOptions ) {
 
-    options = merge( {
+    const options = optionize<ExpandedPeriodicTableNodeOptions, EmptySelfOptions, NodeOptions>()( {
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     super();
 
@@ -54,7 +51,7 @@ class ExpandedPeriodicTableNode extends Node {
     this.addChild( periodicTableNode );
 
     // Larger cells for the elements that we want to emphasize
-    const cells = [];
+    const cells: TextPushButton[] = [];
     const expandedRowsNode = new Node();
     let elementIndex = 1;
     let rows = 1;
@@ -66,8 +63,8 @@ class ExpandedPeriodicTableNode extends Node {
     }
     for ( let i = 0; i < rows; i++ ) {
       const populatedCellsInRow = POPULATED_CELLS[ i ];
-      let j = 0;
-      _.times( populatedCellsInRow.length, () => {
+      // TODO: test this, https://github.com/phetsims/shred/issues/38
+      for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
         const atomicNumber = elementIndex;
         const button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
           listener: () => numberAtom.setSubAtomicParticleCount( atomicNumber,
@@ -83,10 +80,8 @@ class ExpandedPeriodicTableNode extends Node {
         button.translation = new Vector2( populatedCellsInRow[ j ] * BUTTON_SIZE, i * BUTTON_SIZE );
         cells.push( button );
         expandedRowsNode.addChild( button );
-        j++;
         elementIndex++;
-
-      } );
+      }
     }
     expandedRowsNode.top = periodicTableNode.bottom - 30;
     periodicTableNode.centerX = expandedRowsNode.centerX;
@@ -107,7 +102,7 @@ class ExpandedPeriodicTableNode extends Node {
     this.addChild( periodicTableTitle );
 
     // Highlight the cell that corresponds to the atom.
-    let highlightedCell = null;
+    let highlightedCell: TextPushButton | null = null;
     numberAtom.protonCountProperty.link( protonCount => {
       if ( highlightedCell !== null ) {
         highlightedCell.baseColor = ENABLED_CELL_COLOR;

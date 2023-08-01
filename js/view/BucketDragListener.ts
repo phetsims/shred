@@ -8,28 +8,22 @@
  * @author John Blanco
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import { DragListener } from '../../../scenery/js/imports.js';
-import Tandem from '../../../tandem/js/Tandem.js';
+import { DragListener, DragListenerOptions } from '../../../scenery/js/imports.js';
 import shred from '../shred.js';
+import { combineOptions } from '../../../phet-core/js/optionize.js';
+import BucketFront from '../../../scenery-phet/js/bucket/BucketFront.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import Vector2 from '../../../dot/js/Vector2.js';
+import SphereBucket from '../../../phetcommon/js/model/SphereBucket.js';
+import Particle from '../model/Particle.js';
 
 class BucketDragListener extends DragListener {
 
-  /**
-   * @param {Bucket} bucket
-   * @param {BucketFront} bucketView
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options]
-   * @constructor
-   */
-  constructor( bucket, bucketView, modelViewTransform, options ) {
-
-    options = merge( {
-      tandem: Tandem.REQUIRED
-    }, options );
+  public constructor( bucket: SphereBucket, bucketView: BucketFront, modelViewTransform: ModelViewTransform2,
+                      options?: DragListenerOptions<BucketDragListener> ) {
 
     // closure for converting a point in local coordinate frame to model coordinates
-    const localViewToModel = point => {
+    const localViewToModel = ( point: Vector2 ) => {
 
       // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
       // JB, SR, and JO discussed potentially better ways to do it but didn't come up with anything at the time. If
@@ -39,9 +33,9 @@ class BucketDragListener extends DragListener {
       );
     };
 
-    let activeParticle = null;
-    const inputListenerOptions = {
-      tandem: options.tandem,
+    let activeParticle: Particle | null = null;
+
+    super( combineOptions<DragListenerOptions<BucketDragListener>>( {
       start: event => {
 
         const positionInModelSpace = localViewToModel( event.pointer.point );
@@ -64,9 +58,7 @@ class BucketDragListener extends DragListener {
           activeParticle = null;
         }
       }
-    };
-
-    super( inputListenerOptions );
+    }, options ) );
   }
 }
 

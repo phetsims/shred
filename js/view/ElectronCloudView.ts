@@ -7,37 +7,39 @@
  * @author John Blanco
  */
 
-import merge from '../../../phet-core/js/merge.js';
-import { Circle, DragListener, RadialGradient } from '../../../scenery/js/imports.js';
+import { Circle, CircleOptions, DragListener, RadialGradient } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
+import ParticleAtom from '../model/ParticleAtom.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import Vector2 from '../../../dot/js/Vector2.js';
+import Particle from '../model/Particle.js';
 
 // constants
 const DEFAULT_RADIUS = 50; // in pm, chosen as an arbitrary value that is close to the "real" values that are used
+type ElectronCloudViewOptions = CircleOptions;
 
 class ElectronCloudView extends Circle {
+  private extractedElectron: Particle | null;
+  private readonly disposeElectronCloudView: () => void;
 
-  /**
-   * @param {ParticleAtom} atom
-   * @param {ModelViewTransform2} modelViewTransform
-   * @param {Object} [options]
-   */
-  constructor( atom, modelViewTransform, options ) {
 
-    options = merge( {
+  public constructor( atom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: ElectronCloudViewOptions ) {
+    const options = optionize<ElectronCloudViewOptions, EmptySelfOptions, CircleOptions>()( {
       cursor: 'pointer',
       fill: 'pink',
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     assert && assert( options.translation === undefined, 'ElectronCloudView sets translation' );
-    options.translation = modelViewTransform.modelToViewPosition( { x: 0, y: 0 } );
+    options.translation = modelViewTransform.modelToViewPosition( Vector2.ZERO );
 
     super( DEFAULT_RADIUS, options );
 
     // Function that updates the size of the cloud based on the number of electrons.
-    const update = numElectrons => {
+    const update = ( numElectrons: number ) => {
       if ( numElectrons === 0 ) {
         this.radius = 1E-5; // arbitrary non-zero value
         this.fill = 'transparent';
@@ -58,7 +60,7 @@ class ElectronCloudView extends Circle {
     atom.electrons.lengthProperty.link( update );
 
     // closure for converting a point in local coordinate frame to model coordinates
-    const localViewToModel = point => {
+    const localViewToModel = ( point: Vector2 ) => {
 
       // Note: The following transform works, but it is a bit obscure, and relies on the topology of the scene graph.
       // JB, SR, and JO discussed potentially better ways to do it but didn't come up with anything at the time. If
@@ -69,7 +71,7 @@ class ElectronCloudView extends Circle {
     };
 
     // If the user clicks on the cloud, extract an electron.
-    this.extractedElectron = null; // @private
+    this.extractedElectron = null;
     const dragListener = new DragListener( {
       start: event => {
 
@@ -97,18 +99,13 @@ class ElectronCloudView extends Circle {
     } );
     this.addInputListener( dragListener );
 
-    // @private called by dispose
     this.disposeElectronCloudView = () => {
       atom.electrons.lengthProperty.unlink( update );
       dragListener.dispose();
     };
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeElectronCloudView();
     super.dispose();
   }

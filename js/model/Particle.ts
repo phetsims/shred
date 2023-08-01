@@ -170,7 +170,7 @@ class Particle extends PhetioObject {
   }
 
   public setPositionAndDestination( newPosition: Vector2 ): void {
-    if ( newPosition instanceof Vector2 ) { // TODO: remove this check, let TypeScript do the work
+    if ( newPosition instanceof Vector2 ) { // TODO: remove this check, let TypeScript do the work, https://github.com/phetsims/shred/issues/38
       this.destinationProperty.set( newPosition );
       this.moveImmediatelyToDestination();
     }
