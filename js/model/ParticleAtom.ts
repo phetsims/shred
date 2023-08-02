@@ -59,8 +59,6 @@ class ParticleAtom extends PhetioObject {
   private readonly nucleonRadius: number;
   public readonly positionProperty: TProperty<Vector2>;
   public readonly nucleusOffsetProperty: TProperty<Vector2>;
-
-  // TODO: must be public for BAN, see https://github.com/phetsims/shred/issues/38
   public readonly protons: ObservableArray<Particle>;
   public readonly neutrons: ObservableArray<Particle>;
   public readonly electrons: ObservableArray<Particle>;

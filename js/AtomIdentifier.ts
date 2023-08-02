@@ -14145,8 +14145,7 @@ const AtomIdentifier = {
       return false;
     }
 
-    // TODO: should not require jquery dependency, https://github.com/phetsims/shred/issues/38
-    return $.inArray( numNeutrons, tableEntry ) > -1;
+    return tableEntry.includes( numNeutrons );
   },
 
   getNumNeutronsInMostCommonIsotope: function( atomicNumber: number ): number {

@@ -63,7 +63,7 @@ class ExpandedPeriodicTableNode extends Node {
     }
     for ( let i = 0; i < rows; i++ ) {
       const populatedCellsInRow = POPULATED_CELLS[ i ];
-      // TODO: test this, https://github.com/phetsims/shred/issues/38
+
       for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
         const atomicNumber = elementIndex;
         const button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
