@@ -135,9 +135,6 @@ class ParticleAtom extends PhetioObject {
     this.liveAnimations = createObservableArray();
     this.liveAnimations.addItemRemovedListener( animation => {
       animation && animation.stop();
-
-      // @ts-expect-error, wait, why are we doing this and does it even matter for this local variable?
-      animation = null;
     } );
 
     this.protonCountProperty = this.protons.lengthProperty;
@@ -599,8 +596,7 @@ class ParticleAtom extends PhetioObject {
       const scaleFactorA = 2.4;
       const scaleFactorB = 1.35;
 
-      // @ts-expect-error, not sure what is going on here, seems like a bug to me, see https://github.com/phetsims/shred/issues/38
-      const scaleFunction = new LinearFunction( radiusA, radiusB, scaleFactorA, scaleFactorB, this.nucleonRadius );
+      const scaleFunction = new LinearFunction( radiusA, radiusB, scaleFactorA, scaleFactorB, !!this.nucleonRadius );
       const scaleFactor = scaleFunction.evaluate( this.nucleonRadius );
 
       for ( let i = 0; i < nucleons.length; i++ ) {
