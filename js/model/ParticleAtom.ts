@@ -29,7 +29,7 @@ import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
-import Particle, { ParticleTypeString } from './Particle.js';
+import Particle, { PARTICLE_COLORS, ParticleTypeString } from './Particle.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
@@ -37,15 +37,6 @@ import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
 // constants
 const NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
-
-// color gradient between the color of a proton and a neutron
-const NUCLEON_COLOR_GRADIENT = [
-  PhetColorScheme.RED_COLORBLIND,
-  new Color( '#e06020' ), // 1/4 point
-  new Color( '#c06b40' ), // half-way point
-  new Color( '#a07660' ), // 3/4 point
-  Color.GRAY
-];
 
 // helper function for retrieving the tandem for a particle
 const ParticleReferenceIO = ReferenceIO( Particle.ParticleIO );
@@ -625,7 +616,7 @@ class ParticleAtom extends PhetioObject {
   /**
    * Change the nucleon type of the provided particle to the other nucleon type.
    */
-  public changeNucleonType( particle: Particle, onChangeComplete: VoidFunction ): Animation {
+  public changeNucleonType( particle: Particle, onChangeComplete: VoidFunction ): void {
     assert && assert( this.containsParticle( particle ), 'ParticleAtom does not contain this particle ' + particle.id );
     assert && assert( particle.type === 'proton' || particle.type === 'neutron', 'Particle type must be a proton or a neutron.' );
 
@@ -633,45 +624,29 @@ class ParticleAtom extends PhetioObject {
     const oldParticleArray = isParticleTypeProton ? this.protons : this.neutrons;
     const newParticleArray = isParticleTypeProton ? this.neutrons : this.protons;
 
-    particle.typeProperty.value = ( isParticleTypeProton ? 'neutron' : 'proton' ) as ParticleTypeString;
+    const newParticleType = isParticleTypeProton ? 'neutron' : 'proton';
+    particle.typeProperty.value = newParticleType as ParticleTypeString;
 
     const particleType = particle.typeProperty.value;
 
-    let nucleonChangeColorChange: Color[];
-    if ( particleType === 'proton' ) {
-      nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice().reverse();
-    }
-    else if ( particleType === 'neutron' ) {
-      nucleonChangeColorChange = NUCLEON_COLOR_GRADIENT.slice();
-    }
-    else {
-      assert && assert( false, `unsupported particle type: ${particleType}` );
-    }
+    assert && assert( particleType === 'proton' || particleType === 'neutron',
+      'can only change type between protons and neutrons' );
 
-    // Animate through the values in nucleonColorChange to 'slowly' change the color of the nucleon.
-    const initialColorChangeAnimation = new Animation( {
-      from: particle.colorGradientIndexNumberProperty.initialValue,
+    const startingColor = particle.colorProperty.value;
+    const targetColor = PARTICLE_COLORS[ newParticleType ];
+
+    const colorChangeAnimation = new Animation( {
+      from: 0,
       to: 1,
-      setValue: indexValue => { particle.colorGradientIndexNumberProperty.value = indexValue; },
-      duration: 0.1,
+      setValue: indexValue => { particle.colorProperty.value = Color.interpolateRGBA( startingColor, targetColor, indexValue ); },
+      duration: 0.5,
       easing: Easing.LINEAR
     } );
 
-    const finalColorChangeAnimation = new Animation( {
-      from: 1,
-      to: nucleonChangeColorChange!.length - 1,
-      setValue: indexValue => { particle.colorGradientIndexNumberProperty.value = indexValue; },
-      duration: 0.4,
-      easing: Easing.LINEAR
-    } );
+    this.liveAnimations.push( colorChangeAnimation );
 
-    this.liveAnimations.push( initialColorChangeAnimation );
-    this.liveAnimations.push( finalColorChangeAnimation );
-
-    initialColorChangeAnimation.then( finalColorChangeAnimation );
-    initialColorChangeAnimation.start();
-
-    initialColorChangeAnimation.finishEmitter.addListener( () => onChangeComplete() );
+    colorChangeAnimation.finishEmitter.addListener( () => onChangeComplete() );
+    colorChangeAnimation.start();
 
     // Defer the massNumberProperty links until the particle arrays are correct so the nucleus does not reconfigure.
     const wasDeferred = this.massNumberProperty.isDeferred;
@@ -679,8 +654,6 @@ class ParticleAtom extends PhetioObject {
     arrayRemove( oldParticleArray, particle );
     newParticleArray.push( particle );
     !wasDeferred && this.massNumberProperty.setDeferred( false );
-
-    return initialColorChangeAnimation;
   }
 
   // This function was only created to support flexibility in the "numberAtom" parameter for PeriodicTableNode, use carefully.

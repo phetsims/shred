@@ -21,12 +21,23 @@ import ShredConstants from '../ShredConstants.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import Property from '../../../axon/js/Property.js';
+import { Color, ColorProperty } from '../../../scenery/js/imports.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 
 // used to give each particle a unique ID
 let nextParticleId = 1;
 
 // constants
 const DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
+
+// map of particle type to color information
+export const PARTICLE_COLORS: Record<ParticleTypeString, Color> = {
+  proton: PhetColorScheme.RED_COLORBLIND,
+  neutron: Color.GRAY,
+  electron: Color.BLUE,
+  positron: Color.GREEN,
+  Isotope: Color.BLACK
+};
 
 export type ParticleTypeString = 'proton' | 'neutron' | 'electron' | 'positron' | 'Isotope';
 
@@ -53,9 +64,10 @@ class Particle extends PhetioObject {
 
   public readonly inputEnabledProperty: TProperty<boolean> = new BooleanProperty( true );
 
-  // Keep track of the index in the nucleonColorChange gradient.  The default is 4 since there are 5 colors
-  // in the color gradient array. See the NUCLEON_COLOR_GRADIENT array in ParticleNode.js.
-  public readonly colorGradientIndexNumberProperty = new NumberProperty( 4 );
+
+  // The "base" color of the Particle, dependent on what type of Particle it is. We say "base" because there is a color
+  // gradient applied to present a 3D graphic.
+  public readonly colorProperty: TProperty<Color>;
   public readonly positionProperty: TProperty<Vector2>;
   public readonly destinationProperty: TProperty<Vector2>;
   public readonly radiusProperty: TProperty<number>;
@@ -81,6 +93,9 @@ class Particle extends PhetioObject {
     super( options );
 
     this.typeProperty = new Property<ParticleTypeString>( type );
+
+    // Can be changed in rare cases, see ParticleAtom.changeNucleonType()
+    this.colorProperty = new ColorProperty( PARTICLE_COLORS[ type ] );
 
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
       valueComparisonStrategy: 'equalsFunction',
@@ -121,7 +136,7 @@ class Particle extends PhetioObject {
 
     this.disposeParticle = () => {
       this.typeProperty.dispose();
-      this.colorGradientIndexNumberProperty.dispose();
+      this.colorProperty.dispose();
       this.positionProperty.dispose();
       this.destinationProperty.dispose();
       this.radiusProperty.dispose();
