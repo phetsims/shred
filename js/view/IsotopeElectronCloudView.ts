@@ -97,7 +97,8 @@ class IsotopeElectronCloudView extends Circle {
     let minShellRadius = Number.MAX_VALUE;
     let maxShellRadius = 0;
 
-    for ( const [ radius ] of mapElectronCountToRadius ) {
+    for ( const entry of mapElectronCountToRadius ) {
+      const radius = entry[ 1 ];
       if ( radius > maxShellRadius ) {
         maxShellRadius = radius;
       }
@@ -119,7 +120,7 @@ class IsotopeElectronCloudView extends Circle {
       return compressionFunction.evaluate( value );
     };
 
-    if ( numElectrons in mapElectronCountToRadius ) {
+    if ( mapElectronCountToRadius.has( numElectrons ) ) {
       return reduceRadiusRange( mapElectronCountToRadius.get( numElectrons )! );
     }
     else {
