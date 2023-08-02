@@ -10,16 +10,19 @@
 import Property from '../../../axon/js/Property.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import { Shape } from '../../../kite/js/imports.js';
-import merge from '../../../phet-core/js/merge.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { Node, Path, Text } from '../../../scenery/js/imports.js';
+import { Node, NodeOptions, Path, Text } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredStrings from '../ShredStrings.js';
 import ElectronCloudView from './ElectronCloudView.js';
 import ElectronShellView from './ElectronShellView.js';
+import ParticleAtom from '../model/ParticleAtom.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../phet-core/js/optionize.js';
 
 const minusSignIonString = ShredStrings.minusSignIon;
 const neutralAtomString = ShredStrings.neutralAtom;
@@ -30,35 +33,49 @@ const unstableString = ShredStrings.unstable;
 // constants
 const ELEMENT_NAME_FONT_SIZE = 22;
 
+type ElectronShellDepiction = 'orbits' | 'cloud';
+
+type SelfOptions = {
+  showCenterX?: boolean;
+  showElementNameProperty?: TReadOnlyProperty<boolean>;
+  showNeutralOrIonProperty?: TReadOnlyProperty<boolean>;
+  showStableOrUnstableProperty?: TReadOnlyProperty<boolean>;
+  electronShellDepictionProperty?: TReadOnlyProperty<ElectronShellDepiction>;
+};
+
+type AtomNodeOptions = SelfOptions & NodeOptions;
+
 class AtomNode extends Node {
+  private readonly atom: ParticleAtom;
+  private readonly modelViewTransform: ModelViewTransform2;
+  private readonly elementNameText: Text;
+  private readonly ionIndicatorText: Text;
+  private readonly stabilityIndicatorText: Text;
+  private readonly disposeAtomNode: VoidFunction;
 
   /**
-   * @param {ParticleAtom} particleAtom Model that represents the atom, including particle positions
-   * @param {ModelViewTransform2} modelViewTransform Model-View transform
-   * @param {Object} [options]
+   * @param particleAtom Model that represents the atom, including particle positions
+   * @param modelViewTransform Model-View transform
+   * @param providedOptions
    */
-  constructor( particleAtom, modelViewTransform, options ) {
-
-    options = merge( {
-        showCenterX: true,
-        showElementNameProperty: new Property( true ),
-        showNeutralOrIonProperty: new Property( true ),
-        showStableOrUnstableProperty: new Property( true ),
-        electronShellDepictionProperty: new Property( 'orbits' ),
-        tandem: Tandem.REQUIRED
-      },
-      options
-    );
+  public constructor( particleAtom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: AtomNodeOptions ) {
+    const options = optionize<AtomNodeOptions, SelfOptions, NodeOptions>()( {
+      showCenterX: true,
+      showElementNameProperty: new Property( true ),
+      showNeutralOrIonProperty: new Property( true ),
+      showStableOrUnstableProperty: new Property( true ),
+      electronShellDepictionProperty: new Property( 'orbits' ),
+      tandem: Tandem.REQUIRED
+    }, providedOptions );
 
     super();
 
-    // @private
     this.atom = particleAtom;
     this.modelViewTransform = modelViewTransform;
 
     // Create the X where the nucleus goes.
-    let countListener = null;
-    let atomCenterMarker = null;
+    let countListener: VoidFunction | null = null;
+    let atomCenterMarker: Path | null = null;
     if ( options.showCenterX ) {
       const sizeInPixels = modelViewTransform.modelToViewDeltaX( 20 );
       const center = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get() );
@@ -77,7 +94,7 @@ class AtomNode extends Node {
 
       // Make the marker invisible if any nucleons are present.
       countListener = () => {
-        atomCenterMarker.visible = particleAtom.getWeight() === 0;
+        atomCenterMarker!.visible = particleAtom.getWeight() === 0;
       };
       particleAtom.electronCountProperty.link( countListener );
       particleAtom.neutronCountProperty.link( countListener );
@@ -94,7 +111,7 @@ class AtomNode extends Node {
     } );
     this.addChild( electronCloud );
 
-    const updateElectronShellDepictionVisibility = depiction => {
+    const updateElectronShellDepictionVisibility = ( depiction: ElectronShellDepiction ) => {
       electronShell.visible = depiction === 'orbits';
       electronCloud.visible = depiction === 'cloud';
     };
@@ -104,7 +121,7 @@ class AtomNode extends Node {
       particleAtom.positionProperty.get().plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) )
     );
 
-    // @private - Create the textual readout for the element name.
+    // Create the textual readout for the element name.
     this.elementNameText = new Text( '', {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
       fill: PhetColorScheme.RED_COLORBLIND,
@@ -131,7 +148,7 @@ class AtomNode extends Node {
     // Hook up update listeners.
     particleAtom.protonCountProperty.link( updateElementName );
 
-    const updateElementNameVisibility = visible => {
+    const updateElementNameVisibility = ( visible: boolean ) => {
       this.elementNameText.visible = visible;
     };
     options.showElementNameProperty.link( updateElementNameVisibility );
@@ -139,7 +156,7 @@ class AtomNode extends Node {
     const ionIndicatorTextTranslation = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
-    // @private - Create the textual readout for the ion indicator, set by trial and error.
+    // Create the textual readout for the ion indicator, set by trial and error.
     this.ionIndicatorText = new Text( '', {
       font: new PhetFont( 20 ),
       fill: 'black',
@@ -176,7 +193,7 @@ class AtomNode extends Node {
 
     particleAtom.protonCountProperty.link( updateIonIndicator );
     particleAtom.electronCountProperty.link( updateIonIndicator );
-    const updateIonIndicatorVisibility = visible => {
+    const updateIonIndicatorVisibility = ( visible: boolean ) => {
       this.ionIndicatorText.visible = visible;
     };
     options.showNeutralOrIonProperty.link( updateIonIndicatorVisibility );
@@ -185,7 +202,6 @@ class AtomNode extends Node {
     const stabilityIndicatorTextCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
       new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
 
-    // @private
     this.stabilityIndicatorText = new Text( '', {
       font: new PhetFont( 20 ),
       fill: 'black',
@@ -216,12 +232,11 @@ class AtomNode extends Node {
     // Add the listeners that control the label content and visibility.
     particleAtom.protonCountProperty.link( updateStabilityIndicator );
     particleAtom.neutronCountProperty.link( updateStabilityIndicator );
-    const updateStabilityIndicatorVisibility = visible => {
+    const updateStabilityIndicatorVisibility = ( visible: boolean ) => {
       this.stabilityIndicatorText.visible = visible;
     };
     options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );
 
-    // @private
     this.disposeAtomNode = () => {
 
       electronCloud.dispose();
@@ -251,11 +266,7 @@ class AtomNode extends Node {
     this.mutate( options );
   }
 
-  /**
-   * @public
-   * @override
-   */
-  dispose() {
+  public override dispose(): void {
     this.disposeAtomNode();
     super.dispose();
   }

@@ -23,7 +23,7 @@ type ElectronCloudViewOptions = CircleOptions;
 
 class ElectronCloudView extends Circle {
   private extractedElectron: Particle | null;
-  private readonly disposeElectronCloudView: () => void;
+  private readonly disposeElectronCloudView: VoidFunction;
 
 
   public constructor( atom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: ElectronCloudViewOptions ) {

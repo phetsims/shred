@@ -26,7 +26,7 @@ type ParticleViewOptions = SelfOptions & NodeOptions;
 class ParticleView extends Node {
   public readonly particle: Particle;
   private readonly dragListener: DragListener;
-  private readonly disposeParticleView: () => void;
+  private readonly disposeParticleView: VoidFunction;
 
   public constructor( particle: Particle, modelViewTransform: ModelViewTransform2, providedOptions?: ParticleViewOptions ) {
 

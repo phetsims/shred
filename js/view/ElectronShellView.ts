@@ -18,7 +18,7 @@ import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js'
 const LINE_DASH = [ 4, 5 ];
 
 class ElectronShellView extends Node {
-  private readonly disposeElectronShellView: () => void;
+  private readonly disposeElectronShellView: VoidFunction;
 
   public constructor( atom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: NodeOptions ) {
     const options = optionize<NodeOptions, EmptySelfOptions, NodeOptions>()( {

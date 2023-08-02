@@ -51,7 +51,7 @@ class PeriodicTableNode extends Node {
 
   // the cells of the table
   private readonly cells: PeriodicTableCell[] = [];
-  private readonly disposePeriodicTableNode: () => void;
+  private readonly disposePeriodicTableNode: VoidFunction;
 
   /**
    * @param numberAtom - Atom that defines which element is currently highlighted.

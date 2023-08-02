@@ -46,7 +46,7 @@ type SelfOptions = {
 type ParticleNodeOptions = SelfOptions & CircleOptions;
 
 class ParticleNode extends Circle {
-  private readonly disposeParticleNode: () => void;
+  private readonly disposeParticleNode: VoidFunction;
 
   public constructor( particleType: ParticleTypeString, radius: number, providedOptions?: ParticleNodeOptions ) {
 

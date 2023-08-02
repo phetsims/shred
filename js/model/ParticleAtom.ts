@@ -404,7 +404,7 @@ class ParticleAtom extends PhetioObject {
    * Extract an arbitrary instance of the specified particle, assuming one exists.
    */
   public extractParticle( particleType: ParticleTypeString ): Particle {
-    let particle = null;
+    let particle: Particle | null = null;
     switch( particleType ) {
       case 'proton':
         if ( this.protons.length > 0 ) {
@@ -432,7 +432,7 @@ class ParticleAtom extends PhetioObject {
       this.removeParticle( particle );
     }
 
-    return particle as unknown as Particle;
+    return particle!;
   }
 
   public extractParticleClosestToCenter( particleType: ParticleTypeString ): Particle {
@@ -629,7 +629,7 @@ class ParticleAtom extends PhetioObject {
   /**
    * Change the nucleon type of the provided particle to the other nucleon type.
    */
-  public changeNucleonType( particle: Particle, animateAndRemoveParticle: () => void ): Animation {
+  public changeNucleonType( particle: Particle, animateAndRemoveParticle: VoidFunction ): Animation {
     assert && assert( this.containsParticle( particle ), 'ParticleAtom does not contain this particle ' + particle.id );
     assert && assert( particle.type === 'proton' || particle.type === 'neutron', 'Particle type must be a proton or a neutron.' );
 

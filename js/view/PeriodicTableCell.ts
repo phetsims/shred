@@ -37,7 +37,7 @@ type CellColor = {
 };
 
 class PeriodicTableCell extends Rectangle {
-  private readonly disposePeriodicTableCell: () => void;
+  private readonly disposePeriodicTableCell: VoidFunction;
   private readonly strokeHighlightColor: TColor;
   private readonly strokeHighlightWidth: number;
   private readonly showLabels: boolean;
