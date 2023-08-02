@@ -10894,7 +10894,7 @@ const DECAYS_INFO_TABLE: DecaysInfo = {
     146: {
       'A': 100,
       'SF': 0.0000057,
-      '34Si': 1.30E-11
+      '{+34}Si': 1.30E-11
     }
   }
 };
