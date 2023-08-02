@@ -8,15 +8,17 @@
  * @author Aadish Gupta
  */
 
-import merge from '../../../phet-core/js/merge.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Node, Rectangle, Text } from '../../../scenery/js/imports.js';
-import Panel from '../../../sun/js/Panel.js';
+import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredStrings from '../ShredStrings.js';
 import ParticleNode from './ParticleNode.js';
+import NumberAtom from '../model/NumberAtom.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import { ParticleTypeString } from '../model/Particle.js';
 
 const electronsColonString = ShredStrings.electronsColon;
 const neutronsColonString = ShredStrings.neutronsColon;
@@ -27,22 +29,24 @@ const TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
 const MIN_VERTICAL_SPACING = 16; // Empirically Determined
 const LABEL_FONT = new PhetFont( 12 );
 
+type ParticleCountDisplayOptions = PanelOptions;
+
 class ParticleCountDisplay extends Panel {
 
   /**
-   * @param {NumberAtom} numberAtom Model representation of the atom
-   * @param {number} maxParticles The maximum number of particles to display
-   * @param {number} maxWidth The maximum width that this display should reach
-   * @param {Object} [options]
+   * @param numberAtom Model representation of the atom
+   * @param maxParticles The maximum number of particles to display
+   * @param maxWidth The maximum width that this display should reach
+   * @param providedOptions
    */
-  constructor( numberAtom, maxParticles, maxWidth, options ) {
+  public constructor( numberAtom: NumberAtom, maxParticles: number, maxWidth: number, providedOptions?: ParticleCountDisplayOptions ) {
 
-    options = merge( {
+    const options = optionize<ParticleCountDisplayOptions, EmptySelfOptions, PanelOptions>()( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
       cornerRadius: 5,
       pickable: false,
       tandem: Tandem.REQUIRED
-    }, options );
+    }, providedOptions );
 
     const panelContents = new Node();
 
@@ -92,9 +96,9 @@ class ParticleCountDisplay extends Panel {
 
     // stored ParticleNode instances that are positioned correctly, so we just have to add/remove the
     // changed ones (faster than full rebuild)
-    const protons = [];
-    const neutrons = [];
-    const electrons = [];
+    const protons: ParticleNode[] = [];
+    const neutrons: ParticleNode[] = [];
+    const electrons: ParticleNode[] = [];
 
     // counts of the displayed number of particles
     let protonDisplayCount = 0;
@@ -102,7 +106,7 @@ class ParticleCountDisplay extends Panel {
     let electronDisplayCount = 0;
 
     // increase the particle count by 1, and return the currently displayed quantity array
-    function incrementParticleCount( array, currentQuantity, particleType, radius, startX, startY ) {
+    function incrementParticleCount( array: ParticleNode[], currentQuantity: number, particleType: ParticleTypeString, radius: number, startX: number, startY: number ): number {
       const newIndex = currentQuantity;
       if ( newIndex === array.length ) {
 
@@ -118,7 +122,7 @@ class ParticleCountDisplay extends Panel {
     }
 
     // decrease the particle count by 1, and return the currently displayed quantity array
-    function decrementParticleCount( array, currentQuantity ) {
+    function decrementParticleCount( array: ParticleNode[], currentQuantity: number ): number {
       currentQuantity -= 1;
       particleLayer.removeChild( array[ currentQuantity ] );
       array.splice( currentQuantity, 1 );
@@ -126,7 +130,7 @@ class ParticleCountDisplay extends Panel {
     }
 
     // Function that updates that displayed particles.
-    const updateParticles = function( atom ) {
+    const updateParticles = function( atom: NumberAtom ): void {
       // feel free to refactor this, although we'd need to get a passable reference to the counts
       // (that's why there is duplication now)
       while ( atom.protonCountProperty.get() > protonDisplayCount ) {

@@ -11,14 +11,14 @@ import { Circle, CircleOptions, Color, RadialGradient } from '../../../scenery/j
 import shred from '../shred.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { ParticleType } from '../model/Particle.js';
+import { ParticleTypeString } from '../model/Particle.js';
 
 // constants
 const DEFAULT_LINE_WIDTH = 0.5;
 const HIGH_CONTRAST_LINE_WIDTH = 2;
 
 // map of particle type to color information
-const PARTICLE_COLORS: Record<ParticleType, Color> = {
+const PARTICLE_COLORS: Record<ParticleTypeString, Color> = {
   proton: PhetColorScheme.RED_COLORBLIND,
   neutron: Color.GRAY,
   electron: Color.BLUE,
@@ -40,7 +40,7 @@ type SelfOptions = {
 
   // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
   highContrastProperty?: TReadOnlyProperty<boolean> | null;
-  typeProperty?: TReadOnlyProperty<ParticleType> | null;
+  typeProperty?: TReadOnlyProperty<ParticleTypeString> | null;
   colorGradientIndexNumberProperty?: TReadOnlyProperty<number> | null;
 };
 type ParticleNodeOptions = SelfOptions & CircleOptions;
@@ -48,7 +48,7 @@ type ParticleNodeOptions = SelfOptions & CircleOptions;
 class ParticleNode extends Circle {
   private readonly disposeParticleNode: () => void;
 
-  public constructor( particleType: ParticleType, radius: number, providedOptions?: ParticleNodeOptions ) {
+  public constructor( particleType: ParticleTypeString, radius: number, providedOptions?: ParticleNodeOptions ) {
 
     const options = optionize<ParticleNodeOptions, SelfOptions, CircleOptions>()( {
 

@@ -28,7 +28,7 @@ let nextParticleId = 1;
 // constants
 const DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
 
-export type ParticleType = 'proton' | 'neutron' | 'electron' | 'positron' | 'Isotope';
+export type ParticleTypeString = 'proton' | 'neutron' | 'electron' | 'positron' | 'Isotope';
 
 type SelfOptions = {
   maxZLayer?: number;
@@ -46,7 +46,7 @@ class Particle extends PhetioObject {
   // TODO: investigate getting rid of this and using userControlledProperty
   // Fires when the user stops dragging a particle.
   public readonly dragEndedEmitter = new Emitter<[ Particle ]>( { parameters: [ { valueType: Particle } ] } );
-  public readonly typeProperty: TProperty<ParticleType>;
+  public readonly typeProperty: TProperty<ParticleTypeString>;
 
   // Fires when the particle reaches its destination via animation in step
   public readonly animationEndedEmitter = new Emitter();
@@ -69,7 +69,7 @@ class Particle extends PhetioObject {
   // Assigned by other parties as a way to clean up animations.
   public particleAtomRemovalListener: null | ( ( userControlled: boolean ) => void ) = null;
 
-  public constructor( type: ParticleType, providedOptions?: ParticleOptions ) {
+  public constructor( type: ParticleTypeString, providedOptions?: ParticleOptions ) {
 
     const options = optionize<ParticleOptions, SelfOptions, PhetioObjectOptions>()( {
       tandem: Tandem.REQUIRED,
@@ -80,7 +80,7 @@ class Particle extends PhetioObject {
 
     super( options );
 
-    this.typeProperty = new Property<ParticleType>( type );
+    this.typeProperty = new Property<ParticleTypeString>( type );
 
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
       valueComparisonStrategy: 'equalsFunction',
@@ -163,7 +163,7 @@ class Particle extends PhetioObject {
     }
   }
 
-  public get type(): ParticleType { return this.typeProperty.value; }
+  public get type(): ParticleTypeString { return this.typeProperty.value; }
 
   public moveImmediatelyToDestination(): void {
     this.positionProperty.set( this.destinationProperty.get() );

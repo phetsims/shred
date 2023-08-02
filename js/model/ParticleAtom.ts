@@ -29,7 +29,7 @@ import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
-import Particle, { ParticleType } from './Particle.js';
+import Particle, { ParticleTypeString } from './Particle.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
@@ -56,8 +56,6 @@ type SelfOptions = {
   outerElectronShellRadius?: number;
   nucleonRadius?: number;
 };
-
-export type ParticleTypeString = 'proton' | 'neutron' | 'electron' | 'positron';
 
 type ElectronAddMode = 'proximal' | 'random';
 type ElectronShellPosition = {
@@ -637,7 +635,7 @@ class ParticleAtom extends PhetioObject {
 
     const isParticleTypeProton = particle.type === 'proton';
     const particleTypes = {
-      newParticleType: ( isParticleTypeProton ? 'neutron' : 'proton' ) as ParticleType,
+      newParticleType: ( isParticleTypeProton ? 'neutron' : 'proton' ) as ParticleTypeString,
       oldParticleArray: isParticleTypeProton ? this.protons : this.neutrons,
       newParticleArray: isParticleTypeProton ? this.neutrons : this.protons
     };
