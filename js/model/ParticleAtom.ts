@@ -14,7 +14,6 @@ import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import { Color } from '../../../scenery/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
