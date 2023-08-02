@@ -1,7 +1,7 @@
 // Copyright 2014-2023, University of Colorado Boulder
 
 /**
- * Type that represents a sub-atomic particle in the view.
+ * Type that represents a subatomic particle in the view.
  */
 
 import Property from '../../../axon/js/Property.js';
@@ -16,10 +16,11 @@ import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2
 import optionize from '../../../phet-core/js/optionize.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   dragBounds?: Bounds2;
-  highContrastProperty?: TReadOnlyProperty<boolean> | null;
+  highContrastProperty?: TReadOnlyProperty<boolean>;
 };
 type ParticleViewOptions = SelfOptions & NodeOptions;
 
@@ -30,12 +31,14 @@ class ParticleView extends Node {
 
   public constructor( particle: Particle, modelViewTransform: ModelViewTransform2, providedOptions?: ParticleViewOptions ) {
 
+    const ownsHighContrastProperty = providedOptions && !providedOptions.highContrastProperty;
+
     const options = optionize<ParticleViewOptions, SelfOptions, NodeOptions>()( {
       dragBounds: Bounds2.EVERYTHING,
       tandem: Tandem.REQUIRED,
 
       // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
-      highContrastProperty: null
+      highContrastProperty: new BooleanProperty( false )
     }, providedOptions );
 
     super();
@@ -98,6 +101,7 @@ class ParticleView extends Node {
     this.mutate( options );
 
     this.disposeParticleView = function() {
+      ownsHighContrastProperty && options.highContrastProperty.dispose();
       particle.positionProperty.unlink( updateParticlePosition );
       particleNode.dispose();
       this.dragListener.dispose();
@@ -120,7 +124,7 @@ class ParticleView extends Node {
  * Creates the proper view for a particle.
  */
 function createParticleNode( particle: Particle, modelViewTransform: ModelViewTransform2,
-                             highContrastProperty: TReadOnlyProperty<boolean> | null, tandem: Tandem ): Node {
+                             highContrastProperty: TReadOnlyProperty<boolean>, tandem: Tandem ): Node {
   let particleNode;
   if ( particle.type === 'Isotope' ) {
     particleNode = new IsotopeNode(

@@ -7,11 +7,13 @@
 
 import Utils from '../../../dot/js/Utils.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
-import { Circle, CircleOptions, Color, RadialGradient } from '../../../scenery/js/imports.js';
+import { Circle, CircleOptions, Color, ColorProperty, RadialGradient } from '../../../scenery/js/imports.js';
 import shred from '../shred.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { ParticleTypeString } from '../model/Particle.js';
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
+import Multilink from '../../../axon/js/Multilink.js';
 
 // constants
 const DEFAULT_LINE_WIDTH = 0.5;
@@ -39,7 +41,7 @@ const NUCLEON_COLOR_GRADIENT = [
 type SelfOptions = {
 
   // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
-  highContrastProperty?: TReadOnlyProperty<boolean> | null;
+  highContrastProperty?: TReadOnlyProperty<boolean>;
   typeProperty?: TReadOnlyProperty<ParticleTypeString> | null;
   colorGradientIndexNumberProperty?: TReadOnlyProperty<number> | null;
 };
@@ -50,11 +52,12 @@ class ParticleNode extends Circle {
 
   public constructor( particleType: ParticleTypeString, radius: number, providedOptions?: ParticleNodeOptions ) {
 
+    const ownsHighContrastProperty = providedOptions && !providedOptions.highContrastProperty;
     const options = optionize<ParticleNodeOptions, SelfOptions, CircleOptions>()( {
 
       cursor: 'pointer',
 
-      highContrastProperty: null,
+      highContrastProperty: new BooleanProperty( false ),
 
       typeProperty: null,
 
@@ -69,35 +72,26 @@ class ParticleNode extends Circle {
     const baseColor = PARTICLE_COLORS[ particleType ];
     assert && assert( baseColor, `Unrecognized particle type: ${particleType}` );
 
-    // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
-    const gradientFill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
-      .addColorStop( 0, 'white' )
-      .addColorStop( 1, baseColor );
-
-    // Set the options for the default look.
-    const nonHighContrastStroke = baseColor.colorUtilsDarker( 0.33 );
-    options.fill = gradientFill;
-    options.stroke = nonHighContrastStroke;
-    options.lineWidth = DEFAULT_LINE_WIDTH;
-
+    const colorProperty = new ColorProperty( baseColor );
     super( radius, options );
 
-    // function to change the color of a particle
-    const changeParticleColor = ( newColor: Color ) => {
+    const colorMultilink = Multilink.multilink( [
+      colorProperty,
+      options.highContrastProperty
+    ], ( color, highContrast ) => {
 
       // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
       const gradientFill = new RadialGradient( -radius * 0.4, -radius * 0.4, 0, -radius * 0.4, -radius * 0.4, radius * 1.6 )
         .addColorStop( 0, 'white' )
-        .addColorStop( 1, newColor );
+        .addColorStop( 1, color );
 
       // Set the options for the default look.
-      const nonHighContrastStroke = newColor.colorUtilsDarker( 0.33 );
+      const nonHighContrastStroke = color.colorUtilsDarker( 0.33 );
+      this.fill = highContrast ? colorProperty.value : gradientFill;
+      this.stroke = highContrast ? colorProperty.value.colorUtilsDarker( 0.5 ) : nonHighContrastStroke;
+      this.lineWidth = highContrast ? HIGH_CONTRAST_LINE_WIDTH : DEFAULT_LINE_WIDTH;
+    } );
 
-      this.mutate( {
-        fill: gradientFill,
-        stroke: nonHighContrastStroke
-      } );
-    };
 
     // change the color of the particle
     options.colorGradientIndexNumberProperty && options.colorGradientIndexNumberProperty.link( indexValue => {
@@ -114,27 +108,14 @@ class ParticleNode extends Circle {
 
         // the value is close to an integer
         if ( Math.floor( indexValue * 10 ) / 10 % 1 === 0 ) {
-          changeParticleColor( nucleonChangeColorChange[ Utils.toFixed( indexValue, 0 ) as unknown as number ] );
+          colorProperty.value = nucleonChangeColorChange[ Utils.toFixed( indexValue, 0 ) as unknown as number ];
         }
       }
     } );
 
-    // If a highContrastProperty is provided, update the particle appearance based on its value.
-    // Set up the fill and the strokes based on whether the highContrastProperty option is provided.
-    let highContrastListener: ( ( highContrast: boolean ) => void ) | null = null;
-    if ( options.highContrastProperty ) {
-      highContrastListener = highContrast => {
-        this.fill = highContrast ? baseColor : gradientFill;
-        this.stroke = highContrast ? baseColor.colorUtilsDarker( 0.5 ) : nonHighContrastStroke;
-        this.lineWidth = highContrast ? HIGH_CONTRAST_LINE_WIDTH : DEFAULT_LINE_WIDTH;
-      };
-      options.highContrastProperty.link( highContrastListener );
-    }
-
     this.disposeParticleNode = () => {
-      if ( highContrastListener ) {
-        options.highContrastProperty!.unlink( highContrastListener );
-      }
+      colorMultilink.dispose();
+      ownsHighContrastProperty && options.highContrastProperty.dispose();
     };
   }
 
