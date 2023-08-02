@@ -831,7 +831,9 @@ const mapElectronCountToRadius: Record<number, number> = {
   89: 195,
   90: 180,
   91: 180,
-  92: 175
+  92: 175,
+  93: 175,
+  94: 175
 };
 
 // Table which contains information about the all the possible decays an unstable nuclide can undergo and the percentage
