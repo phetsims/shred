@@ -35,7 +35,7 @@ export const PARTICLE_COLORS: Record<ParticleTypeString, Color> = {
   proton: PhetColorScheme.RED_COLORBLIND,
   neutron: Color.GRAY,
   electron: Color.BLUE,
-  positron: Color.GREEN,
+  positron: new Color( 53, 182, 74 ), // Darkish green
   Isotope: Color.BLACK
 };
 
