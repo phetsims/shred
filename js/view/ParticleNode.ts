@@ -92,11 +92,11 @@ class ParticleNode extends Circle {
 
       // Set the options for the default look.
       const nonHighContrastStroke = newColor.colorUtilsDarker( 0.33 );
-      const newOptions: CircleOptions = {};
-      newOptions.fill = gradientFill;
-      newOptions.stroke = nonHighContrastStroke;
 
-      this.mutate( newOptions );
+      this.mutate( {
+        fill: gradientFill,
+        stroke: nonHighContrastStroke
+      } );
     };
 
     // change the color of the particle

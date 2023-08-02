@@ -625,17 +625,15 @@ class ParticleAtom extends PhetioObject {
   /**
    * Change the nucleon type of the provided particle to the other nucleon type.
    */
-  public changeNucleonType( particle: Particle, animateAndRemoveParticle: VoidFunction ): Animation {
+  public changeNucleonType( particle: Particle, onChangeComplete: VoidFunction ): Animation {
     assert && assert( this.containsParticle( particle ), 'ParticleAtom does not contain this particle ' + particle.id );
     assert && assert( particle.type === 'proton' || particle.type === 'neutron', 'Particle type must be a proton or a neutron.' );
 
     const isParticleTypeProton = particle.type === 'proton';
-    const particleTypes = {
-      newParticleType: ( isParticleTypeProton ? 'neutron' : 'proton' ) as ParticleTypeString,
-      oldParticleArray: isParticleTypeProton ? this.protons : this.neutrons,
-      newParticleArray: isParticleTypeProton ? this.neutrons : this.protons
-    };
-    particle.typeProperty.value = particleTypes.newParticleType;
+    const oldParticleArray = isParticleTypeProton ? this.protons : this.neutrons;
+    const newParticleArray = isParticleTypeProton ? this.neutrons : this.protons;
+
+    particle.typeProperty.value = ( isParticleTypeProton ? 'neutron' : 'proton' ) as ParticleTypeString;
 
     const particleType = particle.typeProperty.value;
 
@@ -673,15 +671,14 @@ class ParticleAtom extends PhetioObject {
     initialColorChangeAnimation.then( finalColorChangeAnimation );
     initialColorChangeAnimation.start();
 
-    initialColorChangeAnimation.finishEmitter.addListener( () => {
-      animateAndRemoveParticle();
-    } );
+    initialColorChangeAnimation.finishEmitter.addListener( () => onChangeComplete() );
 
     // Defer the massNumberProperty links until the particle arrays are correct so the nucleus does not reconfigure.
+    const wasDeferred = this.massNumberProperty.isDeferred;
     this.massNumberProperty.setDeferred( true );
-    arrayRemove( particleTypes.oldParticleArray, particle );
-    particleTypes.newParticleArray.push( particle );
-    this.massNumberProperty.setDeferred( false );
+    arrayRemove( oldParticleArray, particle );
+    newParticleArray.push( particle );
+    !wasDeferred && this.massNumberProperty.setDeferred( false );
 
     return initialColorChangeAnimation;
   }
