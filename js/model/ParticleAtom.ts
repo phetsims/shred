@@ -433,7 +433,7 @@ class ParticleAtom extends PhetioObject {
   }
 
   public extractParticleClosestToCenter( particleType: ParticleTypeString ): Particle {
-    let particle = null;
+    let particle: Particle | null = null;
     switch( particleType ) {
       case 'proton':
         if ( this.protons.length > 0 ) {
@@ -464,7 +464,7 @@ class ParticleAtom extends PhetioObject {
       this.removeParticle( particle );
     }
 
-    return particle as unknown as Particle;
+    return particle!;
   }
 
   /**
