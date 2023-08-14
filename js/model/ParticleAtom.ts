@@ -621,8 +621,8 @@ class ParticleAtom extends PhetioObject {
     const oldParticleArray = isParticleTypeProton ? this.protons : this.neutrons;
     const newParticleArray = isParticleTypeProton ? this.neutrons : this.protons;
 
-    const newParticleType = isParticleTypeProton ? 'neutron' : 'proton';
-    particle.typeProperty.value = newParticleType as ParticleTypeString;
+    const newParticleType: ParticleTypeString = isParticleTypeProton ? 'neutron' : 'proton';
+    particle.typeProperty.value = newParticleType;
 
     const particleType = particle.typeProperty.value;
 
