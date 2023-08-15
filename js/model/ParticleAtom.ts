@@ -621,8 +621,8 @@ class ParticleAtom extends PhetioObject {
     const oldParticleArray = isParticleTypeProton ? this.protons : this.neutrons;
     const newParticleArray = isParticleTypeProton ? this.neutrons : this.protons;
 
-    const newParticleType = isParticleTypeProton ? 'neutron' : 'proton';
-    particle.typeProperty.value = newParticleType as ParticleTypeString;
+    const newParticleType: ParticleTypeString = isParticleTypeProton ? 'neutron' : 'proton';
+    particle.typeProperty.value = newParticleType;
 
     const particleType = particle.typeProperty.value;
 
@@ -651,6 +651,8 @@ class ParticleAtom extends PhetioObject {
     arrayRemove( oldParticleArray, particle );
     newParticleArray.push( particle );
     !wasDeferred && this.massNumberProperty.setDeferred( false );
+    assert && assert( newParticleArray.lengthProperty.value === newParticleArray.length,
+      'deferring hackary above should not produce an inconsistent state' );
   }
 
   // This function was only created to support flexibility in the "numberAtom" parameter for PeriodicTableNode, use carefully.
