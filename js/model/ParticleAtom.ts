@@ -651,6 +651,8 @@ class ParticleAtom extends PhetioObject {
     arrayRemove( oldParticleArray, particle );
     newParticleArray.push( particle );
     !wasDeferred && this.massNumberProperty.setDeferred( false );
+    assert && assert( newParticleArray.lengthProperty.value === newParticleArray.length,
+      'deferring hackary above should not produce an inconsistent state' );
   }
 
   // This function was only created to support flexibility in the "numberAtom" parameter for PeriodicTableNode, use carefully.
