@@ -14429,6 +14429,7 @@ const AtomIdentifier = {
 
   // Get the available decays, and likelihood percents of those decays, for an unstable nuclide. Returns an empty array
   // if the decays are unknown or if the nuclide does not exist or is stable.
+  // The first value in the map is the most likely decay (has a decay likelihood of 100%).
   getAvailableDecaysAndPercents: function( numProtons: number, numNeutrons: number ): DecayPercentageMap[] {
     const allDecaysAndPercents = DECAYS_INFO_TABLE[ numProtons ][ numNeutrons ];
 
