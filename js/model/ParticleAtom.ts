@@ -708,6 +708,11 @@ class ParticleAtom extends PhetioObject {
       } );
     }
   } );
+
+  // clear all liveAnimations
+  public clearAnimations(): void {
+    this.liveAnimations.clear();
+  }
 }
 
 shred.register( 'ParticleAtom', ParticleAtom );
