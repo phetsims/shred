@@ -14377,9 +14377,13 @@ const AtomIdentifier = {
   },
 
   // Get the half-life of a nuclide with the specified number of protons and neutrons.
+  // Return -1 if the half-life data is missing.
   getNuclideHalfLife: function( numProtons: number, numNeutrons: number ): number | null | undefined {
     if ( !HalfLifeConstants[ numProtons ] ) {
       return undefined;
+    }
+    else if ( HalfLifeConstants[ numProtons ][ numNeutrons ] === null ) {
+      return -1;
     }
     return HalfLifeConstants[ numProtons ][ numNeutrons ];
   },
