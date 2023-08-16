@@ -14376,11 +14376,12 @@ const AtomIdentifier = {
     return stableIsotopesList;
   },
 
-  // Get the half-life of a nuclide with the specified number of protons and neutrons.
-  // Return -1 if the half-life data is missing.
-  getNuclideHalfLife: function( numProtons: number, numNeutrons: number ): number | null | undefined {
-    if ( !HalfLifeConstants[ numProtons ] ) {
-      return undefined;
+  // Get the half-life of a nuclide in seconds with the specified number of protons and neutrons.
+  // Return -1 if the half-life data is unknown.
+  // Return null if there does not exist an entry in HalfLifeConstants for a given proton or neutron number.
+  getNuclideHalfLife: function( numProtons: number, numNeutrons: number ): number | null {
+    if ( !HalfLifeConstants.hasOwnProperty( numProtons ) || !HalfLifeConstants[ numProtons ].hasOwnProperty( numNeutrons ) ) {
+      return null;
     }
     else if ( HalfLifeConstants[ numProtons ][ numNeutrons ] === null ) {
       return -1;
@@ -14392,37 +14393,37 @@ const AtomIdentifier = {
   doesExist: function( numProtons: number, numNeutrons: number ): boolean {
     const isStable = this.isStable( numProtons, numNeutrons );
     const halfLife = this.getNuclideHalfLife( numProtons, numNeutrons );
-    return !( !isStable && halfLife === undefined );
+    return !( !isStable && halfLife === null );
   },
 
   // Return if the next isotope of the given nuclide exists
   doesNextIsotopeExist: function( numProtons: number, numNeutrons: number ): boolean {
-    return this.getNuclideHalfLife( numProtons, numNeutrons + 1 ) !== undefined ||
+    return this.getNuclideHalfLife( numProtons, numNeutrons + 1 ) !== null ||
            this.isStable( numProtons, numNeutrons + 1 );
 
   },
 
   // Return if the previous isotope of the given nuclide exists
   doesPreviousIsotopeExist: function( numProtons: number, numNeutrons: number ): boolean {
-    return this.getNuclideHalfLife( numProtons, numNeutrons - 1 ) !== undefined ||
+    return this.getNuclideHalfLife( numProtons, numNeutrons - 1 ) !== null ||
            this.isStable( numProtons, numNeutrons - 1 );
   },
 
   // Return if the next isotone of the given nuclide exists
   doesNextIsotoneExist: function( numProtons: number, numNeutrons: number ): boolean {
-    return this.getNuclideHalfLife( numProtons + 1, numNeutrons ) !== undefined ||
+    return this.getNuclideHalfLife( numProtons + 1, numNeutrons ) !== null ||
            this.isStable( numProtons + 1, numNeutrons );
   },
 
   // Return if the previous isotone of the given nuclide exists
   doesPreviousIsotoneExist: function( numProtons: number, numNeutrons: number ): boolean {
-    return this.getNuclideHalfLife( numProtons - 1, numNeutrons ) !== undefined ||
+    return this.getNuclideHalfLife( numProtons - 1, numNeutrons ) !== null ||
            this.isStable( numProtons - 1, numNeutrons );
   },
 
   // Return if the nuclide of the given nuclide minus one proton and minus one neutrons exists
   doesPreviousNuclideExist: function( numProtons: number, numNeutrons: number ): boolean {
-    return this.getNuclideHalfLife( numProtons - 1, numNeutrons - 1 ) !== undefined ||
+    return this.getNuclideHalfLife( numProtons - 1, numNeutrons - 1 ) !== null ||
            this.isStable( numProtons - 1, numNeutrons - 1 );
   },
 
