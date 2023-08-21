@@ -6,7 +6,7 @@
 
 import Property from '../../../axon/js/Property.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
-import { DragListener, Node, NodeOptions, PressListenerEvent } from '../../../scenery/js/imports.js';
+import { DragListener, InteractiveHighlightingNode, Node, NodeOptions, PressListenerEvent } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 import IsotopeNode from './IsotopeNode.js';
@@ -24,7 +24,7 @@ type SelfOptions = {
 };
 type ParticleViewOptions = SelfOptions & NodeOptions;
 
-class ParticleView extends Node {
+class ParticleView extends InteractiveHighlightingNode {
   public readonly particle: Particle;
   private readonly dragListener: DragListener;
   private readonly disposeParticleView: VoidFunction;
