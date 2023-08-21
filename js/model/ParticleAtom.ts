@@ -669,6 +669,19 @@ class ParticleAtom extends PhetioObject {
     }
   }
 
+  // clear all liveAnimations
+  public clearAnimations(): void {
+    this.liveAnimations.clear();
+  }
+
+  // Move all particles in this atom to their destination immediately (interrupting their animations if applicable)
+  public moveAllToDestination(): void {
+    const moveImmediately = ( particle: Particle ) => particle.moveImmediatelyToDestination();
+    this.protons.forEach( moveImmediately );
+    this.neutrons.forEach( moveImmediately );
+    this.electrons.forEach( moveImmediately );
+  }
+
   public static ParticleAtomIO = new IOType( 'ParticleAtomIO', {
     valueType: ParticleAtom,
     documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
@@ -708,11 +721,6 @@ class ParticleAtom extends PhetioObject {
       } );
     }
   } );
-
-  // clear all liveAnimations
-  public clearAnimations(): void {
-    this.liveAnimations.clear();
-  }
 }
 
 shred.register( 'ParticleAtom', ParticleAtom );
