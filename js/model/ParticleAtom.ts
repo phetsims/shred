@@ -377,7 +377,7 @@ class ParticleAtom extends PhetioObject {
     else {
       throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
     }
-    assert && assert( typeof ( particle.particleAtomRemovalListener ) === 'function',
+    assert && assert( typeof particle.particleAtomRemovalListener === 'function',
       'No particle removal listener attached to particle.'
     );
     particle.userControlledProperty.unlink( particle.particleAtomRemovalListener! );
@@ -648,11 +648,17 @@ class ParticleAtom extends PhetioObject {
     // Defer the massNumberProperty links until the particle arrays are correct so the nucleus does not reconfigure.
     const wasDeferred = this.massNumberProperty.isDeferred;
     this.massNumberProperty.setDeferred( true );
-    arrayRemove( oldParticleArray, particle );
+
+    // add to the new one first in case there is a listener that causes the particleAtom to be cleared, https://github.com/phetsims/build-a-nucleus/issues/115
     newParticleArray.push( particle );
-    !wasDeferred && this.massNumberProperty.setDeferred( false );
+    arrayRemove( oldParticleArray, particle );
+
+    !wasDeferred && this.massNumberProperty.setDeferred( false ); // No need to fire listeners because the mass never changed
+
     assert && assert( newParticleArray.lengthProperty.value === newParticleArray.length,
       'deferring hackary above should not produce an inconsistent state' );
+
+    assert && assert( this.containsParticle( particle ), `ParticleAtom should contain particle:${particle.id} after changing nucleon` );
   }
 
   // This function was only created to support flexibility in the "numberAtom" parameter for PeriodicTableNode, use carefully.
