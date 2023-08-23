@@ -14237,6 +14237,23 @@ const HalfLifeConstants: HalfLifeConstantsType = {
   }
 };
 
+if ( assert ) {
+  for ( const halfLifeProtonNumber in HalfLifeConstants ) {
+    for ( const halfLifeNeutronNumber in HalfLifeConstants[ halfLifeProtonNumber ] ) {
+      assert && halfLifeNeutronNumber !== '0' && assert( DECAYS_INFO_TABLE.hasOwnProperty( halfLifeProtonNumber ) &&
+      DECAYS_INFO_TABLE[ halfLifeProtonNumber ].hasOwnProperty( halfLifeNeutronNumber ),
+        `DECAYS missing entry from HalfLifeConstants for p${halfLifeProtonNumber}, n${halfLifeNeutronNumber}` );
+    }
+  }
+
+  for ( const decayProtonNumber in DECAYS_INFO_TABLE ) {
+    for ( const decayNeutronNumber in DECAYS_INFO_TABLE[ decayProtonNumber ] ) {
+      assert && assert( HalfLifeConstants.hasOwnProperty( decayProtonNumber ) &&
+      HalfLifeConstants[ decayProtonNumber ].hasOwnProperty( decayNeutronNumber ),
+        `HalfLifeConstants missing entry from HalfLifeConstants for p${decayProtonNumber}, n${decayNeutronNumber}` );
+    }
+  }
+}
 
 export type DecayTypeStrings = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DECAY' | 'PROTON_EMISSION' | 'NEUTRON_EMISSION';
 
