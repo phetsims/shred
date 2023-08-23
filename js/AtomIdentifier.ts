@@ -11239,7 +11239,6 @@ type HalfLifeConstantsType = Record<number, Record<number, Halflife>>;
 // and 4 neutrons ( HalfLifeConstants[ 1 ][ 4 ] ) would have a half-life of 8.60826E-23 seconds.
 const HalfLifeConstants: HalfLifeConstantsType = {
   0: {
-    0: null, // a placeholder to allow a nuclide with 0 protons and 0 neutrons to exist as a base case
     1: 613.9,
     4: 1.75476E-22,
     6: null
@@ -14240,7 +14239,7 @@ const HalfLifeConstants: HalfLifeConstantsType = {
 if ( assert ) {
   for ( const halfLifeProtonNumber in HalfLifeConstants ) {
     for ( const halfLifeNeutronNumber in HalfLifeConstants[ halfLifeProtonNumber ] ) {
-      assert && halfLifeNeutronNumber !== '0' && assert( DECAYS_INFO_TABLE.hasOwnProperty( halfLifeProtonNumber ) &&
+      assert && assert( DECAYS_INFO_TABLE.hasOwnProperty( halfLifeProtonNumber ) &&
       DECAYS_INFO_TABLE[ halfLifeProtonNumber ].hasOwnProperty( halfLifeNeutronNumber ),
         `DECAYS missing entry from HalfLifeConstants for p${halfLifeProtonNumber}, n${halfLifeNeutronNumber}` );
     }
@@ -14436,6 +14435,12 @@ const AtomIdentifier = {
   doesPreviousIsotoneExist: function( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons - 1, numNeutrons ) !== null ||
            this.isStable( numProtons - 1, numNeutrons );
+  },
+
+  // Return if the nuclide of the given nuclide plus one proton and plus one neutrons exists
+  doesNextNuclideExist: function( numProtons: number, numNeutrons: number ): boolean {
+    return this.getNuclideHalfLife( numProtons + 1, numNeutrons + 1 ) !== null ||
+           this.isStable( numProtons + 1, numNeutrons + 1 );
   },
 
   // Return if the nuclide of the given nuclide minus one proton and minus one neutrons exists
