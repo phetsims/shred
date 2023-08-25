@@ -54,8 +54,6 @@ class Particle extends PhetioObject {
   // IDs needed for map-like lookup
   public readonly id = nextParticleId++;
 
-  // REVIEW: Please add a GitHub issue for this to-do or remove it.  See https://github.com/phetsims/shred/commit/b3296309501e2ce7a375cd97baa849b83827b3e0.
-  // TODO: investigate getting rid of this and using userControlledProperty
   // Fires when the user stops dragging a particle.
   public readonly dragEndedEmitter = new Emitter<[ Particle ]>( { parameters: [ { valueType: Particle } ] } );
   public readonly typeProperty: TProperty<ParticleTypeString>;
