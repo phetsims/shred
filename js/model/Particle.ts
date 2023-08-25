@@ -120,7 +120,8 @@ class Particle extends PhetioObject {
     } );
 
     this.userControlledProperty = new BooleanProperty( false, {
-      tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' )
+      tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
+      hasListenerOrderDependencies: true // Needed for BAN, see https://github.com/phetsims/build-a-nucleus/issues/105
     } );
 
     this.zLayerProperty = new NumberProperty( 0, {
@@ -183,8 +184,8 @@ class Particle extends PhetioObject {
   }
 
   public setPositionAndDestination( newPosition: Vector2 ): void {
-      this.destinationProperty.set( newPosition );
-      this.moveImmediatelyToDestination();
+    this.destinationProperty.set( newPosition );
+    this.moveImmediatelyToDestination();
   }
 
   public static ParticleIO = new IOType( 'ParticleIO', {
