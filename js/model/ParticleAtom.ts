@@ -417,6 +417,7 @@ class ParticleAtom extends PhetioObject {
       this.removeParticle( particle );
     }
 
+    assert && assert( particle !== null, 'There should be a particle of the provided type if asking for one' );
     return particle!;
   }
 
