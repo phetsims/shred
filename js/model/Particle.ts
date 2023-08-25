@@ -51,7 +51,7 @@ class Particle extends PhetioObject {
 
   public static readonly MAX_LAYERS = 5;
 
-  //IDs needed for map-like lookup
+  // IDs needed for map-like lookup
   public readonly id = nextParticleId++;
 
   // TODO: investigate getting rid of this and using userControlledProperty
@@ -63,7 +63,6 @@ class Particle extends PhetioObject {
   public readonly animationEndedEmitter = new Emitter();
 
   public readonly inputEnabledProperty: TProperty<boolean> = new BooleanProperty( true );
-
 
   // The "base" color of the Particle, dependent on what type of Particle it is. We say "base" because there is a color
   // gradient applied to present a 3D graphic.
