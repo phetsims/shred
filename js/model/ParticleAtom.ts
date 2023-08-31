@@ -654,14 +654,19 @@ class ParticleAtom extends PhetioObject {
 
     this.liveAnimations.push( colorChangeAnimation );
 
-    colorChangeAnimation.finishEmitter.addListener( () => onChangeComplete() );
+    // Disable input when the particle is changing colors, see https://github.com/phetsims/build-a-nucleus/issues/115.
+    particle.inputEnabledProperty.value = false;
+    colorChangeAnimation.finishEmitter.addListener( () => {
+      particle.inputEnabledProperty.value = true;
+      onChangeComplete();
+    } );
     colorChangeAnimation.start();
 
     // Defer the massNumberProperty links until the particle arrays are correct so the nucleus does not reconfigure.
     const wasDeferred = this.massNumberProperty.isDeferred;
     this.massNumberProperty.setDeferred( true );
 
-    // add to the new one first in case there is a listener that causes the particleAtom to be cleared, https://github.com/phetsims/build-a-nucleus/issues/115
+    // Add to the new one first in case there is a listener that causes the particleAtom to be cleared, https://github.com/phetsims/build-a-nucleus/issues/115
     newParticleArray.push( particle );
     arrayRemove( oldParticleArray, particle );
 
