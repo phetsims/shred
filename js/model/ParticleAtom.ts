@@ -126,7 +126,7 @@ class ParticleAtom extends PhetioObject {
 
     this.liveAnimations = createObservableArray();
     this.liveAnimations.addItemRemovedListener( animation => {
-      animation && animation.stop();
+      animation.stop();
     } );
 
     this.protonCountProperty = this.protons.lengthProperty;
