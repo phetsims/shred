@@ -90,10 +90,6 @@ class ParticleView extends Node {
 
       end: () => {
         this.particle.userControlledProperty.set( false );
-
-        if ( !this.isDisposed ) {
-          particle.dragEndedEmitter.emit( particle );
-        }
       }
     } );
     this.addInputListener( this.dragListener );

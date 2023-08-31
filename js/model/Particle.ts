@@ -54,8 +54,6 @@ class Particle extends PhetioObject {
   // IDs needed for map-like lookup
   public readonly id = nextParticleId++;
 
-  // Fires when the user stops dragging a particle.
-  public readonly dragEndedEmitter = new Emitter<[ Particle ]>( { parameters: [ { valueType: Particle } ] } );
   public readonly typeProperty: TProperty<ParticleTypeString>;
 
   // Fires when the particle reaches its destination via animation in step
@@ -143,7 +141,6 @@ class Particle extends PhetioObject {
       this.userControlledProperty.dispose();
       this.zLayerProperty.dispose();
       this.animationEndedEmitter.dispose();
-      this.dragEndedEmitter.dispose();
     };
   }
 
