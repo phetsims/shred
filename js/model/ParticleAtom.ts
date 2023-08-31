@@ -656,8 +656,9 @@ class ParticleAtom extends PhetioObject {
 
     // Disable input when the particle is changing colors, see https://github.com/phetsims/build-a-nucleus/issues/115.
     particle.inputEnabledProperty.value = false;
+
     colorChangeAnimation.finishEmitter.addListener( () => {
-      particle.inputEnabledProperty.value = true;
+      !particle.isDisposed && particle.inputEnabledProperty.set( true );
       onChangeComplete();
     } );
     colorChangeAnimation.start();
