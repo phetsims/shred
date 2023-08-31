@@ -125,6 +125,13 @@ class ParticleAtom extends PhetioObject {
     } );
 
     this.liveAnimations = createObservableArray();
+
+    this.liveAnimations.addItemAddedListener( animation => {
+      animation.endedEmitter.addListener( () => {
+        this.liveAnimations.includes( animation ) && this.liveAnimations.remove( animation );
+      } );
+    } );
+
     this.liveAnimations.addItemRemovedListener( animation => {
       animation.stop();
     } );
