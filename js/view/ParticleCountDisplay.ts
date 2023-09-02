@@ -50,39 +50,39 @@ class ParticleCountDisplay extends Panel {
 
     const panelContents = new Node();
 
-    const protonTitle = new Text( protonsColonString, {
+    const protonTitleText = new Text( protonsColonString, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'protonTitleText' )
     } );
-    panelContents.addChild( protonTitle );
-    const neutronTitle = new Text( neutronsColonString, {
+    panelContents.addChild( protonTitleText );
+    const neutronTitleText = new Text( neutronsColonString, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'neutronTitleText' )
     } );
-    panelContents.addChild( neutronTitle );
-    const electronTitle = new Text( electronsColonString, {
+    panelContents.addChild( neutronTitleText );
+    const electronTitleText = new Text( electronsColonString, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'electronTitleText' )
     } );
-    panelContents.addChild( electronTitle );
+    panelContents.addChild( electronTitleText );
 
     // Scale the title if more than allowed proportion width
     const maxAllowableLabelWidth = maxWidth * TITLE_MAX_WIDTH_PROPORTION;
-    protonTitle.maxWidth = maxAllowableLabelWidth;
-    electronTitle.maxWidth = maxAllowableLabelWidth;
-    neutronTitle.maxWidth = maxAllowableLabelWidth;
+    protonTitleText.maxWidth = maxAllowableLabelWidth;
+    electronTitleText.maxWidth = maxAllowableLabelWidth;
+    neutronTitleText.maxWidth = maxAllowableLabelWidth;
 
     // Lay out the labels.
-    const maxLabelWidth = Math.max( Math.max( protonTitle.width, neutronTitle.width ), electronTitle.width );
-    protonTitle.right = maxLabelWidth;
-    protonTitle.top = 0;
-    neutronTitle.right = maxLabelWidth;
-    neutronTitle.bottom = protonTitle.bottom + Math.max( neutronTitle.height, MIN_VERTICAL_SPACING );
-    electronTitle.right = maxLabelWidth;
-    electronTitle.bottom = neutronTitle.bottom + Math.max( electronTitle.height, MIN_VERTICAL_SPACING );
+    const maxLabelWidth = Math.max( Math.max( protonTitleText.width, neutronTitleText.width ), electronTitleText.width );
+    protonTitleText.right = maxLabelWidth;
+    protonTitleText.top = 0;
+    neutronTitleText.right = maxLabelWidth;
+    neutronTitleText.bottom = protonTitleText.bottom + Math.max( neutronTitleText.height, MIN_VERTICAL_SPACING );
+    electronTitleText.right = maxLabelWidth;
+    electronTitleText.bottom = neutronTitleText.bottom + Math.max( electronTitleText.height, MIN_VERTICAL_SPACING );
 
     // Figure out the sizes of the particles and the inter-particle spacing based on the max width.
-    const totalParticleSpace = maxWidth - protonTitle.right - 10;
+    const totalParticleSpace = maxWidth - protonTitleText.right - 10;
     const nucleonRadius = totalParticleSpace / ( ( maxParticles * 2 ) + ( maxParticles - 1 ) + 2 );
     const electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
     const interParticleSpacing = nucleonRadius * 3;
@@ -139,8 +139,8 @@ class ParticleCountDisplay extends Panel {
           protonDisplayCount,
           'proton',
           nucleonRadius,
-          protonTitle.right + interParticleSpacing,
-          protonTitle.center.y
+          protonTitleText.right + interParticleSpacing,
+          protonTitleText.center.y
         );
       }
       while ( atom.protonCountProperty.get() < protonDisplayCount ) {
@@ -153,7 +153,7 @@ class ParticleCountDisplay extends Panel {
           neutronDisplayCount,
           'neutron',
           nucleonRadius,
-          neutronTitle.right + interParticleSpacing, neutronTitle.center.y
+          neutronTitleText.right + interParticleSpacing, neutronTitleText.center.y
         );
       }
       while ( atom.neutronCountProperty.get() < neutronDisplayCount ) {
@@ -166,7 +166,7 @@ class ParticleCountDisplay extends Panel {
           electronDisplayCount,
           'electron',
           electronRadius,
-          electronTitle.right + interParticleSpacing, electronTitle.center.y
+          electronTitleText.right + interParticleSpacing, electronTitleText.center.y
         );
       }
       while ( atom.electronCountProperty.get() < electronDisplayCount ) {
