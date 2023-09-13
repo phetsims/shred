@@ -2030,7 +2030,7 @@ const DECAYS_INFO_TABLE: DecaysInfo = {
     },
     28: {
       '2B-': 75,
-      // '2B-': 69, // TODO: how to handle two of the same decay?
+      // '2B-': 69, // TODO: how to handle two of the same decay? https://github.com/phetsims/tasks/issues/1129
       'B-': 25
     },
     29: {
@@ -2991,7 +2991,7 @@ const DECAYS_INFO_TABLE: DecaysInfo = {
     },
     40: {
       '2B-': 100
-      // '2B-': null // TODO: how to handle two of the same decay?
+      // '2B-': null // TODO: how to handle two of the same decay? https://github.com/phetsims/tasks/issues/1129
     },
     41: {
       'B-': 100
@@ -4338,7 +4338,7 @@ const DECAYS_INFO_TABLE: DecaysInfo = {
     },
     58: {
       '2B-': 100
-      // '2B-': 100 // TODO: how to handle two of the same decay?
+      // '2B-': 100 // TODO: how to handle two of the same decay? https://github.com/phetsims/tasks/issues/1129
     },
     59: {
       'B-': 100
@@ -10339,7 +10339,7 @@ const DECAYS_INFO_TABLE: DecaysInfo = {
     135: {
       'A': 100,
       '14C': 0.000000089
-      // '14C': 0.000000077 // TODO: how to handle two of the same decay?
+      // '14C': 0.000000077 // TODO: how to handle two of the same decay? https://github.com/phetsims/tasks/issues/1129
     },
     136: {
       'A': 100,

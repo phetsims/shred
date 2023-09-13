@@ -126,7 +126,7 @@ function createParticleNode( particle: Particle, modelViewTransform: ModelViewTr
     particleNode = new IsotopeNode(
       particle,
       modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ), {
-        // showLabel: particle.showLabel, // TODO: When converting to TypeScript, this was flagged because Particle.showLabel doesn't exist.
+        // showLabel: particle.showLabel, // TODO: When converting to TypeScript, this was flagged because Particle.showLabel doesn't exist. https://github.com/phetsims/tasks/issues/1129
         tandem: tandem
       }
     );

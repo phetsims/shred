@@ -156,7 +156,7 @@ class NumberAtom {
       electronCount: numberAtom.electronCountProperty.get(),
       neutronCount: numberAtom.neutronCountProperty.get()
     } ),
-    fromStateObject( stateObject ) { /* TODO: Should this be implemented? */ }
+    fromStateObject( stateObject ) { /* TODO: Should this be implemented? https://github.com/phetsims/tasks/issues/1129 */ }
   } );
 }
 
