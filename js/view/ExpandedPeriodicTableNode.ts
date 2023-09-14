@@ -1,7 +1,8 @@
 // Copyright 2015-2023, University of Colorado Boulder
 
 /**
- * TODO document https://github.com/phetsims/tasks/issues/1129
+ * TODO https://github.com/phetsims/shred/issues/40 missing documentation
+ *
  * @author Aadish Gupta (PhET Interactive Simulations)
  */
 
