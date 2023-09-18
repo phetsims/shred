@@ -67,6 +67,8 @@ class Particle extends PhetioObject {
   public readonly positionProperty: TProperty<Vector2>;
   public readonly destinationProperty: TProperty<Vector2>;
   public readonly radiusProperty: TProperty<number>;
+
+  // Position change per second
   public readonly animationVelocityProperty: TProperty<number>;
   public readonly userControlledProperty: TProperty<boolean>;
 
