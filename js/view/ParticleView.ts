@@ -21,8 +21,10 @@ import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 type SelfOptions = {
   dragBounds?: Bounds2;
   highContrastProperty?: TReadOnlyProperty<boolean>;
+  touchOffset?: Vector2 | null; // null to opt out of an offset
 };
-type ParticleViewOptions = SelfOptions & NodeOptions;
+
+export type ParticleViewOptions = SelfOptions & NodeOptions;
 
 class ParticleView extends Node {
   public readonly particle: Particle;
@@ -36,6 +38,8 @@ class ParticleView extends Node {
     const options = optionize<ParticleViewOptions, SelfOptions, NodeOptions>()( {
       dragBounds: Bounds2.EVERYTHING,
       tandem: Tandem.REQUIRED,
+
+      touchOffset: null,
 
       // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
       highContrastProperty: new BooleanProperty( false )
@@ -90,6 +94,11 @@ class ParticleView extends Node {
 
       end: () => {
         this.particle.userControlledProperty.set( false );
+      },
+
+      // Offset the position a little if this is a touch pointer so that the finger doesn't cover the particle.
+      offsetPosition: ( viewPoint, dragListener ) => {
+        return options.touchOffset && dragListener.pointer.isTouchLike() ? options.touchOffset : Vector2.ZERO;
       }
     } );
     this.addInputListener( this.dragListener );
