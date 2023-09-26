@@ -167,6 +167,12 @@ class Particle extends PhetioObject {
 
         // Move a step toward the destination.
         this.positionProperty.set( position.plus( stepVector ) );
+
+        // When the position and destination, are exactly equal, can just go ahead and emit the animationEndedEmitter,
+        // see https://github.com/phetsims/build-a-nucleus/issues/198.
+        if ( this.positionProperty.value.equals( this.destinationProperty.value ) ) {
+          this.animationEndedEmitter.emit();
+        }
       }
       else if ( distanceToDestination > 0 ) {
         // Less than one time step away, so just go to the destination.
