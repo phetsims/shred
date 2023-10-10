@@ -1148,6 +1148,9 @@ const DECAYS_INFO_TABLE: DecaysInfo = {
       'B-': 100,
       'B-N': 58
     },
+    17: {
+      'N': 100
+    },
     18: {
       '2N': 100
     }
@@ -11335,6 +11338,7 @@ const HalfLifeConstants: HalfLifeConstantsType = {
     14: 2.25,
     15: 0.097,
     16: 0.065,
+    17: null,
     18: 4.5E-12
   },
   9: {
