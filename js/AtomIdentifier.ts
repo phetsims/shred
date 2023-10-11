@@ -843,7 +843,7 @@ const mapElectronCountToRadius: Record<number, number> = {
 //
 // The object is first indexed by the proton number, and then by the neutron number. For example, a nuclide with 1 proton
 // and 4 neutrons ( HalfLifeConstants[ 1 ][ 4 ] ) would undergo a decay of type "2N" 100% of the time that it decays.
-type DecayAmount = number | null;
+export type DecayAmount = number | null;
 type DecayPercent = Record<string, DecayAmount>;
 
 // First by proton, then by neutron.
@@ -14512,37 +14512,31 @@ const AtomIdentifier = {
           case '2B+':
             break;
           case 'A':
-
             if ( notAlreadyInBasicDecays( 'ALPHA_DECAY' ) ) {
               basicDecays.push( [ 'ALPHA_DECAY', allDecaysAndPercents.A ] );
             }
             break;
           case 'P':
-
             if ( notAlreadyInBasicDecays( 'PROTON_EMISSION' ) ) {
               basicDecays.push( [ 'PROTON_EMISSION', allDecaysAndPercents.P ] );
             }
             break;
           case 'N':
-
             if ( notAlreadyInBasicDecays( 'NEUTRON_EMISSION' ) ) {
               basicDecays.push( [ 'NEUTRON_EMISSION', allDecaysAndPercents.N ] );
             }
             break;
           case '2P':
-
             if ( notAlreadyInBasicDecays( 'PROTON_EMISSION' ) ) {
               basicDecays.push( [ 'PROTON_EMISSION', allDecaysAndPercents[ '2P' ] ] );
             }
             break;
           case '2N':
-
             if ( notAlreadyInBasicDecays( 'NEUTRON_EMISSION' ) ) {
               basicDecays.push( [ 'NEUTRON_EMISSION', allDecaysAndPercents[ '2N' ] ] );
             }
             break;
           case 'B+A':
-
             if ( notAlreadyInBasicDecays( 'BETA_PLUS_DECAY' ) ) {
               basicDecays.push( [ 'BETA_PLUS_DECAY', allDecaysAndPercents[ 'B+A' ] ] );
             }
