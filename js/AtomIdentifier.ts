@@ -14254,9 +14254,9 @@ if ( assert ) {
   }
 }
 
-export type DecayTypeStrings = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DECAY' | 'PROTON_EMISSION' | 'NEUTRON_EMISSION';
+export type DecayTypeString = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DECAY' | 'PROTON_EMISSION' | 'NEUTRON_EMISSION';
+export type DecayPercentageTuple = readonly [ DecayTypeString, DecayAmount ];
 
-type DecayPercentageMap = Partial<Record<DecayTypeStrings, DecayAmount>>;
 type IsotopeInfoIdentifier = [ number, number, number ];
 
 
@@ -14452,7 +14452,8 @@ const AtomIdentifier = {
   // Get the available decays, and likelihood percents of those decays, for an unstable nuclide. Returns an empty array
   // if the decays are unknown or if the nuclide does not exist or is stable.
   // The first value in the map is the most likely decay (has a decay likelihood of 100%).
-  getAvailableDecaysAndPercents: function( numProtons: number, numNeutrons: number ): DecayPercentageMap[] {
+  // Please note that you could end up with 2 entries for the same DecayTypeString where one is null and the other is a percent
+  getAvailableDecaysAndPercents: function( numProtons: number, numNeutrons: number ): DecayPercentageTuple[] {
     const allDecaysAndPercents = DECAYS_INFO_TABLE[ numProtons ][ numNeutrons ];
 
     // undefined means the nuclide is stable or does not exist, meaning there are no available decays
@@ -14464,79 +14465,82 @@ const AtomIdentifier = {
     // the nuclide is unstable and the available decays are known
     else {
       const allDecays = Object.keys( allDecaysAndPercents );
-      const basicDecays: DecayPercentageMap[] = [];
+      const basicDecays: DecayPercentageTuple[] = [];
+      const notAlreadyInBasicDecays = ( forDecayString: DecayTypeString ) => {
+        return _.every( basicDecays, decay => decay[ 0 ] !== forDecayString || decay[ 1 ] === null );
+      };
+
       for ( let i = 0; i < allDecays.length; i++ ) {
         switch( allDecays[ i ] ) {
           case 'B-':
 
-            if ( !_.some( basicDecays, decay => !!decay.BETA_MINUS_DECAY ) ) {
-              basicDecays.push( { BETA_MINUS_DECAY: allDecaysAndPercents[ 'B-' ] } );
+            if ( notAlreadyInBasicDecays( 'BETA_MINUS_DECAY' ) ) {
+              basicDecays.push( [ 'BETA_MINUS_DECAY', allDecaysAndPercents[ 'B-' ] ] );
             }
             break;
           case '2B-':
             break;
           case 'EC+B+':
-
-            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
-              basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ 'EC+B+' ] } );
+            if ( notAlreadyInBasicDecays( 'BETA_PLUS_DECAY' ) ) {
+              basicDecays.push( [ 'BETA_PLUS_DECAY', allDecaysAndPercents[ 'EC+B+' ] ] );
             }
             break;
           case 'EC':
 
-            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
-              basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents.EC } );
+            if ( notAlreadyInBasicDecays( 'BETA_PLUS_DECAY' ) ) {
+              basicDecays.push( [ 'BETA_PLUS_DECAY', allDecaysAndPercents.EC ] );
             }
             break;
           case 'B+':
 
-            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
-              basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ 'B+' ] } );
+            if ( notAlreadyInBasicDecays( 'BETA_PLUS_DECAY' ) ) {
+              basicDecays.push( [ 'BETA_PLUS_DECAY', allDecaysAndPercents[ 'B+' ] ] );
             }
             break;
           case 'B++EC':
             break;
           case '2EC':
 
-            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
-              basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ '2EC' ] } );
+            if ( notAlreadyInBasicDecays( 'BETA_PLUS_DECAY' ) ) {
+              basicDecays.push( [ 'BETA_PLUS_DECAY', allDecaysAndPercents[ '2EC' ] ] );
             }
             break;
           case '2B+':
             break;
           case 'A':
 
-            if ( !_.some( basicDecays, decay => !!decay.ALPHA_DECAY ) ) {
-              basicDecays.push( { ALPHA_DECAY: allDecaysAndPercents.A } );
+            if ( notAlreadyInBasicDecays( 'ALPHA_DECAY' ) ) {
+              basicDecays.push( [ 'ALPHA_DECAY', allDecaysAndPercents.A ] );
             }
             break;
           case 'P':
 
-            if ( !_.some( basicDecays, decay => !!decay.PROTON_EMISSION ) ) {
-              basicDecays.push( { PROTON_EMISSION: allDecaysAndPercents.P } );
+            if ( notAlreadyInBasicDecays( 'PROTON_EMISSION' ) ) {
+              basicDecays.push( [ 'PROTON_EMISSION', allDecaysAndPercents.P ] );
             }
             break;
           case 'N':
 
-            if ( !_.some( basicDecays, decay => !!decay.NEUTRON_EMISSION ) ) {
-              basicDecays.push( { NEUTRON_EMISSION: allDecaysAndPercents.N } );
+            if ( notAlreadyInBasicDecays( 'NEUTRON_EMISSION' ) ) {
+              basicDecays.push( [ 'NEUTRON_EMISSION', allDecaysAndPercents.N ] );
             }
             break;
           case '2P':
 
-            if ( !_.some( basicDecays, decay => !!decay.PROTON_EMISSION ) ) {
-              basicDecays.push( { PROTON_EMISSION: allDecaysAndPercents[ '2P' ] } );
+            if ( notAlreadyInBasicDecays( 'PROTON_EMISSION' ) ) {
+              basicDecays.push( [ 'PROTON_EMISSION', allDecaysAndPercents[ '2P' ] ] );
             }
             break;
           case '2N':
 
-            if ( !_.some( basicDecays, decay => !!decay.NEUTRON_EMISSION ) ) {
-              basicDecays.push( { NEUTRON_EMISSION: allDecaysAndPercents[ '2N' ] } );
+            if ( notAlreadyInBasicDecays( 'NEUTRON_EMISSION' ) ) {
+              basicDecays.push( [ 'NEUTRON_EMISSION', allDecaysAndPercents[ '2N' ] ] );
             }
             break;
           case 'B+A':
 
-            if ( !_.some( basicDecays, decay => !!decay.BETA_PLUS_DECAY ) ) {
-              basicDecays.push( { BETA_PLUS_DECAY: allDecaysAndPercents[ 'B+A' ] } );
+            if ( notAlreadyInBasicDecays( 'BETA_PLUS_DECAY' ) ) {
+              basicDecays.push( [ 'BETA_PLUS_DECAY', allDecaysAndPercents[ 'B+A' ] ] );
             }
             break;
           case 'ECA':
