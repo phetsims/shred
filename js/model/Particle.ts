@@ -115,7 +115,7 @@ class Particle extends PhetioObject {
 
     this.animationVelocityProperty = new NumberProperty( DEFAULT_PARTICLE_VELOCITY, {
       tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
-      range: new Range( 0, 10 * DEFAULT_PARTICLE_VELOCITY ), // limited for the PhET-iO Studio wrapper, code can handle any value
+      range: new Range( 0, 100 * DEFAULT_PARTICLE_VELOCITY ), // limited for the PhET-iO Studio wrapper, code can handle any value
       units: 'view-coordinates/s'
     } );
 
