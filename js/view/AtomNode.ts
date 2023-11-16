@@ -133,7 +133,7 @@ class AtomNode extends Node {
 
     // Define the update function for the element name.
     const updateElementName = () => {
-      let name = AtomIdentifier.getName( this.atom.protonCountProperty.get() );
+      let name = AtomIdentifier.getName( this.atom.protonCountProperty.get() ).value;
       if ( name.length === 0 ) {
         name = '';
       }
