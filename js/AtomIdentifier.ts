@@ -13,250 +13,252 @@ import Utils from '../../dot/js/Utils.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 import type NumberAtom from './model/NumberAtom.js';
+import TinyProperty from '../../axon/js/TinyProperty.js';
+import TProperty from '../../axon/js/TProperty.js';
 
 // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
 // present on Earth.
 const TRACE_ABUNDANCE = 0.000000000001;
 
-const hydrogenString = ShredStrings.hydrogen;
-const heliumString = ShredStrings.helium;
-const lithiumString = ShredStrings.lithium;
-const berylliumString = ShredStrings.beryllium;
-const boronString = ShredStrings.boron;
-const carbonString = ShredStrings.carbon;
-const nitrogenString = ShredStrings.nitrogen;
-const oxygenString = ShredStrings.oxygen;
-const fluorineString = ShredStrings.fluorine;
-const neonString = ShredStrings.neon;
-const sodiumString = ShredStrings.sodium;
-const magnesiumString = ShredStrings.magnesium;
-const aluminumString = ShredStrings.aluminum;
-const siliconString = ShredStrings.silicon;
-const phosphorusString = ShredStrings.phosphorus;
-const sulfurString = ShredStrings.sulfur;
-const chlorineString = ShredStrings.chlorine;
-const argonString = ShredStrings.argon;
-const potassiumString = ShredStrings.potassium;
-const calciumString = ShredStrings.calcium;
-const scandiumString = ShredStrings.scandium;
-const titaniumString = ShredStrings.titanium;
-const vanadiumString = ShredStrings.vanadium;
-const chromiumString = ShredStrings.chromium;
-const manganeseString = ShredStrings.manganese;
-const ironString = ShredStrings.iron;
-const cobaltString = ShredStrings.cobalt;
-const nickelString = ShredStrings.nickel;
-const copperString = ShredStrings.copper;
-const zincString = ShredStrings.zinc;
-const galliumString = ShredStrings.gallium;
-const germaniumString = ShredStrings.germanium;
-const arsenicString = ShredStrings.arsenic;
-const seleniumString = ShredStrings.selenium;
-const bromineString = ShredStrings.bromine;
-const kryptonString = ShredStrings.krypton;
-const rubidiumString = ShredStrings.rubidium;
-const strontiumString = ShredStrings.strontium;
-const yttriumString = ShredStrings.yttrium;
-const zirconiumString = ShredStrings.zirconium;
-const niobiumString = ShredStrings.niobium;
-const molybdenumString = ShredStrings.molybdenum;
-const technetiumString = ShredStrings.technetium;
-const rutheniumString = ShredStrings.ruthenium;
-const rhodiumString = ShredStrings.rhodium;
-const palladiumString = ShredStrings.palladium;
-const silverString = ShredStrings.silver;
-const cadmiumString = ShredStrings.cadmium;
-const indiumString = ShredStrings.indium;
-const tinString = ShredStrings.tin;
-const antimonyString = ShredStrings.antimony;
-const telluriumString = ShredStrings.tellurium;
-const iodineString = ShredStrings.iodine;
-const xenonString = ShredStrings.xenon;
-const cesiumString = ShredStrings.cesium;
-const bariumString = ShredStrings.barium;
-const lanthanumString = ShredStrings.lanthanum;
-const ceriumString = ShredStrings.cerium;
-const praseodymiumString = ShredStrings.praseodymium;
-const neodymiumString = ShredStrings.neodymium;
-const promethiumString = ShredStrings.promethium;
-const samariumString = ShredStrings.samarium;
-const europiumString = ShredStrings.europium;
-const gadoliniumString = ShredStrings.gadolinium;
-const terbiumString = ShredStrings.terbium;
-const dysprosiumString = ShredStrings.dysprosium;
-const holmiumString = ShredStrings.holmium;
-const erbiumString = ShredStrings.erbium;
-const thuliumString = ShredStrings.thulium;
-const ytterbiumString = ShredStrings.ytterbium;
-const lutetiumString = ShredStrings.lutetium;
-const hafniumString = ShredStrings.hafnium;
-const tantalumString = ShredStrings.tantalum;
-const tungstenString = ShredStrings.tungsten;
-const rheniumString = ShredStrings.rhenium;
-const osmiumString = ShredStrings.osmium;
-const iridiumString = ShredStrings.iridium;
-const platinumString = ShredStrings.platinum;
-const goldString = ShredStrings.gold;
-const mercuryString = ShredStrings.mercury;
-const thalliumString = ShredStrings.thallium;
-const leadString = ShredStrings.lead;
-const bismuthString = ShredStrings.bismuth;
-const poloniumString = ShredStrings.polonium;
-const astatineString = ShredStrings.astatine;
-const radonString = ShredStrings.radon;
-const franciumString = ShredStrings.francium;
-const radiumString = ShredStrings.radium;
-const actiniumString = ShredStrings.actinium;
-const thoriumString = ShredStrings.thorium;
-const protactiniumString = ShredStrings.protactinium;
-const uraniumString = ShredStrings.uranium;
-const neptuniumString = ShredStrings.neptunium;
-const plutoniumString = ShredStrings.plutonium;
-const americiumString = ShredStrings.americium;
-const curiumString = ShredStrings.curium;
-const berkeliumString = ShredStrings.berkelium;
-const californiumString = ShredStrings.californium;
-const einsteiniumString = ShredStrings.einsteinium;
-const fermiumString = ShredStrings.fermium;
-const mendeleviumString = ShredStrings.mendelevium;
-const nobeliumString = ShredStrings.nobelium;
-const lawrenciumString = ShredStrings.lawrencium;
-const rutherfordiumString = ShredStrings.rutherfordium;
-const dubniumString = ShredStrings.dubnium;
-const seaborgiumString = ShredStrings.seaborgium;
-const bohriumString = ShredStrings.bohrium;
-const hassiumString = ShredStrings.hassium;
-const meitneriumString = ShredStrings.meitnerium;
-const darmstadtiumString = ShredStrings.darmstadtium;
-const roentgeniumString = ShredStrings.roentgenium;
-const coperniciumString = ShredStrings.copernicium;
-const nihoniumString = ShredStrings.nihonium;
-const fleroviumString = ShredStrings.flerovium;
-const moscoviumString = ShredStrings.moscovium;
-const livermoriumString = ShredStrings.livermorium;
-const tennessineString = ShredStrings.tennessine;
-const oganessonString = ShredStrings.oganesson;
+const hydrogenStringProperty = ShredStrings.hydrogenStringProperty;
+const heliumStringProperty = ShredStrings.heliumStringProperty;
+const lithiumStringProperty = ShredStrings.lithiumStringProperty;
+const berylliumStringProperty = ShredStrings.berylliumStringProperty;
+const boronStringProperty = ShredStrings.boronStringProperty;
+const carbonStringProperty = ShredStrings.carbonStringProperty;
+const nitrogenStringProperty = ShredStrings.nitrogenStringProperty;
+const oxygenStringProperty = ShredStrings.oxygenStringProperty;
+const fluorineStringProperty = ShredStrings.fluorineStringProperty;
+const neonStringProperty = ShredStrings.neonStringProperty;
+const sodiumStringProperty = ShredStrings.sodiumStringProperty;
+const magnesiumStringProperty = ShredStrings.magnesiumStringProperty;
+const aluminumStringProperty = ShredStrings.aluminumStringProperty;
+const siliconStringProperty = ShredStrings.siliconStringProperty;
+const phosphorusStringProperty = ShredStrings.phosphorusStringProperty;
+const sulfurStringProperty = ShredStrings.sulfurStringProperty;
+const chlorineStringProperty = ShredStrings.chlorineStringProperty;
+const argonStringProperty = ShredStrings.argonStringProperty;
+const potassiumStringProperty = ShredStrings.potassiumStringProperty;
+const calciumStringProperty = ShredStrings.calciumStringProperty;
+const scandiumStringProperty = ShredStrings.scandiumStringProperty;
+const titaniumStringProperty = ShredStrings.titaniumStringProperty;
+const vanadiumStringProperty = ShredStrings.vanadiumStringProperty;
+const chromiumStringProperty = ShredStrings.chromiumStringProperty;
+const manganeseStringProperty = ShredStrings.manganeseStringProperty;
+const ironStringProperty = ShredStrings.ironStringProperty;
+const cobaltStringProperty = ShredStrings.cobaltStringProperty;
+const nickelStringProperty = ShredStrings.nickelStringProperty;
+const copperStringProperty = ShredStrings.copperStringProperty;
+const zincStringProperty = ShredStrings.zincStringProperty;
+const galliumStringProperty = ShredStrings.galliumStringProperty;
+const germaniumStringProperty = ShredStrings.germaniumStringProperty;
+const arsenicStringProperty = ShredStrings.arsenicStringProperty;
+const seleniumStringProperty = ShredStrings.seleniumStringProperty;
+const bromineStringProperty = ShredStrings.bromineStringProperty;
+const kryptonStringProperty = ShredStrings.kryptonStringProperty;
+const rubidiumStringProperty = ShredStrings.rubidiumStringProperty;
+const strontiumStringProperty = ShredStrings.strontiumStringProperty;
+const yttriumStringProperty = ShredStrings.yttriumStringProperty;
+const zirconiumStringProperty = ShredStrings.zirconiumStringProperty;
+const niobiumStringProperty = ShredStrings.niobiumStringProperty;
+const molybdenumStringProperty = ShredStrings.molybdenumStringProperty;
+const technetiumStringProperty = ShredStrings.technetiumStringProperty;
+const rutheniumStringProperty = ShredStrings.rutheniumStringProperty;
+const rhodiumStringProperty = ShredStrings.rhodiumStringProperty;
+const palladiumStringProperty = ShredStrings.palladiumStringProperty;
+const silverStringProperty = ShredStrings.silverStringProperty;
+const cadmiumStringProperty = ShredStrings.cadmiumStringProperty;
+const indiumStringProperty = ShredStrings.indiumStringProperty;
+const tinStringProperty = ShredStrings.tinStringProperty;
+const antimonyStringProperty = ShredStrings.antimonyStringProperty;
+const telluriumStringProperty = ShredStrings.telluriumStringProperty;
+const iodineStringProperty = ShredStrings.iodineStringProperty;
+const xenonStringProperty = ShredStrings.xenonStringProperty;
+const cesiumStringProperty = ShredStrings.cesiumStringProperty;
+const bariumStringProperty = ShredStrings.bariumStringProperty;
+const lanthanumStringProperty = ShredStrings.lanthanumStringProperty;
+const ceriumStringProperty = ShredStrings.ceriumStringProperty;
+const praseodymiumStringProperty = ShredStrings.praseodymiumStringProperty;
+const neodymiumStringProperty = ShredStrings.neodymiumStringProperty;
+const promethiumStringProperty = ShredStrings.promethiumStringProperty;
+const samariumStringProperty = ShredStrings.samariumStringProperty;
+const europiumStringProperty = ShredStrings.europiumStringProperty;
+const gadoliniumStringProperty = ShredStrings.gadoliniumStringProperty;
+const terbiumStringProperty = ShredStrings.terbiumStringProperty;
+const dysprosiumStringProperty = ShredStrings.dysprosiumStringProperty;
+const holmiumStringProperty = ShredStrings.holmiumStringProperty;
+const erbiumStringProperty = ShredStrings.erbiumStringProperty;
+const thuliumStringProperty = ShredStrings.thuliumStringProperty;
+const ytterbiumStringProperty = ShredStrings.ytterbiumStringProperty;
+const lutetiumStringProperty = ShredStrings.lutetiumStringProperty;
+const hafniumStringProperty = ShredStrings.hafniumStringProperty;
+const tantalumStringProperty = ShredStrings.tantalumStringProperty;
+const tungstenStringProperty = ShredStrings.tungstenStringProperty;
+const rheniumStringProperty = ShredStrings.rheniumStringProperty;
+const osmiumStringProperty = ShredStrings.osmiumStringProperty;
+const iridiumStringProperty = ShredStrings.iridiumStringProperty;
+const platinumStringProperty = ShredStrings.platinumStringProperty;
+const goldStringProperty = ShredStrings.goldStringProperty;
+const mercuryStringProperty = ShredStrings.mercuryStringProperty;
+const thalliumStringProperty = ShredStrings.thalliumStringProperty;
+const leadStringProperty = ShredStrings.leadStringProperty;
+const bismuthStringProperty = ShredStrings.bismuthStringProperty;
+const poloniumStringProperty = ShredStrings.poloniumStringProperty;
+const astatineStringProperty = ShredStrings.astatineStringProperty;
+const radonStringProperty = ShredStrings.radonStringProperty;
+const franciumStringProperty = ShredStrings.franciumStringProperty;
+const radiumStringProperty = ShredStrings.radiumStringProperty;
+const actiniumStringProperty = ShredStrings.actiniumStringProperty;
+const thoriumStringProperty = ShredStrings.thoriumStringProperty;
+const protactiniumStringProperty = ShredStrings.protactiniumStringProperty;
+const uraniumStringProperty = ShredStrings.uraniumStringProperty;
+const neptuniumStringProperty = ShredStrings.neptuniumStringProperty;
+const plutoniumStringProperty = ShredStrings.plutoniumStringProperty;
+const americiumStringProperty = ShredStrings.americiumStringProperty;
+const curiumStringProperty = ShredStrings.curiumStringProperty;
+const berkeliumStringProperty = ShredStrings.berkeliumStringProperty;
+const californiumStringProperty = ShredStrings.californiumStringProperty;
+const einsteiniumStringProperty = ShredStrings.einsteiniumStringProperty;
+const fermiumStringProperty = ShredStrings.fermiumStringProperty;
+const mendeleviumStringProperty = ShredStrings.mendeleviumStringProperty;
+const nobeliumStringProperty = ShredStrings.nobeliumStringProperty;
+const lawrenciumStringProperty = ShredStrings.lawrenciumStringProperty;
+const rutherfordiumStringProperty = ShredStrings.rutherfordiumStringProperty;
+const dubniumStringProperty = ShredStrings.dubniumStringProperty;
+const seaborgiumStringProperty = ShredStrings.seaborgiumStringProperty;
+const bohriumStringProperty = ShredStrings.bohriumStringProperty;
+const hassiumStringProperty = ShredStrings.hassiumStringProperty;
+const meitneriumStringProperty = ShredStrings.meitneriumStringProperty;
+const darmstadtiumStringProperty = ShredStrings.darmstadtiumStringProperty;
+const roentgeniumStringProperty = ShredStrings.roentgeniumStringProperty;
+const coperniciumStringProperty = ShredStrings.coperniciumStringProperty;
+const nihoniumStringProperty = ShredStrings.nihoniumStringProperty;
+const fleroviumStringProperty = ShredStrings.fleroviumStringProperty;
+const moscoviumStringProperty = ShredStrings.moscoviumStringProperty;
+const livermoriumStringProperty = ShredStrings.livermoriumStringProperty;
+const tennessineStringProperty = ShredStrings.tennessineStringProperty;
+const oganessonStringProperty = ShredStrings.oganessonStringProperty;
 
-const nameTable = [
-  '', // No element
-  hydrogenString,
-  heliumString,
-  lithiumString,
-  berylliumString,
-  boronString,
-  carbonString,
-  nitrogenString,
-  oxygenString,
-  fluorineString,
-  neonString,
-  sodiumString,
-  magnesiumString,
-  aluminumString,
-  siliconString,
-  phosphorusString,
-  sulfurString,
-  chlorineString,
-  argonString,
-  potassiumString,
-  calciumString,
-  scandiumString,
-  titaniumString,
-  vanadiumString,
-  chromiumString,
-  manganeseString,
-  ironString,
-  cobaltString,
-  nickelString,
-  copperString,
-  zincString,
-  galliumString,
-  germaniumString,
-  arsenicString,
-  seleniumString,
-  bromineString,
-  kryptonString,
-  rubidiumString,
-  strontiumString,
-  yttriumString,
-  zirconiumString,
-  niobiumString,
-  molybdenumString,
-  technetiumString,
-  rutheniumString,
-  rhodiumString,
-  palladiumString,
-  silverString,
-  cadmiumString,
-  indiumString,
-  tinString,
-  antimonyString,
-  telluriumString,
-  iodineString,
-  xenonString,
-  cesiumString,
-  bariumString,
-  lanthanumString,
-  ceriumString,
-  praseodymiumString,
-  neodymiumString,
-  promethiumString,
-  samariumString,
-  europiumString,
-  gadoliniumString,
-  terbiumString,
-  dysprosiumString,
-  holmiumString,
-  erbiumString,
-  thuliumString,
-  ytterbiumString,
-  lutetiumString,
-  hafniumString,
-  tantalumString,
-  tungstenString,
-  rheniumString,
-  osmiumString,
-  iridiumString,
-  platinumString,
-  goldString,
-  mercuryString,
-  thalliumString,
-  leadString,
-  bismuthString,
-  poloniumString,
-  astatineString,
-  radonString,
-  franciumString,
-  radiumString,
-  actiniumString,
-  thoriumString,
-  protactiniumString,
-  uraniumString,
-  neptuniumString,
-  plutoniumString,
-  americiumString,
-  curiumString,
-  berkeliumString,
-  californiumString,
-  einsteiniumString,
-  fermiumString,
-  mendeleviumString,
-  nobeliumString,
-  lawrenciumString,
-  rutherfordiumString,
-  dubniumString,
-  seaborgiumString,
-  bohriumString,
-  hassiumString,
-  meitneriumString,
-  darmstadtiumString,
-  roentgeniumString,
-  coperniciumString,
-  nihoniumString,
-  fleroviumString,
-  moscoviumString,
-  livermoriumString,
-  tennessineString,
-  oganessonString
+export const nameTable = [
+  new TinyProperty( '' ), // No element
+  hydrogenStringProperty,
+  heliumStringProperty,
+  lithiumStringProperty,
+  berylliumStringProperty,
+  boronStringProperty,
+  carbonStringProperty,
+  nitrogenStringProperty,
+  oxygenStringProperty,
+  fluorineStringProperty,
+  neonStringProperty,
+  sodiumStringProperty,
+  magnesiumStringProperty,
+  aluminumStringProperty,
+  siliconStringProperty,
+  phosphorusStringProperty,
+  sulfurStringProperty,
+  chlorineStringProperty,
+  argonStringProperty,
+  potassiumStringProperty,
+  calciumStringProperty,
+  scandiumStringProperty,
+  titaniumStringProperty,
+  vanadiumStringProperty,
+  chromiumStringProperty,
+  manganeseStringProperty,
+  ironStringProperty,
+  cobaltStringProperty,
+  nickelStringProperty,
+  copperStringProperty,
+  zincStringProperty,
+  galliumStringProperty,
+  germaniumStringProperty,
+  arsenicStringProperty,
+  seleniumStringProperty,
+  bromineStringProperty,
+  kryptonStringProperty,
+  rubidiumStringProperty,
+  strontiumStringProperty,
+  yttriumStringProperty,
+  zirconiumStringProperty,
+  niobiumStringProperty,
+  molybdenumStringProperty,
+  technetiumStringProperty,
+  rutheniumStringProperty,
+  rhodiumStringProperty,
+  palladiumStringProperty,
+  silverStringProperty,
+  cadmiumStringProperty,
+  indiumStringProperty,
+  tinStringProperty,
+  antimonyStringProperty,
+  telluriumStringProperty,
+  iodineStringProperty,
+  xenonStringProperty,
+  cesiumStringProperty,
+  bariumStringProperty,
+  lanthanumStringProperty,
+  ceriumStringProperty,
+  praseodymiumStringProperty,
+  neodymiumStringProperty,
+  promethiumStringProperty,
+  samariumStringProperty,
+  europiumStringProperty,
+  gadoliniumStringProperty,
+  terbiumStringProperty,
+  dysprosiumStringProperty,
+  holmiumStringProperty,
+  erbiumStringProperty,
+  thuliumStringProperty,
+  ytterbiumStringProperty,
+  lutetiumStringProperty,
+  hafniumStringProperty,
+  tantalumStringProperty,
+  tungstenStringProperty,
+  rheniumStringProperty,
+  osmiumStringProperty,
+  iridiumStringProperty,
+  platinumStringProperty,
+  goldStringProperty,
+  mercuryStringProperty,
+  thalliumStringProperty,
+  leadStringProperty,
+  bismuthStringProperty,
+  poloniumStringProperty,
+  astatineStringProperty,
+  radonStringProperty,
+  franciumStringProperty,
+  radiumStringProperty,
+  actiniumStringProperty,
+  thoriumStringProperty,
+  protactiniumStringProperty,
+  uraniumStringProperty,
+  neptuniumStringProperty,
+  plutoniumStringProperty,
+  americiumStringProperty,
+  curiumStringProperty,
+  berkeliumStringProperty,
+  californiumStringProperty,
+  einsteiniumStringProperty,
+  fermiumStringProperty,
+  mendeleviumStringProperty,
+  nobeliumStringProperty,
+  lawrenciumStringProperty,
+  rutherfordiumStringProperty,
+  dubniumStringProperty,
+  seaborgiumStringProperty,
+  bohriumStringProperty,
+  hassiumStringProperty,
+  meitneriumStringProperty,
+  darmstadtiumStringProperty,
+  roentgeniumStringProperty,
+  coperniciumStringProperty,
+  nihoniumStringProperty,
+  fleroviumStringProperty,
+  moscoviumStringProperty,
+  livermoriumStringProperty,
+  tennessineStringProperty,
+  oganessonStringProperty
 ];
 
 // Used in PhET-iO data streams
@@ -14274,7 +14276,7 @@ const AtomIdentifier = {
   /**
    * Get the internationalized element name for an atom with the specified number of protons.
    */
-  getName: function( numProtons: number ): string {
+  getName: function( numProtons: number ): TProperty<string> {
     return nameTable[ numProtons ];
   },
 
