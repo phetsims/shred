@@ -16,6 +16,7 @@ type Level = 'periodic-table-game' | 'mass-and-charge-game' | 'symbol-game' | 'a
 
 const ShredConstants = {
 
+  // TODO: https://github.com/phetsims/shred/issues/37
   LAYOUT_BOUNDS: new Bounds2( 0, 0, 768, 464 ),
 
   // Sizes of the various particles.
