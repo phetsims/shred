@@ -6,7 +6,6 @@
  * @author John Blanco
  */
 
-import Bounds2 from '../../dot/js/Bounds2.js';
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import shred from './shred.js';
@@ -15,9 +14,6 @@ import { TColor } from '../../scenery/js/imports.js';
 type Level = 'periodic-table-game' | 'mass-and-charge-game' | 'symbol-game' | 'advanced-symbol-game';
 
 const ShredConstants = {
-
-  // TODO: https://github.com/phetsims/shred/issues/37
-  LAYOUT_BOUNDS: new Bounds2( 0, 0, 768, 464 ),
 
   // Sizes of the various particles.
   NUCLEON_RADIUS: 10, // In screen coordinates, which are roughly pixels.
