@@ -19,7 +19,7 @@ import Particle from '../model/Particle.js';
 
 class BucketDragListener extends DragListener {
 
-  public constructor( bucket: SphereBucket, bucketView: BucketFront, modelViewTransform: ModelViewTransform2,
+  public constructor( bucket: SphereBucket<Particle>, bucketView: BucketFront, modelViewTransform: ModelViewTransform2,
                       options?: DragListenerOptions<BucketDragListener> ) {
 
     // closure for converting a point in local coordinate frame to model coordinates
