@@ -1,4 +1,4 @@
-// Copyright 2015-2023, University of Colorado Boulder
+// Copyright 2015-2024, University of Colorado Boulder
 
 /**
  * A drag listener specifically tailored for the particle buckets. This listener extracts a particle from a bucket and
