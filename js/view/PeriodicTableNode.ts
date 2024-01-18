@@ -2,6 +2,8 @@
 
 /**
  * Scenery node that defines a periodic table of the elements.
+ *
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';

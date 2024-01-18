@@ -3,6 +3,8 @@
 /**
  * Particle, represented as a circle with a gradient.  This type does not
  * track a particle, use ParticleView for that.
+ *
+ * @author Aadish Gupta
  */
 
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';

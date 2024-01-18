@@ -3,6 +3,8 @@
 /**
  * Particle, represented as a circle with a gradient. This type does not
  * track a particle, use ParticleView for that. Basically this is just an icon.
+ *
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import { Circle, CircleOptions, Color, ColorProperty, RadialGradient } from '../../../scenery/js/imports.js';

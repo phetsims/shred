@@ -2,6 +2,8 @@
 
 /**
  * Type that represents a subatomic particle in the view.
+ *
+ * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
 import Property from '../../../axon/js/Property.js';
