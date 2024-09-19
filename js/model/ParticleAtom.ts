@@ -9,11 +9,15 @@
 
 import createObservableArray, { ObservableArray } from '../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
+import TProperty from '../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import { Color } from '../../../scenery/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -29,10 +33,6 @@ import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
 import Particle, { PARTICLE_COLORS, ParticleTypeString } from './Particle.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import TProperty from '../../../axon/js/TProperty.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 
 // constants
 const NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
@@ -715,12 +715,12 @@ class ParticleAtom extends PhetioObject {
     toStateObject: ( particleAtom: ParticleAtom ) => ( {
 
       // an array of all the particles currently contained within the particle atom
-      residentParticleIDs: particleAtom.protons.map( ParticleReferenceIO.toStateObject )
-        .concat( particleAtom.neutrons.map( ParticleReferenceIO.toStateObject ) )
-        .concat( particleAtom.electrons.map( ParticleReferenceIO.toStateObject ) ),
+      residentParticleIDs: particleAtom.protons.map( x => ParticleReferenceIO.toStateObject( x ) )
+        .concat( particleAtom.neutrons.map( x => ParticleReferenceIO.toStateObject( x ) ) )
+        .concat( particleAtom.electrons.map( x => ParticleReferenceIO.toStateObject( x ) ) ),
 
       // an ordered array that tracks which electron, if any, is in each shell position
-      electronShellOccupantIDs: particleAtom.electronShellPositions.map( e => e.electron ).map( NullableParticleReferenceIO.toStateObject )
+      electronShellOccupantIDs: particleAtom.electronShellPositions.map( e => e.electron ).map( x => NullableParticleReferenceIO.toStateObject( x ) )
     } ),
     stateSchema: {
       residentParticleIDs: ArrayIO( ParticleReferenceIO ),
@@ -732,8 +732,8 @@ class ParticleAtom extends PhetioObject {
       particleAtom.clear();
 
       const deserializedState = {
-        residentParticles: stateObject.residentParticleIDs.map( ParticleReferenceIO.fromStateObject ),
-        electronShellOccupants: stateObject.electronShellOccupantIDs.map( NullableParticleReferenceIO.fromStateObject )
+        residentParticles: stateObject.residentParticleIDs.map( x => ParticleReferenceIO.fromStateObject( x ) ),
+        electronShellOccupants: stateObject.electronShellOccupantIDs.map( x => NullableParticleReferenceIO.fromStateObject( x ) )
       };
 
       // Add back the particles.
