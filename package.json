@@ -22,7 +22,7 @@
         ],
         "parserOptions": {
           "project": [
-            "../shred/tsconfig.json"
+            "../chipper/tsconfig/eslint-all/tsconfig.json"
           ]
         }
       }
