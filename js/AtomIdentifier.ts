@@ -9,12 +9,12 @@
  * @author Luisa Vargas
  */
 
-import Utils from '../../dot/js/Utils.js';
-import shred from './shred.js';
-import ShredStrings from './ShredStrings.js';
-import type NumberAtom from './model/NumberAtom.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
+import Utils from '../../dot/js/Utils.js';
+import type NumberAtom from './model/NumberAtom.js';
+import shred from './shred.js';
+import ShredStrings from './ShredStrings.js';
 
 // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
 // present on Earth.
