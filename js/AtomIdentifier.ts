@@ -14366,7 +14366,7 @@ const AtomIdentifier = {
     for ( const massNumber in ISOTOPE_INFO_TABLE[ atomicNumber ] ) {
 
       // parseInt was that best I could think of to support TypeScript
-      const numNeutrons = Number.parseInt( massNumber, 10 ) - atomicNumber; // eslint-disable-line bad-sim-text
+      const numNeutrons = Number.parseInt( massNumber, 10 ) - atomicNumber; // eslint-disable-line phet/bad-sim-text
 
       isotopesList.push( [ atomicNumber, numNeutrons, atomicNumber ] );
     }
