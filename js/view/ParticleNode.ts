@@ -7,13 +7,13 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import { Circle, CircleOptions, Color, ColorProperty, RadialGradient } from '../../../scenery/js/imports.js';
-import shred from '../shred.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import { PARTICLE_COLORS, ParticleTypeString } from '../model/Particle.js';
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { Circle, CircleOptions, Color, ColorProperty, RadialGradient } from '../../../scenery/js/imports.js';
+import { PARTICLE_COLORS, ParticleTypeString } from '../model/Particle.js';
+import shred from '../shred.js';
 
 // constants
 const DEFAULT_LINE_WIDTH = 0.5;

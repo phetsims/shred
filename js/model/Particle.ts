@@ -9,20 +9,20 @@
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
+import Property from '../../../axon/js/Property.js';
+import TProperty from '../../../axon/js/TProperty.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
+import { Color, ColorProperty } from '../../../scenery/js/imports.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import TProperty from '../../../axon/js/TProperty.js';
-import Property from '../../../axon/js/Property.js';
-import { Color, ColorProperty } from '../../../scenery/js/imports.js';
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 
 // used to give each particle a unique ID
 let nextParticleId = 1;

@@ -11,12 +11,12 @@
  */
 
 import LinearFunction from '../../../dot/js/LinearFunction.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, CircleOptions, RadialGradient } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import shred from '../shred.js';
 import NumberAtom from '../model/NumberAtom.js';
-import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import shred from '../shred.js';
 
 // constants
 const MAX_ELECTRONS = 10; // For neon.

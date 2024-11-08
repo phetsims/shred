@@ -8,17 +8,17 @@
  * @author Aadish Gupta
  */
 
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Node, Rectangle, Text } from '../../../scenery/js/imports.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import NumberAtom from '../model/NumberAtom.js';
+import { ParticleTypeString } from '../model/Particle.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredStrings from '../ShredStrings.js';
 import ParticleNode from './ParticleNode.js';
-import NumberAtom from '../model/NumberAtom.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import { ParticleTypeString } from '../model/Particle.js';
 
 const electronsColonString = ShredStrings.electronsColon;
 const neutronsColonString = ShredStrings.neutronsColon;

@@ -10,14 +10,14 @@
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
+import TProperty from '../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import TProperty from '../../../axon/js/TProperty.js';
-import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 
 type SelfOptions = {
   protonCount?: number;

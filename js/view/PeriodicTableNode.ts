@@ -7,16 +7,16 @@
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import { Node, NodeOptions, TColor } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
+import NumberAtom from '../model/NumberAtom.js';
+import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import PeriodicTableCell from './PeriodicTableCell.js';
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import NumberAtom from '../model/NumberAtom.js';
-import ParticleAtom from '../model/ParticleAtom.js';
 
 // constants
 // 2D array that defines the table structure.

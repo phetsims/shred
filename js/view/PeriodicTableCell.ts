@@ -6,16 +6,16 @@
  * @author Aadish Gupta
  */
 
+import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { FireListener, Rectangle, RectangleOptions, TColor, Text } from '../../../scenery/js/imports.js';
 import EventType from '../../../tandem/js/EventType.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
-import shred from '../shred.js';
 import NumberAtom from '../model/NumberAtom.js';
-import optionize from '../../../phet-core/js/optionize.js';
 import ParticleAtom from '../model/ParticleAtom.js';
+import shred from '../shred.js';
 
 // constants
 const NOMINAL_CELL_DIMENSION = 25;

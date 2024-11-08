@@ -7,15 +7,15 @@
  * @author John Blanco
  */
 
+import Vector2 from '../../../dot/js/Vector2.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, CircleOptions, DragListener, RadialGradient } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import Particle from '../model/Particle.js';
+import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
-import ParticleAtom from '../model/ParticleAtom.js';
-import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
-import Vector2 from '../../../dot/js/Vector2.js';
-import Particle from '../model/Particle.js';
 
 // constants
 const DEFAULT_RADIUS = 50; // in pm, chosen as an arbitrary value that is close to the "real" values that are used

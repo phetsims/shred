@@ -7,12 +7,12 @@
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import { Circle, Node, NodeOptions } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import shred from '../shred.js';
 import ParticleAtom from '../model/ParticleAtom.js';
-import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import shred from '../shred.js';
 
 // constants
 const LINE_DASH = [ 4, 5 ];

@@ -8,21 +8,21 @@
  */
 
 import Property from '../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import { Shape } from '../../../kite/js/imports.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Node, NodeOptions, Path, Text } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
+import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredStrings from '../ShredStrings.js';
 import ElectronCloudView from './ElectronCloudView.js';
 import ElectronShellView from './ElectronShellView.js';
-import ParticleAtom from '../model/ParticleAtom.js';
-import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import optionize from '../../../phet-core/js/optionize.js';
 
 const minusSignIonString = ShredStrings.minusSignIon;
 const neutralAtomString = ShredStrings.neutralAtom;

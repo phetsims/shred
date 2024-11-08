@@ -8,17 +8,17 @@
  * @author Luisa Vargas
  */
 
-import shred from '../shred.js';
-import { Node, NodeOptions, Rectangle, Text } from '../../../scenery/js/imports.js';
-import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import Vector2 from '../../../dot/js/Vector2.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
-import AtomIdentifier from '../AtomIdentifier.js';
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
-import ShredConstants from '../ShredConstants.js';
-import optionize from '../../../phet-core/js/optionize.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import Vector2 from '../../../dot/js/Vector2.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import MathSymbols from '../../../scenery-phet/js/MathSymbols.js';
+import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
+import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import { Node, NodeOptions, Rectangle, Text } from '../../../scenery/js/imports.js';
+import AtomIdentifier from '../AtomIdentifier.js';
+import shred from '../shred.js';
+import ShredConstants from '../ShredConstants.js';
 
 // types
 type SelfOptions = {

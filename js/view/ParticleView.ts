@@ -6,19 +6,19 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Property from '../../../axon/js/Property.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
+import Vector2 from '../../../dot/js/Vector2.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import { DragListener, Node, NodeOptions, PressListenerEvent } from '../../../scenery/js/imports.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import Particle from '../model/Particle.js';
 import shred from '../shred.js';
 import IsotopeNode from './IsotopeNode.js';
 import ParticleNode from './ParticleNode.js';
-import Particle from '../model/Particle.js';
-import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import Vector2 from '../../../dot/js/Vector2.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
-import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 
 type SelfOptions = {
   dragBounds?: Bounds2;

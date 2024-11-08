@@ -7,12 +7,12 @@
  * @author Aadish Gupta
  */
 
+import optionize from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import { Circle, CircleOptions, Node, NodeOptions, RadialGradient, RichText } from '../../../scenery/js/imports.js';
 import AtomIdentifier from '../AtomIdentifier.js';
-import shred from '../shred.js';
 import Particle from '../model/Particle.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import shred from '../shred.js';
 
 
 type SelfOptions = {
