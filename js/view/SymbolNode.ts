@@ -1,4 +1,4 @@
-// Copyright 2022-2023, University of Colorado Boulder
+// Copyright 2022-2024, University of Colorado Boulder
 
 /**
  * Node that represents an atomic symbol, meaning that it shows the symbol text, the proton count, and the

@@ -1,4 +1,4 @@
-// Copyright 2014-2023, University of Colorado Boulder
+// Copyright 2014-2024, University of Colorado Boulder
 
 /**
  * Node that represents the electron shell in an atom as a "cloud" that grows and shrinks depending on the number of
