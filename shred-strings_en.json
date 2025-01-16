@@ -356,6 +356,26 @@
   "livermorium": {
     "value": "Livermorium"
   },
+  "ununseptium": {
+    "value": "Tennessine",
+    "deprecated": true
+  },
+  "ununoctium": {
+    "value": "Oganesson",
+    "deprecated": true
+  },
+  "ununbium": {
+    "value": "Copernicium",
+    "deprecated": true
+  },
+  "ununtrium": {
+    "value": "Nihonium",
+    "deprecated": true
+  },
+  "ununpentium": {
+    "value": "Moscovium",
+    "deprecated": true
+  },
   "tennessine": {
     "value": "Tennessine"
   },
