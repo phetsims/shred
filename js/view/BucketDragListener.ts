@@ -13,7 +13,7 @@ import { combineOptions } from '../../../phet-core/js/optionize.js';
 import SphereBucket from '../../../phetcommon/js/model/SphereBucket.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import BucketFront from '../../../scenery-phet/js/bucket/BucketFront.js';
-import { DragListener, DragListenerOptions } from '../../../scenery/js/imports.js';
+import DragListener, { DragListenerOptions } from '../../../scenery/js/listeners/DragListener.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
 

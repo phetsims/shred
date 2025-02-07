@@ -9,7 +9,8 @@
 import Vector2 from '../../../dot/js/Vector2.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
-import { Node, NodeOptions, TColor } from '../../../scenery/js/imports.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import TColor from '../../../scenery/js/util/TColor.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import NumberAtom from '../model/NumberAtom.js';

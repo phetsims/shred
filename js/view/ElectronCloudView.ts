@@ -10,7 +10,9 @@
 import Vector2 from '../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, CircleOptions, DragListener, RadialGradient } from '../../../scenery/js/imports.js';
+import DragListener from '../../../scenery/js/listeners/DragListener.js';
+import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
+import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Particle from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';

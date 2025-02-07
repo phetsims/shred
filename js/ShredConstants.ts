@@ -8,7 +8,7 @@
 
 import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import { TColor } from '../../scenery/js/imports.js';
+import TColor from '../../scenery/js/util/TColor.js';
 import shred from './shred.js';
 
 type Level = 'periodic-table-game' | 'mass-and-charge-game' | 'symbol-game' | 'advanced-symbol-game';

@@ -11,7 +11,10 @@ import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Circle, CircleOptions, Color, ColorProperty, RadialGradient } from '../../../scenery/js/imports.js';
+import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
+import Color from '../../../scenery/js/util/Color.js';
+import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
+import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import { PARTICLE_COLORS, ParticleTypeString } from '../model/Particle.js';
 import shred from '../shred.js';
 

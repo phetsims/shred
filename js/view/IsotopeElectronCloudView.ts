@@ -13,7 +13,8 @@
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, CircleOptions, RadialGradient } from '../../../scenery/js/imports.js';
+import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
+import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import NumberAtom from '../model/NumberAtom.js';
 import shred from '../shred.js';

@@ -9,7 +9,10 @@
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { FireListener, Rectangle, RectangleOptions, TColor, Text } from '../../../scenery/js/imports.js';
+import FireListener from '../../../scenery/js/listeners/FireListener.js';
+import Rectangle, { RectangleOptions } from '../../../scenery/js/nodes/Rectangle.js';
+import Text from '../../../scenery/js/nodes/Text.js';
+import TColor from '../../../scenery/js/util/TColor.js';
 import EventType from '../../../tandem/js/EventType.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';

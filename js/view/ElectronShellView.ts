@@ -9,7 +9,8 @@
 import Vector2 from '../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import { Circle, Node, NodeOptions } from '../../../scenery/js/imports.js';
+import Circle from '../../../scenery/js/nodes/Circle.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';

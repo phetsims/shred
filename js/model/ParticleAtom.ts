@@ -18,7 +18,7 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { Color } from '../../../scenery/js/imports.js';
+import Color from '../../../scenery/js/util/Color.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';

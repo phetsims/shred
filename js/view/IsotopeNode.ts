@@ -9,7 +9,10 @@
 
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import { Circle, CircleOptions, Node, NodeOptions, RadialGradient, RichText } from '../../../scenery/js/imports.js';
+import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import RichText from '../../../scenery/js/nodes/RichText.js';
+import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
