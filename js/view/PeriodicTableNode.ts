@@ -1,4 +1,4 @@
-// Copyright 2015-2024, University of Colorado Boulder
+// Copyright 2015-2025, University of Colorado Boulder
 
 /**
  * Scenery node that defines a periodic table of the elements.
