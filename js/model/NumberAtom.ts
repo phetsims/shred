@@ -13,6 +13,7 @@ import NumberProperty from '../../../axon/js/NumberProperty.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
@@ -148,7 +149,7 @@ class NumberAtom {
     this.atomUpdated.dispose();
   }
 
-  public static NumberAtomIO = new IOType( 'NumberAtomIO', {
+  public static NumberAtomIO = new IOType<IntentionalAny, IntentionalAny>( 'NumberAtomIO', {
     valueType: NumberAtom,
     documentation: 'A value type that contains quantities of electrons, protons, and neutrons',
     toStateObject: numberAtom => ( {

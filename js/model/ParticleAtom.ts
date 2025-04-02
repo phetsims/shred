@@ -25,7 +25,7 @@ import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
-import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
+import ReferenceIO, { ReferenceIOState } from '../../../tandem/js/types/ReferenceIO.js';
 import Animation from '../../../twixt/js/Animation.js';
 import Easing from '../../../twixt/js/Easing.js';
 import AtomIdentifier from '../AtomIdentifier.js';
@@ -706,7 +706,7 @@ class ParticleAtom extends PhetioObject {
     this.electrons.forEach( moveImmediately );
   }
 
-  public static ParticleAtomIO = new IOType( 'ParticleAtomIO', {
+  public static ParticleAtomIO = new IOType<ParticleAtom, ParticleAtomState>( 'ParticleAtomIO', {
     valueType: ParticleAtom,
     documentation: 'A model of an atom that tracks and arranges the subatomic particles, i.e. protons, neutrons, ' +
                    'and electrons, of which it is comprised.  When particles are added, they are moved into the ' +
@@ -732,8 +732,8 @@ class ParticleAtom extends PhetioObject {
       particleAtom.clear();
 
       const deserializedState = {
-        residentParticles: stateObject.residentParticleIDs.map( x => ParticleReferenceIO.fromStateObject( x ) ),
-        electronShellOccupants: stateObject.electronShellOccupantIDs.map( x => NullableParticleReferenceIO.fromStateObject( x ) )
+        residentParticles: stateObject.residentParticleIDs.map( x => ParticleReferenceIO.fromStateObject( x ) ) as Particle[],
+        electronShellOccupants: stateObject.electronShellOccupantIDs.map( x => NullableParticleReferenceIO.fromStateObject( x ) ) as Particle[]
       };
 
       // Add back the particles.
@@ -746,6 +746,11 @@ class ParticleAtom extends PhetioObject {
     }
   } );
 }
+
+type ParticleAtomState = {
+  residentParticleIDs: ReferenceIOState[];
+  electronShellOccupantIDs: Array<ReferenceIOState | null>;
+};
 
 shred.register( 'ParticleAtom', ParticleAtom );
 export default ParticleAtom;

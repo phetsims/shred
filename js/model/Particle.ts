@@ -15,6 +15,7 @@ import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Color from '../../../scenery/js/util/Color.js';
 import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
@@ -194,7 +195,7 @@ class Particle extends PhetioObject {
     this.moveImmediatelyToDestination();
   }
 
-  public static ParticleIO = new IOType( 'ParticleIO', {
+  public static ParticleIO = new IOType<IntentionalAny, IntentionalAny>( 'ParticleIO', {
     valueType: Particle,
     documentation: 'The model for a single particle such as an electron, proton, or neutron.',
     supertype: ReferenceIO( IOType.ObjectIO )
