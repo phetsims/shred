@@ -8,7 +8,6 @@
  * @author Luisa Vargas
  */
 
-import NumberProperty from '../../../axon/js/NumberProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import optionize from '../../../phet-core/js/optionize.js';
@@ -24,7 +23,7 @@ import ShredConstants from '../ShredConstants.js';
 
 // types
 type SelfOptions = {
-  chargeProperty?: NumberProperty | null;
+  chargeProperty?: TReadOnlyProperty<number> | null;
 };
 export type SymbolNodeOptions = SelfOptions & NodeOptions;
 
