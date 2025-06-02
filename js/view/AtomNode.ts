@@ -22,6 +22,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
+import ShredColors from '../ShredColors.js';
 import ShredStrings from '../ShredStrings.js';
 import ElectronCloudView from './ElectronCloudView.js';
 import ElectronShellView from './ElectronShellView.js';
@@ -34,6 +35,7 @@ const unstableString = ShredStrings.unstable;
 
 // constants
 const ELEMENT_NAME_FONT_SIZE = 22;
+const ION_FONT_SIZE = 20;
 
 type ElectronShellDepiction = 'orbits' | 'cloud';
 
@@ -87,7 +89,7 @@ class AtomNode extends Node {
       centerMarker.moveTo( center.x - sizeInPixels / 2, center.y + sizeInPixels / 2 );
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y - sizeInPixels / 2 );
       atomCenterMarker = new Path( centerMarker, {
-        stroke: 'orange',
+        stroke: ShredColors.centerXColorProperty,
         lineWidth: 5,
         pickable: false,
         tandem: options.tandem.createTandem( 'atomCenterMarker' )
@@ -126,7 +128,7 @@ class AtomNode extends Node {
     // Create the textual readout for the element name.
     this.elementNameText = new Text( '', {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
-      fill: PhetColorScheme.RED_COLORBLIND,
+      fill: ShredColors.elementNameColorProperty,
       center: elementNameTextCenterPos,
       pickable: false,
       tandem: options.tandem.createTandem( 'elementNameText' )
@@ -160,7 +162,7 @@ class AtomNode extends Node {
 
     // Create the textual readout for the ion indicator, set by trial and error.
     this.ionIndicatorText = new Text( '', {
-      font: new PhetFont( 20 ),
+      font: new PhetFont( ION_FONT_SIZE ),
       fill: 'black',
       translation: ionIndicatorTextTranslation,
       pickable: false,
