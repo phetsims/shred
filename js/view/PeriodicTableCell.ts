@@ -12,6 +12,7 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import FireListener from '../../../scenery/js/listeners/FireListener.js';
 import Rectangle, { RectangleOptions } from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
+import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import EventType from '../../../tandem/js/EventType.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -32,8 +33,8 @@ type SelfOptions = {
   labelTextHighlightFill?: TColor; // fill of label text when highlighted
 };
 type PeriodicTableCellOptions = SelfOptions & RectangleOptions;
-type CellColor = {
-  enabled: TColor;
+export type CellColor = {
+  enabled: TColor | LinearGradient;
   disabled: TColor;
   selected: TColor;
 };
@@ -44,7 +45,7 @@ class PeriodicTableCell extends Rectangle {
   private readonly strokeHighlightWidth: number;
   private readonly showLabels: boolean;
   private readonly labelTextHighlightFill: TColor;
-  private readonly normalFill: TColor;
+  private readonly normalFill: TColor | LinearGradient;
   private readonly highlightedFill: TColor;
   private readonly labelText: Text | null;
 

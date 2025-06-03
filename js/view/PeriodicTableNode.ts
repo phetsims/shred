@@ -10,6 +10,7 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
+import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
@@ -17,7 +18,7 @@ import { NumberAtomCounts } from '../model/NumberAtom.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
-import PeriodicTableCell from './PeriodicTableCell.js';
+import PeriodicTableCell, { CellColor } from './PeriodicTableCell.js';
 
 // constants
 // 2D array that defines the table structure.
@@ -43,7 +44,7 @@ type SelfOptions = {
   strokeHighlightWidth?: number;
   strokeHighlightColor?: TColor;
   labelTextHighlightFill?: TColor;
-  enabledCellColor?: TColor;
+  enabledCellColor?: TColor | LinearGradient;
   disabledCellColor?: TColor;
   selectedCellColor?: TColor;
 };
@@ -80,7 +81,7 @@ class PeriodicTableNode extends Node {
     let elementIndex = 1;
     for ( let i = 0; i < POPULATED_CELLS.length; i++ ) {
       const populatedCellsInRow = POPULATED_CELLS[ i ];
-      const cellColor = {
+      const cellColor: CellColor = {
         enabled: options.enabledCellColor,
         disabled: options.disabledCellColor,
         selected: options.selectedCellColor
