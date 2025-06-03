@@ -16,8 +16,7 @@ import TColor from '../../../scenery/js/util/TColor.js';
 import EventType from '../../../tandem/js/EventType.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
-import NumberAtom from '../model/NumberAtom.js';
-import ParticleAtom from '../model/ParticleAtom.js';
+import NumberAtom, { NumberAtomCounts } from '../model/NumberAtom.js';
 import shred from '../shred.js';
 
 // constants
@@ -55,7 +54,7 @@ class PeriodicTableCell extends Rectangle {
    * @param cellColor - Color to be used for selected enabled and disabled cell
    * @param providedOptions
    */
-  public constructor( atomicNumber: number, numberAtom: NumberAtom | ParticleAtom, cellColor: CellColor, providedOptions?: PeriodicTableCellOptions ) {
+  public constructor( atomicNumber: number, numberAtom: NumberAtomCounts, cellColor: CellColor, providedOptions?: PeriodicTableCellOptions ) {
 
     const options = optionize<PeriodicTableCellOptions, SelfOptions, RectangleOptions>()( {
       length: 25, //Width and height of cell (cells are square).
@@ -98,7 +97,7 @@ class PeriodicTableCell extends Rectangle {
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     let buttonListener: FireListener | null = null; // scope for disposal
-    if ( options.interactive ) {
+    if ( options.interactive && numberAtom instanceof NumberAtom ) {
       buttonListener = new FireListener( {
         tandem: options.tandem.createTandem( 'fireListener' ),
         fire: () => numberAtom.setSubAtomicParticleCount(

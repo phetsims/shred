@@ -35,6 +35,15 @@ type NumberAtomLike = {
   electronCount: number;
 };
 
+export type NumberAtomCounts = {
+  protonCountProperty: TProperty<number>;
+  neutronCountProperty: TProperty<number>;
+  electronCountProperty: TProperty<number>;
+  chargeProperty: TReadOnlyProperty<number>;
+  massNumberProperty: TReadOnlyProperty<number>;
+  particleCountProperty: TReadOnlyProperty<number>;
+};
+
 class NumberAtom {
   public readonly protonCountProperty: TProperty<number>;
   public readonly neutronCountProperty: TProperty<number>;

@@ -32,6 +32,7 @@ import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
+import { NumberAtomCounts } from './NumberAtom.js';
 import Particle, { PARTICLE_COLORS, ParticleTypeString } from './Particle.js';
 
 // constants
@@ -55,7 +56,7 @@ type ElectronShellPosition = {
 
 export type ParticleAtomOptions = SelfOptions & PhetioObjectOptions;
 
-class ParticleAtom extends PhetioObject {
+class ParticleAtom extends PhetioObject implements NumberAtomCounts {
   private readonly nucleonRadius: number;
   public readonly positionProperty: TProperty<Vector2>;
   public readonly nucleusOffsetProperty: TProperty<Vector2>;

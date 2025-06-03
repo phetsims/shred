@@ -16,7 +16,7 @@ import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import NumberAtom from '../model/NumberAtom.js';
+import { NumberAtomCounts } from '../model/NumberAtom.js';
 import shred from '../shred.js';
 
 // constants
@@ -29,7 +29,7 @@ class IsotopeElectronCloudView extends Circle {
   /**
    * Constructor for the Isotope Electron Cloud.
    */
-  public constructor( numberAtom: NumberAtom, modelViewTransform: ModelViewTransform2, providedOptions?: IsotopeElectronCloudViewOptions ) {
+  public constructor( numberAtom: NumberAtomCounts, modelViewTransform: ModelViewTransform2, providedOptions?: IsotopeElectronCloudViewOptions ) {
     const options = optionize<IsotopeElectronCloudViewOptions, EmptySelfOptions, CircleOptions>()( {
       pickable: false,
       tandem: Tandem.REQUIRED
