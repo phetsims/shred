@@ -14,7 +14,7 @@ import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
-import { NumberAtomCounts } from '../model/NumberAtom.js';
+import { TNumberAtom } from '../model/NumberAtom.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -61,7 +61,7 @@ class PeriodicTableNode extends Node {
    * @param numberAtom - Atom that defines which element is currently highlighted.
    * @param providedOptions
    */
-  public constructor( numberAtom: NumberAtomCounts | ParticleAtom, providedOptions?: PeriodicTableNodeOptions ) {
+  public constructor( numberAtom: TNumberAtom | ParticleAtom, providedOptions?: PeriodicTableNodeOptions ) {
 
     const options = optionize<PeriodicTableNodeOptions, SelfOptions, NodeOptions>()( {
       interactiveMax: 0, //Atomic number of the heaviest element that should be interactive

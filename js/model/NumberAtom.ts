@@ -36,7 +36,7 @@ type NumberAtomLike = {
   electronCount: number;
 };
 
-export type NumberAtomCounts = {
+export type TNumberAtom = {
   protonCountProperty: TProperty<number>;
   neutronCountProperty: TProperty<number>;
   electronCountProperty: TProperty<number>;

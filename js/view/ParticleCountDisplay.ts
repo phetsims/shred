@@ -15,7 +15,7 @@ import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import { NumberAtomCounts } from '../model/NumberAtom.js';
+import { TNumberAtom } from '../model/NumberAtom.js';
 import { ParticleTypeString } from '../model/Particle.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -41,7 +41,7 @@ class ParticleCountDisplay extends Panel {
    * @param maxWidth The maximum width that this display should reach
    * @param providedOptions
    */
-  public constructor( numberAtom: NumberAtomCounts, maxParticles: number, maxWidth: number, providedOptions?: ParticleCountDisplayOptions ) {
+  public constructor( numberAtom: TNumberAtom, maxParticles: number, maxWidth: number, providedOptions?: ParticleCountDisplayOptions ) {
 
     const options = optionize<ParticleCountDisplayOptions, EmptySelfOptions, PanelOptions>()( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
@@ -132,7 +132,7 @@ class ParticleCountDisplay extends Panel {
     }
 
     // Function that updates that displayed particles.
-    const updateParticles = ( atom: NumberAtomCounts ): void => {
+    const updateParticles = ( atom: TNumberAtom ): void => {
       // feel free to refactor this, although we'd need to get a passable reference to the counts
       // (that's why there is duplication now)
       while ( atom.protonCountProperty.get() > protonDisplayCount ) {

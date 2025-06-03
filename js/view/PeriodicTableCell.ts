@@ -17,7 +17,7 @@ import TColor from '../../../scenery/js/util/TColor.js';
 import EventType from '../../../tandem/js/EventType.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
-import NumberAtom, { NumberAtomCounts } from '../model/NumberAtom.js';
+import NumberAtom, { TNumberAtom } from '../model/NumberAtom.js';
 import shred from '../shred.js';
 
 // constants
@@ -55,7 +55,7 @@ class PeriodicTableCell extends Rectangle {
    * @param cellColor - Color to be used for selected enabled and disabled cell
    * @param providedOptions
    */
-  public constructor( atomicNumber: number, numberAtom: NumberAtomCounts, cellColor: CellColor, providedOptions?: PeriodicTableCellOptions ) {
+  public constructor( atomicNumber: number, numberAtom: TNumberAtom, cellColor: CellColor, providedOptions?: PeriodicTableCellOptions ) {
 
     const options = optionize<PeriodicTableCellOptions, SelfOptions, RectangleOptions>()( {
       length: 25, //Width and height of cell (cells are square).
