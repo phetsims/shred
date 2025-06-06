@@ -22,10 +22,6 @@ import ShredConstants from '../ShredConstants.js';
 import ShredStrings from '../ShredStrings.js';
 import ParticleNode from './ParticleNode.js';
 
-const electronsColonString = ShredStrings.electronsColon;
-const neutronsColonString = ShredStrings.neutronsColon;
-const protonsColonString = ShredStrings.protonsColon;
-
 // constants
 const TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
 const MIN_VERTICAL_SPACING = 16; // Empirically Determined
@@ -52,17 +48,17 @@ class ParticleCountDisplay extends Panel {
 
     const panelContents = new Node();
 
-    const protonTitleText = new Text( protonsColonString, {
+    const protonTitleText = new Text( ShredStrings.protonsColonStringProperty, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'protonTitleText' )
     } );
     panelContents.addChild( protonTitleText );
-    const neutronTitleText = new Text( neutronsColonString, {
+    const neutronTitleText = new Text( ShredStrings.neutronsColonStringProperty, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'neutronTitleText' )
     } );
     panelContents.addChild( neutronTitleText );
-    const electronTitleText = new Text( electronsColonString, {
+    const electronTitleText = new Text( ShredStrings.electronsColonStringProperty, {
       font: LABEL_FONT,
       tandem: options.tandem.createTandem( 'electronTitleText' )
     } );
