@@ -13,7 +13,7 @@ import Bounds2 from '../../../dot/js/Bounds2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import DragListener from '../../../scenery/js/listeners/DragListener.js';
+import SoundDragListener from '../../../scenery-phet/js/SoundDragListener.js';
 import { PressListenerEvent } from '../../../scenery/js/listeners/PressListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -32,7 +32,7 @@ export type ParticleViewOptions = SelfOptions & NodeOptions;
 
 class ParticleView extends Node {
   public readonly particle: Particle;
-  private readonly dragListener: DragListener;
+  private readonly dragListener: SoundDragListener;
   private readonly disposeParticleView: VoidFunction;
 
   public constructor( particle: Particle, modelViewTransform: ModelViewTransform2, providedOptions?: ParticleViewOptions ) {
@@ -73,7 +73,7 @@ class ParticleView extends Node {
     particle.positionProperty.link( updateParticlePosition );
 
     // add a drag listener
-    this.dragListener = new DragListener( {
+    this.dragListener = new SoundDragListener( {
 
       positionProperty: particle.destinationProperty,
       transform: modelViewTransform,
