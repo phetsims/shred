@@ -8,12 +8,14 @@
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Property from '../../../axon/js/Property.js';
+import stepTimer from '../../../axon/js/stepTimer.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
-import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
+import { combineOptions, optionize4 } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import AccessibleDraggableOptions from '../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-phet/js/SoundDragListener.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../../../scenery-phet/js/SoundKeyboardDragListener.js';
 import InteractiveHighlighting from '../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -42,15 +44,18 @@ class ParticleView extends InteractiveHighlighting( Node ) {
 
     const ownsHighContrastProperty = providedOptions && !providedOptions.highContrastProperty;
 
-    const options = optionize<ParticleViewOptions, SelfOptions, NodeOptions>()( {
-      dragBounds: Bounds2.EVERYTHING,
-      tandem: Tandem.REQUIRED,
+    const options = optionize4<ParticleViewOptions, SelfOptions, NodeOptions>()( {},
+      AccessibleDraggableOptions, {
+        dragBounds: Bounds2.EVERYTHING,
+        tandem: Tandem.REQUIRED,
+        touchOffset: null,
 
-      touchOffset: null,
+        // TODO: Should add correct a11yName! https://github.com/phetsims/build-an-atom/issues/256
+        innerContent: 'div',
 
-      // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
-      highContrastProperty: new BooleanProperty( false )
-    }, providedOptions );
+        // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
+        highContrastProperty: new BooleanProperty( false )
+      }, providedOptions );
 
     super();
 
@@ -78,7 +83,22 @@ class ParticleView extends InteractiveHighlighting( Node ) {
     const dragListenerOptions = {
       positionProperty: particle.destinationProperty,
       transform: modelViewTransform,
-      dragBoundsProperty: options.dragBounds ? new Property( options.dragBounds ) : null
+      dragBoundsProperty: options.dragBounds ? new Property( options.dragBounds ) : null,
+      start: () => {
+        this.particle.userControlledProperty.set( true );
+
+        // if there is an animation in progress, cancel it be setting the destination to the position
+        if ( !particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
+          particle.destinationProperty.set( particle.positionProperty.get() );
+        }
+      },
+
+      drag: () => {
+
+        // Because the destination property is what is being set by the drag listener, we need to tell the particle to
+        // go immediately to its destination when a drag occurs.
+        this.particle.moveImmediatelyToDestination();
+      }
     };
 
     // add a drag listener
@@ -86,38 +106,39 @@ class ParticleView extends InteractiveHighlighting( Node ) {
       combineOptions<SoundDragListenerOptions>( {
         tandem: options.tandem.createTandem( 'dragListener' ),
 
-        start: () => {
-          this.particle.userControlledProperty.set( true );
-
-          // if there is an animation in progress, cancel it be setting the destination to the position
-          if ( !particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
-            particle.destinationProperty.set( particle.positionProperty.get() );
-          }
-        },
-
-        drag: () => {
-
-          // Because the destination property is what is being set by the drag listener, we need to tell the particle to
-          // go immediately to its destination when a drag occurs.
-          this.particle.moveImmediatelyToDestination();
+        // Offset the position a little if this is a touch pointer so that the finger doesn't cover the particle.
+        offsetPosition: ( viewPoint, dragListener ) => {
+          return options.touchOffset && dragListener.pointer.isTouchLike() ? options.touchOffset : Vector2.ZERO;
         },
 
         end: () => {
           this.particle.userControlledProperty.set( false );
-        },
-
-        // Offset the position a little if this is a touch pointer so that the finger doesn't cover the particle.
-        offsetPosition: ( viewPoint, dragListener ) => {
-          return options.touchOffset && dragListener.pointer.isTouchLike() ? options.touchOffset : Vector2.ZERO;
         }
       }, dragListenerOptions ) );
     this.addInputListener( this.dragListener );
 
     const keyboardDragListener = new SoundKeyboardDragListener(
       combineOptions<SoundKeyboardDragListenerOptions>( {
-        tandem: options.tandem.createTandem( 'keyboardDragListener' )
+        tandem: options.tandem.createTandem( 'keyboardDragListener' ),
+        positionProperty: particle.positionProperty,
+        transform: modelViewTransform,
+        dragSpeed: 200,
+        shiftDragSpeed: 50,
+
+        // Add a timeout before dropping the particle for better UX.
+        end: () => {
+          stepTimer.setTimeout( () => {
+            this.particle.userControlledProperty.set( false );
+          }, 500 );
+        }
       }, dragListenerOptions ) );
     this.addInputListener( keyboardDragListener );
+
+    this.particle.userControlledProperty.link( userControlled => {
+      if ( userControlled && !this.isFocused() ) {
+        this.focus(); // focus the particle view when it is being dragged
+      }
+    } );
 
     this.mutate( options );
 
@@ -129,7 +150,7 @@ class ParticleView extends InteractiveHighlighting( Node ) {
       keyboardDragListener.dispose();
     };
 
-    this.interactiveHighlight = Shape.circle( this.particle.radiusProperty.value * 1.5 );
+    this.focusHighlight = Shape.circle( this.particle.radiusProperty.value * 1.5 );
   }
 
   public override dispose(): void {
