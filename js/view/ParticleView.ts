@@ -11,9 +11,12 @@ import Property from '../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import Shape from '../../../kite/js/Shape.js';
+import optionize, { combineOptions } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import SoundDragListener from '../../../scenery-phet/js/SoundDragListener.js';
+import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-phet/js/SoundDragListener.js';
+import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../../../scenery-phet/js/SoundKeyboardDragListener.js';
+import InteractiveHighlighting from '../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import { PressListenerEvent } from '../../../scenery/js/listeners/PressListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -30,7 +33,7 @@ type SelfOptions = {
 
 export type ParticleViewOptions = SelfOptions & NodeOptions;
 
-class ParticleView extends Node {
+class ParticleView extends InteractiveHighlighting( Node ) {
   public readonly particle: Particle;
   private readonly dragListener: SoundDragListener;
   private readonly disposeParticleView: VoidFunction;
@@ -72,40 +75,49 @@ class ParticleView extends Node {
     };
     particle.positionProperty.link( updateParticlePosition );
 
-    // add a drag listener
-    this.dragListener = new SoundDragListener( {
-
+    const dragListenerOptions = {
       positionProperty: particle.destinationProperty,
       transform: modelViewTransform,
-      dragBoundsProperty: options.dragBounds ? new Property( options.dragBounds ) : null,
-      tandem: options.tandem.createTandem( 'dragListener' ),
+      dragBoundsProperty: options.dragBounds ? new Property( options.dragBounds ) : null
+    };
 
-      start: () => {
-        this.particle.userControlledProperty.set( true );
+    // add a drag listener
+    this.dragListener = new SoundDragListener(
+      combineOptions<SoundDragListenerOptions>( {
+        tandem: options.tandem.createTandem( 'dragListener' ),
 
-        // if there is an animation in progress, cancel it be setting the destination to the position
-        if ( !particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
-          particle.destinationProperty.set( particle.positionProperty.get() );
+        start: () => {
+          this.particle.userControlledProperty.set( true );
+
+          // if there is an animation in progress, cancel it be setting the destination to the position
+          if ( !particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
+            particle.destinationProperty.set( particle.positionProperty.get() );
+          }
+        },
+
+        drag: () => {
+
+          // Because the destination property is what is being set by the drag listener, we need to tell the particle to
+          // go immediately to its destination when a drag occurs.
+          this.particle.moveImmediatelyToDestination();
+        },
+
+        end: () => {
+          this.particle.userControlledProperty.set( false );
+        },
+
+        // Offset the position a little if this is a touch pointer so that the finger doesn't cover the particle.
+        offsetPosition: ( viewPoint, dragListener ) => {
+          return options.touchOffset && dragListener.pointer.isTouchLike() ? options.touchOffset : Vector2.ZERO;
         }
-      },
-
-      drag: () => {
-
-        // Because the destination property is what is being set by the drag listener, we need to tell the particle to
-        // go immediately to its destination when a drag occurs.
-        this.particle.moveImmediatelyToDestination();
-      },
-
-      end: () => {
-        this.particle.userControlledProperty.set( false );
-      },
-
-      // Offset the position a little if this is a touch pointer so that the finger doesn't cover the particle.
-      offsetPosition: ( viewPoint, dragListener ) => {
-        return options.touchOffset && dragListener.pointer.isTouchLike() ? options.touchOffset : Vector2.ZERO;
-      }
-    } );
+      }, dragListenerOptions ) );
     this.addInputListener( this.dragListener );
+
+    const keyboardDragListener = new SoundKeyboardDragListener(
+      combineOptions<SoundKeyboardDragListenerOptions>( {
+        tandem: options.tandem.createTandem( 'keyboardDragListener' )
+      }, dragListenerOptions ) );
+    this.addInputListener( keyboardDragListener );
 
     this.mutate( options );
 
@@ -114,7 +126,10 @@ class ParticleView extends Node {
       particle.positionProperty.unlink( updateParticlePosition );
       particleNode.dispose();
       this.dragListener.dispose();
+      keyboardDragListener.dispose();
     };
+
+    this.interactiveHighlight = Shape.circle( this.particle.radiusProperty.value * 1.5 );
   }
 
   public override dispose(): void {
