@@ -35,7 +35,7 @@ const DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
 // map of particle type to color information
 export const PARTICLE_COLORS: Record<ParticleTypeString, Color> = {
   proton: PhetColorScheme.RED_COLORBLIND,
-  neutron: Color.GRAY,
+  neutron: Color.GRAY.darkerColor( 0.1 ), // Dark gray
   electron: Color.BLUE,
   positron: new Color( 53, 182, 74 ), // Darkish green
   Isotope: Color.BLACK

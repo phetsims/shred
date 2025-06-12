@@ -18,10 +18,6 @@ import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import { PARTICLE_COLORS, ParticleTypeString } from '../model/Particle.js';
 import shred from '../shred.js';
 
-// constants
-const DEFAULT_LINE_WIDTH = 0.5;
-const HIGH_CONTRAST_LINE_WIDTH = 2;
-
 type SelfOptions = {
 
   // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
@@ -51,11 +47,12 @@ class ParticleNode extends Circle {
 
       typeProperty: null,
 
-      colorProperty: new ColorProperty( baseColor )
+      colorProperty: new ColorProperty( baseColor ),
+
+      stroke: baseColor.colorUtilsDarker( 0.33 )
     }, providedOptions );
 
     assert && assert( options.fill === undefined, 'fill will be set programmatically and should not be specified' );
-    assert && assert( options.stroke === undefined, 'stroke will be set programmatically and should not be specified' );
     assert && assert( options.lineWidth === undefined, 'line width will be set programmatically and should not be specified' );
 
     super( radius, options );
@@ -73,10 +70,9 @@ class ParticleNode extends Circle {
         .addColorStop( 1, color );
 
       // Set the options for the default look.
-      const nonHighContrastStroke = color.colorUtilsDarker( 0.33 );
       this.fill = highContrast ? options.colorProperty.value : gradientFill;
-      this.stroke = highContrast ? options.colorProperty.value.colorUtilsDarker( 0.5 ) : nonHighContrastStroke;
-      this.lineWidth = highContrast ? HIGH_CONTRAST_LINE_WIDTH : DEFAULT_LINE_WIDTH;
+      this.stroke = options.stroke;
+      this.lineWidth = 1;
     } );
 
     this.disposeParticleNode = () => {

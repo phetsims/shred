@@ -188,7 +188,8 @@ function createParticleNode( particle: Particle, modelViewTransform: ModelViewTr
         highContrastProperty: highContrastProperty,
         typeProperty: particle.typeProperty,
         colorProperty: particle.colorProperty,
-        tandem: tandem
+        tandem: tandem,
+        stroke: particle.type === 'neutron' ? 'black' : undefined
       }
     );
   }
