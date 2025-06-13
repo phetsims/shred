@@ -357,24 +357,19 @@
     "value": "Livermorium"
   },
   "ununseptium": {
-    "value": "Tennessine",
-    "deprecated": true
+    "value": "Tennessine"
   },
   "ununoctium": {
-    "value": "Oganesson",
-    "deprecated": true
+    "value": "Oganesson"
   },
   "ununbium": {
-    "value": "Copernicium",
-    "deprecated": true
+    "value": "Copernicium"
   },
   "ununtrium": {
-    "value": "Nihonium",
-    "deprecated": true
+    "value": "Nihonium"
   },
   "ununpentium": {
-    "value": "Moscovium",
-    "deprecated": true
+    "value": "Moscovium"
   },
   "tennessine": {
     "value": "Tennessine"
@@ -383,13 +378,13 @@
     "value": "Oganesson"
   },
   "minusSignIon": {
-    "value": "- Ion"
+    "value": "Negative Ion"
   },
   "neutralAtom": {
     "value": "Neutral Atom"
   },
   "positiveSignIon": {
-    "value": "+ Ion"
+    "value": "Positive Ion"
   },
   "stable": {
     "value": "Stable"
