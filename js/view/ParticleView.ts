@@ -18,7 +18,6 @@ import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2
 import AccessibleDraggableOptions from '../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-phet/js/SoundDragListener.js';
 import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../../../scenery-phet/js/SoundKeyboardDragListener.js';
-import InteractiveHighlighting from '../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import { PressListenerEvent } from '../../../scenery/js/listeners/PressListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -35,7 +34,7 @@ type SelfOptions = {
 
 export type ParticleViewOptions = SelfOptions & NodeOptions;
 
-class ParticleView extends InteractiveHighlighting( Node ) {
+class ParticleView extends Node {
   public readonly particle: Particle;
   private readonly dragListener: SoundDragListener;
   private readonly disposeParticleView: VoidFunction;
