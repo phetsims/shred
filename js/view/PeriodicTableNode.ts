@@ -12,8 +12,6 @@ import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
-import Tandem from '../../../tandem/js/Tandem.js';
-import AtomIdentifier from '../AtomIdentifier.js';
 import { TNumberAtom } from '../model/NumberAtom.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
@@ -72,8 +70,7 @@ class PeriodicTableNode extends Node {
       labelTextHighlightFill: 'black',
       enabledCellColor: ENABLED_CELL_COLOR,
       disabledCellColor: DISABLED_CELL_COLOR,
-      selectedCellColor: SELECTED_CELL_COLOR,
-      tandem: Tandem.REQUIRED
+      selectedCellColor: SELECTED_CELL_COLOR
     }, providedOptions );
 
     super();
@@ -93,8 +90,7 @@ class PeriodicTableNode extends Node {
           strokeHighlightWidth: options.strokeHighlightWidth,
           strokeHighlightColor: options.strokeHighlightColor,
           labelTextHighlightFill: options.labelTextHighlightFill,
-          length: options.cellDimension,
-          tandem: options.tandem.createTandem( `${AtomIdentifier.getEnglishName( elementIndex )}Cell` )
+          length: options.cellDimension
         } );
         cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );
         this.addChild( cell );

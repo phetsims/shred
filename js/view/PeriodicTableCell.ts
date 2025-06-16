@@ -14,8 +14,6 @@ import Rectangle, { RectangleOptions } from '../../../scenery/js/nodes/Rectangle
 import Text from '../../../scenery/js/nodes/Text.js';
 import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
-import EventType from '../../../tandem/js/EventType.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import NumberAtom, { TNumberAtom } from '../model/NumberAtom.js';
 import shred from '../shred.js';
@@ -63,9 +61,7 @@ class PeriodicTableCell extends Rectangle {
       showLabels: true,
       strokeHighlightWidth: 2,
       strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
-      labelTextHighlightFill: 'black', // fill of label text when highlighted
-      tandem: Tandem.REQUIRED,
-      phetioEventType: EventType.USER
+      labelTextHighlightFill: 'black' // fill of label text when highlighted
     }, providedOptions );
 
     const normalFill = options.interactive ? cellColor.enabled : cellColor.disabled;
@@ -74,9 +70,7 @@ class PeriodicTableCell extends Rectangle {
       stroke: 'black',
       lineWidth: 1,
       fill: normalFill,
-      cursor: options.interactive ? 'pointer' : null,
-      tandem: options.tandem,
-      phetioType: options.phetioType
+      cursor: options.interactive ? 'pointer' : null
     } );
 
     this.strokeHighlightColor = options.strokeHighlightColor;
@@ -90,8 +84,7 @@ class PeriodicTableCell extends Rectangle {
       this.labelText = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
         font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
         center: this.center,
-        maxWidth: options.length - 5,
-        tandem: options.tandem.createTandem( 'labelText' )
+        maxWidth: options.length - 5
       } );
       this.addChild( this.labelText );
     }
@@ -100,7 +93,6 @@ class PeriodicTableCell extends Rectangle {
     let buttonListener: FireListener | null = null; // scope for disposal
     if ( options.interactive && numberAtom instanceof NumberAtom ) {
       buttonListener = new FireListener( {
-        tandem: options.tandem.createTandem( 'fireListener' ),
         fire: () => numberAtom.setSubAtomicParticleCount(
           atomicNumber,
           AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
