@@ -175,7 +175,8 @@ function createParticleNode( particle: Particle, modelViewTransform: ModelViewTr
       particle,
       modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ), {
         // showLabel: particle.showLabel, // TODO https://github.com/phetsims/shred/issues/41 When converting to TypeScript, this was flagged because Particle.showLabel doesn't exist.
-        tandem: tandem
+        tandem: tandem,
+        phetioVisiblePropertyInstrumented: false
       }
     );
   }
@@ -188,6 +189,7 @@ function createParticleNode( particle: Particle, modelViewTransform: ModelViewTr
         typeProperty: particle.typeProperty,
         colorProperty: particle.colorProperty,
         tandem: tandem,
+        phetioVisiblePropertyInstrumented: false,
         stroke: particle.type === 'neutron' ? 'black' : undefined
       }
     );
