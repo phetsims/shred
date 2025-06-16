@@ -130,8 +130,7 @@ class AtomNode extends Node {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
       fill: ShredColors.elementNameColorProperty,
       center: elementNameTextCenterPos,
-      pickable: false,
-      tandem: options.tandem.createTandem( 'elementNameText' )
+      pickable: false
     } );
     this.addChild( this.elementNameText );
 
@@ -166,8 +165,7 @@ class AtomNode extends Node {
       fill: 'black',
       translation: ionIndicatorTextTranslation,
       pickable: false,
-      maxWidth: 150,
-      tandem: options.tandem.createTandem( 'ionIndicatorText' )
+      maxWidth: 150
     } );
     this.addChild( this.ionIndicatorText );
 
@@ -211,8 +209,7 @@ class AtomNode extends Node {
       fill: 'black',
       center: stabilityIndicatorTextCenterPos,
       pickable: false,
-      maxWidth: modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 ),
-      tandem: options.tandem.createTandem( 'stabilityIndicatorText' )
+      maxWidth: modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 )
     } );
     this.addChild( this.stabilityIndicatorText );
 
