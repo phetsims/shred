@@ -11,7 +11,9 @@ import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import TColor from '../../scenery/js/util/TColor.js';
 import shred from './shred.js';
 
-export type Level = 'periodic-table-game' | 'mass-and-charge-game' | 'symbol-game' | 'advanced-symbol-game';
+const LEVEL_NAMES = [ 'periodic-table-game', 'mass-and-charge-game', 'symbol-game', 'advanced-symbol-game' ] as const;
+
+export type Level = typeof LEVEL_NAMES[number];
 
 const ShredConstants = {
 
@@ -37,7 +39,7 @@ const ShredConstants = {
   },
 
   // Names of the various game levels.
-  LEVEL_NAMES: [ 'periodic-table-game', 'mass-and-charge-game', 'symbol-game', 'advanced-symbol-game' ] satisfies Level[],
+  LEVEL_NAMES: LEVEL_NAMES,
 
   // Level name to level number converter.
   MAP_LEVEL_NAME_TO_NUMBER: function( levelName: Level ): number { return this.LEVEL_NAMES.indexOf( levelName ); }
