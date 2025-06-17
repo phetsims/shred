@@ -90,7 +90,8 @@ class PeriodicTableNode extends Node {
           strokeHighlightWidth: options.strokeHighlightWidth,
           strokeHighlightColor: options.strokeHighlightColor,
           labelTextHighlightFill: options.labelTextHighlightFill,
-          length: options.cellDimension
+          length: options.cellDimension,
+          tandem: options.tandem && options.tandem.createTandem( 'periodicTableCell' )
         } );
         cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );
         this.addChild( cell );

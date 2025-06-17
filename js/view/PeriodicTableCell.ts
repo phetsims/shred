@@ -93,6 +93,7 @@ class PeriodicTableCell extends Rectangle {
     let buttonListener: FireListener | null = null; // scope for disposal
     if ( options.interactive && numberAtom instanceof NumberAtom ) {
       buttonListener = new FireListener( {
+        tandem: options.tandem && options.tandem.createTandem( 'fireListener' ),
         fire: () => numberAtom.setSubAtomicParticleCount(
           atomicNumber,
           AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
