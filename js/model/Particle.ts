@@ -76,6 +76,7 @@ class Particle extends PhetioObject {
 
   // Used in view, integer value, higher means further back.
   public readonly zLayerProperty: TProperty<number>;
+
   private readonly disposeParticle: VoidFunction;
 
   // Assigned by other parties as a way to clean up animations.

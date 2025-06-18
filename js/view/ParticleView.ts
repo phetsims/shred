@@ -84,15 +84,17 @@ class ParticleView extends Node {
       transform: modelViewTransform,
       dragBoundsProperty: options.dragBounds ? new Property( options.dragBounds ) : null,
       start: () => {
-        this.particle.userControlledProperty.set( true );
 
-        // if there is an animation in progress, cancel it be setting the destination to the position
+        // If there is an animation in progress, cancel it by setting the destination to the current position.
         if ( !particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
           particle.destinationProperty.set( particle.positionProperty.get() );
         }
       },
 
       drag: () => {
+
+        // Once the particle is being dragged, set a value indicating that the particle is user controlled.
+        this.particle.userControlledProperty.set( true );
 
         // Because the destination property is what is being set by the drag listener, we need to tell the particle to
         // go immediately to its destination when a drag occurs.
