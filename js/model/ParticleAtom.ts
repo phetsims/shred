@@ -81,7 +81,7 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
 
   // Set the default electron add/remove mode.
   private readonly electronAddMode: ElectronAddMode = 'proximal';
-  private electronShellPositions: ElectronShellPosition[];
+  private readonly electronShellPositions: ElectronShellPosition[];
 
   public constructor( providedOptions?: ParticleAtomOptions ) {
 
