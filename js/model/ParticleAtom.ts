@@ -503,6 +503,10 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
     return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
   }
 
+  /**
+   * Reconfigure the particles in the nucleus so that they will look like collectively round, 3D, and the protons and
+   * neutrons are interspersed in a realistic way.
+   */
   public reconfigureNucleus(): void {
 
     // Convenience variables.
@@ -511,6 +515,7 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
     const nucleonRadius = this.nucleonRadius;
     let angle;
     let distFromCenter;
+    const topLayer = 1; // The z-layer for the top layer of nucleons, layer 0 is reserved for particles being dragged.
 
     // Create an array of interspersed protons and neutrons for configuring.
     const nucleons = [];
@@ -533,7 +538,7 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
 
       // There is only one nucleon present, so place it in the center of the atom.
       nucleons[ 0 ].destinationProperty.set( new Vector2( centerX, centerY ) );
-      nucleons[ 0 ].zLayerProperty.set( 0 );
+      nucleons[ 0 ].zLayerProperty.set( topLayer );
     }
     else if ( nucleons.length === 2 ) {
 
@@ -541,10 +546,10 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
       angle = 0.2 * 2 * Math.PI; // Angle arbitrarily chosen.
       nucleons[ 0 ].destinationProperty.set( new Vector2( centerX + nucleonRadius * Math.cos( angle ),
         centerY + nucleonRadius * Math.sin( angle ) ) );
-      nucleons[ 0 ].zLayerProperty.set( 0 );
+      nucleons[ 0 ].zLayerProperty.set( topLayer );
       nucleons[ 1 ].destinationProperty.set( new Vector2( centerX - nucleonRadius * Math.cos( angle ),
         centerY - nucleonRadius * Math.sin( angle ) ) );
-      nucleons[ 1 ].zLayerProperty.set( 0 );
+      nucleons[ 1 ].zLayerProperty.set( topLayer );
     }
     else if ( nucleons.length === 3 ) {
 
@@ -553,13 +558,13 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
       distFromCenter = nucleonRadius * 1.155;
       nucleons[ 0 ].destinationProperty.set( new Vector2( centerX + distFromCenter * Math.cos( angle ),
         centerY + distFromCenter * Math.sin( angle ) ) );
-      nucleons[ 0 ].zLayerProperty.set( 0 );
+      nucleons[ 0 ].zLayerProperty.set( topLayer );
       nucleons[ 1 ].destinationProperty.set( new Vector2( centerX + distFromCenter * Math.cos( angle + 2 * Math.PI / 3 ),
         centerY + distFromCenter * Math.sin( angle + 2 * Math.PI / 3 ) ) );
-      nucleons[ 1 ].zLayerProperty.set( 0 );
+      nucleons[ 1 ].zLayerProperty.set( topLayer );
       nucleons[ 2 ].destinationProperty.set( new Vector2( centerX + distFromCenter * Math.cos( angle + 4 * Math.PI / 3 ),
         centerY + distFromCenter * Math.sin( angle + 4 * Math.PI / 3 ) ) );
-      nucleons[ 2 ].zLayerProperty.set( 0 );
+      nucleons[ 2 ].zLayerProperty.set( topLayer );
     }
     else if ( nucleons.length === 4 ) {
 
@@ -567,17 +572,17 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
       angle = 1.4 * 2 * Math.PI; // Angle arbitrarily chosen.
       nucleons[ 0 ].destinationProperty.set( new Vector2( centerX + nucleonRadius * Math.cos( angle ),
         centerY + nucleonRadius * Math.sin( angle ) ) );
-      nucleons[ 0 ].zLayerProperty.set( 0 );
+      nucleons[ 0 ].zLayerProperty.set( topLayer );
       nucleons[ 2 ].destinationProperty.set( new Vector2( centerX - nucleonRadius * Math.cos( angle ),
         centerY - nucleonRadius * Math.sin( angle ) ) );
-      nucleons[ 2 ].zLayerProperty.set( 0 );
+      nucleons[ 2 ].zLayerProperty.set( topLayer );
       distFromCenter = nucleonRadius * 2 * Math.cos( Math.PI / 3 );
       nucleons[ 1 ].destinationProperty.set( new Vector2( centerX + distFromCenter * Math.cos( angle + Math.PI / 2 ),
         centerY + distFromCenter * Math.sin( angle + Math.PI / 2 ) ) );
-      nucleons[ 1 ].zLayerProperty.set( 1 );
+      nucleons[ 1 ].zLayerProperty.set( topLayer + 1 );
       nucleons[ 3 ].destinationProperty.set( new Vector2( centerX - distFromCenter * Math.cos( angle + Math.PI / 2 ),
         centerY - distFromCenter * Math.sin( angle + Math.PI / 2 ) ) );
-      nucleons[ 3 ].zLayerProperty.set( 1 );
+      nucleons[ 3 ].zLayerProperty.set( topLayer + 1 );
     }
     else if ( nucleons.length >= 5 ) {
 
@@ -603,7 +608,7 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
       for ( let i = 0; i < nucleons.length; i++ ) {
         nucleons[ i ].destinationProperty.set( new Vector2( centerX + placementRadius * Math.cos( placementAngle ),
           centerY + placementRadius * Math.sin( placementAngle ) ) );
-        nucleons[ i ].zLayerProperty.set( level );
+        nucleons[ i ].zLayerProperty.set( level + topLayer );
         numAtThisRadius--;
         if ( numAtThisRadius > 0 ) {
 
