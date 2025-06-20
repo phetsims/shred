@@ -138,6 +138,9 @@ class ParticleView extends Node {
     this.particle.userControlledProperty.link( userControlled => {
       if ( userControlled && !this.isFocused() ) {
         this.focus(); // focus the particle view when it is being dragged
+
+        // Move the particle to the front of whatever layer it is on so that it is not obscured by other particles.
+        this.moveToFront();
       }
     } );
 
