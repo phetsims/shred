@@ -12,8 +12,7 @@ import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
-import { TNumberAtom } from '../model/NumberAtom.js';
-import ParticleAtom from '../model/ParticleAtom.js';
+import NumberAtom, { TNumberAtom, TReadOnlyNumberAtom } from '../model/NumberAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import PeriodicTableCell, { CellColor } from './PeriodicTableCell.js';
@@ -59,10 +58,10 @@ class PeriodicTableNode extends Node {
    * @param numberAtom - Atom that defines which element is currently highlighted.
    * @param providedOptions
    */
-  public constructor( numberAtom: TNumberAtom | ParticleAtom, providedOptions?: PeriodicTableNodeOptions ) {
+  public constructor( numberAtom: TNumberAtom | TReadOnlyNumberAtom, providedOptions?: PeriodicTableNodeOptions ) {
 
     const options = optionize<PeriodicTableNodeOptions, SelfOptions, NodeOptions>()( {
-      interactiveMax: 0, //Atomic number of the heaviest element that should be interactive
+      interactiveMax: 0, // atomic number of the heaviest element that should be interactive
       cellDimension: 25,
       showLabels: true,
       strokeHighlightWidth: 2,
@@ -84,8 +83,16 @@ class PeriodicTableNode extends Node {
         selected: options.selectedCellColor
       };
       for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
-        const cell = new PeriodicTableCell( elementIndex, numberAtom, cellColor, {
-          interactive: elementIndex <= options.interactiveMax,
+
+        // If this cell is supposed to be interactive, verify that the provided numberAtom is settable.
+        let settableAtom: NumberAtom | null = null;
+        if ( elementIndex <= options.interactiveMax ) {
+          settableAtom = numberAtom as NumberAtom;
+          assert && assert( typeof settableAtom.setSubAtomicParticleCount !== 'undefined', 'settable atom required' );
+        }
+
+        const cell = new PeriodicTableCell( elementIndex, cellColor, {
+          settableAtom: settableAtom,
           showLabels: options.showLabels,
           strokeHighlightWidth: options.strokeHighlightWidth,
           strokeHighlightColor: options.strokeHighlightColor,

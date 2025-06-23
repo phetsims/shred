@@ -45,6 +45,12 @@ export type TNumberAtom = {
   particleCountProperty: TReadOnlyProperty<number>;
 };
 
+// Define a fully read-only version of the TNumberAtom type.
+type AllReadOnly<T> = {
+  [K in keyof T]: T[K] extends TProperty<infer U> ? TReadOnlyProperty<U> : T[K];
+};
+export type TReadOnlyNumberAtom = AllReadOnly<TNumberAtom>;
+
 class NumberAtom {
   public readonly protonCountProperty: Property<number>;
   public readonly neutronCountProperty: Property<number>;

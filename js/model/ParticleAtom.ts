@@ -18,6 +18,7 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import WithRequired from '../../../phet-core/js/types/WithRequired.js';
 import Color from '../../../scenery/js/util/Color.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -32,13 +33,12 @@ import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
-import { TNumberAtom } from './NumberAtom.js';
+import { TReadOnlyNumberAtom } from './NumberAtom.js';
 import Particle, { PARTICLE_COLORS, ParticleTypeString } from './Particle.js';
 
 // constants
 const NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
 
-// helper function for retrieving the tandem for a particle
 const ParticleReferenceIO = ReferenceIO( Particle.ParticleIO );
 const NullableParticleReferenceIO = NullableIO( ReferenceIO( Particle.ParticleIO ) );
 
@@ -47,6 +47,7 @@ type SelfOptions = {
   outerElectronShellRadius?: number;
   nucleonRadius?: number;
 };
+export type ParticleAtomOptions = SelfOptions & WithRequired<PhetioObjectOptions, 'tandem'>;
 
 type ElectronAddMode = 'proximal' | 'random';
 type ElectronShellPosition = {
@@ -54,9 +55,8 @@ type ElectronShellPosition = {
   position: Vector2;
 };
 
-export type ParticleAtomOptions = SelfOptions & PhetioObjectOptions;
+class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
 
-class ParticleAtom extends PhetioObject implements TNumberAtom {
   private readonly nucleonRadius: number;
   public readonly positionProperty: TProperty<Vector2>;
   public readonly nucleusOffsetProperty: TProperty<Vector2>;
@@ -68,9 +68,9 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
   private readonly liveAnimations: ObservableArray<Animation>;
 
   // individual count properties for each particle type
-  public readonly protonCountProperty: TProperty<number>;
-  public readonly neutronCountProperty: TProperty<number>;
-  public readonly electronCountProperty: TProperty<number>;
+  public readonly protonCountProperty: TReadOnlyProperty<number>;
+  public readonly neutronCountProperty: TReadOnlyProperty<number>;
+  public readonly electronCountProperty: TReadOnlyProperty<number>;
 
   // derived properties based on the number of particles present in the atom
   public readonly chargeProperty: TReadOnlyProperty<number>;
@@ -83,13 +83,12 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
   private readonly electronAddMode: ElectronAddMode = 'proximal';
   private readonly electronShellPositions: ElectronShellPosition[];
 
-  public constructor( providedOptions?: ParticleAtomOptions ) {
+  public constructor( providedOptions: ParticleAtomOptions ) {
 
     const options = optionize<ParticleAtomOptions, SelfOptions, PhetioObjectOptions>()( {
       innerElectronShellRadius: 85,
       outerElectronShellRadius: 130,
       nucleonRadius: ShredConstants.NUCLEON_RADIUS,
-      tandem: Tandem.REQUIRED,
       phetioType: ParticleAtom.ParticleAtomIO
     }, providedOptions );
 
@@ -106,40 +105,27 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
       tandem: options.tandem.createTandem( 'nucleusOffsetProperty' )
     } );
 
-    this.protons = createObservableArray( {
-      // tandem: options.tandem.createTandem( 'protons' ),
-      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO ),
-      lengthPropertyOptions: {
-        hasListenerOrderDependencies: true // needed in BAN, see https://github.com/phetsims/build-a-nucleus/issues/105
-      }
-    } );
-    this.neutrons = createObservableArray( {
-      // tandem: options.tandem.createTandem( 'neutrons' ),
-      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO ),
-      lengthPropertyOptions: {
-        hasListenerOrderDependencies: true // needed in BAN, see https://github.com/phetsims/build-a-nucleus/issues/105
-      }
-    } );
-    this.electrons = createObservableArray( {
-      // tandem: options.tandem.createTandem( 'electrons' ),
-      phetioType: createObservableArray.ObservableArrayIO( Particle.ParticleIO )
-    } );
+    this.protons = createObservableArray();
+    this.neutrons = createObservableArray();
+    this.electrons = createObservableArray();
 
-    this.liveAnimations = createObservableArray();
+    // parent tandem for the particle counts
+    const particleCountsTandem = options.tandem.createTandem( 'particleCounts' );
 
-    this.liveAnimations.addItemAddedListener( animation => {
-      animation.endedEmitter.addListener( () => {
-        this.liveAnimations.includes( animation ) && this.liveAnimations.remove( animation );
-      } );
+    // Define separate count properties for each particle type.  This allows us to keep the observable arrays out of the
+    // phet-io tree.
+    this.protonCountProperty = new DerivedProperty( [ this.protons.lengthProperty ], count => count, {
+      tandem: particleCountsTandem.createTandem( 'protonCountProperty' ),
+      phetioValueType: NumberIO
     } );
-
-    this.liveAnimations.addItemRemovedListener( animation => {
-      animation.stop();
+    this.neutronCountProperty = new DerivedProperty( [ this.neutrons.lengthProperty ], count => count, {
+      tandem: particleCountsTandem.createTandem( 'neutronCountProperty' ),
+      phetioValueType: NumberIO
     } );
-
-    this.protonCountProperty = this.protons.lengthProperty;
-    this.neutronCountProperty = this.neutrons.lengthProperty;
-    this.electronCountProperty = this.electrons.lengthProperty;
+    this.electronCountProperty = new DerivedProperty( [ this.electrons.lengthProperty ], count => count, {
+      tandem: particleCountsTandem.createTandem( 'electronCountProperty' ),
+      phetioValueType: NumberIO
+    } );
 
     this.chargeProperty = new DerivedProperty(
       [ this.protonCountProperty, this.electronCountProperty ],
@@ -226,6 +212,18 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
           }
         }
       } );
+    } );
+
+    this.liveAnimations = createObservableArray();
+
+    this.liveAnimations.addItemAddedListener( animation => {
+      animation.endedEmitter.addListener( () => {
+        this.liveAnimations.includes( animation ) && this.liveAnimations.remove( animation );
+      } );
+    } );
+
+    this.liveAnimations.addItemRemovedListener( animation => {
+      animation.stop();
     } );
 
     // Utility function to translate all particles.
@@ -683,20 +681,6 @@ class ParticleAtom extends PhetioObject implements TNumberAtom {
       'deferring hackary above should not produce an inconsistent state' );
 
     assert && assert( this.containsParticle( particle ), `ParticleAtom should contain particle:${particle.id} after changing nucleon` );
-  }
-
-  // This function was only created to support flexibility in the "numberAtom" parameter for PeriodicTableNode, use carefully.
-  public setSubAtomicParticleCount( protonCount: number, neutronCount: number, electronCount: number ): void {
-    this.clear();
-    for ( let i = 0; i < protonCount; i++ ) {
-      this.addParticle( new Particle( 'proton' ) );
-    }
-    for ( let i = 0; i < neutronCount; i++ ) {
-      this.addParticle( new Particle( 'neutron' ) );
-    }
-    for ( let i = 0; i < electronCount; i++ ) {
-      this.addParticle( new Particle( 'electron' ) );
-    }
   }
 
   // clear all liveAnimations

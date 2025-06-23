@@ -15,7 +15,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import AtomIdentifier from '../AtomIdentifier.js';
-import NumberAtom, { TNumberAtom } from '../model/NumberAtom.js';
+import NumberAtom from '../model/NumberAtom.js';
 import shred from '../shred.js';
 
 // constants
@@ -24,11 +24,13 @@ const NOMINAL_FONT_SIZE = 14;
 
 type SelfOptions = {
   length?: number; // Width and height of cell (cells are square).
-  interactive?: boolean; // Boolean flag that determines whether cell is interactive.
   showLabels?: boolean;
   strokeHighlightWidth?: number;
   strokeHighlightColor?: TColor;
   labelTextHighlightFill?: TColor; // fill of label text when highlighted
+
+  // If provided, this atom will be set when the cell is pressed.
+  settableAtom?: NumberAtom | null;
 };
 type PeriodicTableCellOptions = SelfOptions & RectangleOptions;
 export type CellColor = {
@@ -49,28 +51,29 @@ class PeriodicTableCell extends Rectangle {
 
   /**
    * @param atomicNumber - Atomic number of atom represented by this cell.
-   * @param numberAtom - Atom that is set if this cell is selected by the user.
    * @param cellColor - Color to be used for selected enabled and disabled cell
    * @param providedOptions
    */
-  public constructor( atomicNumber: number, numberAtom: TNumberAtom, cellColor: CellColor, providedOptions?: PeriodicTableCellOptions ) {
+  public constructor( atomicNumber: number,
+                      cellColor: CellColor,
+                      providedOptions?: PeriodicTableCellOptions ) {
 
     const options = optionize<PeriodicTableCellOptions, SelfOptions, RectangleOptions>()( {
       length: 25, //Width and height of cell (cells are square).
-      interactive: false, // Boolean flag that determines whether cell is interactive.
       showLabels: true,
       strokeHighlightWidth: 2,
       strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
-      labelTextHighlightFill: 'black' // fill of label text when highlighted
+      labelTextHighlightFill: 'black', // fill of label text when highlighted
+      settableAtom: null
     }, providedOptions );
 
-    const normalFill = options.interactive ? cellColor.enabled : cellColor.disabled;
+    const normalFill = options.settableAtom ? cellColor.enabled : cellColor.disabled;
 
     super( 0, 0, options.length, options.length, 0, 0, {
       stroke: 'black',
       lineWidth: 1,
       fill: normalFill,
-      cursor: options.interactive ? 'pointer' : null
+      cursor: options.settableAtom ? 'pointer' : null
     } );
 
     this.strokeHighlightColor = options.strokeHighlightColor;
@@ -91,10 +94,10 @@ class PeriodicTableCell extends Rectangle {
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     let buttonListener: FireListener | null = null; // scope for disposal
-    if ( options.interactive && numberAtom instanceof NumberAtom ) {
+    if ( options.settableAtom ) {
       buttonListener = new FireListener( {
         tandem: options.tandem && options.tandem.createTandem( 'fireListener' ),
-        fire: () => numberAtom.setSubAtomicParticleCount(
+        fire: () => options.settableAtom!.setSubAtomicParticleCount(
           atomicNumber,
           AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
           atomicNumber
