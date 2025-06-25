@@ -147,12 +147,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
     );
     this.particleCountProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
-      ( ( protonCount, neutronCount, electronCount ) => {
-        return protonCount + neutronCount + electronCount;
-      } ), {
-        tandem: options.tandem.createTandem( 'particleCountProperty' ),
-        phetioValueType: NumberIO
-      }
+      ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount
     );
 
     // Make shell radii publicly accessible.
