@@ -66,9 +66,15 @@ class Particle extends PhetioObject {
   // The "base" color of the Particle, dependent on what type of Particle it is. We say "base" because there is a color
   // gradient applied to present a 3D graphic.
   public readonly colorProperty: TProperty<Color>;
+
+  // The position of the particle, in model space.
   public readonly positionProperty: TProperty<Vector2>;
+
+  // The destination of the particle, in model space. This is where the particle will move to when it is animated.
   public readonly destinationProperty: TProperty<Vector2>;
-  public readonly radiusProperty: TProperty<number>;
+
+  // The radius of the particle, in model space.
+  public readonly radius: number;
 
   // Position change per second
   public readonly animationVelocityProperty: TProperty<number>;
@@ -108,13 +114,9 @@ class Particle extends PhetioObject {
       tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' )
     } );
 
-    this.radiusProperty = new NumberProperty(
-      type === 'electron' || type === 'positron' ? ShredConstants.ELECTRON_RADIUS : ShredConstants.NUCLEON_RADIUS,
-      {
-        tandem: options.tandem && options.tandem.createTandem( 'radiusProperty' ),
-        phetioDocumentation: 'The radius of the particle.  Changes to radius may not be reflected in view.'
-      }
-    );
+    this.radius = type === 'electron' || type === 'positron' ?
+                  ShredConstants.ELECTRON_RADIUS :
+                  ShredConstants.NUCLEON_RADIUS;
 
     this.animationVelocityProperty = new NumberProperty( DEFAULT_PARTICLE_VELOCITY, {
       tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
@@ -141,7 +143,6 @@ class Particle extends PhetioObject {
       this.colorProperty.dispose();
       this.positionProperty.dispose();
       this.destinationProperty.dispose();
-      this.radiusProperty.dispose();
       this.animationVelocityProperty.dispose();
       this.userControlledProperty.dispose();
       this.zLayerProperty.dispose();

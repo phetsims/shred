@@ -154,7 +154,7 @@ class ParticleView extends Node {
       keyboardDragListener.dispose();
     };
 
-    this.focusHighlight = Shape.circle( this.particle.radiusProperty.value * 1.5 );
+    this.focusHighlight = Shape.circle( this.particle.radius * 1.5 );
   }
 
   public override dispose(): void {
@@ -178,8 +178,7 @@ function createParticleNode( particle: Particle, modelViewTransform: ModelViewTr
   if ( particle.type === 'Isotope' ) {
     particleNode = new IsotopeNode(
       particle,
-      modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ), {
-        // showLabel: particle.showLabel, // TODO https://github.com/phetsims/shred/issues/41 When converting to TypeScript, this was flagged because Particle.showLabel doesn't exist.
+      modelViewTransform.modelToViewDeltaX( particle.radius ), {
         tandem: tandem,
         phetioVisiblePropertyInstrumented: false
       }
@@ -188,7 +187,7 @@ function createParticleNode( particle: Particle, modelViewTransform: ModelViewTr
   else {
     particleNode = new ParticleNode(
       particle.type,
-      modelViewTransform.modelToViewDeltaX( particle.radiusProperty.get() ),
+      modelViewTransform.modelToViewDeltaX( particle.radius ),
       {
         highContrastProperty: highContrastProperty,
         typeProperty: particle.typeProperty,
