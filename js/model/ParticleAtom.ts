@@ -101,8 +101,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
       tandem: options.tandem.createTandem( 'positionProperty' )
     } );
     this.nucleusOffsetProperty = new Vector2Property( Vector2.ZERO, {
-      valueComparisonStrategy: 'equalsFunction',
-      tandem: options.tandem.createTandem( 'nucleusOffsetProperty' )
+      valueComparisonStrategy: 'equalsFunction'
     } );
 
     this.protons = createObservableArray();
