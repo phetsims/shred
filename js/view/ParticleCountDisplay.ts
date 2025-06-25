@@ -25,7 +25,7 @@ import ParticleNode from './ParticleNode.js';
 // constants
 const TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
 const MIN_VERTICAL_SPACING = 16; // Empirically Determined
-const LABEL_FONT = new PhetFont( 12 );
+const TEXT_OPTIONS = { font: new PhetFont( 12 ) };
 
 type ParticleCountDisplayOptions = PanelOptions;
 
@@ -51,20 +51,11 @@ class ParticleCountDisplay extends Panel {
 
     const panelContents = new Node();
 
-    const protonTitleText = new Text( ShredStrings.protonsColonStringProperty, {
-      font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'protonTitleText' )
-    } );
+    const protonTitleText = new Text( ShredStrings.protonsColonStringProperty, TEXT_OPTIONS );
     panelContents.addChild( protonTitleText );
-    const neutronTitleText = new Text( ShredStrings.neutronsColonStringProperty, {
-      font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'neutronTitleText' )
-    } );
+    const neutronTitleText = new Text( ShredStrings.neutronsColonStringProperty, TEXT_OPTIONS );
     panelContents.addChild( neutronTitleText );
-    const electronTitleText = new Text( ShredStrings.electronsColonStringProperty, {
-      font: LABEL_FONT,
-      tandem: options.tandem.createTandem( 'electronTitleText' )
-    } );
+    const electronTitleText = new Text( ShredStrings.electronsColonStringProperty, TEXT_OPTIONS );
     panelContents.addChild( electronTitleText );
 
     // Scale the title if more than allowed proportion width
