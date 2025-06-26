@@ -9,30 +9,38 @@
 
 import Vector2 from '../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import WithRequired from '../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import Particle from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 
+type SelfOptions = EmptySelfOptions;
+type ElectronCloudViewOptions = SelfOptions & WithRequired<CircleOptions, 'tandem'>;
+
 // constants
 const DEFAULT_RADIUS = 50; // in pm, chosen as an arbitrary value that is close to the "real" values that are used
-type ElectronCloudViewOptions = CircleOptions;
 
 class ElectronCloudView extends Circle {
+
+  // the electron this is being extracted by the user by clicking on the cloud, if any
   private extractedElectron: Particle | null;
+
+  // function to dispose of the view, including listeners
   private readonly disposeElectronCloudView: VoidFunction;
 
+  public constructor( atom: ParticleAtom,
+                      modelViewTransform: ModelViewTransform2,
+                      providedOptions: ElectronCloudViewOptions ) {
 
-  public constructor( atom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: ElectronCloudViewOptions ) {
     const options = optionize<ElectronCloudViewOptions, EmptySelfOptions, CircleOptions>()( {
       cursor: 'pointer',
-      fill: 'pink',
-      tandem: Tandem.REQUIRED
+      fill: 'transparent',
+      phetioVisiblePropertyInstrumented: false // Don't allow phet-io users to hide this.
     }, providedOptions );
 
     assert && assert( options.translation === undefined, 'ElectronCloudView sets translation' );

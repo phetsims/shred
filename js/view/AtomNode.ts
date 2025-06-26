@@ -106,9 +106,7 @@ class AtomNode extends Node {
     }
 
     // Add the electron shells and cloud.
-    const electronShell = new ElectronShellView( particleAtom, modelViewTransform, {
-      tandem: options.tandem.createTandem( 'electronShell' )
-    } );
+    const electronShell = new ElectronShellView( particleAtom, modelViewTransform );
     this.addChild( electronShell );
     const electronCloud = new ElectronCloudView( particleAtom, modelViewTransform, {
       tandem: options.tandem.createTandem( 'electronCloud' )
