@@ -106,12 +106,14 @@ class Particle extends PhetioObject {
 
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
       valueComparisonStrategy: 'equalsFunction',
-      tandem: options.tandem && options.tandem.createTandem( 'positionProperty' )
+      tandem: options.tandem && options.tandem.createTandem( 'positionProperty' ),
+      phetioReadOnly: true // phet-io users should have no cause to set this
     } );
 
     this.destinationProperty = new Vector2Property( Vector2.ZERO, {
       valueComparisonStrategy: 'equalsFunction',
-      tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' )
+      tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' ),
+      phetioReadOnly: true // phet-io users should have no cause to set this
     } );
 
     this.radius = type === 'electron' || type === 'positron' ?
