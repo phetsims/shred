@@ -45,6 +45,7 @@ export type ParticleTypeString = 'proton' | 'neutron' | 'electron' | 'positron' 
 
 type SelfOptions = {
   maxZLayer?: number;
+  particleRadius?: number; // radius of the particle, in model space
 };
 
 export type ParticleOptions = SelfOptions & PhetioObjectOptions;
@@ -94,11 +95,17 @@ class Particle extends PhetioObject {
       tandem: Tandem.REQUIRED,
       maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
       phetioType: Particle.ParticleIO,
-      phetioState: false
+      phetioState: false,
+
+      // If no radius is provided, use a default value based on the particle type.
+      particleRadius: type === 'electron' || type === 'positron' ?
+                      ShredConstants.ELECTRON_RADIUS :
+                      ShredConstants.NUCLEON_RADIUS
     }, providedOptions );
 
     super( options );
 
+    this.radius = options.particleRadius;
     this.typeProperty = new Property<ParticleTypeString>( type );
 
     // Can be changed in rare cases, see ParticleAtom.changeNucleonType()
@@ -115,10 +122,6 @@ class Particle extends PhetioObject {
       tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' ),
       phetioReadOnly: true // phet-io users should have no cause to set this
     } );
-
-    this.radius = type === 'electron' || type === 'positron' ?
-                  ShredConstants.ELECTRON_RADIUS :
-                  ShredConstants.NUCLEON_RADIUS;
 
     this.animationVelocityProperty = new NumberProperty( DEFAULT_PARTICLE_VELOCITY, {
       tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
