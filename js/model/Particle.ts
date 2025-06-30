@@ -29,9 +29,6 @@ import ShredConstants from '../ShredConstants.js';
 // used to give each particle a unique ID
 let nextParticleId = 1;
 
-// constants
-const DEFAULT_PARTICLE_VELOCITY = 200; // Basically in pixels/sec.
-
 // map of particle type to color information
 export const PARTICLE_COLORS: Record<ParticleTypeString, Color> = {
   proton: PhetColorScheme.RED_COLORBLIND,
@@ -46,6 +43,7 @@ export type ParticleTypeString = 'proton' | 'neutron' | 'electron' | 'positron' 
 type SelfOptions = {
   maxZLayer?: number;
   particleRadius?: number; // radius of the particle, in model space
+  animationSpeedProperty?: TProperty<number> | null; // position change per second, in model space
 };
 
 export type ParticleOptions = SelfOptions & PhetioObjectOptions;
@@ -78,7 +76,9 @@ class Particle extends PhetioObject {
   public readonly radius: number;
 
   // Position change per second
-  public readonly animationVelocityProperty: TProperty<number>;
+  public readonly animationSpeedProperty: TProperty<number>;
+
+  // Whether the particle is controlled by the user (e.g. dragged around) or not.
   public readonly userControlledProperty: TProperty<boolean>;
 
   // Used in view, integer value, higher means further back.
@@ -92,6 +92,7 @@ class Particle extends PhetioObject {
   public constructor( type: ParticleTypeString, providedOptions?: ParticleOptions ) {
 
     const options = optionize<ParticleOptions, SelfOptions, PhetioObjectOptions>()( {
+
       tandem: Tandem.REQUIRED,
       maxZLayer: Number.POSITIVE_INFINITY, // for phet-io, can take on values 0-maxZLayer (inclusive)
       phetioType: Particle.ParticleIO,
@@ -100,7 +101,11 @@ class Particle extends PhetioObject {
       // If no radius is provided, use a default value based on the particle type.
       particleRadius: type === 'electron' || type === 'positron' ?
                       ShredConstants.ELECTRON_RADIUS :
-                      ShredConstants.NUCLEON_RADIUS
+                      ShredConstants.NUCLEON_RADIUS,
+
+      // If no animation speed is provided, use null, which means the default speed will be used.
+      animationSpeedProperty: null
+
     }, providedOptions );
 
     super( options );
@@ -127,11 +132,13 @@ class Particle extends PhetioObject {
       phetioReadOnly: true // phet-io users should have no cause to set this
     } );
 
-    this.animationVelocityProperty = new NumberProperty( DEFAULT_PARTICLE_VELOCITY, {
-      tandem: options.tandem && options.tandem.createTandem( 'animationVelocityProperty' ),
-      range: new Range( 0, 100 * DEFAULT_PARTICLE_VELOCITY ), // limited for the PhET-iO Studio wrapper, code can handle any value
-      units: 'view-coordinates/s'
-    } );
+    // Use the provided animation speed property or, if none was provided, create a new one with the default speed.
+    this.animationSpeedProperty = options.animationSpeedProperty ||
+                                  new NumberProperty( ShredConstants.DEFAULT_PARTICLE_SPEED, {
+                                    tandem: options.tandem && options.tandem.createTandem( 'animationSpeedProperty' ),
+                                    range: new Range( 0, 100 * ShredConstants.DEFAULT_PARTICLE_SPEED ),
+                                    units: 'view-coordinates/s'
+                                  } );
 
     this.userControlledProperty = new BooleanProperty( false, {
       tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
@@ -152,7 +159,7 @@ class Particle extends PhetioObject {
       this.colorProperty.dispose();
       this.positionProperty.dispose();
       this.destinationProperty.dispose();
-      this.animationVelocityProperty.dispose();
+      this.animationSpeedProperty.dispose();
       this.userControlledProperty.dispose();
       this.zLayerProperty.dispose();
       this.animationEndedEmitter.dispose();
@@ -168,7 +175,7 @@ class Particle extends PhetioObject {
     if ( !this.userControlledProperty.get() ) {
       const position = this.positionProperty.get();
       const destination = this.destinationProperty.get();
-      const velocity = this.animationVelocityProperty.get();
+      const velocity = this.animationSpeedProperty.get();
       const distanceToDestination = position.distance( destination );
       if ( distanceToDestination > dt * velocity ) {
 

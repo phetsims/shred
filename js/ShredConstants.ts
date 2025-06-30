@@ -21,6 +21,8 @@ const ShredConstants = {
   NUCLEON_RADIUS: 10, // In screen coordinates, which are roughly pixels.
   ELECTRON_RADIUS: 8, // In screen coordinates, which are roughly pixels.
 
+  DEFAULT_PARTICLE_SPEED: 200, // In screen coordinate units per second.
+
   // Placing this variable here will remove dependency on BuildAnAtom in shred repository. Max number of electrons
   // for ElectronCloudView.
   MAX_ELECTRONS: 10,
