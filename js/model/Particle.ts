@@ -68,7 +68,7 @@ class Particle extends PhetioObject {
   // gradient applied to present a 3D graphic.
   public readonly colorProperty: TProperty<Color>;
 
-  // The position of the particle, in model space.
+  // The position of the particle in model space, units are roughly meant to resemble picometers.
   public readonly positionProperty: TProperty<Vector2>;
 
   // The destination of the particle, in model space. This is where the particle will move to when it is animated.
@@ -114,11 +114,15 @@ class Particle extends PhetioObject {
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
       valueComparisonStrategy: 'equalsFunction',
       tandem: options.tandem && options.tandem.createTandem( 'positionProperty' ),
+      phetioDocumentation: 'The particle\'s position in 2D model space.',
+      units: 'pm', // picometers
       phetioReadOnly: true // phet-io users should have no cause to set this
     } );
 
     this.destinationProperty = new Vector2Property( Vector2.ZERO, {
       valueComparisonStrategy: 'equalsFunction',
+      phetioDocumentation: 'The position in 2D model space to which this particle is moving.',
+      units: 'pm', // picometers
       tandem: options.tandem && options.tandem.createTandem( 'destinationProperty' ),
       phetioReadOnly: true // phet-io users should have no cause to set this
     } );
