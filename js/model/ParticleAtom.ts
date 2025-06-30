@@ -296,16 +296,16 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
     if ( particle.type === 'proton' || particle.type === 'neutron' ) {
 
       // Create a listener that will be called when this particle is removed.
-      const nucleonRemovedListener = ( userControlled: boolean ) => {
-        if ( userControlled && particleArray.includes( particle ) ) {
+      const nucleonRemovedListener = ( isDragging: boolean ) => {
+        if ( isDragging && particleArray.includes( particle ) ) {
           particleArray.remove( particle );
           this.reconfigureNucleus();
           particle.zLayerProperty.set( 0 );
-          particle.userControlledProperty.unlink( nucleonRemovedListener );
+          particle.isDraggingProperty.unlink( nucleonRemovedListener );
           particle.particleAtomRemovalListener = null;
         }
       };
-      particle.userControlledProperty.lazyLink( nucleonRemovedListener );
+      particle.isDraggingProperty.lazyLink( nucleonRemovedListener );
 
       // Attach the listener to the particle so that it can be unlinked when the particle is removed.
       particle.particleAtomRemovalListener = nucleonRemovedListener;
@@ -346,15 +346,15 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
       particle.destinationProperty.set( sortedOpenPositions[ 0 ].position );
 
       // Listen for removal of the electron and handle it.
-      const electronRemovedListener = ( userControlled: boolean ) => {
-        if ( userControlled && this.electrons.includes( particle ) ) {
+      const electronRemovedListener = ( isDragging: boolean ) => {
+        if ( isDragging && this.electrons.includes( particle ) ) {
           this.electrons.remove( particle );
           particle.zLayerProperty.set( 0 );
-          particle.userControlledProperty.unlink( electronRemovedListener );
+          particle.isDraggingProperty.unlink( electronRemovedListener );
           particle.particleAtomRemovalListener = null;
         }
       };
-      particle.userControlledProperty.lazyLink( electronRemovedListener );
+      particle.isDraggingProperty.lazyLink( electronRemovedListener );
 
       // Set the listener as an attribute of the particle to aid unlinking in some cases.
       particle.particleAtomRemovalListener = electronRemovedListener;
@@ -385,7 +385,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
     assert && assert( typeof particle.particleAtomRemovalListener === 'function',
       'No particle removal listener attached to particle.'
     );
-    particle.userControlledProperty.unlink( particle.particleAtomRemovalListener! );
+    particle.isDraggingProperty.unlink( particle.particleAtomRemovalListener! );
 
     particle.particleAtomRemovalListener = null;
   }

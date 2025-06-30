@@ -94,7 +94,7 @@ class ParticleView extends Node {
       drag: () => {
 
         // Once the particle is being dragged, set a value indicating that the particle is user controlled.
-        this.particle.userControlledProperty.set( true );
+        this.particle.isDraggingProperty.set( true );
 
         // Because the destination property is what is being set by the drag listener, we need to tell the particle to
         // go immediately to its destination when a drag occurs.
@@ -113,7 +113,7 @@ class ParticleView extends Node {
         },
 
         end: () => {
-          this.particle.userControlledProperty.set( false );
+          this.particle.isDraggingProperty.set( false );
         }
       }, dragListenerOptions ) );
     this.addInputListener( this.dragListener );
@@ -129,14 +129,14 @@ class ParticleView extends Node {
         // Add a timeout before dropping the particle for better UX.
         end: () => {
           stepTimer.setTimeout( () => {
-            this.particle.userControlledProperty.set( false );
+            this.particle.isDraggingProperty.set( false );
           }, 500 );
         }
       }, dragListenerOptions ) );
     this.addInputListener( keyboardDragListener );
 
-    this.particle.userControlledProperty.link( userControlled => {
-      if ( userControlled && !this.isFocused() ) {
+    this.particle.isDraggingProperty.link( isDragging => {
+      if ( isDragging && !this.isFocused() ) {
         this.focus(); // focus the particle view when it is being dragged
 
         // Move the particle to the front of whatever layer it is on so that it is not obscured by other particles.

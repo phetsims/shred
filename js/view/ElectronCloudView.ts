@@ -89,7 +89,7 @@ class ElectronCloudView extends Circle {
 
         const electron = atom.extractParticle( 'electron' );
         if ( electron !== null ) {
-          electron.userControlledProperty.set( true );
+          electron.isDraggingProperty.set( true );
           electron.setPositionAndDestination( positionInModelSpace );
           this.extractedElectron = electron;
         }
@@ -101,7 +101,7 @@ class ElectronCloudView extends Circle {
       },
       end: () => {
         if ( this.extractedElectron !== null ) {
-          this.extractedElectron.userControlledProperty.set( false );
+          this.extractedElectron.isDraggingProperty.set( false );
           this.extractedElectron = null;
         }
       },

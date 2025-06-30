@@ -54,7 +54,7 @@ class BucketDragListener extends DragListener {
 
       end: () => {
         if ( activeParticle !== null ) {
-          activeParticle.userControlledProperty.set( false );
+          activeParticle.isDraggingProperty.set( false );
           activeParticle = null;
         }
       }

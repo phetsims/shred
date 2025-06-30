@@ -78,8 +78,8 @@ class Particle extends PhetioObject {
   // Position change per second
   public readonly animationSpeedProperty: TProperty<number>;
 
-  // Whether the particle is controlled by the user (e.g. dragged around) or not.
-  public readonly userControlledProperty: TProperty<boolean>;
+  // Whether the particle is being dragged by the user at the moment.
+  public readonly isDraggingProperty: TProperty<boolean>;
 
   // Used in view, integer value, higher means further back.
   public readonly zLayerProperty: TProperty<number>;
@@ -87,7 +87,7 @@ class Particle extends PhetioObject {
   private readonly disposeParticle: VoidFunction;
 
   // Assigned by other parties as a way to clean up animations.
-  public particleAtomRemovalListener: null | ( ( userControlled: boolean ) => void ) = null;
+  public particleAtomRemovalListener: null | ( ( isDragging: boolean ) => void ) = null;
 
   public constructor( type: ParticleTypeString, providedOptions?: ParticleOptions ) {
 
@@ -140,8 +140,9 @@ class Particle extends PhetioObject {
                                     units: 'view-coordinates/s'
                                   } );
 
-    this.userControlledProperty = new BooleanProperty( false, {
-      tandem: options.tandem && options.tandem.createTandem( 'userControlledProperty' ),
+    this.isDraggingProperty = new BooleanProperty( false, {
+      tandem: options.tandem && options.tandem.createTandem( 'isDraggingProperty' ),
+      phetioReadOnly: true,
       hasListenerOrderDependencies: true // Needed for BAN, see https://github.com/phetsims/build-a-nucleus/issues/105
     } );
 
@@ -160,7 +161,7 @@ class Particle extends PhetioObject {
       this.positionProperty.dispose();
       this.destinationProperty.dispose();
       this.animationSpeedProperty.dispose();
-      this.userControlledProperty.dispose();
+      this.isDraggingProperty.dispose();
       this.zLayerProperty.dispose();
       this.animationEndedEmitter.dispose();
     };
@@ -172,7 +173,7 @@ class Particle extends PhetioObject {
   }
 
   public step( dt: number ): void {
-    if ( !this.userControlledProperty.get() ) {
+    if ( !this.isDraggingProperty.get() ) {
       const position = this.positionProperty.get();
       const destination = this.destinationProperty.get();
       const velocity = this.animationSpeedProperty.get();
