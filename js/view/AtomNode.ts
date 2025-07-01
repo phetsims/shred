@@ -58,11 +58,11 @@ class AtomNode extends Node {
   private readonly disposeAtomNode: VoidFunction;
 
   /**
-   * @param particleAtom Model that represents the atom, including particle positions
+   * @param atom Model that represents the atom, including particle positions
    * @param modelViewTransform Model-View transform
    * @param providedOptions
    */
-  public constructor( particleAtom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: AtomNodeOptions ) {
+  public constructor( atom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: AtomNodeOptions ) {
     const options = optionize<AtomNodeOptions, SelfOptions, NodeOptions>()( {
       showCenterX: true,
       showElementNameProperty: new Property( true ),
@@ -74,7 +74,7 @@ class AtomNode extends Node {
 
     super();
 
-    this.atom = particleAtom;
+    this.atom = atom;
     this.modelViewTransform = modelViewTransform;
 
     // Create the X where the nucleus goes.
@@ -82,7 +82,7 @@ class AtomNode extends Node {
     let atomCenterMarker: Path | null = null;
     if ( options.showCenterX ) {
       const sizeInPixels = modelViewTransform.modelToViewDeltaX( 20 );
-      const center = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get() );
+      const center = modelViewTransform.modelToViewPosition( atom.positionProperty.get() );
       const centerMarker = new Shape();
       centerMarker.moveTo( center.x - sizeInPixels / 2, center.y - sizeInPixels / 2 );
       centerMarker.lineTo( center.x + sizeInPixels / 2, center.y + sizeInPixels / 2 );
@@ -98,17 +98,17 @@ class AtomNode extends Node {
 
       // Make the marker invisible if any nucleons are present.
       countListener = () => {
-        atomCenterMarker!.visible = particleAtom.getWeight() === 0;
+        atomCenterMarker!.visible = atom.getWeight() === 0;
       };
-      particleAtom.electronCountProperty.link( countListener );
-      particleAtom.neutronCountProperty.link( countListener );
-      particleAtom.protonCountProperty.link( countListener );
+      atom.electronCountProperty.link( countListener );
+      atom.neutronCountProperty.link( countListener );
+      atom.protonCountProperty.link( countListener );
     }
 
     // Add the electron shells and cloud.
-    const electronShell = new ElectronShellView( particleAtom, modelViewTransform );
+    const electronShell = new ElectronShellView( atom, modelViewTransform );
     this.addChild( electronShell );
-    const electronCloud = new ElectronCloudView( particleAtom, modelViewTransform, {
+    const electronCloud = new ElectronCloudView( atom, modelViewTransform, {
       tandem: options.tandem.createTandem( 'electronCloud' )
     } );
     this.addChild( electronCloud );
@@ -120,7 +120,7 @@ class AtomNode extends Node {
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
 
     const elementNameTextCenterPos = modelViewTransform.modelToViewPosition(
-      particleAtom.positionProperty.get().plus( new Vector2( 0, particleAtom.innerElectronShellRadius * 0.60 ) )
+      atom.positionProperty.get().plus( new Vector2( 0, atom.innerElectronShellRadius * 0.60 ) )
     );
 
     // Create the textual readout for the element name.
@@ -140,22 +140,22 @@ class AtomNode extends Node {
       }
       this.elementNameText.string = name;
       this.elementNameText.setScaleMagnitude( 1 );
-      const maxLabelWidth = modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 );
+      const maxLabelWidth = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius * 1.4 );
       this.elementNameText.setScaleMagnitude( Math.min( maxLabelWidth / this.elementNameText.width, 1 ) );
       this.elementNameText.center = elementNameTextCenterPos;
     };
     updateElementName(); // Do the initial update.
 
     // Hook up update listeners.
-    particleAtom.protonCountProperty.link( updateElementName );
+    atom.protonCountProperty.link( updateElementName );
 
     const updateElementNameVisibility = ( visible: boolean ) => {
       this.elementNameText.visible = visible;
     };
     options.showElementNameProperty.link( updateElementNameVisibility );
 
-    const ionIndicatorTextTranslation = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
-      new Vector2( particleAtom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
+    const ionIndicatorTextTranslation = modelViewTransform.modelToViewPosition( atom.positionProperty.get().plus(
+      new Vector2( atom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
 
     // Create the textual readout for the ion indicator, set by trial and error.
     this.ionIndicatorText = new Text( '', {
@@ -191,23 +191,23 @@ class AtomNode extends Node {
     };
     updateIonIndicator(); // Do the initial update.
 
-    particleAtom.protonCountProperty.link( updateIonIndicator );
-    particleAtom.electronCountProperty.link( updateIonIndicator );
+    atom.protonCountProperty.link( updateIonIndicator );
+    atom.electronCountProperty.link( updateIonIndicator );
     const updateIonIndicatorVisibility = ( visible: boolean ) => {
       this.ionIndicatorText.visible = visible;
     };
     options.showNeutralOrIonProperty.link( updateIonIndicatorVisibility );
 
     // Create the textual readout for the stability indicator.
-    const stabilityIndicatorTextCenterPos = modelViewTransform.modelToViewPosition( particleAtom.positionProperty.get().plus(
-      new Vector2( 0, -particleAtom.innerElectronShellRadius * 0.60 ) ) );
+    const stabilityIndicatorTextCenterPos = modelViewTransform.modelToViewPosition( atom.positionProperty.get().plus(
+      new Vector2( 0, -atom.innerElectronShellRadius * 0.60 ) ) );
 
     this.stabilityIndicatorText = new Text( '', {
       font: new PhetFont( 20 ),
       fill: 'black',
       center: stabilityIndicatorTextCenterPos,
       pickable: false,
-      maxWidth: modelViewTransform.modelToViewDeltaX( particleAtom.innerElectronShellRadius * 1.4 )
+      maxWidth: modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius * 1.4 )
     } );
     this.addChild( this.stabilityIndicatorText );
 
@@ -229,8 +229,8 @@ class AtomNode extends Node {
     updateStabilityIndicator(); // Do initial update.
 
     // Add the listeners that control the label content and visibility.
-    particleAtom.protonCountProperty.link( updateStabilityIndicator );
-    particleAtom.neutronCountProperty.link( updateStabilityIndicator );
+    atom.protonCountProperty.link( updateStabilityIndicator );
+    atom.neutronCountProperty.link( updateStabilityIndicator );
     const updateStabilityIndicatorVisibility = ( visible: boolean ) => {
       this.stabilityIndicatorText.visible = visible;
     };
@@ -241,19 +241,19 @@ class AtomNode extends Node {
       electronCloud.dispose();
 
       if ( countListener ) {
-        particleAtom.electronCountProperty.unlink( countListener );
-        particleAtom.neutronCountProperty.unlink( countListener );
-        particleAtom.protonCountProperty.unlink( countListener );
+        atom.electronCountProperty.unlink( countListener );
+        atom.neutronCountProperty.unlink( countListener );
+        atom.protonCountProperty.unlink( countListener );
       }
 
       options.electronShellDepictionProperty.unlink( updateElectronShellDepictionVisibility );
-      particleAtom.protonCountProperty.unlink( updateElementName );
+      atom.protonCountProperty.unlink( updateElementName );
       options.showElementNameProperty.unlink( updateElementNameVisibility );
-      particleAtom.protonCountProperty.unlink( updateIonIndicator );
-      particleAtom.electronCountProperty.unlink( updateIonIndicator );
+      atom.protonCountProperty.unlink( updateIonIndicator );
+      atom.electronCountProperty.unlink( updateIonIndicator );
       options.showNeutralOrIonProperty.unlink( updateIonIndicatorVisibility );
-      particleAtom.protonCountProperty.unlink( updateStabilityIndicator );
-      particleAtom.neutronCountProperty.unlink( updateStabilityIndicator );
+      atom.protonCountProperty.unlink( updateStabilityIndicator );
+      atom.neutronCountProperty.unlink( updateStabilityIndicator );
       options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
       atomCenterMarker && atomCenterMarker.dispose();
       electronShell.dispose();
@@ -263,6 +263,9 @@ class AtomNode extends Node {
     };
 
     this.mutate( options );
+
+    // Add the model as a linked element so that it can be easily navigated to in the phet-io tree.
+    this.addLinkedElement( this.atom );
   }
 
   public override dispose(): void {
