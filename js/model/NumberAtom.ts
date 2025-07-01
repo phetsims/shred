@@ -14,9 +14,7 @@ import Property from '../../../axon/js/Property.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
@@ -43,6 +41,7 @@ export type TNumberAtom = {
   chargeProperty: TReadOnlyProperty<number>;
   massNumberProperty: TReadOnlyProperty<number>;
   particleCountProperty: TReadOnlyProperty<number>;
+  elementNameStringProperty: TReadOnlyProperty<string>;
 };
 
 // Define a fully read-only version of the TNumberAtom type.
@@ -51,13 +50,14 @@ type AllReadOnly<T> = {
 };
 export type TReadOnlyNumberAtom = AllReadOnly<TNumberAtom>;
 
-class NumberAtom {
+class NumberAtom implements TNumberAtom {
   public readonly protonCountProperty: Property<number>;
   public readonly neutronCountProperty: Property<number>;
   public readonly electronCountProperty: Property<number>;
   public readonly chargeProperty: TReadOnlyProperty<number>;
   public readonly massNumberProperty: TReadOnlyProperty<number>;
   public readonly particleCountProperty: TReadOnlyProperty<number>;
+  public readonly elementNameStringProperty: TReadOnlyProperty<string>;
   public readonly atomUpdated: Emitter; // events emitted by instances of this type
 
   public constructor( providedOptions?: NumberAtomOptions ) {
@@ -107,6 +107,14 @@ class NumberAtom {
       ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount
     );
 
+    this.elementNameStringProperty = new DerivedProperty(
+      [ this.protonCountProperty ],
+      protonCount => AtomIdentifier.getEnglishName( protonCount ),
+      {
+        tandem: options.tandem?.createTandem( 'elementNameProperty' )
+      }
+    );
+
     this.atomUpdated = new Emitter( {
       tandem: options.tandem?.createTandem( 'atomUpdatedEmitter' )
     } );
@@ -133,10 +141,6 @@ class NumberAtom {
            this.electronCount === otherAtom.electronCount;
   }
 
-  public getStandardAtomicMass(): number {
-    return AtomIdentifier.getStandardAtomicMass( this.protonCountProperty.get() + this.neutronCountProperty.get() );
-  }
-
   public getIsotopeAtomicMass(): number {
     return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
   }
@@ -153,26 +157,13 @@ class NumberAtom {
     this.massNumberProperty.dispose();
     this.particleCountProperty.dispose();
 
-    // Dispose these afterwards since they are dependencies to the above DerivedProperties
+    // Dispose these afterward, since they are dependencies to the above DerivedProperties.
     this.protonCountProperty.dispose();
     this.neutronCountProperty.dispose();
     this.electronCountProperty.dispose();
 
     this.atomUpdated.dispose();
   }
-
-  public static NumberAtomIO = new IOType<IntentionalAny, IntentionalAny>( 'NumberAtomIO', {
-    valueType: NumberAtom,
-    documentation: 'A value type that contains quantities of electrons, protons, and neutrons',
-    toStateObject: numberAtom => ( {
-      protonCount: numberAtom.protonCountProperty.get(),
-      electronCount: numberAtom.electronCountProperty.get(),
-      neutronCount: numberAtom.neutronCountProperty.get()
-    } ),
-    fromStateObject( stateObject ) {
-      //TODO https://github.com/phetsims/shred/issues/39 Should this be implemented?
-    }
-  } );
 }
 
 shred.register( 'NumberAtom', NumberAtom );

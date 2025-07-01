@@ -9,6 +9,7 @@
 
 import createObservableArray, { ObservableArray } from '../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import DerivedStringProperty from '../../../axon/js/DerivedStringProperty.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
@@ -57,12 +58,19 @@ type ElectronShellPosition = {
 
 class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
 
-  private readonly nucleonRadius: number;
-  public readonly positionProperty: TProperty<Vector2>;
-  public readonly nucleusOffsetProperty: TProperty<Vector2>;
+  // The subatomic particles that make up this atom.
   public readonly protons: ObservableArray<Particle>;
   public readonly neutrons: ObservableArray<Particle>;
   public readonly electrons: ObservableArray<Particle>;
+
+  // The radius of the nucleons in model space, used to position them in the nucleus.
+  private readonly nucleonRadius: number;
+
+  // The position of the center of the atom in model space, where the nucleus is located.
+  public readonly positionProperty: TProperty<Vector2>;
+
+  // The offset of the nucleus from the atom's position, used to move the nucleus around to indicate instability.
+  public readonly nucleusOffsetProperty: TProperty<Vector2>;
 
   // array of all live animations
   private readonly liveAnimations: ObservableArray<Animation>;
@@ -78,6 +86,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
   public readonly particleCountProperty: TReadOnlyProperty<number>;
   public readonly innerElectronShellRadius: number;
   public readonly outerElectronShellRadius: number;
+  public readonly elementNameStringProperty: TReadOnlyProperty<string>;
 
   // Set the default electron add/remove mode.
   private readonly electronAddMode: ElectronAddMode = 'proximal';
@@ -148,6 +157,13 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
     this.particleCountProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
       ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount
+    );
+    this.elementNameStringProperty = new DerivedStringProperty(
+      [ this.protonCountProperty ],
+      protonCount => AtomIdentifier.getEnglishName( protonCount ),
+      {
+        tandem: options.tandem.createTandem( 'elementNameStringProperty' )
+      }
     );
 
     // Make shell radii publicly accessible.
