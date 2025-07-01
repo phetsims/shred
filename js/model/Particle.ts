@@ -160,10 +160,14 @@ class Particle extends PhetioObject {
       this.colorProperty.dispose();
       this.positionProperty.dispose();
       this.destinationProperty.dispose();
-      this.animationSpeedProperty.dispose();
       this.isDraggingProperty.dispose();
       this.zLayerProperty.dispose();
       this.animationEndedEmitter.dispose();
+
+      // Only dispose the animation speed property if it was created here.
+      if ( options.animationSpeedProperty === null ) {
+        this.animationSpeedProperty.dispose();
+      }
     };
   }
 
