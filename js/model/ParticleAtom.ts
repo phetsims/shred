@@ -24,6 +24,7 @@ import Color from '../../../scenery/js/util/Color.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
+import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
@@ -87,6 +88,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
   public readonly innerElectronShellRadius: number;
   public readonly outerElectronShellRadius: number;
   public readonly elementNameStringProperty: TReadOnlyProperty<string>;
+  public readonly nucleusStableProperty: TReadOnlyProperty<boolean>;
 
   // Set the default electron add/remove mode.
   private readonly electronAddMode: ElectronAddMode = 'proximal';
@@ -163,6 +165,16 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
       protonCount => AtomIdentifier.getEnglishName( protonCount ),
       {
         tandem: options.tandem.createTandem( 'elementNameStringProperty' )
+      }
+    );
+    this.nucleusStableProperty = new DerivedProperty(
+      [ this.protonCountProperty, this.neutronCountProperty ],
+      ( protonCount, neutronCount ) => protonCount + neutronCount > 0 ?
+                                       AtomIdentifier.isStable( protonCount, neutronCount ) :
+                                       true,
+      {
+        tandem: options.tandem.createTandem( 'nucleusStableProperty' ),
+        phetioValueType: BooleanIO
       }
     );
 
@@ -279,6 +291,8 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
     this.chargeProperty.dispose();
     this.positionProperty.dispose();
     this.nucleusOffsetProperty.dispose();
+    this.elementNameStringProperty.dispose();
+    this.nucleusStableProperty.dispose();
 
     this.protons.dispose();
     this.neutrons.dispose();

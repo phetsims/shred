@@ -15,6 +15,7 @@ import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
+import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
@@ -42,6 +43,7 @@ export type TNumberAtom = {
   massNumberProperty: TReadOnlyProperty<number>;
   particleCountProperty: TReadOnlyProperty<number>;
   elementNameStringProperty: TReadOnlyProperty<string>;
+  nucleusStableProperty: TReadOnlyProperty<boolean>;
 };
 
 // Define a fully read-only version of the TNumberAtom type.
@@ -58,6 +60,7 @@ class NumberAtom implements TNumberAtom {
   public readonly massNumberProperty: TReadOnlyProperty<number>;
   public readonly particleCountProperty: TReadOnlyProperty<number>;
   public readonly elementNameStringProperty: TReadOnlyProperty<string>;
+  public readonly nucleusStableProperty: TReadOnlyProperty<boolean>;
   public readonly atomUpdated: Emitter; // events emitted by instances of this type
 
   public constructor( providedOptions?: NumberAtomOptions ) {
@@ -107,11 +110,24 @@ class NumberAtom implements TNumberAtom {
       ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount
     );
 
+    // The element name is derived from the proton count, since the number of protons determines the element.
     this.elementNameStringProperty = new DerivedProperty(
       [ this.protonCountProperty ],
       protonCount => AtomIdentifier.getEnglishName( protonCount ),
       {
-        tandem: options.tandem?.createTandem( 'elementNameProperty' )
+        tandem: options.tandem?.createTandem( 'elementNameStringProperty' )
+      }
+    );
+
+    // Update the stability state changes.
+    this.nucleusStableProperty = new DerivedProperty(
+      [ this.protonCountProperty, this.neutronCountProperty ],
+      ( protonCount, neutronCount ) => protonCount + neutronCount > 0 ?
+                                       AtomIdentifier.isStable( protonCount, neutronCount ) :
+                                       true,
+      {
+        tandem: options.tandem?.createTandem( 'nucleusStableProperty' ),
+        phetioValueType: BooleanIO
       }
     );
 
@@ -156,6 +172,8 @@ class NumberAtom implements TNumberAtom {
     this.chargeProperty.dispose();
     this.massNumberProperty.dispose();
     this.particleCountProperty.dispose();
+    this.elementNameStringProperty.dispose();
+    this.nucleusStableProperty.dispose();
 
     // Dispose these afterward, since they are dependencies to the above DerivedProperties.
     this.protonCountProperty.dispose();
