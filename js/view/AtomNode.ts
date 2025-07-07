@@ -37,7 +37,8 @@ const unstableString = ShredStrings.unstable;
 const ELEMENT_NAME_FONT_SIZE = 22;
 const ION_FONT_SIZE = 20;
 
-export type ElectronShellDepiction = 'orbits' | 'cloud';
+export const electronShellDepictionValues = [ 'orbits', 'cloud' ] as const;
+export type ElectronShellDepiction = typeof electronShellDepictionValues[number];
 
 type SelfOptions = {
   showCenterX?: boolean;
