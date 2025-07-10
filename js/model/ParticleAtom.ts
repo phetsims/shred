@@ -20,6 +20,7 @@ import Vector2Property from '../../../dot/js/Vector2Property.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import WithRequired from '../../../phet-core/js/types/WithRequired.js';
+import { ParticleContainer } from '../../../phetcommon/js/model/ParticleContainer.js';
 import Color from '../../../scenery/js/util/Color.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -57,7 +58,7 @@ type ElectronShellPosition = {
   position: Vector2;
 };
 
-class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
+class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, ParticleContainer<Particle> {
 
   // The subatomic particles that make up this atom.
   public readonly protons: ObservableArray<Particle>;
@@ -325,21 +326,6 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
 
     if ( particle.type === 'proton' || particle.type === 'neutron' ) {
 
-      // Create a listener that will be called when this particle is removed.
-      const nucleonRemovedListener = ( isDragging: boolean ) => {
-        if ( isDragging && particleArray.includes( particle ) ) {
-          particleArray.remove( particle );
-          this.reconfigureNucleus();
-          particle.zLayerProperty.set( 0 );
-          particle.isDraggingProperty.unlink( nucleonRemovedListener );
-          particle.particleAtomRemovalListener = null;
-        }
-      };
-      particle.isDraggingProperty.lazyLink( nucleonRemovedListener );
-
-      // Attach the listener to the particle so that it can be unlinked when the particle is removed.
-      particle.particleAtomRemovalListener = nucleonRemovedListener;
-
       // Add the particle and update the counts.
       const particleArray = particle.type === 'proton' ? this.protons : this.neutrons;
       particleArray.push( particle );
@@ -374,25 +360,14 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
       assert && assert( sortedOpenPositions.length > 0, 'No open positions found for electrons' );
       sortedOpenPositions[ 0 ].electron = particle;
       particle.destinationProperty.set( sortedOpenPositions[ 0 ].position );
-
-      // Listen for removal of the electron and handle it.
-      const electronRemovedListener = ( isDragging: boolean ) => {
-        if ( isDragging && this.electrons.includes( particle ) ) {
-          this.electrons.remove( particle );
-          particle.zLayerProperty.set( 0 );
-          particle.isDraggingProperty.unlink( electronRemovedListener );
-          particle.particleAtomRemovalListener = null;
-        }
-      };
-      particle.isDraggingProperty.lazyLink( electronRemovedListener );
-
-      // Set the listener as an attribute of the particle to aid unlinking in some cases.
-      particle.particleAtomRemovalListener = electronRemovedListener;
-
     }
     else {
       assert && assert( false, 'Unexpected particle type ' + particle.type );
     }
+
+    // Update the particle's container property so that it is associated with this atom.
+    assert && assert( particle.containerProperty.value === null, 'this particle is already in a container' );
+    particle.containerProperty.value = this;
   }
 
   /**
@@ -402,9 +377,11 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
 
     if ( this.protons.includes( particle ) ) {
       this.protons.remove( particle );
+      this.reconfigureNucleus();
     }
     else if ( this.neutrons.includes( particle ) ) {
       this.neutrons.remove( particle );
+      this.reconfigureNucleus();
     }
     else if ( this.electrons.includes( particle ) ) {
       this.electrons.remove( particle );
@@ -412,12 +389,15 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom {
     else {
       throw new Error( 'Attempt to remove particle that is not in this particle atom.' );
     }
-    assert && assert( typeof particle.particleAtomRemovalListener === 'function',
-      'No particle removal listener attached to particle.'
-    );
-    particle.isDraggingProperty.unlink( particle.particleAtomRemovalListener! );
 
-    particle.particleAtomRemovalListener = null;
+    // Clear the container property so that the particle is no longer associated with this atom.
+    particle.containerProperty.set( null );
+  }
+
+  public includes( particle: Particle ): boolean {
+    return this.protons.includes( particle ) ||
+           this.neutrons.includes( particle ) ||
+           this.electrons.includes( particle );
   }
 
   /**

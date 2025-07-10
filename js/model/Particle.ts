@@ -16,12 +16,14 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
+import { ParticleContainer } from '../../../phetcommon/js/model/ParticleContainer.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Color from '../../../scenery/js/util/Color.js';
 import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
+import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -50,8 +52,6 @@ export type ParticleOptions = SelfOptions & PhetioObjectOptions;
 
 class Particle extends PhetioObject {
 
-  public static readonly MAX_LAYERS = 5;
-
   // IDs needed for map-like lookup
   public readonly id = nextParticleId++;
 
@@ -75,6 +75,9 @@ class Particle extends PhetioObject {
   // The radius of the particle, in model space.
   public readonly radius: number;
 
+  // The container that this particle is in, if any.  This can be a ParticleAtom or a SphereBucket.
+  public readonly containerProperty: TProperty<ParticleContainer<Particle> | null>;
+
   // Position change per second
   public readonly animationSpeedProperty: TProperty<number>;
 
@@ -85,9 +88,6 @@ class Particle extends PhetioObject {
   public readonly zLayerProperty: TProperty<number>;
 
   private readonly disposeParticle: VoidFunction;
-
-  // Assigned by other parties as a way to clean up animations.
-  public particleAtomRemovalListener: null | ( ( isDragging: boolean ) => void ) = null;
 
   public constructor( type: ParticleTypeString, providedOptions?: ParticleOptions ) {
 
@@ -112,6 +112,12 @@ class Particle extends PhetioObject {
 
     this.radius = options.particleRadius;
     this.typeProperty = new Property<ParticleTypeString>( type );
+    this.containerProperty = new Property( null, {
+      tandem: options.tandem && options.tandem.createTandem( 'containerProperty' ),
+      phetioValueType: NullableIO( ReferenceIO( IOType.ObjectIO ) ),
+      phetioDocumentation: 'The container that this particle is in, if any. This can be a ParticleAtom or a SphereBucket.',
+      phetioReadOnly: true // phet-io users should have no cause to set this
+    } );
 
     // Can be changed in rare cases, see ParticleAtom.changeNucleonType()
     this.colorProperty = new ColorProperty( PARTICLE_COLORS[ type ] );
@@ -184,8 +190,8 @@ class Particle extends PhetioObject {
       const distanceToDestination = position.distance( destination );
       if ( distanceToDestination > dt * velocity ) {
 
-        // This was broken up into individual steps in an attempt to solve an issue where complex vector operations
-        // sometimes didn't work.
+        // Calculate the motion vector for this step.  This was broken up into individual steps because of an issue
+        // where complex vector operations sometimes didn't work.
         const stepMagnitude = velocity * dt;
         const stepAngle = Math.atan2( destination.y - position.y, destination.x - position.x );
         const stepVector = Vector2.createPolar( stepMagnitude, stepAngle );
