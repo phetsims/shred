@@ -43,8 +43,10 @@ class ParticleView extends Node {
 
     const ownsHighContrastProperty = providedOptions && !providedOptions.highContrastProperty;
 
-    const options = optionize4<ParticleViewOptions, SelfOptions, NodeOptions>()( {},
-      AccessibleDraggableOptions, {
+    const options = optionize4<ParticleViewOptions, SelfOptions, NodeOptions>()(
+      {},
+      AccessibleDraggableOptions,
+      {
         dragBounds: Bounds2.EVERYTHING,
         tandem: Tandem.REQUIRED,
         touchOffset: null,
@@ -54,7 +56,9 @@ class ParticleView extends Node {
 
         // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
         highContrastProperty: new BooleanProperty( false )
-      }, providedOptions );
+      },
+      providedOptions
+    );
 
     super();
 
