@@ -8,13 +8,14 @@
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
+import DerivedStringProperty from '../../../axon/js/DerivedStringProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
@@ -26,8 +27,7 @@ type SelfOptions = {
   electronCount?: number;
 };
 
-type ParentOptions = Pick<PhetioObjectOptions, 'tandem'>;
-export type NumberAtomOptions = SelfOptions & ParentOptions;
+export type NumberAtomOptions = SelfOptions & PhetioObjectOptions;
 
 type NumberAtomLike = {
   protonCount: number;
@@ -52,7 +52,7 @@ type AllReadOnly<T> = {
 };
 export type TReadOnlyNumberAtom = AllReadOnly<TNumberAtom>;
 
-class NumberAtom implements TNumberAtom {
+class NumberAtom extends PhetioObject implements TNumberAtom {
   public readonly protonCountProperty: Property<number>;
   public readonly neutronCountProperty: Property<number>;
   public readonly electronCountProperty: Property<number>;
@@ -65,11 +65,13 @@ class NumberAtom implements TNumberAtom {
 
   public constructor( providedOptions?: NumberAtomOptions ) {
 
-    const options = optionize<NumberAtomOptions, SelfOptions, ParentOptions>()( {
+    const options = optionize<NumberAtomOptions, SelfOptions, PhetioObjectOptions>()( {
       protonCount: 0,
       neutronCount: 0,
       electronCount: 0
     }, providedOptions );
+
+    super( options );
 
     this.protonCountProperty = new NumberProperty( options.protonCount, {
       tandem: options.tandem?.createTandem( 'protonCountProperty' ),
@@ -111,7 +113,7 @@ class NumberAtom implements TNumberAtom {
     );
 
     // The element name is derived from the proton count, since the number of protons determines the element.
-    this.elementNameStringProperty = new DerivedProperty(
+    this.elementNameStringProperty = new DerivedStringProperty(
       [ this.protonCountProperty ],
       protonCount => AtomIdentifier.getEnglishName( protonCount ),
       {
@@ -168,7 +170,8 @@ class NumberAtom implements TNumberAtom {
     this.atomUpdated.emit();
   }
 
-  public dispose(): void {
+  public override dispose(): void {
+    super.dispose();
     this.chargeProperty.dispose();
     this.massNumberProperty.dispose();
     this.particleCountProperty.dispose();
