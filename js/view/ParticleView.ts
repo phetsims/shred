@@ -107,8 +107,8 @@ class ParticleView extends Node {
     };
 
     // add a drag listener
-    this.dragListener = new SoundDragListener(
-      combineOptions<SoundDragListenerOptions>( {
+    this.dragListener = new SoundDragListener( combineOptions<SoundDragListenerOptions>(
+      {
         tandem: options.tandem.createTandem( 'dragListener' ),
 
         // Offset the position a little if this is a touch pointer so that the finger doesn't cover the particle.
@@ -119,7 +119,9 @@ class ParticleView extends Node {
         end: () => {
           this.particle.isDraggingProperty.set( false );
         }
-      }, dragListenerOptions ) );
+      },
+      dragListenerOptions
+    ) );
     this.addInputListener( this.dragListener );
 
     const keyboardDragListener = new SoundKeyboardDragListener(

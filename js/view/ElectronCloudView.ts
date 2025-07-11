@@ -2,7 +2,7 @@
 
 /**
  * Node that represents the electron shell in an atom as a "cloud" that grows and shrinks depending on the number of
- * electrons that it contains.  This has also been referred to as the "Schrodinger model" representation.
+ * electrons it contains.  This has also been referred to as the "Schrodinger model" representation.
  *
  * @author John Blanco
  */
@@ -11,7 +11,7 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import WithRequired from '../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import DragListener from '../../../scenery/js/listeners/DragListener.js';
+import SoundDragListener from '../../../scenery-phet/js/SoundDragListener.js';
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import Particle from '../model/Particle.js';
@@ -82,7 +82,7 @@ class ElectronCloudView extends Circle {
 
     // If the user clicks on the cloud, extract an electron.
     this.extractedElectron = null;
-    const dragListener = new DragListener( {
+    const dragListener = new SoundDragListener( {
       start: event => {
 
         const positionInModelSpace = localViewToModel( event.pointer.point );
