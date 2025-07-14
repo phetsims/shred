@@ -17,7 +17,6 @@ import Vector2Property from '../../../dot/js/Vector2Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import { ParticleContainer } from '../../../phetcommon/js/model/ParticleContainer.js';
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Color from '../../../scenery/js/util/Color.js';
 import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
@@ -33,7 +32,7 @@ let nextParticleId = 1;
 
 // map of particle type to color information
 export const PARTICLE_COLORS: Record<ParticleTypeString, Color> = {
-  proton: PhetColorScheme.RED_COLORBLIND,
+  proton: new Color( '#D14600' ),
   neutron: Color.GRAY.darkerColor( 0.1 ), // Dark gray
   electron: Color.BLUE,
   positron: new Color( 53, 182, 74 ), // Darkish green

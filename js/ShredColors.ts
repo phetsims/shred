@@ -50,7 +50,7 @@ const ShredColors = {
     default: '#DE6D02'
   } ),
 
-  elementNameColorProperty: new ProfileColorProperty( shred, 'elementNameColorProperty', {
+  positiveColorProperty: new ProfileColorProperty( shred, 'positiveColorProperty', {
     default: '#D14600'
   } )
 };

@@ -6,9 +6,9 @@
  * @author John Blanco
  */
 
-import PhetColorScheme from '../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import TColor from '../../scenery/js/util/TColor.js';
+import { PARTICLE_COLORS } from './model/Particle.js';
 import shred from './shred.js';
 
 const LEVEL_NAMES = [ 'periodic-table-game', 'mass-and-charge-game', 'symbol-game', 'advanced-symbol-game' ] as const;
@@ -37,7 +37,7 @@ const ShredConstants = {
 
   // Function for choosing text color based on charge value.
   CHARGE_TEXT_COLOR: function( charge: number ): TColor {
-    return charge > 0 ? PhetColorScheme.RED_COLORBLIND : charge < 0 ? 'blue' : 'black';
+    return charge > 0 ? PARTICLE_COLORS.proton : charge < 0 ? 'blue' : 'black';
   },
 
   // Names of the various game levels.

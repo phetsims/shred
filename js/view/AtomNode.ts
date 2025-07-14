@@ -13,7 +13,6 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
@@ -127,7 +126,7 @@ class AtomNode extends Node {
     // Create the textual readout for the element name.
     this.elementNameText = new Text( '', {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
-      fill: ShredColors.elementNameColorProperty,
+      fill: ShredColors.positiveColorProperty,
       center: elementNameTextCenterPos,
       pickable: false
     } );
@@ -178,7 +177,7 @@ class AtomNode extends Node {
         }
         else if ( charge > 0 ) {
           this.ionIndicatorText.string = positiveSignIonString;
-          this.ionIndicatorText.fill = PhetColorScheme.RED_COLORBLIND;
+          this.ionIndicatorText.fill = ShredColors.positiveColorProperty;
         }
         else {
           this.ionIndicatorText.string = neutralAtomString;

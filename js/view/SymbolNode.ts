@@ -12,13 +12,13 @@ import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import MathSymbols from '../../../scenery-phet/js/MathSymbols.js';
-import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
+import ShredColors from '../ShredColors.js';
 import ShredConstants from '../ShredConstants.js';
 
 // types
@@ -81,7 +81,7 @@ class SymbolNode extends Node {
     // Add the proton count display.
     const protonCountDisplay = new Text( '0', {
       font: NUMBER_FONT,
-      fill: PhetColorScheme.RED_COLORBLIND
+      fill: ShredColors.positiveColorProperty
     } );
     this.boundingBox.addChild( protonCountDisplay );
 
