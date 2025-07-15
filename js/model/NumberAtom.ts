@@ -75,18 +75,18 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
 
     this.protonCountProperty = new NumberProperty( options.protonCount, {
       tandem: options.tandem?.createTandem( 'protonCountProperty' ),
-      phetioDocumentation: 'this property is updated by the model and should not be set by users',
-      numberType: 'Integer'
+      numberType: 'Integer',
+      phetioReadOnly: true
     } );
     this.neutronCountProperty = new NumberProperty( options.neutronCount, {
       tandem: options.tandem?.createTandem( 'neutronCountProperty' ),
       numberType: 'Integer',
-      phetioDocumentation: 'this property is updated by the model and should not be set by users'
+      phetioReadOnly: true
     } );
     this.electronCountProperty = new NumberProperty( options.electronCount, {
       tandem: options.tandem?.createTandem( 'electronCountProperty' ),
       numberType: 'Integer',
-      phetioDocumentation: 'this property is updated by the model and should not be set by users'
+      phetioReadOnly: true
     } );
 
     this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
