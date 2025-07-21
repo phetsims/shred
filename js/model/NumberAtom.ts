@@ -68,7 +68,8 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     const options = optionize<NumberAtomOptions, SelfOptions, PhetioObjectOptions>()( {
       protonCount: 0,
       neutronCount: 0,
-      electronCount: 0
+      electronCount: 0,
+      phetioState: false
     }, providedOptions );
 
     super( options );
@@ -150,6 +151,12 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     return this.electronCountProperty.value;
   }
 
+  public set( otherAtom: NumberAtom ): void {
+    this.protonCountProperty.set( otherAtom.protonCount );
+    this.neutronCountProperty.set( otherAtom.neutronCount );
+    this.electronCountProperty.set( otherAtom.electronCount );
+  }
+
   /**
    * compare with another atom
    */
@@ -168,6 +175,14 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     this.electronCountProperty.set( electronCount );
     this.neutronCountProperty.set( neutronCount );
     this.atomUpdated.emit();
+  }
+
+  /**
+   * Returns a string representation of the atom, useful for debugging.  May appear as unused in the IDE, but leave it
+   * here anyway, as it is useful for debugging.
+   */
+  public override toString(): string {
+    return `NumberAtom( protonCount: ${this.protonCount}, neutronCount: ${this.neutronCount}, electronCount: ${this.electronCount} )`;
   }
 
   public override dispose(): void {
