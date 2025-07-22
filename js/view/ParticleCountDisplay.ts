@@ -52,6 +52,7 @@ class ParticleCountDisplay extends Panel {
     const nucleonRadius = 5; // Determined empirically
     const electronRadius = nucleonRadius * 0.6;
     const interParticleSpacing = nucleonRadius;
+    const radiusDiff = nucleonRadius - electronRadius;
 
 
     // Arrays to hold ParticleNode instances
@@ -62,7 +63,7 @@ class ParticleCountDisplay extends Panel {
     // HBoxes for each row
     const protonBar = new HBox( { spacing: interParticleSpacing } );
     const neutronBar = new HBox( { spacing: interParticleSpacing } );
-    const electronBar = new HBox( { spacing: interParticleSpacing } );
+    const electronBar = new HBox( { spacing: interParticleSpacing, xMargin: radiusDiff } );
 
     // HBoxes for label + bar, the label is part of the AlignGroup with a right alignment
     const protonRow = new HBox( {
