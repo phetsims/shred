@@ -22,6 +22,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import WithRequired from '../../../phet-core/js/types/WithRequired.js';
 import { ParticleContainer } from '../../../phetcommon/js/model/ParticleContainer.js';
 import Color from '../../../scenery/js/util/Color.js';
+import isSettingPhetioStateProperty from '../../../tandem/js/isSettingPhetioStateProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
@@ -366,7 +367,10 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
     }
 
     // Update the particle's container property so that it is associated with this atom.
-    assert && assert( particle.containerProperty.value === null, 'this particle is already in a container' );
+    // TODO: See https://github.com/phetsims/build-an-atom/issues/257.  Using isSettingPhetioStateProperty here seems
+    //       indicative of problems elsewhere.  I (jbphet) should follow up and see if this can be improved.
+    assert && assert( particle.containerProperty.value === null || isSettingPhetioStateProperty.value,
+      'this particle is already in a container' );
     particle.containerProperty.value = this;
   }
 
