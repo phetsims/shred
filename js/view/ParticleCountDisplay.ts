@@ -10,9 +10,10 @@
 
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
 import HBox from '../../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
-import Text from '../../../scenery/js/nodes/Text.js';
+import Text, { TextOptions } from '../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { TNumberAtom, TReadOnlyNumberAtom } from '../model/NumberAtom.js';
@@ -23,7 +24,7 @@ import ShredStrings from '../ShredStrings.js';
 import ParticleNode from './ParticleNode.js';
 
 // constants
-const TEXT_OPTIONS = { font: new PhetFont( 12 ), maxWidth: 100 };
+const TEXT_OPTIONS: TextOptions = { font: new PhetFont( 12 ), maxWidth: 100 };
 const HORIZONTAL_SPACING = 5;
 
 type ParticleCountDisplayOptions = PanelOptions;
@@ -42,7 +43,8 @@ class ParticleCountDisplay extends Panel {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    // Create label Text nodes
+    // Create label Text nodes, with an AlignGroup so their right edges align
+    const titleAlignGroup = new AlignGroup( { matchVertical: true } );
     const protonTitleText = new Text( ShredStrings.protonsColonStringProperty, TEXT_OPTIONS );
     const neutronTitleText = new Text( ShredStrings.neutronsColonStringProperty, TEXT_OPTIONS );
     const electronTitleText = new Text( ShredStrings.electronsColonStringProperty, TEXT_OPTIONS );
@@ -62,19 +64,19 @@ class ParticleCountDisplay extends Panel {
     const neutronBar = new HBox( { spacing: interParticleSpacing } );
     const electronBar = new HBox( { spacing: interParticleSpacing } );
 
-    // HBoxes for label + bar
+    // HBoxes for label + bar, the label is part of the AlignGroup with a right alignment
     const protonRow = new HBox( {
-      children: [ protonTitleText, protonBar ],
+      children: [ titleAlignGroup.createBox( protonTitleText, { xAlign: 'right' } ), protonBar ],
       spacing: HORIZONTAL_SPACING,
       align: 'center'
     } );
     const neutronRow = new HBox( {
-      children: [ neutronTitleText, neutronBar ],
+      children: [ titleAlignGroup.createBox( neutronTitleText, { xAlign: 'right' } ), neutronBar ],
       spacing: HORIZONTAL_SPACING,
       align: 'center'
     } );
     const electronRow = new HBox( {
-      children: [ electronTitleText, electronBar ],
+      children: [ titleAlignGroup.createBox( electronTitleText, { xAlign: 'right' } ), electronBar ],
       spacing: HORIZONTAL_SPACING,
       align: 'center'
     } );
