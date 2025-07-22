@@ -10,8 +10,8 @@
 
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
-import Node from '../../../scenery/js/nodes/Node.js';
-import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
+import HBox from '../../../scenery/js/layout/nodes/HBox.js';
+import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -23,25 +23,18 @@ import ShredStrings from '../ShredStrings.js';
 import ParticleNode from './ParticleNode.js';
 
 // constants
-const TITLE_MAX_WIDTH_PROPORTION = 1 / 3;
-const MIN_VERTICAL_SPACING = 16; // Empirically Determined
-const TEXT_OPTIONS = { font: new PhetFont( 12 ) };
+const TEXT_OPTIONS = { font: new PhetFont( 12 ), maxWidth: 100 };
+const HORIZONTAL_SPACING = 5;
 
 type ParticleCountDisplayOptions = PanelOptions;
 
+
 class ParticleCountDisplay extends Panel {
-
-  /**
-   * @param numberAtom Model representation of the atom
-   * @param maxParticles The maximum number of particles to display
-   * @param maxWidth The maximum width that this display should reach
-   * @param providedOptions
-   */
-  public constructor( numberAtom: TNumberAtom | TReadOnlyNumberAtom,
-                      maxParticles: number,
-                      maxWidth: number,
-                      providedOptions?: ParticleCountDisplayOptions ) {
-
+  public constructor(
+    numberAtom: TNumberAtom | TReadOnlyNumberAtom,
+    maxParticles: number,
+    providedOptions?: ParticleCountDisplayOptions
+  ) {
     const options = optionize<ParticleCountDisplayOptions, EmptySelfOptions, PanelOptions>()( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
       cornerRadius: 5,
@@ -49,129 +42,100 @@ class ParticleCountDisplay extends Panel {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    const panelContents = new Node();
-
+    // Create label Text nodes
     const protonTitleText = new Text( ShredStrings.protonsColonStringProperty, TEXT_OPTIONS );
-    panelContents.addChild( protonTitleText );
     const neutronTitleText = new Text( ShredStrings.neutronsColonStringProperty, TEXT_OPTIONS );
-    panelContents.addChild( neutronTitleText );
     const electronTitleText = new Text( ShredStrings.electronsColonStringProperty, TEXT_OPTIONS );
-    panelContents.addChild( electronTitleText );
 
-    // Scale the title if more than allowed proportion width
-    const maxAllowableLabelWidth = maxWidth * TITLE_MAX_WIDTH_PROPORTION;
-    protonTitleText.maxWidth = maxAllowableLabelWidth;
-    electronTitleText.maxWidth = maxAllowableLabelWidth;
-    neutronTitleText.maxWidth = maxAllowableLabelWidth;
+    const nucleonRadius = 5; // Determined empirically
+    const electronRadius = nucleonRadius * 0.6;
+    const interParticleSpacing = nucleonRadius;
 
-    // Lay out the labels.
-    const maxLabelWidth = Math.max( Math.max( protonTitleText.width, neutronTitleText.width ), electronTitleText.width );
-    protonTitleText.right = maxLabelWidth;
-    protonTitleText.top = 0;
-    neutronTitleText.right = maxLabelWidth;
-    neutronTitleText.bottom = protonTitleText.bottom + Math.max( neutronTitleText.height, MIN_VERTICAL_SPACING );
-    electronTitleText.right = maxLabelWidth;
-    electronTitleText.bottom = neutronTitleText.bottom + Math.max( electronTitleText.height, MIN_VERTICAL_SPACING );
 
-    // Figure out the sizes of the particles and the inter-particle spacing based on the max width.
-    const totalParticleSpace = maxWidth - protonTitleText.right - 10;
-    const nucleonRadius = totalParticleSpace / ( ( maxParticles * 2 ) + ( maxParticles - 1 ) + 2 );
-    const electronRadius = nucleonRadius * 0.6; // Arbitrarily chosen.
-    const interParticleSpacing = nucleonRadius * 3;
-
-    // Add an invisible spacer that will keep the control panel at a min width.
-    const spacer = new Rectangle( maxLabelWidth, 0, interParticleSpacing * 3, 1 );
-
-    // Add the layer where the particles will live.
-    const particleLayer = new Node( { children: [ spacer ] } );
-    panelContents.addChild( particleLayer );
-
-    // stored ParticleNode instances that are positioned correctly, so we just have to add/remove the
-    // changed ones (faster than full rebuild)
+    // Arrays to hold ParticleNode instances
     const protons: ParticleNode[] = [];
     const neutrons: ParticleNode[] = [];
     const electrons: ParticleNode[] = [];
 
-    // counts of the displayed number of particles
+    // HBoxes for each row
+    const protonBar = new HBox( { spacing: interParticleSpacing } );
+    const neutronBar = new HBox( { spacing: interParticleSpacing } );
+    const electronBar = new HBox( { spacing: interParticleSpacing } );
+
+    // HBoxes for label + bar
+    const protonRow = new HBox( {
+      children: [ protonTitleText, protonBar ],
+      spacing: HORIZONTAL_SPACING,
+      align: 'center'
+    } );
+    const neutronRow = new HBox( {
+      children: [ neutronTitleText, neutronBar ],
+      spacing: HORIZONTAL_SPACING,
+      align: 'center'
+    } );
+    const electronRow = new HBox( {
+      children: [ electronTitleText, electronBar ],
+      spacing: HORIZONTAL_SPACING,
+      align: 'center'
+    } );
+
+    // VBox for all rows
+    const panelContents = new VBox( {
+      children: [ protonRow, neutronRow, electronRow ],
+      spacing: 5,
+      align: 'left'
+    } );
+
+    // Display counts
     let protonDisplayCount = 0;
     let neutronDisplayCount = 0;
     let electronDisplayCount = 0;
 
-    // increase the particle count by 1, and return the currently displayed quantity array
-    function incrementParticleCount( array: ParticleNode[], currentQuantity: number, particleType: ParticleTypeString, radius: number, startX: number, startY: number ): number {
+    // Helper functions
+    function incrementParticleCount( array: ParticleNode[], bar: HBox, currentQuantity: number, particleType: ParticleTypeString, radius: number ): number {
       const newIndex = currentQuantity;
-      if ( newIndex === array.length ) {
-
-        // we need to create a new particle
-        array.push( new ParticleNode( particleType, radius, {
-          x: startX + newIndex * interParticleSpacing,
-          y: startY
-        } ) );
+      if ( newIndex === array.length && newIndex < maxParticles ) {
+        array.push( new ParticleNode( particleType, radius ) );
       }
-      particleLayer.addChild( array[ newIndex ] );
-      currentQuantity += 1;
-      return currentQuantity;
+      bar.addChild( array[ newIndex ] );
+      return currentQuantity + 1;
     }
 
-    // decrease the particle count by 1, and return the currently displayed quantity array
-    function decrementParticleCount( array: ParticleNode[], currentQuantity: number ): number {
+    function decrementParticleCount( array: ParticleNode[], bar: HBox, currentQuantity: number ): number {
       currentQuantity -= 1;
-      particleLayer.removeChild( array[ currentQuantity ] );
+      bar.removeChild( array[ currentQuantity ] );
       array.splice( currentQuantity, 1 );
       return currentQuantity;
     }
 
-    // Function that updates that displayed particles.
+    // Update function
     const updateParticles = ( atom: TNumberAtom | TReadOnlyNumberAtom ): void => {
-      // feel free to refactor this, although we'd need to get a passable reference to the counts
-      // (that's why there is duplication now)
       while ( atom.protonCountProperty.get() > protonDisplayCount ) {
-        protonDisplayCount = incrementParticleCount(
-          protons,
-          protonDisplayCount,
-          'proton',
-          nucleonRadius,
-          protonTitleText.right + interParticleSpacing,
-          protonTitleText.center.y
-        );
+        protonDisplayCount = incrementParticleCount( protons, protonBar, protonDisplayCount, 'proton', nucleonRadius );
       }
       while ( atom.protonCountProperty.get() < protonDisplayCount ) {
-        protonDisplayCount = decrementParticleCount( protons, protonDisplayCount );
+        protonDisplayCount = decrementParticleCount( protons, protonBar, protonDisplayCount );
       }
 
       while ( atom.neutronCountProperty.get() > neutronDisplayCount ) {
-        neutronDisplayCount = incrementParticleCount(
-          neutrons,
-          neutronDisplayCount,
-          'neutron',
-          nucleonRadius,
-          neutronTitleText.right + interParticleSpacing, neutronTitleText.center.y
-        );
+        neutronDisplayCount = incrementParticleCount( neutrons, neutronBar, neutronDisplayCount, 'neutron', nucleonRadius );
       }
       while ( atom.neutronCountProperty.get() < neutronDisplayCount ) {
-        neutronDisplayCount = decrementParticleCount( neutrons, neutronDisplayCount );
+        neutronDisplayCount = decrementParticleCount( neutrons, neutronBar, neutronDisplayCount );
       }
 
       while ( atom.electronCountProperty.get() > electronDisplayCount ) {
-        electronDisplayCount = incrementParticleCount(
-          electrons,
-          electronDisplayCount,
-          'electron',
-          electronRadius,
-          electronTitleText.right + interParticleSpacing, electronTitleText.center.y
-        );
+        electronDisplayCount = incrementParticleCount( electrons, electronBar, electronDisplayCount, 'electron', electronRadius );
       }
       while ( atom.electronCountProperty.get() < electronDisplayCount ) {
-        electronDisplayCount = decrementParticleCount( electrons, electronDisplayCount );
+        electronDisplayCount = decrementParticleCount( electrons, electronBar, electronDisplayCount );
       }
     };
 
-    // Hook up the update function.
     numberAtom.particleCountProperty.link( () => {
       updateParticles( numberAtom );
     } );
 
-    // Initial update.
     updateParticles( numberAtom );
 
     super( panelContents, options );
