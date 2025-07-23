@@ -8,7 +8,7 @@
  * @author Aadish Gupta
  */
 
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
 import HBox from '../../../scenery/js/layout/nodes/HBox.js';
@@ -27,20 +27,28 @@ import ParticleNode from './ParticleNode.js';
 const TEXT_OPTIONS: TextOptions = { font: new PhetFont( 12 ), maxWidth: 100 };
 const HORIZONTAL_SPACING = 5;
 
-type ParticleCountDisplayOptions = PanelOptions;
+type SelfOptions = {
+  maxParticles?: number;
+};
 
+type ParticleCountDisplayOptions = SelfOptions & PanelOptions;
 
 class ParticleCountDisplay extends Panel {
   public constructor(
     numberAtom: TNumberAtom | TReadOnlyNumberAtom,
-    maxParticles: number,
+    providedTandem: Tandem,
     providedOptions?: ParticleCountDisplayOptions
   ) {
-    const options = optionize<ParticleCountDisplayOptions, EmptySelfOptions, PanelOptions>()( {
+
+    const tandem = providedTandem.createTandem( 'ParticleCountDisplay' );
+
+    const options = optionize<ParticleCountDisplayOptions, SelfOptions, PanelOptions>()( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
       cornerRadius: 5,
+      maxParticles: 13,
       pickable: false,
-      tandem: Tandem.REQUIRED
+      tandem: tandem,
+      phetioFeatured: true
     }, providedOptions );
 
     // Create label Text nodes, with an AlignGroup so their right edges align
@@ -97,7 +105,7 @@ class ParticleCountDisplay extends Panel {
     // Helper functions
     function incrementParticleCount( array: ParticleNode[], bar: HBox, currentQuantity: number, particleType: ParticleTypeString, radius: number ): number {
       const newIndex = currentQuantity;
-      if ( newIndex === array.length && newIndex < maxParticles ) {
+      if ( newIndex === array.length && newIndex < options.maxParticles ) {
         array.push( new ParticleNode( particleType, radius ) );
       }
       bar.addChild( array[ newIndex ] );
