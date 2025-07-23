@@ -129,15 +129,18 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
     // phet-io tree.
     this.protonCountProperty = new DerivedProperty( [ this.protons.lengthProperty ], count => count, {
       tandem: particleCountsTandem.createTandem( 'protonCountProperty' ),
-      phetioValueType: NumberIO
+      phetioValueType: NumberIO,
+      phetioFeatured: true
     } );
     this.neutronCountProperty = new DerivedProperty( [ this.neutrons.lengthProperty ], count => count, {
       tandem: particleCountsTandem.createTandem( 'neutronCountProperty' ),
-      phetioValueType: NumberIO
+      phetioValueType: NumberIO,
+      phetioFeatured: true
     } );
     this.electronCountProperty = new DerivedProperty( [ this.electrons.lengthProperty ], count => count, {
       tandem: particleCountsTandem.createTandem( 'electronCountProperty' ),
-      phetioValueType: NumberIO
+      phetioValueType: NumberIO,
+      phetioFeatured: true
     } );
 
     this.chargeProperty = new DerivedProperty(
@@ -146,7 +149,8 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
         return protonCount - electronCount;
       } ), {
         tandem: options.tandem.createTandem( 'chargeProperty' ),
-        phetioValueType: NumberIO
+        phetioValueType: NumberIO,
+        phetioFeatured: true
       }
     );
     this.massNumberProperty = new DerivedProperty(
@@ -155,7 +159,8 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
         return protonCount + neutronCount;
       } ), {
         tandem: options.tandem.createTandem( 'massNumberProperty' ),
-        phetioValueType: NumberIO
+        phetioValueType: NumberIO,
+        phetioFeatured: true
       }
     );
     this.particleCountProperty = new DerivedProperty(
@@ -176,7 +181,8 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
                                        true,
       {
         tandem: options.tandem.createTandem( 'nucleusStableProperty' ),
-        phetioValueType: BooleanIO
+        phetioValueType: BooleanIO,
+        phetioFeatured: true
       }
     );
 
