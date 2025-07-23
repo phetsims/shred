@@ -156,6 +156,7 @@ class Particle extends PhetioObject {
         return value >= 0 && value <= options.maxZLayer;
       },
       tandem: options.tandem && options.tandem.createTandem( 'zLayerProperty' ),
+      phetioReadOnly: true,
       numberType: 'Integer',
       range: new Range( 0, options.maxZLayer )
     } );

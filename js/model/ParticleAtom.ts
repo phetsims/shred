@@ -84,12 +84,12 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
   public readonly electronCountProperty: TReadOnlyProperty<number>;
 
   // derived properties based on the number of particles present in the atom
-  public readonly chargeProperty: TReadOnlyProperty<number>;
+  public readonly chargeProperty: ReadOnlyProperty<number>;
   public readonly massNumberProperty: ReadOnlyProperty<number>;
-  public readonly particleCountProperty: TReadOnlyProperty<number>;
+  public readonly particleCountProperty: ReadOnlyProperty<number>;
   public readonly innerElectronShellRadius: number;
   public readonly outerElectronShellRadius: number;
-  public readonly elementNameStringProperty: TReadOnlyProperty<string>;
+  public readonly elementNameStringProperty: ReadOnlyProperty<string>;
   public readonly nucleusStableProperty: TReadOnlyProperty<boolean>;
 
   // Set the default electron add/remove mode.

@@ -92,7 +92,10 @@ class AtomNode extends Node {
         stroke: ShredColors.centerXColorProperty,
         lineWidth: 5,
         pickable: false,
-        tandem: options.tandem.createTandem( 'atomCenterMarker' )
+        tandem: options.tandem.createTandem( 'atomCenterMarker' ),
+        visiblePropertyOptions: {
+          phetioReadOnly: true
+        }
       } );
       this.addChild( atomCenterMarker );
 

@@ -12,6 +12,7 @@ import DerivedStringProperty from '../../../axon/js/DerivedStringProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
+import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
@@ -41,7 +42,7 @@ export type TNumberAtom = {
   electronCountProperty: TProperty<number>;
   chargeProperty: TReadOnlyProperty<number>;
   massNumberProperty: TReadOnlyProperty<number>;
-  particleCountProperty: TReadOnlyProperty<number>;
+  particleCountProperty: ReadOnlyProperty<number>; // Has to be ReadOnlyProperty for addLinkedElement to work
   elementNameStringProperty: TReadOnlyProperty<string>;
   nucleusStableProperty: TReadOnlyProperty<boolean>;
 };
@@ -58,7 +59,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
   public readonly electronCountProperty: Property<number>;
   public readonly chargeProperty: TReadOnlyProperty<number>;
   public readonly massNumberProperty: TReadOnlyProperty<number>;
-  public readonly particleCountProperty: TReadOnlyProperty<number>;
+  public readonly particleCountProperty: ReadOnlyProperty<number>;
   public readonly elementNameStringProperty: TReadOnlyProperty<string>;
   public readonly nucleusStableProperty: TReadOnlyProperty<boolean>;
   public readonly atomUpdated: Emitter; // events emitted by instances of this type

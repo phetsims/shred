@@ -40,7 +40,7 @@ class ParticleCountDisplay extends Panel {
     providedOptions?: ParticleCountDisplayOptions
   ) {
 
-    const tandem = providedTandem.createTandem( 'ParticleCountDisplay' );
+    const tandem = providedTandem.createTandem( 'particleCountDisplay' );
 
     const options = optionize<ParticleCountDisplayOptions, SelfOptions, PanelOptions>()( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
@@ -153,6 +153,8 @@ class ParticleCountDisplay extends Panel {
     updateParticles( numberAtom );
 
     super( panelContents, options );
+
+    this.addLinkedElement( numberAtom.particleCountProperty );
   }
 }
 
