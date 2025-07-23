@@ -198,7 +198,7 @@ function createParticleNode( particle: Particle, modelViewTransform: ModelViewTr
         highContrastProperty: highContrastProperty,
         typeProperty: particle.typeProperty,
         colorProperty: particle.colorProperty,
-        tandem: tandem,
+        tandem: Tandem.OPT_OUT,
         phetioVisiblePropertyInstrumented: false,
         stroke: particle.type === 'neutron' ? 'black' : undefined
       }
