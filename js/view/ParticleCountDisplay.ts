@@ -48,7 +48,10 @@ class ParticleCountDisplay extends Panel {
       maxParticles: 13,
       pickable: false,
       tandem: tandem,
-      phetioFeatured: true
+      phetioFeatured: true,
+      visiblePropertyOptions: {
+        phetioFeatured: true
+      }
     }, providedOptions );
 
     // Create label Text nodes, with an AlignGroup so their right edges align
