@@ -48,7 +48,13 @@ class BucketDragListener extends DragListener {
 
       drag: event => {
         if ( activeParticle !== null ) {
-          activeParticle.setPositionAndDestination( localViewToModel( event.pointer.point ) );
+
+          // This version kinda works, but offset is too large.
+          const eventPoint = event.pointer.point.copy();
+          if ( options && options.offsetPosition ) {
+            eventPoint.add( options.offsetPosition( eventPoint, this ) );
+          }
+          activeParticle.setPositionAndDestination( localViewToModel( eventPoint ) );
         }
       },
 
