@@ -111,7 +111,12 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
 
     this.particleCountProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
-      ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount
+      ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount,
+      {
+        tandem: options.tandem?.createTandem( 'particleCountProperty' ),
+        phetioValueType: NumberIO,
+        phetioFeatured: true
+      }
     );
 
     // The element name is derived from the proton count, since the number of protons determines the element.
