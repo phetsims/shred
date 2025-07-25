@@ -12,7 +12,7 @@
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import Utils from '../../dot/js/Utils.js';
-import type NumberAtom from './model/NumberAtom.js';
+import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -14328,7 +14328,7 @@ const AtomIdentifier = {
    * Returns the natural abundance of the specified isotope on present day Earth (year 2018) as a proportion (NOT a
    * percentage) with the specified number of decimal places.
    */
-  getNaturalAbundance: function( isotope: NumberAtom, numDecimalPlaces: number ): number {
+  getNaturalAbundance: function( isotope: TReadOnlyNumberAtom, numDecimalPlaces: number ): number {
     assert && assert( numDecimalPlaces !== undefined, 'must specify number of decimal places for proportion' );
     let abundanceProportion = 0;
     if ( isotope.protonCountProperty.get() > 0 &&
@@ -14349,7 +14349,7 @@ const AtomIdentifier = {
    * more or less than that.  The definition that is used for deciding which isotopes exist in trace amounts is from
    * https://en.wikipedia.org/wiki/Trace_radioisotope.
    */
-  existsInTraceAmounts: function( isotope: NumberAtom ): boolean {
+  existsInTraceAmounts: function( isotope: TReadOnlyNumberAtom ): boolean {
     const tableEntry = ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ];
     return tableEntry !== undefined && tableEntry.abundance === TRACE_ABUNDANCE;
   },
