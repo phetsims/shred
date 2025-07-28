@@ -45,6 +45,7 @@ export type TNumberAtom = {
   particleCountProperty: ReadOnlyProperty<number>; // Has to be ReadOnlyProperty for addLinkedElement to work
   elementNameStringProperty: TReadOnlyProperty<string>;
   nucleusStableProperty: TReadOnlyProperty<boolean>;
+  getIsotopeAtomicMass: () => number;
 };
 
 // Define a fully read-only version of the TNumberAtom type.
