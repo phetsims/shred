@@ -7,6 +7,8 @@
  * @author John Blanco
  */
 
+import DynamicProperty from '../../../axon/js/DynamicProperty.js';
+import Multilink from '../../../axon/js/Multilink.js';
 import Property from '../../../axon/js/Property.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
@@ -26,11 +28,11 @@ import ShredStrings from '../ShredStrings.js';
 import ElectronCloudView from './ElectronCloudView.js';
 import ElectronShellView from './ElectronShellView.js';
 
-const minusSignIonString = ShredStrings.minusSignIon;
-const neutralAtomString = ShredStrings.neutralAtom;
-const positiveSignIonString = ShredStrings.positiveSignIon;
-const stableString = ShredStrings.stable;
-const unstableString = ShredStrings.unstable;
+const minusSignIonStringProperty = ShredStrings.minusSignIonStringProperty;
+const neutralAtomStringProperty = ShredStrings.neutralAtomStringProperty;
+const positiveSignIonStringProperty = ShredStrings.positiveSignIonStringProperty;
+const stableStringProperty = ShredStrings.stableStringProperty;
+const unstableStringProperty = ShredStrings.unstableStringProperty;
 
 // constants
 const ELEMENT_NAME_FONT_SIZE = 22;
@@ -126,6 +128,11 @@ class AtomNode extends Node {
       atom.positionProperty.get().plus( new Vector2( 0, atom.innerElectronShellRadius * 0.60 ) )
     );
 
+    // Current string properties for the symbol text and element caption
+    // const symbolStringProperty = new Property<string>( AtomIdentifier.getSymbol( 0 ) );
+    const currentElementStringProperty = new Property( AtomIdentifier.getName( 0 ) );
+    const elementDynamicStringProperty = new DynamicProperty( currentElementStringProperty );
+
     // Create the textual readout for the element name.
     this.elementNameText = new Text( '', {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
@@ -137,11 +144,18 @@ class AtomNode extends Node {
 
     // Define the update function for the element name.
     const updateElementName = () => {
-      let name = AtomIdentifier.getName( this.atom.protonCountProperty.get() ).value;
-      if ( name.length === 0 ) {
-        name = '';
+      const protonCount = this.atom.protonCountProperty.get();
+
+      if ( protonCount > 0 ) {
+        // Update the string property for the element caption.
+        const elementNameProperty = AtomIdentifier.getName( protonCount );
+        currentElementStringProperty.value = elementNameProperty;
+        this.elementNameText.string = elementNameProperty.value;
       }
-      this.elementNameText.string = name;
+      else {
+        this.elementNameText.string = '';
+      }
+
       this.elementNameText.setScaleMagnitude( 1 );
       const maxLabelWidth = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius * 1.4 );
       this.elementNameText.setScaleMagnitude( Math.min( maxLabelWidth / this.elementNameText.width, 1 ) );
@@ -151,6 +165,9 @@ class AtomNode extends Node {
 
     // Hook up update listeners.
     atom.protonCountProperty.link( updateElementName );
+
+    // Updating the element if the element string property changes.
+    elementDynamicStringProperty.link( updateElementName );
 
     const updateElementNameVisibility = ( visible: boolean ) => {
       this.elementNameText.visible = visible;
@@ -175,15 +192,15 @@ class AtomNode extends Node {
       if ( this.atom.protonCountProperty.get() > 0 ) {
         const charge = this.atom.getCharge();
         if ( charge < 0 ) {
-          this.ionIndicatorText.string = minusSignIonString;
+          this.ionIndicatorText.string = minusSignIonStringProperty.value;
           this.ionIndicatorText.fill = 'blue';
         }
         else if ( charge > 0 ) {
-          this.ionIndicatorText.string = positiveSignIonString;
+          this.ionIndicatorText.string = positiveSignIonStringProperty.value;
           this.ionIndicatorText.fill = ShredColors.positiveColorProperty;
         }
         else {
-          this.ionIndicatorText.string = neutralAtomString;
+          this.ionIndicatorText.string = neutralAtomStringProperty.value;
           this.ionIndicatorText.fill = 'black';
         }
       }
@@ -193,6 +210,15 @@ class AtomNode extends Node {
       }
     };
     updateIonIndicator(); // Do the initial update.
+
+    Multilink.lazyMultilink(
+      [
+        minusSignIonStringProperty,
+        positiveSignIonStringProperty,
+        neutralAtomStringProperty
+      ],
+      updateIonIndicator
+    );
 
     atom.protonCountProperty.link( updateIonIndicator );
     atom.electronCountProperty.link( updateIonIndicator );
@@ -218,10 +244,10 @@ class AtomNode extends Node {
     const updateStabilityIndicator = () => {
       if ( this.atom.protonCountProperty.get() > 0 ) {
         if ( AtomIdentifier.isStable( this.atom.protonCountProperty.get(), this.atom.neutronCountProperty.get() ) ) {
-          this.stabilityIndicatorText.string = stableString;
+          this.stabilityIndicatorText.string = stableStringProperty.value;
         }
         else {
-          this.stabilityIndicatorText.string = unstableString;
+          this.stabilityIndicatorText.string = unstableStringProperty.value;
         }
       }
       else {
@@ -230,6 +256,15 @@ class AtomNode extends Node {
       this.stabilityIndicatorText.center = stabilityIndicatorTextCenterPos;
     };
     updateStabilityIndicator(); // Do initial update.
+
+
+    Multilink.lazyMultilink(
+      [
+        stableStringProperty,
+        unstableStringProperty
+      ],
+      updateStabilityIndicator
+    );
 
     // Add the listeners that control the label content and visibility.
     atom.protonCountProperty.link( updateStabilityIndicator );
