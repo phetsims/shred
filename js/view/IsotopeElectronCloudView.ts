@@ -16,12 +16,32 @@ import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import { TNumberAtom } from '../model/NumberAtom.js';
+import { TReadOnlyNumberAtom } from '../model/NumberAtom.js';
 import shred from '../shred.js';
+
+type IsotopeElectronCloudViewOptions = CircleOptions;
 
 // constants
 const MAX_ELECTRONS = 10; // For neon.
-type IsotopeElectronCloudViewOptions = CircleOptions;
+
+// This data structure maps the number of electrons to a radius for an atom.  It assumes a stable, neutral atom.
+// The basic values are the covalent radii, and were taken from a Wikipedia entry entitled "Atomic radii of the
+// elements" which, at the time of this writing, can be found here:
+// https://en.wikipedia.org/wiki/Atomic_radii_of_the_elements_(data_page).
+// The values are in picometers.  In practice, the difference between the radii worked out to be a bit too much
+// visually, so there are some 'tweak factors' for a few of the elements.
+const MAP_ELECTRON_COUNT_TO_RADIUS = new Map<number, number>( [
+  [ 1, 38 ],
+  [ 2, 32 ],
+  [ 3, 134 * 0.75 ],
+  [ 4, 90 * 0.97 ],
+  [ 5, 82 ],
+  [ 6, 77 ],
+  [ 7, 75 ],
+  [ 8, 73 ],
+  [ 9, 71 ],
+  [ 10, 69 ]
+] );
 
 class IsotopeElectronCloudView extends Circle {
   private readonly disposeIsotopeElectronCloudView: VoidFunction;
@@ -29,23 +49,29 @@ class IsotopeElectronCloudView extends Circle {
   /**
    * Constructor for the Isotope Electron Cloud.
    */
-  public constructor( numberAtom: TNumberAtom, modelViewTransform: ModelViewTransform2, providedOptions?: IsotopeElectronCloudViewOptions ) {
+  public constructor(
+    numberAtom: TReadOnlyNumberAtom,
+    modelViewTransform: ModelViewTransform2,
+    providedOptions?: IsotopeElectronCloudViewOptions
+  ) {
+
     const options = optionize<IsotopeElectronCloudViewOptions, EmptySelfOptions, CircleOptions>()( {
       pickable: false,
       tandem: Tandem.REQUIRED
     }, providedOptions );
     assert && assert( !options.pickable, 'IsotopeElectronCloudView cannot be pickable' );
 
-    // Call super constructor using dummy radius and actual is updated below.
+    // Call super constructor using dummy radius - actual radius is updated below.
     super( 1, options );
 
     const updateNode = ( numElectrons: number ) => {
       if ( numElectrons === 0 ) {
-        this.radius = 1E-5; // Arbitrary non-zero value.
+        this.radius = 1E-5; // arbitrary non-zero value
         this.fill = 'transparent';
       }
       else {
         this.radius = modelViewTransform.modelToViewDeltaX( this.getElectronShellDiameter( numElectrons ) / 2 );
+
         // empirically determined adjustment factor according to the weighing scale
         this.radius = this.radius * 1.2;
         this.fill = new RadialGradient( 0, 0, 0, 0, 0, this.radius )
@@ -75,30 +101,11 @@ class IsotopeElectronCloudView extends Circle {
    */
   public getElectronShellDiameter( numElectrons: number ): number {
 
-    // This data structure maps the number of electrons to a radius for an atom.  It assumes a stable, neutral atom.
-    // The basic values are the covalent radii, and were taken from a Wikipedia entry entitled "Atomic radii of the
-    // elements" which, at the time of this writing, can be found here:
-    // https://en.wikipedia.org/wiki/Atomic_radii_of_the_elements_(data_page).
-    // The values are in picometers.  In practice, the difference between the radii worked out to be a bit too much
-    // visually, so there are some 'tweak factors' for a few of the elements.
-    const mapElectronCountToRadius = new Map<number, number>( [
-      [ 1, 38 ],
-      [ 2, 32 ],
-      [ 3, 134 * 0.75 ],
-      [ 4, 90 * 0.97 ],
-      [ 5, 82 ],
-      [ 6, 77 ],
-      [ 7, 75 ],
-      [ 8, 73 ],
-      [ 9, 71 ],
-      [ 10, 69 ]
-    ] );
-
     // Determine the min and max radii of the supported atoms.
     let minShellRadius = Number.MAX_VALUE;
     let maxShellRadius = 0;
 
-    for ( const entry of mapElectronCountToRadius ) {
+    for ( const entry of MAP_ELECTRON_COUNT_TO_RADIUS ) {
       const radius = entry[ 1 ];
       if ( radius > maxShellRadius ) {
         maxShellRadius = radius;
@@ -121,8 +128,8 @@ class IsotopeElectronCloudView extends Circle {
       return compressionFunction.evaluate( value );
     };
 
-    if ( mapElectronCountToRadius.has( numElectrons ) ) {
-      return reduceRadiusRange( mapElectronCountToRadius.get( numElectrons )! );
+    if ( MAP_ELECTRON_COUNT_TO_RADIUS.has( numElectrons ) ) {
+      return reduceRadiusRange( MAP_ELECTRON_COUNT_TO_RADIUS.get( numElectrons )! );
     }
     else {
       assert && assert( numElectrons <= MAX_ELECTRONS, `Atom has more than supported number of electrons, ${numElectrons}` );
