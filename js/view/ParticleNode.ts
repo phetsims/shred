@@ -7,8 +7,6 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../axon/js/BooleanProperty.js';
-import Multilink from '../../../axon/js/Multilink.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
@@ -19,9 +17,6 @@ import { PARTICLE_COLORS, ParticleTypeString } from '../model/Particle.js';
 import shred from '../shred.js';
 
 type SelfOptions = {
-
-  // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
-  highContrastProperty?: TReadOnlyProperty<boolean>;
   typeProperty?: TReadOnlyProperty<ParticleTypeString> | null;
   colorProperty?: TReadOnlyProperty<Color>;
 };
@@ -36,14 +31,11 @@ class ParticleNode extends Circle {
     const baseColor = PARTICLE_COLORS[ particleType ];
     assert && assert( baseColor, `Unrecognized particle type: ${particleType}` );
 
-    const ownsHighContrastProperty = providedOptions && !providedOptions.highContrastProperty;
     const ownsColorProperty = providedOptions && !providedOptions.colorProperty;
 
     const options = optionize<ParticleNodeOptions, SelfOptions, CircleOptions>()( {
 
       cursor: 'pointer',
-
-      highContrastProperty: new BooleanProperty( false ),
 
       typeProperty: null,
 
@@ -57,27 +49,19 @@ class ParticleNode extends Circle {
 
     super( radius, options );
 
-    const colorMultilink = Multilink.multilink( [
-      options.colorProperty,
-      options.highContrastProperty
-    ], ( color, highContrast ) => {
+    options.colorProperty.link( color => {
 
       // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
-      const gradientFill = new RadialGradient(
+      this.fill = new RadialGradient(
         -radius * 0.4, -radius * 0.4, 0,
         -radius * 0.4, -radius * 0.4, radius * 1.6 )
         .addColorStop( 0, 'white' )
         .addColorStop( 1, color );
-
-      // Set the options for the default look.
-      this.fill = highContrast ? options.colorProperty.value : gradientFill;
       this.stroke = options.stroke;
       this.lineWidth = 1;
     } );
 
     this.disposeParticleNode = () => {
-      colorMultilink.dispose();
-      ownsHighContrastProperty && options.highContrastProperty.dispose();
       ownsColorProperty && options.colorProperty.dispose();
     };
   }

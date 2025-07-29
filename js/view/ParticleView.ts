@@ -6,10 +6,8 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Property from '../../../axon/js/Property.js';
 import stepTimer from '../../../axon/js/stepTimer.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
@@ -28,7 +26,6 @@ import ParticleNode from './ParticleNode.js';
 
 type SelfOptions = {
   dragBounds?: Bounds2;
-  highContrastProperty?: TReadOnlyProperty<boolean>;
   touchOffset?: Vector2 | null; // null to opt out of an offset
 };
 
@@ -41,8 +38,6 @@ class ParticleView extends Node {
 
   public constructor( particle: Particle, modelViewTransform: ModelViewTransform2, providedOptions?: ParticleViewOptions ) {
 
-    const ownsHighContrastProperty = providedOptions && !providedOptions.highContrastProperty;
-
     const options = optionize4<ParticleViewOptions, SelfOptions, NodeOptions>()(
       {},
       AccessibleDraggableOptions,
@@ -52,10 +47,7 @@ class ParticleView extends Node {
         touchOffset: null,
 
         // TODO: Should add correct a11yName! https://github.com/phetsims/build-an-atom/issues/256
-        innerContent: 'div',
-
-        // {BooleanProperty|null} - if provided, this is used to set the particle node into and out of high contrast mode
-        highContrastProperty: new BooleanProperty( false )
+        innerContent: 'div'
       },
       providedOptions
     );
@@ -68,7 +60,6 @@ class ParticleView extends Node {
     const particleNode = createParticleNode(
       particle,
       modelViewTransform,
-      options.highContrastProperty,
       options.tandem.createTandem( 'particleNode' )
     );
     this.addChild( particleNode );
@@ -153,7 +144,6 @@ class ParticleView extends Node {
     this.mutate( options );
 
     this.disposeParticleView = function() {
-      ownsHighContrastProperty && options.highContrastProperty.dispose();
       particle.positionProperty.unlink( updateParticlePosition );
       particleNode.dispose();
       this.dragListener.dispose();
@@ -178,8 +168,7 @@ class ParticleView extends Node {
 /**
  * Creates the proper view for a particle.
  */
-function createParticleNode( particle: Particle, modelViewTransform: ModelViewTransform2,
-                             highContrastProperty: TReadOnlyProperty<boolean>, tandem: Tandem ): Node {
+function createParticleNode( particle: Particle, modelViewTransform: ModelViewTransform2, tandem: Tandem ): Node {
   let particleNode;
   if ( particle.type === 'Isotope' ) {
     particleNode = new IsotopeNode(
@@ -195,7 +184,6 @@ function createParticleNode( particle: Particle, modelViewTransform: ModelViewTr
       particle.type,
       modelViewTransform.modelToViewDeltaX( particle.radius ),
       {
-        highContrastProperty: highContrastProperty,
         typeProperty: particle.typeProperty,
         colorProperty: particle.colorProperty,
         tandem: Tandem.OPT_OUT,
