@@ -18,6 +18,7 @@ import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
+import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
@@ -118,12 +119,6 @@ class AtomNode extends Node {
     } );
     this.addChild( electronCloud );
 
-    const updateElectronShellDepictionVisibility = ( depiction: ElectronShellDepiction ) => {
-      electronShell.visible = depiction === 'orbits';
-      electronCloud.visible = depiction === 'cloud';
-    };
-    options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
-
     const elementNameTextCenterPos = modelViewTransform.modelToViewPosition(
       atom.positionProperty.get().plus( new Vector2( 0, atom.innerElectronShellRadius * 0.60 ) )
     );
@@ -137,10 +132,28 @@ class AtomNode extends Node {
     this.elementNameText = new Text( '', {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
       fill: ShredColors.positiveColorProperty,
-      center: elementNameTextCenterPos,
-      pickable: false
+      pickable: false,
+      maxWidth: 120
     } );
+    const textBackgroundRect = new Rectangle( 0, 0, this.elementNameText.width, this.elementNameText.height, {
+      fill: 'white',
+      opacity: 0.65
+    } );
+    this.addChild( textBackgroundRect );
     this.addChild( this.elementNameText );
+
+    const rectMargin = 5; // Margin around the text
+    this.elementNameText.boundsProperty.link( bounds => {
+      textBackgroundRect.setRect( bounds.x - rectMargin, bounds.y - rectMargin, bounds.width + 2 * rectMargin, bounds.height + 2 * rectMargin );
+    } );
+
+    const updateElectronShellDepictionVisibility = ( depiction: ElectronShellDepiction ) => {
+      electronShell.visible = depiction === 'orbits';
+      electronCloud.visible = depiction === 'cloud';
+
+      textBackgroundRect.opacity = depiction === 'cloud' ? 0.65 : 0;
+    };
+    options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
 
     // Define the update function for the element name.
     const updateElementName = () => {
@@ -156,9 +169,6 @@ class AtomNode extends Node {
         this.elementNameText.string = '';
       }
 
-      this.elementNameText.setScaleMagnitude( 1 );
-      const maxLabelWidth = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius * 1.4 );
-      this.elementNameText.setScaleMagnitude( Math.min( maxLabelWidth / this.elementNameText.width, 1 ) );
       this.elementNameText.center = elementNameTextCenterPos;
     };
     updateElementName(); // Do the initial update.
