@@ -1,8 +1,7 @@
 // Copyright 2015-2025, University of Colorado Boulder
 
 /**
- * Particle, represented as a circle with a gradient.  This type does not
- * track a particle, use ParticleView for that.
+ * Particle, represented as a circle with a gradient.  This type does not track a particle, use ParticleView for that.
  *
  * @author Aadish Gupta
  */
@@ -12,45 +11,46 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
+import Color from '../../../scenery/js/util/Color.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
 
-
 type SelfOptions = {
   showLabel?: boolean;
+  baseColor?: Color;
+  protonCount?: number;
+  massNumber?: number;
 };
-type IsotopeNodeOptions = SelfOptions & CircleOptions;
+export type IsotopeNodeOptions = SelfOptions & CircleOptions;
 
 class IsotopeNode extends Node {
+
   public constructor( isotope: Particle, radius: number, providedOptions?: IsotopeNodeOptions ) {
+
     const options = optionize<IsotopeNodeOptions, SelfOptions, NodeOptions>()( {
-      showLabel: true
+      showLabel: true,
+      baseColor: Color.YELLOW,
+      protonCount: 1,
+      massNumber: 1
     }, providedOptions );
 
     // Call super constructor.
     super( options );
 
-    // @ts-expect-error - Seems like some work needs to be done here when Isotopes And Atomic Mass is converted to TypeScript
-    let baseColor = isotope.color;
-    if ( baseColor === undefined ) {
-      assert && assert( false, 'Unrecognized Isotope' );
-      baseColor = 'black';
-    }
-
     // Create the node a circle with a gradient.
     const isotopeSphere = new Circle( radius, {
-      fill: baseColor,
+      fill: options.baseColor,
       cursor: 'pointer'
     } );
     this.addChild( isotopeSphere );
 
     if ( options.showLabel ) {
-      // @ts-expect-error - Seems like some work needs to be done here when Isotopes And Atomic Mass is converted to TypeScript
-      const symbol = AtomIdentifier.getSymbol( isotope.protonCount );
-      // @ts-expect-error - Seems like some work needs to be done here when Isotopes And Atomic Mass is converted to TypeScript
-      const label = new RichText( ` <sup>${isotope.massNumber}</sup>${symbol}`, {
+
+      const symbol = AtomIdentifier.getSymbol( options.protonCount );
+
+      const label = new RichText( ` <sup>${options.massNumber}</sup>${symbol}`, {
         font: new PhetFont( 10 ),
         // making sure that text doesn't go beyond the sphere boundaries, -2 is empirically determined
         maxWidth: 2 * radius - 2
@@ -67,7 +67,7 @@ class IsotopeNode extends Node {
         radius * 1.6
       )
         .addColorStop( 0, 'white' )
-        .addColorStop( 1, baseColor );
+        .addColorStop( 1, options.baseColor );
     }
     else {
       isotopeSphere.stroke = 'black';

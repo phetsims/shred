@@ -36,10 +36,10 @@ export const PARTICLE_COLORS: Record<ParticleTypeString, Color> = {
   neutron: Color.GRAY.darkerColor( 0.1 ), // Dark gray
   electron: Color.BLUE,
   positron: new Color( 53, 182, 74 ), // Darkish green
-  Isotope: Color.BLACK
+  isotope: Color.BLACK
 };
 
-export type ParticleTypeString = 'proton' | 'neutron' | 'electron' | 'positron' | 'Isotope';
+export type ParticleTypeString = 'proton' | 'neutron' | 'electron' | 'positron' | 'isotope';
 
 type SelfOptions = {
   maxZLayer?: number;

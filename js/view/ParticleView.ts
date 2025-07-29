@@ -21,12 +21,15 @@ import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
-import IsotopeNode from './IsotopeNode.js';
+import IsotopeNode, { IsotopeNodeOptions } from './IsotopeNode.js';
 import ParticleNode from './ParticleNode.js';
 
 type SelfOptions = {
   dragBounds?: Bounds2;
   touchOffset?: Vector2 | null; // null to opt out of an offset
+
+  // Options specific to the isotope node, if the particle is an isotope.
+  isotopeNodeOptions?: IsotopeNodeOptions;
 };
 
 export type ParticleViewOptions = SelfOptions & NodeOptions;
@@ -36,7 +39,9 @@ class ParticleView extends Node {
   private readonly dragListener: SoundDragListener;
   private readonly disposeParticleView: VoidFunction;
 
-  public constructor( particle: Particle, modelViewTransform: ModelViewTransform2, providedOptions?: ParticleViewOptions ) {
+  public constructor( particle: Particle,
+                      modelViewTransform: ModelViewTransform2,
+                      providedOptions?: ParticleViewOptions ) {
 
     const options = optionize4<ParticleViewOptions, SelfOptions, NodeOptions>()(
       {},
@@ -45,6 +50,7 @@ class ParticleView extends Node {
         dragBounds: Bounds2.EVERYTHING,
         tandem: Tandem.REQUIRED,
         touchOffset: null,
+        isotopeNodeOptions: {},
 
         // TODO: Should add correct a11yName! https://github.com/phetsims/build-an-atom/issues/256
         innerContent: 'div'
@@ -57,11 +63,32 @@ class ParticleView extends Node {
     this.particle = particle;
 
     // Add the particle representation.
-    const particleNode = createParticleNode(
-      particle,
-      modelViewTransform,
-      options.tandem.createTandem( 'particleNode' )
-    );
+    let particleNode;
+
+    if ( particle.type === 'isotope' ) {
+      const isotopeNodeOptions = combineOptions<IsotopeNodeOptions>( {
+        tandem: options.tandem.createTandem( 'particleNode' ),
+        phetioVisiblePropertyInstrumented: false
+      }, options.isotopeNodeOptions );
+      particleNode = new IsotopeNode(
+        particle,
+        modelViewTransform.modelToViewDeltaX( particle.radius ),
+        isotopeNodeOptions
+      );
+    }
+    else {
+      particleNode = new ParticleNode(
+        particle.type,
+        modelViewTransform.modelToViewDeltaX( particle.radius ),
+        {
+          typeProperty: particle.typeProperty,
+          colorProperty: particle.colorProperty,
+          tandem: Tandem.OPT_OUT,
+          phetioVisiblePropertyInstrumented: false,
+          stroke: particle.type === 'neutron' ? 'black' : undefined
+        }
+      );
+    }
     this.addChild( particleNode );
 
     particle.inputEnabledProperty.link( inputEnabled => {
@@ -163,36 +190,6 @@ class ParticleView extends Node {
     // forward this Node as the target of the drag because the creator Node may be default target otherwise
     this.dragListener.press( event, this );
   }
-}
-
-/**
- * Creates the proper view for a particle.
- */
-function createParticleNode( particle: Particle, modelViewTransform: ModelViewTransform2, tandem: Tandem ): Node {
-  let particleNode;
-  if ( particle.type === 'Isotope' ) {
-    particleNode = new IsotopeNode(
-      particle,
-      modelViewTransform.modelToViewDeltaX( particle.radius ), {
-        tandem: tandem,
-        phetioVisiblePropertyInstrumented: false
-      }
-    );
-  }
-  else {
-    particleNode = new ParticleNode(
-      particle.type,
-      modelViewTransform.modelToViewDeltaX( particle.radius ),
-      {
-        typeProperty: particle.typeProperty,
-        colorProperty: particle.colorProperty,
-        tandem: Tandem.OPT_OUT,
-        phetioVisiblePropertyInstrumented: false,
-        stroke: particle.type === 'neutron' ? 'black' : undefined
-      }
-    );
-  }
-  return particleNode;
 }
 
 shred.register( 'ParticleView', ParticleView );
