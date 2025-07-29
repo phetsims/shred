@@ -52,7 +52,7 @@ class IsotopeNode extends Node {
       // @ts-expect-error - Seems like some work needs to be done here when Isotopes And Atomic Mass is converted to TypeScript
       const label = new RichText( ` <sup>${isotope.massNumber}</sup>${symbol}`, {
         font: new PhetFont( 10 ),
-        // making sure that text doesn't goes beyond the sphere boundaries, -2 is empirically determined
+        // making sure that text doesn't go beyond the sphere boundaries, -2 is empirically determined
         maxWidth: 2 * radius - 2
       } );
       label.centerX = isotopeSphere.centerX - 1; // empirically determined -1 to make it appear centered
