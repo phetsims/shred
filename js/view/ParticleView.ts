@@ -103,6 +103,7 @@ class ParticleView extends Node {
 
     const dragListenerOptions = {
       positionProperty: particle.destinationProperty,
+      applyOffset: false,
       transform: modelViewTransform,
       dragBoundsProperty: options.dragBounds ? new Property( options.dragBounds ) : null,
       start: () => {
