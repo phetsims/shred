@@ -9,18 +9,26 @@
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';
-import { combineOptions } from '../../../phet-core/js/optionize.js';
+import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import SphereBucket from '../../../phetcommon/js/model/SphereBucket.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import BucketFront from '../../../scenery-phet/js/bucket/BucketFront.js';
-import DragListener, { DragListenerOptions } from '../../../scenery/js/listeners/DragListener.js';
+import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-phet/js/SoundDragListener.js';
+import { PressedDragListener } from '../../../scenery/js/listeners/DragListener.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
+import nullSoundPlayer from '../../../tambo/js/nullSoundPlayer.js';
 
-class BucketDragListener extends DragListener {
+type SelfOptions = EmptySelfOptions;
+type BucketDragListenerOptions = SelfOptions & SoundDragListenerOptions;
 
-  public constructor( bucket: SphereBucket<Particle>, bucketView: BucketFront, modelViewTransform: ModelViewTransform2,
-                      options?: DragListenerOptions<BucketDragListener> ) {
+class BucketDragListener extends SoundDragListener {
+
+  public constructor( bucket: SphereBucket<Particle>,
+                      bucketView: BucketFront,
+                      modelViewTransform: ModelViewTransform2,
+                      providedOptions?: BucketDragListenerOptions ) {
 
     // closure for converting a point in local coordinate frame to model coordinates
     const localViewToModel = ( point: Vector2 ) => {
@@ -35,13 +43,18 @@ class BucketDragListener extends DragListener {
 
     let activeParticle: Particle | null = null;
 
-    super( combineOptions<DragListenerOptions<BucketDragListener>>( {
+    // sound players for grab and release
+    const grabSoundPlayer = providedOptions?.grabSoundPlayer ?? sharedSoundPlayers.get( 'grab' );
+    const releaseSoundPlayer = providedOptions?.releaseSoundPlayer ?? sharedSoundPlayers.get( 'release' );
+
+    const options = optionize<BucketDragListenerOptions, SelfOptions, SoundDragListenerOptions>()( {
       start: event => {
 
         const positionInModelSpace = localViewToModel( event.pointer.point );
 
         activeParticle = bucket.extractClosestParticle( positionInModelSpace );
         if ( activeParticle !== null ) {
+          grabSoundPlayer.play();
           activeParticle.setPositionAndDestination( positionInModelSpace );
         }
       },
@@ -52,7 +65,7 @@ class BucketDragListener extends DragListener {
           // Adjust the position if an offset was provided.
           const eventPoint = event.pointer.point.copy();
           if ( options && options.offsetPosition ) {
-            eventPoint.add( options.offsetPosition( eventPoint, this ) );
+            eventPoint.add( options.offsetPosition( eventPoint, this as PressedDragListener ) );
           }
           activeParticle.setPositionAndDestination( localViewToModel( eventPoint ) );
         }
@@ -62,9 +75,18 @@ class BucketDragListener extends DragListener {
         if ( activeParticle !== null ) {
           activeParticle.isDraggingProperty.set( false );
           activeParticle = null;
+          releaseSoundPlayer.play();
         }
-      }
-    }, options ) );
+      },
+
+      // By default, the grab and release sounds are played on every press and release, but that isn't exactly what we
+      // want here, because we don't want a sound if there are no particles in the bucket to be grabbed.  So here we
+      // effectively disable the default sounds and play our own elsewhere in this file.
+      grabSoundPlayer: nullSoundPlayer,
+      releaseSoundPlayer: nullSoundPlayer
+    }, providedOptions );
+
+    super( options );
   }
 }
 
