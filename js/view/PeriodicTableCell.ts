@@ -14,6 +14,8 @@ import Rectangle, { RectangleOptions } from '../../../scenery/js/nodes/Rectangle
 import Text from '../../../scenery/js/nodes/Text.js';
 import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
+import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import NumberAtom from '../model/NumberAtom.js';
 import shred from '../shred.js';
@@ -28,9 +30,11 @@ type SelfOptions = {
   strokeHighlightWidth?: number;
   strokeHighlightColor?: TColor;
   labelTextHighlightFill?: TColor; // fill of label text when highlighted
+  soundPlayer?: TSoundPlayer; // sound to play when cell is clicked
 
   // If provided, this atom will be set when the cell is pressed.
   settableAtom?: NumberAtom | null;
+
 };
 type PeriodicTableCellOptions = SelfOptions & RectangleOptions;
 export type CellColor = {
@@ -64,7 +68,8 @@ class PeriodicTableCell extends Rectangle {
       strokeHighlightWidth: 2,
       strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
       labelTextHighlightFill: 'black', // fill of label text when highlighted
-      settableAtom: null
+      settableAtom: null,
+      soundPlayer: sharedSoundPlayers.get( 'generalSoftClick' ) // sound to play when cell is clicked
     }, providedOptions );
 
     const normalFill = options.settableAtom ? cellColor.enabled : cellColor.disabled;
@@ -97,11 +102,18 @@ class PeriodicTableCell extends Rectangle {
     if ( options.settableAtom ) {
       buttonListener = new FireListener( {
         tandem: options.tandem && options.tandem.createTandem( 'fireListener' ),
-        fire: () => options.settableAtom!.setSubAtomicParticleCount(
-          atomicNumber,
-          AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
-          atomicNumber
-        )
+        fire: () => {
+
+          // If a settable atom is provided, set it with the atomic number and number of neutrons in the most common
+          // isotope.
+          options.settableAtom!.setSubAtomicParticleCount(
+            atomicNumber,
+            AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
+            atomicNumber
+          );
+
+          options.soundPlayer && options.soundPlayer.play();
+        }
       } );
       this.addInputListener( buttonListener );
     }
