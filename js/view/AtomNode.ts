@@ -119,10 +119,6 @@ class AtomNode extends Node {
     } );
     this.addChild( electronCloud );
 
-    const elementNameTextCenterPos = modelViewTransform.modelToViewPosition(
-      atom.positionProperty.get().plus( new Vector2( 0, atom.innerElectronShellRadius * 0.60 ) )
-    );
-
     // Current string properties for the symbol text and element caption
     // const symbolStringProperty = new Property<string>( AtomIdentifier.getSymbol( 0 ) );
     const currentElementStringProperty = new Property( AtomIdentifier.getName( 0 ) );
@@ -133,7 +129,7 @@ class AtomNode extends Node {
       font: new PhetFont( ELEMENT_NAME_FONT_SIZE ),
       fill: ShredColors.positiveColorProperty,
       pickable: false,
-      maxWidth: 120
+      maxWidth: 100
     } );
     const textBackgroundRect = new Rectangle( 0, 0, this.elementNameText.width, this.elementNameText.height, {
       fill: 'white',
@@ -169,12 +165,16 @@ class AtomNode extends Node {
         this.elementNameText.string = '';
       }
 
-      this.elementNameText.center = elementNameTextCenterPos;
+      const heightPerNucleon = 0.5;
+      const nucleons = atom.particleCountProperty.value - atom.electronCountProperty.value;
+      this.elementNameText.center = modelViewTransform.modelToViewPosition(
+        atom.positionProperty.get().plus( new Vector2( 0, atom.innerElectronShellRadius * 0.60 + heightPerNucleon * nucleons ) )
+      );
     };
     updateElementName(); // Do the initial update.
 
     // Hook up update listeners.
-    atom.protonCountProperty.link( updateElementName );
+    atom.particleCountProperty.link( updateElementName );
 
     // Updating the element if the element string property changes.
     elementDynamicStringProperty.link( updateElementName );
