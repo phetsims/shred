@@ -63,7 +63,11 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
   public readonly particleCountProperty: ReadOnlyProperty<number>;
   public readonly elementNameStringProperty: TReadOnlyProperty<string>;
   public readonly nucleusStableProperty: TReadOnlyProperty<boolean>;
-  public readonly atomUpdated: Emitter; // events emitted by instances of this type
+
+  // An Emitter that is used to notify listeners when the atom's subatomic particle counts are updated.  This is
+  // essentially a "bulk" emitting that is fired when the method that sets the subatomic particle counts is called.
+  // It's useful in cases where the code doesn't want to get three updates every time a new atom is set.
+  public readonly atomUpdated: Emitter;
 
   public constructor( providedOptions?: NumberAtomOptions ) {
 
