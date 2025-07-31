@@ -41,7 +41,8 @@ class ParticleNode extends Circle {
 
       colorProperty: new ColorProperty( baseColor ),
 
-      stroke: baseColor.colorUtilsDarker( 0.33 )
+      // Since we're doing a radial gradient, we found that using the same base color as stroke works best for contrast
+      stroke: baseColor
     }, providedOptions );
 
     assert && assert( options.fill === undefined, 'fill will be set programmatically and should not be specified' );
