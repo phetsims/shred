@@ -133,7 +133,7 @@ class AtomNode extends Node {
     } );
     const textBackgroundRect = new Rectangle( 0, 0, this.elementNameText.width, this.elementNameText.height, {
       fill: 'white',
-      opacity: 0.65
+      opacity: 0.5
     } );
     this.addChild( textBackgroundRect );
     this.addChild( this.elementNameText );
