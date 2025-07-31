@@ -45,6 +45,7 @@ type SelfOptions = {
   maxZLayer?: number;
   particleRadius?: number; // radius of the particle, in model space
   animationSpeedProperty?: TProperty<number> | null; // position change per second, in model space
+  colorProperty?: TProperty<Color>;
 };
 
 export type ParticleOptions = SelfOptions & PhetioObjectOptions;
@@ -103,7 +104,9 @@ class Particle extends PhetioObject {
                       ShredConstants.NUCLEON_RADIUS,
 
       // If no animation speed is provided, use null, which means the default speed will be used.
-      animationSpeedProperty: null
+      animationSpeedProperty: null,
+
+      colorProperty: new ColorProperty( PARTICLE_COLORS[ type ] )
 
     }, providedOptions );
 
@@ -119,7 +122,7 @@ class Particle extends PhetioObject {
     } );
 
     // Can be changed in rare cases, see ParticleAtom.changeNucleonType()
-    this.colorProperty = new ColorProperty( PARTICLE_COLORS[ type ] );
+    this.colorProperty = options.colorProperty;
 
     this.positionProperty = new Vector2Property( Vector2.ZERO, {
       valueComparisonStrategy: 'equalsFunction',

@@ -28,8 +28,8 @@ class ParticleNode extends Circle {
   public constructor( particleType: ParticleTypeString, radius: number, providedOptions?: ParticleNodeOptions ) {
 
     // Get the color to use as the basis for the gradients, fills, strokes and such.
-    const baseColor = PARTICLE_COLORS[ particleType ];
-    assert && assert( baseColor, `Unrecognized particle type: ${particleType}` );
+    const baseColorProperty = new ColorProperty( PARTICLE_COLORS[ particleType ] );
+    assert && assert( baseColorProperty, `Unrecognized particle type: ${particleType}` );
 
     const ownsColorProperty = providedOptions && !providedOptions.colorProperty;
 
@@ -39,10 +39,10 @@ class ParticleNode extends Circle {
 
       typeProperty: null,
 
-      colorProperty: new ColorProperty( baseColor ),
+      colorProperty: baseColorProperty,
 
       // Since we're doing a radial gradient, we found that using the same base color as stroke works best for contrast
-      stroke: baseColor
+      stroke: providedOptions?.colorProperty || baseColorProperty
     }, providedOptions );
 
     assert && assert( options.fill === undefined, 'fill will be set programmatically and should not be specified' );
@@ -50,17 +50,14 @@ class ParticleNode extends Circle {
 
     super( radius, options );
 
-    options.colorProperty.link( color => {
-
-      // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
-      this.fill = new RadialGradient(
-        -radius * 0.4, -radius * 0.4, 0,
-        -radius * 0.4, -radius * 0.4, radius * 1.6 )
-        .addColorStop( 0, 'white' )
-        .addColorStop( 1, color );
-      this.stroke = options.stroke;
-      this.lineWidth = 1;
-    } );
+    // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
+    this.fill = new RadialGradient(
+      -radius * 0.4, -radius * 0.4, 0,
+      -radius * 0.4, -radius * 0.4, radius * 1.6 )
+      .addColorStop( 0, 'white' )
+      .addColorStop( 1, options.colorProperty );
+    this.stroke = options.stroke;
+    this.lineWidth = 1;
 
     this.disposeParticleNode = () => {
       ownsColorProperty && options.colorProperty.dispose();

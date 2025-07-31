@@ -84,8 +84,7 @@ class ParticleView extends Node {
           typeProperty: particle.typeProperty,
           colorProperty: particle.colorProperty,
           tandem: Tandem.OPT_OUT,
-          phetioVisiblePropertyInstrumented: false,
-          stroke: particle.type === 'neutron' ? 'black' : undefined
+          phetioVisiblePropertyInstrumented: false
         }
       );
     }
