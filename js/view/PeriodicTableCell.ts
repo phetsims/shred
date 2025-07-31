@@ -6,6 +6,7 @@
  * @author Aadish Gupta
  */
 
+import TProperty from '../../../axon/js/TProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
@@ -17,7 +18,6 @@ import TColor from '../../../scenery/js/util/TColor.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import AtomIdentifier from '../AtomIdentifier.js';
-import NumberAtom from '../model/NumberAtom.js';
 import shred from '../shred.js';
 
 // constants
@@ -32,9 +32,8 @@ type SelfOptions = {
   labelTextHighlightFill?: TColor; // fill of label text when highlighted
   soundPlayer?: TSoundPlayer; // sound to play when cell is clicked
 
-  // If provided, this atom will be set when the cell is pressed.
-  settableAtom?: NumberAtom | null;
-
+  // If provided, this will be set to the corresponding atomic number when the cell is pressed.
+  atomicNumberProperty?: TProperty<number> | null;
 };
 type PeriodicTableCellOptions = SelfOptions & RectangleOptions;
 export type CellColor = {
@@ -68,17 +67,17 @@ class PeriodicTableCell extends Rectangle {
       strokeHighlightWidth: 2,
       strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
       labelTextHighlightFill: 'black', // fill of label text when highlighted
-      settableAtom: null,
+      atomicNumberProperty: null,
       soundPlayer: sharedSoundPlayers.get( 'generalSoftClick' ) // sound to play when cell is clicked
     }, providedOptions );
 
-    const normalFill = options.settableAtom ? cellColor.enabled : cellColor.disabled;
+    const normalFill = options.atomicNumberProperty ? cellColor.enabled : cellColor.disabled;
 
     super( 0, 0, options.length, options.length, 0, 0, {
       stroke: 'black',
       lineWidth: 1,
       fill: normalFill,
-      cursor: options.settableAtom ? 'pointer' : null
+      cursor: options.atomicNumberProperty ? 'pointer' : null
     } );
 
     this.strokeHighlightColor = options.strokeHighlightColor;
@@ -99,19 +98,11 @@ class PeriodicTableCell extends Rectangle {
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     let buttonListener: FireListener | null = null; // scope for disposal
-    if ( options.settableAtom ) {
+    if ( options.atomicNumberProperty ) {
       buttonListener = new FireListener( {
         tandem: options.tandem && options.tandem.createTandem( 'fireListener' ),
         fire: () => {
-
-          // If a settable atom is provided, set it with the atomic number and number of neutrons in the most common
-          // isotope.
-          options.settableAtom!.setSubAtomicParticleCount(
-            atomicNumber,
-            AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ),
-            atomicNumber
-          );
-
+          options.atomicNumberProperty!.value = atomicNumber;
           options.soundPlayer && options.soundPlayer.play();
         }
       } );

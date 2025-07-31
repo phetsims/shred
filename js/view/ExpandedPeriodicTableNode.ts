@@ -36,7 +36,9 @@ type ExpandedPeriodicTableNodeOptions = NodeOptions;
 
 class ExpandedPeriodicTableNode extends Node {
 
-  public constructor( numberAtom: NumberAtom, interactiveMax: number, providedOptions?: ExpandedPeriodicTableNodeOptions ) {
+  public constructor( numberAtom: NumberAtom,
+                      interactiveMax: number,
+                      providedOptions?: ExpandedPeriodicTableNodeOptions ) {
 
     const options = optionize<ExpandedPeriodicTableNodeOptions, EmptySelfOptions, NodeOptions>()( {
       tandem: Tandem.REQUIRED
@@ -44,8 +46,8 @@ class ExpandedPeriodicTableNode extends Node {
 
     super();
 
-    // A scaled down periodic table with element labels hidden
-    const periodicTableNode = new PeriodicTableNode( numberAtom, {
+    // A scaled down periodic table with element labels hidden.
+    const periodicTableNode = new PeriodicTableNode( numberAtom.protonCountProperty, {
       tandem: options.tandem && options.tandem.createTandem( 'periodicTable' ),
       interactiveMax: interactiveMax,
       showLabels: false
@@ -70,8 +72,7 @@ class ExpandedPeriodicTableNode extends Node {
       for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
         const atomicNumber = elementIndex;
         const button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
-          listener: () => numberAtom.setSubAtomicParticleCount( atomicNumber,
-            AtomIdentifier.getNumNeutronsInMostCommonIsotope( atomicNumber ), atomicNumber ),
+          listener: () => { numberAtom.protonCountProperty.value = atomicNumber; },
           baseColor: ENABLED_CELL_COLOR,
           cornerRadius: 0,
           minWidth: BUTTON_SIZE,
@@ -104,7 +105,7 @@ class ExpandedPeriodicTableNode extends Node {
     periodicTableTitle.centerX = periodicTableNode.centerX;
     this.addChild( periodicTableTitle );
 
-    // Highlight the cell that corresponds to the atom.
+    // Update the highlighted cell based on the number atom's proton count and the other parts of the NumberAtom.
     let highlightedCell: TextPushButton | null = null;
     numberAtom.protonCountProperty.link( protonCount => {
       if ( highlightedCell !== null ) {
@@ -113,6 +114,11 @@ class ExpandedPeriodicTableNode extends Node {
       if ( protonCount > 0 && protonCount <= cells.length ) {
         highlightedCell = cells[ protonCount - 1 ];
         highlightedCell.baseColor = SELECTED_CELL_COLOR;
+        numberAtom.setSubAtomicParticleCount(
+          protonCount,
+          AtomIdentifier.getNumNeutronsInMostCommonIsotope( protonCount ),
+          protonCount
+        );
       }
     } );
   }

@@ -6,6 +6,8 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
+import TProperty from '../../../axon/js/TProperty.js';
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
@@ -13,7 +15,6 @@ import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import NumberAtom, { TNumberAtom, TReadOnlyNumberAtom } from '../model/NumberAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import PeriodicTableCell, { CellColor } from './PeriodicTableCell.js';
@@ -56,10 +57,12 @@ class PeriodicTableNode extends Node {
   private readonly disposePeriodicTableNode: VoidFunction;
 
   /**
-   * @param numberAtom - Atom that defines which element is currently highlighted.
+   * @param atomicNumberProperty - Atomic number (i.e. number of protons) that defines which element is currently
+   * highlighted.  This may or may not be changed by this table, depending on the interactiveMax option.
    * @param providedOptions
    */
-  public constructor( numberAtom: TNumberAtom | TReadOnlyNumberAtom, providedOptions?: PeriodicTableNodeOptions ) {
+  public constructor( atomicNumberProperty: TReadOnlyProperty<number> | TProperty<number>,
+                      providedOptions?: PeriodicTableNodeOptions ) {
 
     const options = optionize<PeriodicTableNodeOptions, SelfOptions, NodeOptions>()( {
       interactiveMax: 0, // atomic number of the heaviest element that should be interactive
@@ -85,15 +88,14 @@ class PeriodicTableNode extends Node {
       };
       for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
 
-        // If this cell is supposed to be interactive, verify that the provided numberAtom is settable.
-        let settableAtom: NumberAtom | null = null;
+        // If this cell is supposed to be interactive the atomic number property will need to be provided to it.
+        let settableAtomicNumberProperty: TProperty<number> | null = null;
         if ( elementIndex <= options.interactiveMax ) {
-          settableAtom = numberAtom as NumberAtom;
-          assert && assert( typeof settableAtom.setSubAtomicParticleCount !== 'undefined', 'settable atom required' );
+          settableAtomicNumberProperty = atomicNumberProperty as TProperty<number>;
         }
 
         const cell = new PeriodicTableCell( elementIndex, cellColor, {
-          settableAtom: settableAtom,
+          atomicNumberProperty: settableAtomicNumberProperty,
           showLabels: options.showLabels,
           strokeHighlightWidth: options.strokeHighlightWidth,
           strokeHighlightColor: options.strokeHighlightColor,
@@ -133,11 +135,11 @@ class PeriodicTableNode extends Node {
         highlightedCell.setHighlighted( true );
       }
     };
-    numberAtom.protonCountProperty.link( updateHighlightedCell );
+    atomicNumberProperty.link( updateHighlightedCell );
 
     this.disposePeriodicTableNode = () => {
       this.children.forEach( node => node.dispose() );
-      numberAtom.protonCountProperty.hasListener( updateHighlightedCell ) && numberAtom.protonCountProperty.unlink( updateHighlightedCell );
+      atomicNumberProperty.hasListener( updateHighlightedCell ) && atomicNumberProperty.unlink( updateHighlightedCell );
       this.cells.forEach( cell => { !cell.isDisposed && cell.dispose();} );
     };
   }
