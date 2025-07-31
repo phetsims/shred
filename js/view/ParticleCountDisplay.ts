@@ -15,7 +15,6 @@ import HBox from '../../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import Text, { TextOptions } from '../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
-import Tandem from '../../../tandem/js/Tandem.js';
 import { TNumberAtom, TReadOnlyNumberAtom } from '../model/NumberAtom.js';
 import { ParticleTypeString } from '../model/Particle.js';
 import shred from '../shred.js';
@@ -34,20 +33,17 @@ type SelfOptions = {
 type ParticleCountDisplayOptions = SelfOptions & PanelOptions;
 
 class ParticleCountDisplay extends Panel {
+
   public constructor(
     numberAtom: TNumberAtom | TReadOnlyNumberAtom,
-    providedTandem: Tandem,
     providedOptions?: ParticleCountDisplayOptions
   ) {
-
-    const tandem = providedTandem.createTandem( 'particleCountDisplay' );
 
     const options = optionize<ParticleCountDisplayOptions, SelfOptions, PanelOptions>()( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
       cornerRadius: 5,
       maxParticles: 13,
       pickable: false,
-      tandem: tandem,
       phetioFeatured: true,
       visiblePropertyOptions: {
         phetioFeatured: true
