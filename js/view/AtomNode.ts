@@ -18,7 +18,6 @@ import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
-import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
@@ -131,23 +130,37 @@ class AtomNode extends Node {
       pickable: false,
       maxWidth: 100
     } );
-    const textBackgroundRect = new Rectangle( 0, 0, this.elementNameText.width, this.elementNameText.height, {
-      fill: 'white',
-      opacity: 0.5
-    } );
-    this.addChild( textBackgroundRect );
+
     this.addChild( this.elementNameText );
 
-    const rectMargin = 5; // Margin around the text
-    this.elementNameText.boundsProperty.link( bounds => {
-      textBackgroundRect.setRect( bounds.x - rectMargin, bounds.y - rectMargin, bounds.width + 2 * rectMargin, bounds.height + 2 * rectMargin );
-    } );
+    // For color contrast issues, we set different positions for the element name text depending on the depiction.
+    const updateTextPosition = () => {
+      const heightPerNucleon = 0.5;
+      // We start with one nucleon less for the position in both depictions to be equal at the start.
+      const nucleons = atom.particleCountProperty.value - atom.electronCountProperty.value - 1;
+
+      const heightPerElectron = 5;
+      const electrons = atom.electronCountProperty.value;
+      const initialHeight = atom.innerElectronShellRadius * 0.60;
+
+      const positionInOrbitsDepiction = modelViewTransform.modelToViewPosition(
+        atom.positionProperty.get().plus( new Vector2( 0, initialHeight + heightPerNucleon * nucleons ) )
+      );
+
+      const positionInCloudDepiction = modelViewTransform.modelToViewPosition(
+        atom.positionProperty.get().plus( new Vector2( 0, initialHeight + heightPerElectron * electrons ) )
+      );
+
+
+      this.elementNameText.center = options.electronShellDepictionProperty.value === 'orbits' ?
+                                    positionInOrbitsDepiction : positionInCloudDepiction;
+    };
 
     const updateElectronShellDepictionVisibility = ( depiction: ElectronShellDepiction ) => {
       electronShell.visible = depiction === 'orbits';
       electronCloud.visible = depiction === 'cloud';
 
-      textBackgroundRect.opacity = depiction === 'cloud' ? 0.65 : 0;
+      updateTextPosition();
     };
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
 
@@ -165,11 +178,7 @@ class AtomNode extends Node {
         this.elementNameText.string = '';
       }
 
-      const heightPerNucleon = 0.5;
-      const nucleons = atom.particleCountProperty.value - atom.electronCountProperty.value;
-      this.elementNameText.center = modelViewTransform.modelToViewPosition(
-        atom.positionProperty.get().plus( new Vector2( 0, atom.innerElectronShellRadius * 0.60 + heightPerNucleon * nucleons ) )
-      );
+      updateTextPosition();
     };
     updateElementName(); // Do the initial update.
 
