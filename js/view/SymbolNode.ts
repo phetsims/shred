@@ -23,7 +23,7 @@ import ShredConstants from '../ShredConstants.js';
 
 // types
 type SelfOptions = {
-  chargeProperty?: TReadOnlyProperty<number> | null;
+  netChargeProperty?: TReadOnlyProperty<number> | null;
 };
 export type SymbolNodeOptions = SelfOptions & NodeOptions;
 
@@ -35,7 +35,7 @@ const NUMBER_INSET = 20; // In screen coords, which are roughly pixels.
 
 class SymbolNode extends Node {
   protected readonly massNumberDisplay: Text;
-  protected readonly chargeDisplay: Text | undefined;
+  protected readonly netChargeDisplay: Text | undefined;
   protected readonly boundingBox: Rectangle;
   protected readonly symbolText: Text;
 
@@ -44,7 +44,7 @@ class SymbolNode extends Node {
                       providedOptions?: SymbolNodeOptions ) {
 
     const options = optionize<SymbolNodeOptions, SelfOptions, NodeOptions>()( {
-      chargeProperty: null
+      netChargeProperty: null
     }, providedOptions );
 
     super( options );
@@ -106,22 +106,22 @@ class SymbolNode extends Node {
       this.massNumberDisplay.top = NUMBER_INSET;
     } );
 
-    if ( options.chargeProperty ) {
+    if ( options.netChargeProperty ) {
 
       // Add the charge display.
-      this.chargeDisplay = new Text( '0', {
+      this.netChargeDisplay = new Text( '0', {
         font: NUMBER_FONT,
         fill: 'black'
       } );
-      this.boundingBox.addChild( this.chargeDisplay );
+      this.boundingBox.addChild( this.netChargeDisplay );
 
       // Add the listener to update the charge.
-      options.chargeProperty.link( charge => {
+      options.netChargeProperty.link( charge => {
         const chargeSign = charge > 0 ? MathSymbols.PLUS : charge < 0 ? MathSymbols.MINUS : '';
-        this.chargeDisplay!.string = `${Math.abs( charge )}${chargeSign}`;
-        this.chargeDisplay!.fill = ShredConstants.CHARGE_TEXT_COLOR( charge );
-        this.chargeDisplay!.right = SYMBOL_BOX_WIDTH - NUMBER_INSET;
-        this.chargeDisplay!.top = NUMBER_INSET;
+        this.netChargeDisplay!.string = `${Math.abs( charge )}${chargeSign}`;
+        this.netChargeDisplay!.fill = ShredConstants.CHARGE_TEXT_COLOR( charge );
+        this.netChargeDisplay!.right = SYMBOL_BOX_WIDTH - NUMBER_INSET;
+        this.netChargeDisplay!.top = NUMBER_INSET;
       } );
 
     }
