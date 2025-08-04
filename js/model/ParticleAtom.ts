@@ -165,7 +165,11 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
     );
     this.particleCountProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
-      ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount
+      ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount,
+      {
+        tandem: particleCountsTandem.createTandem( 'particleCountProperty' ),
+        phetioValueType: NumberIO
+      }
     );
     this.elementNameStringProperty = new DerivedStringProperty(
       [ this.protonCountProperty ],
