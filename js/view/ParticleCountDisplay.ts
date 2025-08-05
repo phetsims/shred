@@ -16,7 +16,7 @@ import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import Text, { TextOptions } from '../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
 import { TNumberAtom, TReadOnlyNumberAtom } from '../model/NumberAtom.js';
-import { ParticleTypeString } from '../model/Particle.js';
+import { ParticleType } from '../model/Particle.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredStrings from '../ShredStrings.js';
@@ -102,7 +102,7 @@ class ParticleCountDisplay extends Panel {
     let electronDisplayCount = 0;
 
     // Helper functions
-    function incrementParticleCount( array: ParticleNode[], bar: HBox, currentQuantity: number, particleType: ParticleTypeString, radius: number ): number {
+    function incrementParticleCount( array: ParticleNode[], bar: HBox, currentQuantity: number, particleType: ParticleType, radius: number ): number {
       const newIndex = currentQuantity;
       if ( newIndex === array.length && newIndex < options.maxParticles ) {
         array.push( new ParticleNode( particleType, radius ) );

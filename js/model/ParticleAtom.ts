@@ -38,7 +38,7 @@ import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
 import { TReadOnlyNumberAtom } from './NumberAtom.js';
-import Particle, { PARTICLE_COLORS, ParticleTypeString } from './Particle.js';
+import Particle, { PARTICLE_COLORS, ParticleType } from './Particle.js';
 
 // constants
 const NUM_ELECTRON_POSITIONS = 10; // first two electron shells, i.e. 2 + 8
@@ -417,7 +417,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
   /**
    * Extract an arbitrary instance of the specified particle, assuming one exists.
    */
-  public extractParticle( particleType: ParticleTypeString ): Particle {
+  public extractParticle( particleType: ParticleType ): Particle {
     let particle: Particle | null = null;
     switch( particleType ) {
       case 'proton':
@@ -450,7 +450,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
     return particle!;
   }
 
-  public extractParticleClosestToCenter( particleType: ParticleTypeString ): Particle {
+  public extractParticleClosestToCenter( particleType: ParticleType ): Particle {
     let particle: Particle | null = null;
     switch( particleType ) {
       case 'proton':
@@ -656,7 +656,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
     const oldParticleArray = isParticleTypeProton ? this.protons : this.neutrons;
     const newParticleArray = isParticleTypeProton ? this.neutrons : this.protons;
 
-    const newParticleType: ParticleTypeString = isParticleTypeProton ? 'neutron' : 'proton';
+    const newParticleType: ParticleType = isParticleTypeProton ? 'neutron' : 'proton';
     particle.typeProperty.value = newParticleType;
 
     const particleType = particle.typeProperty.value;

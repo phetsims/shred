@@ -31,7 +31,7 @@ import ShredConstants from '../ShredConstants.js';
 let nextParticleId = 1;
 
 // map of particle type to color information
-export const PARTICLE_COLORS: Record<ParticleTypeString, Color> = {
+export const PARTICLE_COLORS: Record<ParticleType, Color> = {
   proton: new Color( '#D14600' ),
   neutron: Color.GRAY.darkerColor( 0.1 ), // Dark gray
   electron: Color.BLUE,
@@ -39,7 +39,9 @@ export const PARTICLE_COLORS: Record<ParticleTypeString, Color> = {
   isotope: Color.BLACK
 };
 
-export type ParticleTypeString = 'proton' | 'neutron' | 'electron' | 'positron' | 'isotope';
+// ParticleType is a list of all the particle types supported in the shred library.  These types are used to for things
+// like particle color, particle behavior in the model, error checking, and so forth.
+export type ParticleType = 'proton' | 'neutron' | 'electron' | 'positron' | 'isotope';
 
 type SelfOptions = {
   maxZLayer?: number;
@@ -55,7 +57,7 @@ class Particle extends PhetioObject {
   // IDs needed for map-like lookup
   public readonly id = nextParticleId++;
 
-  public readonly typeProperty: TProperty<ParticleTypeString>;
+  public readonly typeProperty: TProperty<ParticleType>;
 
   // Fires when the particle reaches its destination via animation in step
   public readonly animationEndedEmitter = new Emitter();
@@ -89,7 +91,7 @@ class Particle extends PhetioObject {
 
   private readonly disposeParticle: VoidFunction;
 
-  public constructor( type: ParticleTypeString, providedOptions?: ParticleOptions ) {
+  public constructor( type: ParticleType, providedOptions?: ParticleOptions ) {
 
     const options = optionize<ParticleOptions, SelfOptions, PhetioObjectOptions>()( {
 
@@ -113,7 +115,7 @@ class Particle extends PhetioObject {
     super( options );
 
     this.radius = options.particleRadius;
-    this.typeProperty = new Property<ParticleTypeString>( type );
+    this.typeProperty = new Property<ParticleType>( type );
     this.containerProperty = new Property( null, {
       tandem: options.tandem && options.tandem.createTandem( 'containerProperty' ),
       phetioValueType: NullableIO( ReferenceIO( IOType.ObjectIO ) ),
@@ -216,7 +218,7 @@ class Particle extends PhetioObject {
     }
   }
 
-  public get type(): ParticleTypeString { return this.typeProperty.value; }
+  public get type(): ParticleType { return this.typeProperty.value; }
 
   public moveImmediatelyToDestination(): void {
     this.positionProperty.set( this.destinationProperty.get() );

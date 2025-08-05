@@ -13,11 +13,11 @@ import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import Color from '../../../scenery/js/util/Color.js';
 import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
-import { PARTICLE_COLORS, ParticleTypeString } from '../model/Particle.js';
+import { PARTICLE_COLORS, ParticleType } from '../model/Particle.js';
 import shred from '../shred.js';
 
 type SelfOptions = {
-  typeProperty?: TReadOnlyProperty<ParticleTypeString> | null;
+  typeProperty?: TReadOnlyProperty<ParticleType> | null;
   colorProperty?: TReadOnlyProperty<Color>;
 };
 type ParticleNodeOptions = SelfOptions & CircleOptions;
@@ -25,7 +25,7 @@ type ParticleNodeOptions = SelfOptions & CircleOptions;
 class ParticleNode extends Circle {
   private readonly disposeParticleNode: VoidFunction;
 
-  public constructor( particleType: ParticleTypeString, radius: number, providedOptions?: ParticleNodeOptions ) {
+  public constructor( particleType: ParticleType, radius: number, providedOptions?: ParticleNodeOptions ) {
 
     // Get the color to use as the basis for the gradients, fills, strokes and such.
     const baseColorProperty = new ColorProperty( PARTICLE_COLORS[ particleType ] );
