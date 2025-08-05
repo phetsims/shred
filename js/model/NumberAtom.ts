@@ -43,7 +43,7 @@ export type TNumberAtom = {
   netChargeProperty: TReadOnlyProperty<number>;
   massNumberProperty: TReadOnlyProperty<number>;
   particleCountProperty: ReadOnlyProperty<number>; // Has to be ReadOnlyProperty for addLinkedElement to work
-  elementNameStringProperty: TReadOnlyProperty<string>;
+  elementNameProperty: TReadOnlyProperty<string>;
   nucleusStableProperty: TReadOnlyProperty<boolean>;
   getIsotopeAtomicMass: () => number;
 };
@@ -61,7 +61,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
   public readonly netChargeProperty: TReadOnlyProperty<number>;
   public readonly massNumberProperty: TReadOnlyProperty<number>;
   public readonly particleCountProperty: ReadOnlyProperty<number>;
-  public readonly elementNameStringProperty: TReadOnlyProperty<string>;
+  public readonly elementNameProperty: TReadOnlyProperty<string>;
   public readonly nucleusStableProperty: TReadOnlyProperty<boolean>;
 
   // An Emitter that is used to notify listeners when the atom's subatomic particle counts are updated.  This is
@@ -125,11 +125,11 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     );
 
     // The element name is derived from the proton count, since the number of protons determines the element.
-    this.elementNameStringProperty = new DerivedStringProperty(
+    this.elementNameProperty = new DerivedStringProperty(
       [ this.protonCountProperty ],
       protonCount => AtomIdentifier.getEnglishName( protonCount ),
       {
-        tandem: options.tandem?.createTandem( 'elementNameStringProperty' )
+        tandem: options.tandem?.createTandem( 'elementNameProperty' )
       }
     );
 
@@ -201,7 +201,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     this.netChargeProperty.dispose();
     this.massNumberProperty.dispose();
     this.particleCountProperty.dispose();
-    this.elementNameStringProperty.dispose();
+    this.elementNameProperty.dispose();
     this.nucleusStableProperty.dispose();
 
     // Dispose these afterward, since they are dependencies to the above DerivedProperties.
