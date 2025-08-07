@@ -40,7 +40,7 @@ export type TNumberAtom = {
   protonCountProperty: TProperty<number>;
   neutronCountProperty: TProperty<number>;
   electronCountProperty: TProperty<number>;
-  netChargeProperty: TReadOnlyProperty<number>;
+  chargeProperty: TReadOnlyProperty<number>;
   massNumberProperty: TReadOnlyProperty<number>;
   particleCountProperty: ReadOnlyProperty<number>; // Has to be ReadOnlyProperty for addLinkedElement to work
   elementNameStringProperty: TReadOnlyProperty<string>;
@@ -58,7 +58,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
   public readonly protonCountProperty: Property<number>;
   public readonly neutronCountProperty: Property<number>;
   public readonly electronCountProperty: Property<number>;
-  public readonly netChargeProperty: TReadOnlyProperty<number>;
+  public readonly chargeProperty: TReadOnlyProperty<number>;
   public readonly massNumberProperty: TReadOnlyProperty<number>;
   public readonly particleCountProperty: ReadOnlyProperty<number>;
   public readonly elementNameStringProperty: TReadOnlyProperty<string>;
@@ -96,11 +96,11 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
       phetioReadOnly: true
     } );
 
-    this.netChargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
+    this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
       ( ( protonCount, electronCount ) => {
         return protonCount - electronCount;
       } ), {
-        tandem: options.tandem?.createTandem( 'netChargeProperty' ),
+        tandem: options.tandem?.createTandem( 'chargeProperty' ),
         phetioValueType: NumberIO
       }
     );
@@ -198,7 +198,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
 
   public override dispose(): void {
     super.dispose();
-    this.netChargeProperty.dispose();
+    this.chargeProperty.dispose();
     this.massNumberProperty.dispose();
     this.particleCountProperty.dispose();
     this.elementNameStringProperty.dispose();

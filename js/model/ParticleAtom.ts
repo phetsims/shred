@@ -84,7 +84,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
   public readonly electronCountProperty: TReadOnlyProperty<number>;
 
   // derived properties based on the number of particles present in the atom
-  public readonly netChargeProperty: ReadOnlyProperty<number>;
+  public readonly chargeProperty: ReadOnlyProperty<number>;
   public readonly massNumberProperty: ReadOnlyProperty<number>;
   public readonly particleCountProperty: ReadOnlyProperty<number>;
   public readonly innerElectronShellRadius: number;
@@ -143,12 +143,12 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
       phetioFeatured: true
     } );
 
-    this.netChargeProperty = new DerivedProperty(
+    this.chargeProperty = new DerivedProperty(
       [ this.protonCountProperty, this.electronCountProperty ],
       ( ( protonCount, electronCount ) => {
         return protonCount - electronCount;
       } ), {
-        tandem: options.tandem.createTandem( 'netChargeProperty' ),
+        tandem: options.tandem.createTandem( 'chargeProperty' ),
         phetioValueType: NumberIO,
         phetioFeatured: true
       }
@@ -300,7 +300,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
 
     this.particleCountProperty.dispose();
     this.massNumberProperty.dispose();
-    this.netChargeProperty.dispose();
+    this.chargeProperty.dispose();
     this.positionProperty.dispose();
     this.nucleusOffsetProperty.dispose();
     this.elementNameStringProperty.dispose();
