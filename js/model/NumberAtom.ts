@@ -83,17 +83,20 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     this.protonCountProperty = new NumberProperty( options.protonCount, {
       tandem: options.tandem?.createTandem( 'protonCountProperty' ),
       numberType: 'Integer',
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
     this.neutronCountProperty = new NumberProperty( options.neutronCount, {
       tandem: options.tandem?.createTandem( 'neutronCountProperty' ),
       numberType: 'Integer',
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
     this.electronCountProperty = new NumberProperty( options.electronCount, {
       tandem: options.tandem?.createTandem( 'electronCountProperty' ),
       numberType: 'Integer',
-      phetioReadOnly: true
+      phetioReadOnly: true,
+      phetioFeatured: true
     } );
 
     this.chargeProperty = new DerivedProperty( [ this.protonCountProperty, this.electronCountProperty ],
@@ -101,7 +104,8 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
         return protonCount - electronCount;
       } ), {
         tandem: options.tandem?.createTandem( 'chargeProperty' ),
-        phetioValueType: NumberIO
+        phetioValueType: NumberIO,
+        phetioFeatured: true
       }
     );
 
@@ -110,7 +114,8 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
         return protonCount + neutronCount;
       } ), {
         tandem: options.tandem?.createTandem( 'massNumberProperty' ),
-        phetioValueType: NumberIO
+        phetioValueType: NumberIO,
+        phetioFeatured: true
       }
     );
 
