@@ -37,9 +37,9 @@ type NumberAtomLike = {
 };
 
 export type TNumberAtom = {
-  protonCountProperty: TProperty<number>;
-  neutronCountProperty: TProperty<number>;
-  electronCountProperty: TProperty<number>;
+  protonCountProperty: Property<number>;
+  neutronCountProperty: Property<number>;
+  electronCountProperty: Property<number>;
   chargeProperty: TReadOnlyProperty<number>;
   massNumberProperty: TReadOnlyProperty<number>;
   particleCountProperty: ReadOnlyProperty<number>; // Has to be ReadOnlyProperty for addLinkedElement to work
@@ -116,12 +116,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
 
     this.particleCountProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty, this.electronCountProperty ],
-      ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount,
-      {
-        tandem: options.tandem?.createTandem( 'particleCountProperty' ),
-        phetioValueType: NumberIO,
-        phetioFeatured: true
-      }
+      ( protonCount, neutronCount, electronCount ) => protonCount + neutronCount + electronCount
     );
 
     // The element name is derived from the proton count, since the number of protons determines the element.

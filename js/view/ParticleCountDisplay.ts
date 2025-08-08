@@ -8,6 +8,7 @@
  * @author Aadish Gupta
  */
 
+import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
@@ -150,7 +151,15 @@ class ParticleCountDisplay extends Panel {
 
     super( panelContents, options );
 
-    this.addLinkedElement( numberAtom.particleCountProperty );
+    this.addLinkedElement( numberAtom.protonCountProperty as Property<number>, {
+      tandemName: 'protonCount'
+    } );
+    this.addLinkedElement( numberAtom.neutronCountProperty as Property<number>, {
+      tandemName: 'neutronCount'
+    } );
+    this.addLinkedElement( numberAtom.electronCountProperty as Property<number>, {
+      tandemName: 'electronCount'
+    } );
   }
 }
 
