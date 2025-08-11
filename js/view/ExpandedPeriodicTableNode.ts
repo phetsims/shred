@@ -70,9 +70,9 @@ class ExpandedPeriodicTableNode extends Node {
       const populatedCellsInRow = POPULATED_CELLS[ i ];
 
       for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
-        const atomicNumber = elementIndex;
+        const protonCount = elementIndex;
         const button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
-          listener: () => { numberAtom.protonCountProperty.value = atomicNumber; },
+          listener: () => { numberAtom.protonCountProperty.value = protonCount; },
           baseColor: ENABLED_CELL_COLOR,
           cornerRadius: 0,
           minWidth: BUTTON_SIZE,

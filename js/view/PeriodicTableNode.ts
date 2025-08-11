@@ -57,11 +57,11 @@ class PeriodicTableNode extends Node {
   private readonly disposePeriodicTableNode: VoidFunction;
 
   /**
-   * @param atomicNumberProperty - Atomic number (i.e. number of protons) that defines which element is currently
+   * @param protonCountProperty - Atomic number (i.e. number of protons) that defines which element is currently
    * highlighted.  This may or may not be changed by this table, depending on the interactiveMax option.
    * @param providedOptions
    */
-  public constructor( atomicNumberProperty: TReadOnlyProperty<number> | TProperty<number>,
+  public constructor( protonCountProperty: TReadOnlyProperty<number> | TProperty<number>,
                       providedOptions?: PeriodicTableNodeOptions ) {
 
     const options = optionize<PeriodicTableNodeOptions, SelfOptions, NodeOptions>()( {
@@ -91,11 +91,11 @@ class PeriodicTableNode extends Node {
         // If this cell is supposed to be interactive the atomic number property will need to be provided to it.
         let settableAtomicNumberProperty: TProperty<number> | null = null;
         if ( elementIndex <= options.interactiveMax ) {
-          settableAtomicNumberProperty = atomicNumberProperty as TProperty<number>;
+          settableAtomicNumberProperty = protonCountProperty as TProperty<number>;
         }
 
         const cell = new PeriodicTableCell( elementIndex, cellColor, {
-          atomicNumberProperty: settableAtomicNumberProperty,
+          protonCountProperty: settableAtomicNumberProperty,
           showLabels: options.showLabels,
           strokeHighlightWidth: options.strokeHighlightWidth,
           strokeHighlightColor: options.strokeHighlightColor,
@@ -135,11 +135,11 @@ class PeriodicTableNode extends Node {
         highlightedCell.setHighlighted( true );
       }
     };
-    atomicNumberProperty.link( updateHighlightedCell );
+    protonCountProperty.link( updateHighlightedCell );
 
     this.disposePeriodicTableNode = () => {
       this.children.forEach( node => node.dispose() );
-      atomicNumberProperty.hasListener( updateHighlightedCell ) && atomicNumberProperty.unlink( updateHighlightedCell );
+      protonCountProperty.hasListener( updateHighlightedCell ) && protonCountProperty.unlink( updateHighlightedCell );
       this.cells.forEach( cell => { !cell.isDisposed && cell.dispose();} );
     };
   }

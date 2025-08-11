@@ -33,7 +33,7 @@ type SelfOptions = {
   soundPlayer?: TSoundPlayer; // sound to play when cell is clicked
 
   // If provided, this will be set to the corresponding atomic number when the cell is pressed.
-  atomicNumberProperty?: TProperty<number> | null;
+  protonCountProperty?: TProperty<number> | null;
 };
 type PeriodicTableCellOptions = SelfOptions & RectangleOptions;
 export type CellColor = {
@@ -62,22 +62,22 @@ class PeriodicTableCell extends Rectangle {
                       providedOptions?: PeriodicTableCellOptions ) {
 
     const options = optionize<PeriodicTableCellOptions, SelfOptions, RectangleOptions>()( {
-      length: 25, //Width and height of cell (cells are square).
+      length: 25, // width and height of cell (cells are square)
       showLabels: true,
       strokeHighlightWidth: 2,
       strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
       labelTextHighlightFill: 'black', // fill of label text when highlighted
-      atomicNumberProperty: null,
+      protonCountProperty: null,
       soundPlayer: sharedSoundPlayers.get( 'generalSoftClick' ) // sound to play when cell is clicked
     }, providedOptions );
 
-    const normalFill = options.atomicNumberProperty ? cellColor.enabled : cellColor.disabled;
+    const normalFill = options.protonCountProperty ? cellColor.enabled : cellColor.disabled;
 
     super( 0, 0, options.length, options.length, 0, 0, {
       stroke: 'black',
       lineWidth: 1,
       fill: normalFill,
-      cursor: options.atomicNumberProperty ? 'pointer' : null
+      cursor: options.protonCountProperty ? 'pointer' : null
     } );
 
     this.strokeHighlightColor = options.strokeHighlightColor;
@@ -98,11 +98,11 @@ class PeriodicTableCell extends Rectangle {
 
     // If interactive, add a listener to set the atom when this cell is pressed.
     let buttonListener: FireListener | null = null; // scope for disposal
-    if ( options.atomicNumberProperty ) {
+    if ( options.protonCountProperty ) {
       buttonListener = new FireListener( {
         tandem: options.tandem && options.tandem.createTandem( 'fireListener' ),
         fire: () => {
-          options.atomicNumberProperty!.value = atomicNumber;
+          options.protonCountProperty!.value = atomicNumber;
           options.soundPlayer && options.soundPlayer.play();
         }
       } );
