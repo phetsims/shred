@@ -81,6 +81,7 @@ class PeriodicTableNode extends Node {
     let elementIndex = 1;
     for ( let i = 0; i < POPULATED_CELLS.length; i++ ) {
       const populatedCellsInRow = POPULATED_CELLS[ i ];
+
       const cellColor: CellColor = {
         enabled: options.enabledCellColor,
         disabled: options.disabledCellColor,
@@ -91,6 +92,8 @@ class PeriodicTableNode extends Node {
         // If this cell is supposed to be interactive the atomic number property will need to be provided to it.
         let settableAtomicNumberProperty: TProperty<number> | null = null;
         if ( elementIndex <= options.interactiveMax ) {
+
+          // TODO: Why is this type assertion necessary? Can it be avoided through better typing? See https://github.com/phetsims/build-an-atom/issues/329
           settableAtomicNumberProperty = protonCountProperty as TProperty<number>;
         }
 

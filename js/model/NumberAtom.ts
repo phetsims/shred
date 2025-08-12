@@ -52,6 +52,7 @@ export type TNumberAtom = {
 type AllReadOnly<T> = {
   [K in keyof T]: T[K] extends TProperty<infer U> ? TReadOnlyProperty<U> : T[K];
 };
+
 export type TReadOnlyNumberAtom = AllReadOnly<TNumberAtom>;
 
 class NumberAtom extends PhetioObject implements TNumberAtom {

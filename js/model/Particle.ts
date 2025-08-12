@@ -37,7 +37,7 @@ export const PARTICLE_COLORS: Record<ParticleType, Color> = {
   electron: Color.BLUE,
   positron: new Color( 53, 182, 74 ), // Darkish green
   isotope: Color.BLACK
-};
+} as const;
 
 // ParticleType is a list of all the particle types supported in the shred library.  These types are used to for things
 // like particle color, particle behavior in the model, error checking, and so forth.
@@ -106,6 +106,7 @@ class Particle extends PhetioObject {
                       ShredConstants.NUCLEON_RADIUS,
 
       // If no animation speed is provided, use null, which means the default speed will be used.
+      // TODO: Would it be clearer to have this be type number, and specify the default here? See https://github.com/phetsims/build-an-atom/issues/329
       animationSpeedProperty: null,
 
       colorProperty: new ColorProperty( PARTICLE_COLORS[ type ] )

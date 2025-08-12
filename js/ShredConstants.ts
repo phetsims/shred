@@ -11,6 +11,7 @@ import TColor from '../../scenery/js/util/TColor.js';
 import { PARTICLE_COLORS } from './model/Particle.js';
 import shred from './shred.js';
 
+// TODO: What are level names doing in shred? See https://github.com/phetsims/build-an-atom/issues/329
 const LEVEL_NAMES = [ 'periodic-table-game', 'mass-and-charge-game', 'symbol-game', 'advanced-symbol-game' ] as const;
 
 export type Level = typeof LEVEL_NAMES[number];

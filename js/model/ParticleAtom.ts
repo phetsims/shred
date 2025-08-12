@@ -373,7 +373,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
     }
 
     // Update the particle's container property so that it is associated with this atom.
-    // TODO: See https://github.com/phetsims/build-an-atom/issues/257.  Using isSettingPhetioStateProperty here seems
+    // TODO: See https://github.com/phetsims/build-an-atom/issues/329.  Using isSettingPhetioStateProperty here seems
     //       indicative of problems elsewhere.  I (jbphet) should follow up and see if this can be improved.
     assert && assert( particle.containerProperty.value === null || isSettingPhetioStateProperty.value,
       'this particle is already in a container' );

@@ -38,6 +38,7 @@ const unstableStringProperty = ShredStrings.unstableStringProperty;
 const ELEMENT_NAME_FONT_SIZE = 22;
 const ION_FONT_SIZE = 20;
 
+// TODO: Can this be renamed to ElectronShellDepictionValues (casing), see https://github.com/phetsims/build-an-atom/issues/329
 export const electronShellDepictionValues = [ 'orbits', 'cloud' ] as const;
 export type ElectronShellDepiction = typeof electronShellDepictionValues[number];
 
@@ -54,14 +55,16 @@ type AtomNodeOptions = SelfOptions & NodeOptions;
 class AtomNode extends Node {
   private readonly atom: ParticleAtom;
   private readonly modelViewTransform: ModelViewTransform2;
+
+  // TODO Recommended to document how this can be hidden by 2 gates: visible: false and string==='', see https://github.com/phetsims/build-an-atom/issues/329
   private readonly elementNameText: Text;
   private readonly ionIndicatorText: Text;
   private readonly stabilityIndicatorText: Text;
   private readonly disposeAtomNode: VoidFunction;
 
   /**
-   * @param atom Model that represents the atom, including particle positions
-   * @param modelViewTransform Model-View transform
+   * @param atom - Model that represents the atom, including particle positions
+   * @param modelViewTransform - Model-View transform
    * @param providedOptions
    */
   public constructor( atom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: AtomNodeOptions ) {
@@ -150,7 +153,6 @@ class AtomNode extends Node {
       const positionInCloudDepiction = modelViewTransform.modelToViewPosition(
         atom.positionProperty.get().plus( new Vector2( 0, initialHeight + heightPerElectron * electrons ) )
       );
-
 
       this.elementNameText.center = options.electronShellDepictionProperty.value === 'orbits' ?
                                     positionInOrbitsDepiction : positionInCloudDepiction;

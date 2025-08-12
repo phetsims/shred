@@ -16,7 +16,7 @@ import HBox from '../../../scenery/js/layout/nodes/HBox.js';
 import VBox from '../../../scenery/js/layout/nodes/VBox.js';
 import Text, { TextOptions } from '../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
-import { TNumberAtom, TReadOnlyNumberAtom } from '../model/NumberAtom.js';
+import { TReadOnlyNumberAtom } from '../model/NumberAtom.js';
 import { ParticleType } from '../model/Particle.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -36,13 +36,15 @@ type ParticleCountDisplayOptions = SelfOptions & PanelOptions;
 class ParticleCountDisplay extends Panel {
 
   public constructor(
-    numberAtom: TNumberAtom | TReadOnlyNumberAtom,
+    numberAtom: TReadOnlyNumberAtom,
     providedOptions?: ParticleCountDisplayOptions
   ) {
 
     const options = optionize<ParticleCountDisplayOptions, SelfOptions, PanelOptions>()( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
       cornerRadius: 5,
+
+      // TODO: why 13? What happens if this number was different? See https://github.com/phetsims/build-an-atom/issues/329
       maxParticles: 13,
       pickable: false,
       phetioFeatured: true,
@@ -103,6 +105,7 @@ class ParticleCountDisplay extends Panel {
     let electronDisplayCount = 0;
 
     // Helper functions
+    // TODO: Rename more like "add"? See https://github.com/phetsims/build-an-atom/issues/329
     function incrementParticleCount( array: ParticleNode[], bar: HBox, currentQuantity: number, particleType: ParticleType, radius: number ): number {
       const newIndex = currentQuantity;
       if ( newIndex === array.length && newIndex < options.maxParticles ) {
@@ -112,6 +115,7 @@ class ParticleCountDisplay extends Panel {
       return currentQuantity + 1;
     }
 
+    // TODO: Rename like above, see https://github.com/phetsims/build-an-atom/issues/329
     function decrementParticleCount( array: ParticleNode[], bar: HBox, currentQuantity: number ): number {
       currentQuantity -= 1;
       bar.removeChild( array[ currentQuantity ] );
@@ -120,7 +124,7 @@ class ParticleCountDisplay extends Panel {
     }
 
     // Update function
-    const updateParticles = ( atom: TNumberAtom | TReadOnlyNumberAtom ): void => {
+    const updateParticles = ( atom: TReadOnlyNumberAtom ): void => {
       while ( atom.protonCountProperty.get() > protonDisplayCount ) {
         protonDisplayCount = incrementParticleCount( protons, protonBar, protonDisplayCount, 'proton', nucleonRadius );
       }
@@ -151,6 +155,7 @@ class ParticleCountDisplay extends Panel {
 
     super( panelContents, options );
 
+    // TODO: Why type assertions here? Can they be avoided through better typing? See https://github.com/phetsims/build-an-atom/issues/329
     this.addLinkedElement( numberAtom.protonCountProperty as Property<number>, {
       tandemName: 'protonCount'
     } );

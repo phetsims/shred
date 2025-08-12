@@ -65,6 +65,8 @@ class BucketDragListener extends SoundDragListener {
           // Adjust the position if an offset was provided.
           const eventPoint = event.pointer.point.copy();
           if ( options && options.offsetPosition ) {
+
+            // TODO: Why need type assertion here? Can it be avoided through better typing? See https://github.com/phetsims/build-an-atom/issues/329
             eventPoint.add( options.offsetPosition( eventPoint, this as PressedDragListener ) );
           }
           activeParticle.setPositionAndDestination( localViewToModel( eventPoint ) );

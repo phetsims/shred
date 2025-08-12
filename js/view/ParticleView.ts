@@ -142,6 +142,7 @@ class ParticleView extends Node {
     ) );
     this.addInputListener( this.dragListener );
 
+    // TODO: How can I test the keyboard drag behavior at runtime? https://github.com/phetsims/build-an-atom/issues/329
     const keyboardDragListener = new SoundKeyboardDragListener(
       combineOptions<SoundKeyboardDragListenerOptions>( {
         tandem: options.tandem.createTandem( 'keyboardDragListener' ),
