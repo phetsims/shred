@@ -742,11 +742,13 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
       };
 
       // Add back the particles.
-      deserializedState.residentParticles.forEach( ( value: Particle ) => { particleAtom.addParticle( value ); } );
+      deserializedState.residentParticles.forEach( particle => particleAtom.addParticle( particle ) );
 
       // Set the electron shell occupancy state.
       deserializedState.electronShellOccupants.forEach( ( electron: Particle, index: number ) => {
         particleAtom.electronShellPositions[ index ].electron = electron;
+
+        // TODO: Do any update() methods need to be called after changing the electrons or addParticles?; See https://github.com/phetsims/build-an-atom/issues/330
       } );
     }
   } );
