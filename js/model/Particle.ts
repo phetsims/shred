@@ -15,7 +15,6 @@ import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import { ParticleContainer } from '../../../phetcommon/js/model/ParticleContainer.js';
 import Color from '../../../scenery/js/util/Color.js';
 import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
@@ -23,7 +22,7 @@ import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObje
 import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
-import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
+import ReferenceIO, { ReferenceIOState } from '../../../tandem/js/types/ReferenceIO.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 
@@ -230,7 +229,7 @@ class Particle extends PhetioObject {
     this.moveImmediatelyToDestination();
   }
 
-  public static ParticleIO = new IOType<IntentionalAny, IntentionalAny>( 'ParticleIO', {
+  public static ParticleIO = new IOType<Particle, ReferenceIOState>( 'ParticleIO', {
     valueType: Particle,
     documentation: 'The model for a single particle such as an electron, proton, or neutron.',
     supertype: ReferenceIO( IOType.ObjectIO )
