@@ -250,16 +250,6 @@ type StringsType = {
   'moscoviumStringProperty': LocalizedStringProperty;
   'livermorium': string;
   'livermoriumStringProperty': LocalizedStringProperty;
-  'ununseptium': string;
-  'ununseptiumStringProperty': LocalizedStringProperty;
-  'ununoctium': string;
-  'ununoctiumStringProperty': LocalizedStringProperty;
-  'ununbium': string;
-  'ununbiumStringProperty': LocalizedStringProperty;
-  'ununtrium': string;
-  'ununtriumStringProperty': LocalizedStringProperty;
-  'ununpentium': string;
-  'ununpentiumStringProperty': LocalizedStringProperty;
   'tennessine': string;
   'tennessineStringProperty': LocalizedStringProperty;
   'oganesson': string;

@@ -146,11 +146,6 @@ addToMapIfDefined( 'nihonium', 'nihoniumStringProperty' );
 addToMapIfDefined( 'flerovium', 'fleroviumStringProperty' );
 addToMapIfDefined( 'moscovium', 'moscoviumStringProperty' );
 addToMapIfDefined( 'livermorium', 'livermoriumStringProperty' );
-addToMapIfDefined( 'ununseptium', 'ununseptiumStringProperty' );
-addToMapIfDefined( 'ununoctium', 'ununoctiumStringProperty' );
-addToMapIfDefined( 'ununbium', 'ununbiumStringProperty' );
-addToMapIfDefined( 'ununtrium', 'ununtriumStringProperty' );
-addToMapIfDefined( 'ununpentium', 'ununpentiumStringProperty' );
 addToMapIfDefined( 'tennessine', 'tennessineStringProperty' );
 addToMapIfDefined( 'oganesson', 'oganessonStringProperty' );
 addToMapIfDefined( 'minusSignIon', 'minusSignIonStringProperty' );
@@ -291,11 +286,6 @@ const ShredFluent = {
   fleroviumStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'flerovium', _.get( ShredStrings, 'fleroviumStringProperty' ) ),
   moscoviumStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'moscovium', _.get( ShredStrings, 'moscoviumStringProperty' ) ),
   livermoriumStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'livermorium', _.get( ShredStrings, 'livermoriumStringProperty' ) ),
-  ununseptiumStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'ununseptium', _.get( ShredStrings, 'ununseptiumStringProperty' ) ),
-  ununoctiumStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'ununoctium', _.get( ShredStrings, 'ununoctiumStringProperty' ) ),
-  ununbiumStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'ununbium', _.get( ShredStrings, 'ununbiumStringProperty' ) ),
-  ununtriumStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'ununtrium', _.get( ShredStrings, 'ununtriumStringProperty' ) ),
-  ununpentiumStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'ununpentium', _.get( ShredStrings, 'ununpentiumStringProperty' ) ),
   tennessineStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'tennessine', _.get( ShredStrings, 'tennessineStringProperty' ) ),
   oganessonStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'oganesson', _.get( ShredStrings, 'oganessonStringProperty' ) ),
   minusSignIonStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'minusSignIon', _.get( ShredStrings, 'minusSignIonStringProperty' ) ),
