@@ -6,9 +6,10 @@
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
 
-import TProperty from '../../../axon/js/TProperty.js';
+import TProperty, { isTProperty } from '../../../axon/js/TProperty.js';
 import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
+import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
@@ -92,9 +93,9 @@ class PeriodicTableNode extends Node {
         // If this cell is supposed to be interactive the atomic number property will need to be provided to it.
         let settableAtomicNumberProperty: TProperty<number> | null = null;
         if ( elementIndex <= options.interactiveMax ) {
-
-          // TODO: Why is this type assertion necessary? Can it be avoided through better typing? See https://github.com/phetsims/build-an-atom/issues/329
-          settableAtomicNumberProperty = protonCountProperty as TProperty<number>;
+          affirm( isTProperty<number>( protonCountProperty ),
+            'If you\'re using options.interactiveMax, protonCountProperty should be settable' );
+          settableAtomicNumberProperty = protonCountProperty;
         }
 
         const cell = new PeriodicTableCell( elementIndex, cellColor, {
