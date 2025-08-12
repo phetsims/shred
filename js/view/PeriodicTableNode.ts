@@ -110,6 +110,8 @@ class PeriodicTableNode extends Node {
         this.addChild( cell );
         this.cells.push( cell );
         elementIndex++;
+
+        // TODO: Documentation here would be helpful, see https://github.com/phetsims/build-an-atom/issues/329
         if ( elementIndex === 58 ) {
           elementIndex = 72;
         }
