@@ -38,9 +38,8 @@ const unstableStringProperty = ShredStrings.unstableStringProperty;
 const ELEMENT_NAME_FONT_SIZE = 22;
 const ION_FONT_SIZE = 20;
 
-// TODO: Can this be renamed to ElectronShellDepictionValues (casing), see https://github.com/phetsims/build-an-atom/issues/329
-export const electronShellDepictionValues = [ 'orbits', 'cloud' ] as const;
-export type ElectronShellDepiction = typeof electronShellDepictionValues[number];
+export const ElectronShellDepictionValues = [ 'orbits', 'cloud' ] as const;
+export type ElectronShellDepiction = typeof ElectronShellDepictionValues[number];
 
 type SelfOptions = {
   showCenterX?: boolean;

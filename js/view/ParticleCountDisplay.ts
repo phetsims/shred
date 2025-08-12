@@ -99,14 +99,13 @@ class ParticleCountDisplay extends Panel {
       align: 'left'
     } );
 
-    // Display counts
+    // particle counts that are displayed
     let protonDisplayCount = 0;
     let neutronDisplayCount = 0;
     let electronDisplayCount = 0;
 
-    // Helper functions
-    // TODO: Rename more like "add"? See https://github.com/phetsims/build-an-atom/issues/329
-    function incrementParticleCount( array: ParticleNode[], bar: HBox, currentQuantity: number, particleType: ParticleType, radius: number ): number {
+    // helper functions
+    function addParticle( array: ParticleNode[], bar: HBox, currentQuantity: number, particleType: ParticleType, radius: number ): number {
       const newIndex = currentQuantity;
       if ( newIndex === array.length && newIndex < options.maxParticles ) {
         array.push( new ParticleNode( particleType, radius ) );
@@ -115,8 +114,7 @@ class ParticleCountDisplay extends Panel {
       return currentQuantity + 1;
     }
 
-    // TODO: Rename like above, see https://github.com/phetsims/build-an-atom/issues/329
-    function decrementParticleCount( array: ParticleNode[], bar: HBox, currentQuantity: number ): number {
+    function removeParticle( array: ParticleNode[], bar: HBox, currentQuantity: number ): number {
       currentQuantity -= 1;
       bar.removeChild( array[ currentQuantity ] );
       array.splice( currentQuantity, 1 );
@@ -126,24 +124,24 @@ class ParticleCountDisplay extends Panel {
     // Update function
     const updateParticles = ( atom: TReadOnlyNumberAtom ): void => {
       while ( atom.protonCountProperty.get() > protonDisplayCount ) {
-        protonDisplayCount = incrementParticleCount( protons, protonBar, protonDisplayCount, 'proton', nucleonRadius );
+        protonDisplayCount = addParticle( protons, protonBar, protonDisplayCount, 'proton', nucleonRadius );
       }
       while ( atom.protonCountProperty.get() < protonDisplayCount ) {
-        protonDisplayCount = decrementParticleCount( protons, protonBar, protonDisplayCount );
+        protonDisplayCount = removeParticle( protons, protonBar, protonDisplayCount );
       }
 
       while ( atom.neutronCountProperty.get() > neutronDisplayCount ) {
-        neutronDisplayCount = incrementParticleCount( neutrons, neutronBar, neutronDisplayCount, 'neutron', nucleonRadius );
+        neutronDisplayCount = addParticle( neutrons, neutronBar, neutronDisplayCount, 'neutron', nucleonRadius );
       }
       while ( atom.neutronCountProperty.get() < neutronDisplayCount ) {
-        neutronDisplayCount = decrementParticleCount( neutrons, neutronBar, neutronDisplayCount );
+        neutronDisplayCount = removeParticle( neutrons, neutronBar, neutronDisplayCount );
       }
 
       while ( atom.electronCountProperty.get() > electronDisplayCount ) {
-        electronDisplayCount = incrementParticleCount( electrons, electronBar, electronDisplayCount, 'electron', electronRadius );
+        electronDisplayCount = addParticle( electrons, electronBar, electronDisplayCount, 'electron', electronRadius );
       }
       while ( atom.electronCountProperty.get() < electronDisplayCount ) {
-        electronDisplayCount = decrementParticleCount( electrons, electronBar, electronDisplayCount );
+        electronDisplayCount = removeParticle( electrons, electronBar, electronDisplayCount );
       }
     };
 

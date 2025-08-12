@@ -14285,7 +14285,7 @@ const AtomIdentifier = {
    * for usage in PhET-iO data stream.
    *
    * TODO: Can you elaborate more on the usage cases? Why is it ok that it isn't i18n? Should a more programmer-related term
-   * other than English be used? See https://github.com/phetsims/build-an-atom/issues/329
+   * other than English be used, getNonLocalizedName? See https://github.com/phetsims/build-an-atom/issues/329
    */
   getEnglishName: function( numProtons: number ): string {
     return englishNameTable[ numProtons ];

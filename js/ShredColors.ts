@@ -11,7 +11,6 @@ import ProfileColorProperty from '../../scenery/js/util/ProfileColorProperty.js'
 import { PARTICLE_COLORS } from './model/Particle.js';
 import shred from './shred.js';
 
-// TODO: Does this file need any tandems? See https://github.com/phetsims/build-an-atom/issues/329
 const ShredColors = {
 
   // background color for screens in this sim
@@ -29,7 +28,6 @@ const ShredColors = {
   electronColorProperty: new ProfileColorProperty( shred, 'electronColor', {
     default: PARTICLE_COLORS.electron
   } ),
-
 
   // background color for panels in this sim
   panelBackgroundColorProperty: new ProfileColorProperty( shred, 'panelBackground', {

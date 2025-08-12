@@ -14,11 +14,10 @@ import SphereBucket from '../../../phetcommon/js/model/SphereBucket.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import BucketFront from '../../../scenery-phet/js/bucket/BucketFront.js';
 import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-phet/js/SoundDragListener.js';
-import { PressedDragListener } from '../../../scenery/js/listeners/DragListener.js';
+import nullSoundPlayer from '../../../tambo/js/nullSoundPlayer.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
-import nullSoundPlayer from '../../../tambo/js/nullSoundPlayer.js';
 
 type SelfOptions = EmptySelfOptions;
 type BucketDragListenerOptions = SelfOptions & SoundDragListenerOptions;
@@ -59,15 +58,13 @@ class BucketDragListener extends SoundDragListener {
         }
       },
 
-      drag: event => {
+      drag: ( event, listener ) => {
         if ( activeParticle !== null ) {
 
           // Adjust the position if an offset was provided.
           const eventPoint = event.pointer.point.copy();
           if ( options && options.offsetPosition ) {
-
-            // TODO: Why need type assertion here? Can it be avoided through better typing? See https://github.com/phetsims/build-an-atom/issues/329
-            eventPoint.add( options.offsetPosition( eventPoint, this as PressedDragListener ) );
+            eventPoint.add( options.offsetPosition( eventPoint, listener ) );
           }
           activeParticle.setPositionAndDestination( localViewToModel( eventPoint ) );
         }
