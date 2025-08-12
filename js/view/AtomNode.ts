@@ -95,11 +95,7 @@ class AtomNode extends Node {
       atomCenterMarker = new Path( centerMarker, {
         stroke: ShredColors.centerXColorProperty,
         lineWidth: 5,
-        pickable: false,
-        tandem: options.tandem.createTandem( 'atomCenterMarker' ),
-        visiblePropertyOptions: {
-          phetioReadOnly: true
-        }
+        pickable: false
       } );
       this.addChild( atomCenterMarker );
 
