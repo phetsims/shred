@@ -128,7 +128,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     // The element name is derived from the proton count, since the number of protons determines the element.
     this.elementNameStringProperty = new DerivedStringProperty(
       [ this.protonCountProperty ],
-      protonCount => AtomIdentifier.getEnglishName( protonCount ),
+      protonCount => AtomIdentifier.getNonLocalizedName( protonCount ),
       {
         tandem: options.tandem?.createTandem( 'elementNameStringProperty' )
       }

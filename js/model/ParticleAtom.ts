@@ -169,7 +169,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
     );
     this.elementNameStringProperty = new DerivedStringProperty(
       [ this.protonCountProperty ],
-      protonCount => AtomIdentifier.getEnglishName( protonCount ),
+      protonCount => AtomIdentifier.getNonLocalizedName( protonCount ),
       {
         tandem: options.tandem.createTandem( 'elementNameStringProperty' )
       }
