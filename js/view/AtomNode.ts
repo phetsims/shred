@@ -55,8 +55,9 @@ class AtomNode extends Node {
   private readonly atom: ParticleAtom;
   private readonly modelViewTransform: ModelViewTransform2;
 
-  // TODO Recommended to document how this can be hidden by 2 gates: visible: false and string==='', see https://github.com/phetsims/build-an-atom/issues/329
+  // This text can be hidden if protons=0 or if the option is set to hide it.
   private readonly elementNameText: Text;
+
   private readonly ionIndicatorText: Text;
   private readonly stabilityIndicatorText: Text;
   private readonly disposeAtomNode: VoidFunction;
