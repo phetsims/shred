@@ -11,11 +11,6 @@ import TColor from '../../scenery/js/util/TColor.js';
 import { PARTICLE_COLORS } from './model/Particle.js';
 import shred from './shred.js';
 
-// TODO: What are level names doing in shred? See https://github.com/phetsims/build-an-atom/issues/329
-const LEVEL_NAMES = [ 'periodic-table-game', 'mass-and-charge-game', 'symbol-game', 'advanced-symbol-game' ] as const;
-
-export type Level = typeof LEVEL_NAMES[number];
-
 const ShredConstants = {
 
   // Sizes of the various particles.
@@ -39,13 +34,7 @@ const ShredConstants = {
   // Function for choosing text color based on charge value.
   CHARGE_TEXT_COLOR: function( charge: number ): TColor {
     return charge > 0 ? PARTICLE_COLORS.proton : charge < 0 ? 'blue' : 'black';
-  },
-
-  // Names of the various game levels.
-  LEVEL_NAMES: LEVEL_NAMES,
-
-  // Level name to level number converter.
-  MAP_LEVEL_NAME_TO_NUMBER: function( levelName: Level ): number { return this.LEVEL_NAMES.indexOf( levelName ); }
+  }
 };
 shred.register( 'ShredConstants', ShredConstants );
 export default ShredConstants;
