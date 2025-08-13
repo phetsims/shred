@@ -112,11 +112,16 @@ class PeriodicTableNode extends Node {
         this.cells.push( cell );
         elementIndex++;
 
-        // TODO: Documentation here would be helpful, see https://github.com/phetsims/build-an-atom/issues/329
+        // Because of the lactanides and actinides groups (separate from the rest of the periodic table and not shown in the sim),
+        // we need to adjust the element index to ignore those groups.
         if ( elementIndex === 58 ) {
+          // When the element index is 58, it corresponds to Cerium (Ce), which is the start of the lanthanides,
+          // it should jump to 72, which is Hafnium (Hf), back on the main table.
           elementIndex = 72;
         }
         if ( elementIndex === 90 ) {
+          // When the element index is 90, it corresponds to Thorium (Th), which is the start of the actinides,
+          // it should jump to 104, which is Rutherfordium (Rf), back on the main table.
           elementIndex = 104;
         }
       }
