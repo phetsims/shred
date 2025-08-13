@@ -8,7 +8,6 @@
  * @author Aadish Gupta
  */
 
-import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import AlignGroup from '../../../scenery/js/layout/constraints/AlignGroup.js';
@@ -153,14 +152,13 @@ class ParticleCountDisplay extends Panel {
 
     super( panelContents, options );
 
-    // TODO: Why type assertions here? Can they be avoided through better typing? See https://github.com/phetsims/build-an-atom/issues/329
-    this.addLinkedElement( numberAtom.protonCountProperty as Property<number>, {
+    this.addLinkedElement( numberAtom.protonCountProperty, {
       tandemName: 'protonCount'
     } );
-    this.addLinkedElement( numberAtom.neutronCountProperty as Property<number>, {
+    this.addLinkedElement( numberAtom.neutronCountProperty, {
       tandemName: 'neutronCount'
     } );
-    this.addLinkedElement( numberAtom.electronCountProperty as Property<number>, {
+    this.addLinkedElement( numberAtom.electronCountProperty, {
       tandemName: 'electronCount'
     } );
   }

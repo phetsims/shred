@@ -50,7 +50,7 @@ export type TNumberAtom = {
 
 // Define a fully read-only version of the TNumberAtom type.
 type AllReadOnly<T> = {
-  [K in keyof T]: T[K] extends TProperty<infer U> ? TReadOnlyProperty<U> : T[K];
+  [K in keyof T]: T[K] extends TProperty<infer U> ? ReadOnlyProperty<U> : T[K];
 };
 
 export type TReadOnlyNumberAtom = AllReadOnly<TNumberAtom>;

@@ -79,9 +79,9 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
   private readonly liveAnimations: ObservableArray<Animation>;
 
   // individual count properties for each particle type
-  public readonly protonCountProperty: TReadOnlyProperty<number>;
-  public readonly neutronCountProperty: TReadOnlyProperty<number>;
-  public readonly electronCountProperty: TReadOnlyProperty<number>;
+  public readonly protonCountProperty: ReadOnlyProperty<number>;
+  public readonly neutronCountProperty: ReadOnlyProperty<number>;
+  public readonly electronCountProperty: ReadOnlyProperty<number>;
 
   // derived properties based on the number of particles present in the atom
   public readonly chargeProperty: ReadOnlyProperty<number>;
