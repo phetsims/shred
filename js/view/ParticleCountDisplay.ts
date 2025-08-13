@@ -42,9 +42,7 @@ class ParticleCountDisplay extends Panel {
     const options = optionize<ParticleCountDisplayOptions, SelfOptions, PanelOptions>()( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
       cornerRadius: 5,
-
-      // TODO: why 13? What happens if this number was different? See https://github.com/phetsims/build-an-atom/issues/329
-      maxParticles: 13,
+      maxParticles: 13, // This is the maximum number of particles displayed in BAA. We don't allow more for layour reasons.
       pickable: false,
       phetioFeatured: true,
       visiblePropertyOptions: {
