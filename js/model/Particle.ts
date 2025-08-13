@@ -105,7 +105,7 @@ class Particle extends PhetioObject {
                       ShredConstants.NUCLEON_RADIUS,
 
       // If no animation speed is provided, use null, which means the default speed will be used.
-      // TODO: Would it be clearer to have this be type number, and specify the default here? See https://github.com/phetsims/build-an-atom/issues/329
+      // We support passing a property here so the animation speed can be handled by the model for all particles.
       animationSpeedProperty: null,
 
       colorProperty: new ColorProperty( PARTICLE_COLORS[ type ] )
