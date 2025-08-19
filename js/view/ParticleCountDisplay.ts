@@ -93,7 +93,8 @@ class ParticleCountDisplay extends Panel {
     const panelContents = new VBox( {
       children: [ protonRow, neutronRow, electronRow ],
       spacing: 5,
-      align: 'left'
+      align: 'left',
+      rightMargin: 10
     } );
 
     // particle counts that are displayed
