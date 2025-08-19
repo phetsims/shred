@@ -145,7 +145,6 @@ class Particle extends PhetioObject {
     // Use the provided animation speed property or, if none was provided, create a new one with the default speed.
     this.animationSpeedProperty = options.animationSpeedProperty ||
                                   new NumberProperty( ShredConstants.DEFAULT_PARTICLE_SPEED, {
-                                    tandem: options.tandem && options.tandem.createTandem( 'animationSpeedProperty' ),
                                     range: new Range( 0, 100 * ShredConstants.DEFAULT_PARTICLE_SPEED ),
                                     units: 'view-coordinates/s'
                                   } );
