@@ -147,7 +147,8 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     );
 
     this.atomUpdated = new Emitter( {
-      tandem: options.tandem?.createTandem( 'atomUpdatedEmitter' )
+      tandem: options.tandem?.createTandem( 'atomUpdatedEmitter' ),
+      phetioReadOnly: true
     } );
   }
 
