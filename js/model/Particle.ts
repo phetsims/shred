@@ -10,12 +10,15 @@ import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Emitter from '../../../axon/js/Emitter.js';
 import NumberProperty from '../../../axon/js/NumberProperty.js';
 import Property from '../../../axon/js/Property.js';
+import type TEmitter from '../../../axon/js/TEmitter.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import Range from '../../../dot/js/Range.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { ParticleContainer } from '../../../phetcommon/js/model/ParticleContainer.js';
+import SceneryEvent from '../../../scenery/js/input/SceneryEvent.js';
+import type { PressListenerEvent } from '../../../scenery/js/listeners/PressListener.js';
 import Color from '../../../scenery/js/util/Color.js';
 import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
@@ -89,6 +92,10 @@ class Particle extends PhetioObject {
   public readonly zLayerProperty: TProperty<number>;
 
   private readonly disposeParticle: VoidFunction;
+
+  // indicate when the particle has started being dragged.
+  // This is used in ElectronCloudView to forward the dragging to the particle.
+  public readonly startDragEmitter: TEmitter<[ PressListenerEvent ]>;
 
   public constructor( type: ParticleType, providedOptions?: ParticleOptions ) {
 
@@ -165,6 +172,8 @@ class Particle extends PhetioObject {
       range: new Range( 0, options.maxZLayer )
     } );
 
+    this.startDragEmitter = new Emitter( { parameters: [ { valueType: SceneryEvent } ] } );
+
     this.disposeParticle = () => {
       this.typeProperty.dispose();
       this.colorProperty.dispose();
@@ -173,6 +182,7 @@ class Particle extends PhetioObject {
       this.isDraggingProperty.dispose();
       this.zLayerProperty.dispose();
       this.animationEndedEmitter.dispose();
+      this.startDragEmitter.dispose();
 
       // Only dispose the animation speed property if it was created here.
       if ( options.animationSpeedProperty === null ) {

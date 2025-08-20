@@ -11,10 +11,9 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import WithRequired from '../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import SoundDragListener from '../../../scenery-phet/js/SoundDragListener.js';
+import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
-import Particle from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -26,9 +25,6 @@ type ElectronCloudViewOptions = SelfOptions & WithRequired<CircleOptions, 'tande
 const DEFAULT_RADIUS = 50; // in pm, chosen as an arbitrary value that is close to the "real" values that are used
 
 class ElectronCloudView extends Circle {
-
-  // the electron this is being extracted by the user by clicking on the cloud, if any
-  private extractedElectron: Particle | null;
 
   // function to dispose of the view, including listeners
   private readonly disposeElectronCloudView: VoidFunction;
@@ -81,37 +77,19 @@ class ElectronCloudView extends Circle {
     };
 
     // If the user clicks on the cloud, extract an electron.
-    this.extractedElectron = null;
-    const dragListener = new SoundDragListener( {
-      start: event => {
+    this.addInputListener( DragListener.createForwardingListener( event => {
+      const positionInModelSpace = localViewToModel( event.pointer.point );
 
-        const positionInModelSpace = localViewToModel( event.pointer.point );
-
-        const electron = atom.extractParticle( 'electron' );
-        if ( electron !== null ) {
-          electron.isDraggingProperty.set( true );
-          electron.setPositionAndDestination( positionInModelSpace );
-          this.extractedElectron = electron;
-        }
-      },
-      drag: event => {
-        if ( this.extractedElectron !== null ) {
-          this.extractedElectron.setPositionAndDestination( localViewToModel( event.pointer.point ) );
-        }
-      },
-      end: () => {
-        if ( this.extractedElectron !== null ) {
-          this.extractedElectron.isDraggingProperty.set( false );
-          this.extractedElectron = null;
-        }
-      },
-      tandem: options.tandem.createTandem( 'dragListener' )
-    } );
-    this.addInputListener( dragListener );
+      const electron = atom.extractParticle( 'electron' );
+      if ( electron !== null ) {
+        electron.setPositionAndDestination( positionInModelSpace );
+        electron.startDragEmitter.emit( event );
+      }
+    } ) );
 
     this.disposeElectronCloudView = () => {
       atom.electrons.lengthProperty.unlink( update );
-      dragListener.dispose();
+      // dragListener.dispose();
     };
   }
 

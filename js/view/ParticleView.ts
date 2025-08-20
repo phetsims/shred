@@ -36,7 +36,7 @@ export type ParticleViewOptions = SelfOptions & NodeOptions;
 
 class ParticleView extends Node {
   public readonly particle: Particle;
-  private readonly dragListener: SoundDragListener;
+  public readonly dragListener: SoundDragListener;
   private readonly disposeParticleView: VoidFunction;
 
   public constructor( particle: Particle,
@@ -104,6 +104,7 @@ class ParticleView extends Node {
       positionProperty: particle.destinationProperty,
       applyOffset: false,
       transform: modelViewTransform,
+      targetNode: this,
       dragBoundsProperty: options.dragBounds ? new Property( options.dragBounds ) : null,
       start: () => {
 
@@ -141,6 +142,10 @@ class ParticleView extends Node {
       dragListenerOptions
     ) );
     this.addInputListener( this.dragListener );
+
+    // Allow the particle to emit an event that will be used by this drag listener
+    const startDragListener = ( event: PressListenerEvent ) => this.dragListener.press( event, this );
+    this.particle.startDragEmitter.addListener( startDragListener );
 
     // Keyboard control need the sim to have accesibility features enabled.
     const keyboardDragListener = new SoundKeyboardDragListener(
