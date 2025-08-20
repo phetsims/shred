@@ -89,7 +89,6 @@ class ElectronCloudView extends Circle {
 
     this.disposeElectronCloudView = () => {
       atom.electrons.lengthProperty.unlink( update );
-      // dragListener.dispose();
     };
   }
 
