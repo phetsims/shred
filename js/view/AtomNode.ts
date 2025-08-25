@@ -134,18 +134,16 @@ class AtomNode extends Node {
 
     // For color contrast issues, we set different positions for the element name text depending on the depiction.
     const updateTextPosition = () => {
-      const heightPerNucleon = 0.5;
-      // We start with one nucleon less for the position in both depictions to be equal at the start.
-      const nucleons = atom.particleCountProperty.value - atom.electronCountProperty.value - 1;
-
       const heightPerElectron = 5;
       const electrons = atom.electronCountProperty.value;
       const initialHeight = atom.innerElectronShellRadius * 0.60;
 
+      // In orbit mode, the text height does not change
       const positionInOrbitsDepiction = modelViewTransform.modelToViewPosition(
-        atom.positionProperty.get().plus( new Vector2( 0, initialHeight + heightPerNucleon * nucleons ) )
+        atom.positionProperty.get().plus( new Vector2( 0, initialHeight ) )
       );
 
+      // In cloud mode, the text height changes based on the number of electrons.
       const positionInCloudDepiction = modelViewTransform.modelToViewPosition(
         atom.positionProperty.get().plus( new Vector2( 0, initialHeight + heightPerElectron * electrons ) )
       );
