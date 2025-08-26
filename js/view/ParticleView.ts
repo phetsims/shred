@@ -170,7 +170,7 @@ class ParticleView extends Node {
         this.focus(); // focus the particle view when it is being dragged
 
         // Move the particle to the front of whatever layer it is on so that it is not obscured by other particles.
-        this.moveToFront();
+        particle.zLayerProperty.set( 0 ); // also move it to the top layer
       }
     } );
 
