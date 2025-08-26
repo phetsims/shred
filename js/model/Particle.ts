@@ -162,7 +162,8 @@ class Particle extends PhetioObject {
       hasListenerOrderDependencies: true // Needed for BAN, see https://github.com/phetsims/build-a-nucleus/issues/105
     } );
 
-    this.zLayerProperty = new NumberProperty( 0, {
+    // Starting at 1 so the 0 is reserved for dragged particles.
+    this.zLayerProperty = new NumberProperty( 1, {
       isValidValue: function( value ) {
         return value >= 0 && value <= options.maxZLayer;
       },
@@ -170,6 +171,14 @@ class Particle extends PhetioObject {
       phetioReadOnly: true,
       numberType: 'Integer',
       range: new Range( 0, options.maxZLayer )
+    } );
+
+    // If we are no longer dragging, and our z-layer is 0, then set it to 1 so that we are above non-dragged
+    // particles.
+    this.isDraggingProperty.lazyLink( isDragging => {
+      if ( this.zLayerProperty.value === 0 && !isDragging ) {
+        this.zLayerProperty.value = 1;
+      }
     } );
 
     this.startDragEmitter = new Emitter( { parameters: [ { valueType: SceneryEvent } ] } );
