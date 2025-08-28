@@ -12,7 +12,7 @@ import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import DerivedStringProperty from '../../../axon/js/DerivedStringProperty.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import TProperty from '../../../axon/js/TProperty.js';
-import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import dotRandom from '../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
