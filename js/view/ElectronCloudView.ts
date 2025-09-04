@@ -82,6 +82,7 @@ class ElectronCloudView extends Circle {
 
       const electron = atom.extractParticle( 'electron' );
       if ( electron !== null ) {
+        electron.isDraggingProperty.set( true );
         electron.setPositionAndDestination( positionInModelSpace );
         electron.startDragEmitter.emit( event );
       }
