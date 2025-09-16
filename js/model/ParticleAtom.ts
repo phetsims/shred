@@ -17,6 +17,7 @@ import dotRandom from '../../../dot/js/dotRandom.js';
 import LinearFunction from '../../../dot/js/LinearFunction.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Vector2Property from '../../../dot/js/Vector2Property.js';
+import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import arrayRemove from '../../../phet-core/js/arrayRemove.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import WithRequired from '../../../phet-core/js/types/WithRequired.js';
@@ -364,19 +365,22 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
                  this.positionProperty.get().distance( p2.position ) );
       } );
 
-      assert && assert( sortedOpenPositions.length > 0, 'No open positions found for electrons' );
+      affirm( sortedOpenPositions.length > 0, 'No open positions found for electrons' );
       sortedOpenPositions[ 0 ].electron = particle;
       particle.destinationProperty.set( sortedOpenPositions[ 0 ].position );
     }
     else {
-      assert && assert( false, 'Unexpected particle type ' + particle.type );
+      affirm( false, 'Unexpected particle type ' + particle.type );
     }
 
+    // The particle should not be in another container when it is added to this one.  The exception is when setting
+    // phet-io state, in which case it may already be in this container.
+    affirm(
+      particle.containerProperty.value === null || isSettingPhetioStateProperty.value && particle.containerProperty.value === this,
+      'this particle is already in a container'
+    );
+
     // Update the particle's container property so that it is associated with this atom.
-    // TODO: See https://github.com/phetsims/build-an-atom/issues/329.  Using isSettingPhetioStateProperty here seems
-    //       indicative of problems elsewhere.  I (jbphet) should follow up and see if this can be improved.
-    assert && assert( particle.containerProperty.value === null || isSettingPhetioStateProperty.value,
-      'this particle is already in a container' );
     particle.containerProperty.value = this;
   }
 
@@ -442,8 +446,8 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
       this.removeParticle( particle );
     }
 
-    assert && assert( particle !== null, 'There should be a particle of the provided type if asking for one' );
-    return particle!;
+    affirm( particle !== null, 'There should be a particle of the provided type if asking for one' );
+    return particle;
   }
 
   public extractParticleClosestToCenter( particleType: ParticleType ): Particle {
@@ -645,8 +649,8 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
    * Change the nucleon type of the provided particle to the other nucleon type.
    */
   public changeNucleonType( particle: Particle, onChangeComplete: VoidFunction ): void {
-    assert && assert( this.containsParticle( particle ), 'ParticleAtom does not contain this particle ' + particle.id );
-    assert && assert( particle.type === 'proton' || particle.type === 'neutron', 'Particle type must be a proton or a neutron.' );
+    affirm( this.containsParticle( particle ), 'ParticleAtom does not contain this particle ' + particle.id );
+    affirm( particle.type === 'proton' || particle.type === 'neutron', 'Particle type must be a proton or a neutron.' );
 
     const isParticleTypeProton = particle.type === 'proton';
     const oldParticleArray = isParticleTypeProton ? this.protons : this.neutrons;
@@ -657,8 +661,10 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
 
     const particleType = particle.typeProperty.value;
 
-    assert && assert( particleType === 'proton' || particleType === 'neutron',
-      'can only change type between protons and neutrons' );
+    affirm(
+      particleType === 'proton' || particleType === 'neutron',
+      'can only change type between protons and neutrons'
+    );
 
     const startingColor = particle.colorProperty.value;
     const targetColor = PARTICLE_COLORS[ newParticleType ];
@@ -692,10 +698,15 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
 
     !wasDeferred && this.massNumberProperty.setDeferred( false ); // No need to fire listeners because the mass never changed
 
-    assert && assert( newParticleArray.lengthProperty.value === newParticleArray.length,
-      'deferring hackary above should not produce an inconsistent state' );
+    affirm(
+      newParticleArray.lengthProperty.value === newParticleArray.length,
+      'deferring hackary above should not produce an inconsistent state'
+    );
 
-    assert && assert( this.containsParticle( particle ), `ParticleAtom should contain particle:${particle.id} after changing nucleon` );
+    affirm(
+      this.containsParticle( particle ),
+      `ParticleAtom should contain particle:${particle.id} after changing nucleon`
+    );
   }
 
   // clear all liveAnimations
