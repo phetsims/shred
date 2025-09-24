@@ -49,7 +49,7 @@ type SelfOptions = {
   electronShellDepictionProperty?: TReadOnlyProperty<ElectronShellDepiction>;
 };
 
-type AtomNodeOptions = SelfOptions & NodeOptions;
+export type AtomNodeOptions = SelfOptions & NodeOptions;
 
 class AtomNode extends Node {
   private readonly atom: ParticleAtom;

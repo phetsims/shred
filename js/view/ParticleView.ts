@@ -147,7 +147,7 @@ class ParticleView extends Node {
     const startDragListener = ( event: PressListenerEvent ) => this.dragListener.press( event, this );
     this.particle.startDragEmitter.addListener( startDragListener );
 
-    // Keyboard control need the sim to have accesibility features enabled.
+    // Keyboard control need the sim to have accessibility features enabled.
     const keyboardDragListener = new SoundKeyboardDragListener(
       combineOptions<SoundKeyboardDragListenerOptions>( {
         tandem: options.tandem.createTandem( 'keyboardDragListener' ),
@@ -166,10 +166,9 @@ class ParticleView extends Node {
     this.addInputListener( keyboardDragListener );
 
     this.particle.isDraggingProperty.link( isDragging => {
-      if ( isDragging && !this.isFocused() ) {
-        this.focus(); // focus the particle view when it is being dragged
+      if ( isDragging ) {
 
-        // Move the particle to the front of whatever layer it is on so that it is not obscured by other particles.
+        // Move the particle to the front of the z-order so that it is not obscured by other particles.
         particle.zLayerProperty.set( 0 );
       }
     } );

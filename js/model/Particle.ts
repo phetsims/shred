@@ -209,13 +209,13 @@ class Particle extends PhetioObject {
     if ( !this.isDraggingProperty.get() ) {
       const position = this.positionProperty.get();
       const destination = this.destinationProperty.get();
-      const velocity = this.animationSpeedProperty.get();
+      const speed = this.animationSpeedProperty.get();
       const distanceToDestination = position.distance( destination );
-      if ( distanceToDestination > dt * velocity ) {
+      if ( distanceToDestination > dt * speed ) {
 
         // Calculate the motion vector for this step.  This was broken up into individual steps because of an issue
         // where complex vector operations sometimes didn't work.
-        const stepMagnitude = velocity * dt;
+        const stepMagnitude = speed * dt;
         const stepAngle = Math.atan2( destination.y - position.y, destination.x - position.x );
         const stepVector = Vector2.createPolar( stepMagnitude, stepAngle );
 

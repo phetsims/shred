@@ -521,8 +521,8 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
   }
 
   /**
-   * Reconfigure the particles in the nucleus so that they will look like collectively round, 3D, and the protons and
-   * neutrons are interspersed in a realistic way.
+   * Reconfigure the particles in the nucleus so that they will look collectively round-ish, 3D, and the protons and
+   * neutrons are interspersed.
    */
   public reconfigureNucleus(): void {
 

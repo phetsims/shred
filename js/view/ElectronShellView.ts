@@ -23,12 +23,7 @@ class ElectronShellView extends Node {
   public constructor( atom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: NodeOptions ) {
 
     const options = optionize<NodeOptions, EmptySelfOptions, NodeOptions>()( {
-      pickable: false,
-
-      // pdom
-      tagName: 'div',
-      ariaRole: 'listbox',
-      focusable: true
+      pickable: false
     }, providedOptions );
 
     super( options );

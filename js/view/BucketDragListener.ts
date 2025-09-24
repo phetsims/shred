@@ -53,6 +53,7 @@ class BucketDragListener extends SoundDragListener {
 
         activeParticle = bucket.extractClosestParticle( positionInModelSpace );
         if ( activeParticle !== null ) {
+          activeParticle.isDraggingProperty.value = true;
           grabSoundPlayer.play();
           activeParticle.setPositionAndDestination( positionInModelSpace );
         }
