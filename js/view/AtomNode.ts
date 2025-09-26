@@ -47,7 +47,7 @@ const INITIAL_NUMBER_OF_PARTICLE_LAYERS = 8;
 // value can be adjusted.
 const MAX_NUMBER_OF_PARTICLE_LAYERS = 20;
 
-export const ElectronShellDepictionValues = [ 'orbits', 'cloud' ] as const;
+export const ElectronShellDepictionValues = [ 'shells', 'cloud' ] as const;
 export type ElectronShellDepiction = typeof ElectronShellDepictionValues[number];
 
 type SelfOptions = {
@@ -88,7 +88,7 @@ class AtomNode extends Node {
       showElementNameProperty: new Property( true ),
       showNeutralOrIonProperty: new Property( true ),
       showStableOrUnstableProperty: new Property( true ),
-      electronShellDepictionProperty: new Property( 'orbits' ),
+      electronShellDepictionProperty: new Property( 'shells' ),
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
@@ -152,7 +152,7 @@ class AtomNode extends Node {
       const initialHeight = atom.innerElectronShellRadius * 0.60;
 
       // In orbit mode, the text height does not change
-      const positionInOrbitsDepiction = modelViewTransform.modelToViewPosition(
+      const positionInShellsDepiction = modelViewTransform.modelToViewPosition(
         atom.positionProperty.get().plus( new Vector2( 0, initialHeight ) )
       );
 
@@ -161,12 +161,12 @@ class AtomNode extends Node {
         atom.positionProperty.get().plus( new Vector2( 0, initialHeight + heightPerElectron * electrons ) )
       );
 
-      this.elementNameText.center = options.electronShellDepictionProperty.value === 'orbits' ?
-                                    positionInOrbitsDepiction : positionInCloudDepiction;
+      this.elementNameText.center = options.electronShellDepictionProperty.value === 'shells' ?
+                                    positionInShellsDepiction : positionInCloudDepiction;
     };
 
     const updateElectronShellDepictionVisibility = ( depiction: ElectronShellDepiction ) => {
-      electronShell.visible = depiction === 'orbits';
+      electronShell.visible = depiction === 'shells';
       electronCloud.visible = depiction === 'cloud';
 
       updateTextPosition();

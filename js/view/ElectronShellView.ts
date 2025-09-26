@@ -1,7 +1,7 @@
 // Copyright 2014-2025, University of Colorado Boulder
 
 /**
- * Node that represents the electron shells, aka "orbits", in the view.
+ * Node that represents the electron shells in the view.
  *
  * @author John Blanco
  */
