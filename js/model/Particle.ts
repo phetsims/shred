@@ -88,7 +88,7 @@ class Particle extends PhetioObject {
   // Whether the particle is being dragged by the user at the moment.
   public readonly isDraggingProperty: TProperty<boolean>;
 
-  // Used in view, integer value, higher means further back.
+  // Used in view to create 3D effect in nucleus, integer value, higher means further back in z-order.
   public readonly zLayerProperty: TProperty<number>;
 
   private readonly disposeParticle: VoidFunction;
@@ -162,8 +162,7 @@ class Particle extends PhetioObject {
       hasListenerOrderDependencies: true // Needed for BAN, see https://github.com/phetsims/build-a-nucleus/issues/105
     } );
 
-    // Starting at 1 so the 0 is reserved for dragged particles.
-    this.zLayerProperty = new NumberProperty( 1, {
+    this.zLayerProperty = new NumberProperty( 0, {
       isValidValue: function( value ) {
         return value >= 0 && value <= options.maxZLayer;
       },

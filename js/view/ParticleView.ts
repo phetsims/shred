@@ -7,7 +7,6 @@
  */
 
 import Property from '../../../axon/js/Property.js';
-import stepTimer from '../../../axon/js/stepTimer.js';
 import Bounds2 from '../../../dot/js/Bounds2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
@@ -15,7 +14,7 @@ import { combineOptions, optionize4 } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import AccessibleDraggableOptions from '../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-phet/js/SoundDragListener.js';
-import SoundKeyboardDragListener, { SoundKeyboardDragListenerOptions } from '../../../scenery-phet/js/SoundKeyboardDragListener.js';
+import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
 import { PressListenerEvent } from '../../../scenery/js/listeners/PressListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -126,8 +125,7 @@ class ParticleView extends Node {
     };
 
     // add a drag listener
-    this.dragListener = new SoundDragListener( combineOptions<SoundDragListenerOptions>(
-      {
+    this.dragListener = new SoundDragListener( combineOptions<SoundDragListenerOptions>( {
         tandem: options.tandem.createTandem( 'dragListener' ),
 
         // Offset the position a little if this is a touch pointer so that the finger doesn't cover the particle.
@@ -148,22 +146,40 @@ class ParticleView extends Node {
     this.particle.startDragEmitter.addListener( startDragListener );
 
     // Keyboard control need the sim to have accessibility features enabled.
-    const keyboardDragListener = new SoundKeyboardDragListener(
-      combineOptions<SoundKeyboardDragListenerOptions>( {
-        tandem: options.tandem.createTandem( 'keyboardDragListener' ),
-        positionProperty: particle.positionProperty,
-        transform: modelViewTransform,
-        dragSpeed: 200,
-        shiftDragSpeed: 50,
+    // TODO: See https://github.com/phetsims/build-an-atom/issues/356.  The following keyboard drag listener is
+    //       commented out because it was causing assertions to be thrown in some cases, and it is likely be be replaced
+    //       anyway.  I (jbphet) just wasn't comfortable fully deleting it just yet.
+    // const keyboardDragListener = new SoundKeyboardDragListener(
+    //   combineOptions<SoundKeyboardDragListenerOptions>( {
+    //     tandem: options.tandem.createTandem( 'keyboardDragListener' ),
+    //     positionProperty: particle.positionProperty,
+    //     transform: modelViewTransform,
+    //     dragSpeed: 200,
+    //     shiftDragSpeed: 50,
+    //
+    //     // Add a timeout before dropping the particle for better UX.
+    //     end: () => {
+    //       stepTimer.setTimeout( () => {
+    //         this.particle.isDraggingProperty.set( false );
+    //       }, 500 );
+    //     }
+    //   }, dragListenerOptions ) );
+    // this.addInputListener( keyboardDragListener );
 
-        // Add a timeout before dropping the particle for better UX.
-        end: () => {
-          stepTimer.setTimeout( () => {
-            this.particle.isDraggingProperty.set( false );
-          }, 500 );
+    // TODO: See https://github.com/phetsims/build-an-atom/issues/356.  This is essentially some stubbed, prototype
+    //       code for keyboard interaction that will need to be expanded upon.
+    this.addInputListener( new KeyboardListener( {
+      keys: [ 'space', 'enter' ],
+      fireOnDown: false,
+      fire: ( event, keysPressed ) => {
+        if ( keysPressed.includes( 'space' ) || keysPressed.includes( 'enter' ) ) {
+          this.particle.isDraggingProperty.value = false;
         }
-      }, dragListenerOptions ) );
-    this.addInputListener( keyboardDragListener );
+      },
+      blur: () => {
+        this.particle.isDraggingProperty.value = false;
+      }
+    } ) );
 
     this.particle.isDraggingProperty.link( isDragging => {
       if ( isDragging ) {
@@ -179,7 +195,6 @@ class ParticleView extends Node {
       particle.positionProperty.unlink( updateParticlePosition );
       particleNode.dispose();
       this.dragListener.dispose();
-      keyboardDragListener.dispose();
     };
 
     this.focusHighlight = Shape.circle( this.particle.radius * 1.5 );

@@ -1,9 +1,12 @@
 // Copyright 2015-2025, University of Colorado Boulder
 
 /**
- * TODO https://github.com/phetsims/shred/issues/40 missing documentation
+ * ExpandedPeriodicTableNode is a Scenery Node that shows a fill periodic table with no element names, and below it
+ * there is a "blown up" section with larger buttons for the first several rows of the periodic table.  Each cell in the
+ * blown up section is a button that can be clicked to set the proton count of a NumberAtom.
  *
  * @author Aadish Gupta (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';
@@ -55,7 +58,7 @@ class ExpandedPeriodicTableNode extends Node {
     periodicTableNode.scale( 0.5 );
     this.addChild( periodicTableNode );
 
-    // Larger cells for the elements that we want to emphasize
+    // Larger cells for the elements that we want to emphasize.
     const cells: TextPushButton[] = [];
     const expandedRowsNode = new Node();
     let elementIndex = 1;
