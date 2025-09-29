@@ -14,7 +14,6 @@ import { combineOptions, optionize4 } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import AccessibleDraggableOptions from '../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-phet/js/SoundDragListener.js';
-import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
 import { PressListenerEvent } from '../../../scenery/js/listeners/PressListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -144,42 +143,6 @@ class ParticleView extends Node {
     // Allow the particle to emit an event that will be used by this drag listener
     const startDragListener = ( event: PressListenerEvent ) => this.dragListener.press( event, this );
     this.particle.startDragEmitter.addListener( startDragListener );
-
-    // Keyboard control need the sim to have accessibility features enabled.
-    // TODO: See https://github.com/phetsims/build-an-atom/issues/356.  The following keyboard drag listener is
-    //       commented out because it was causing assertions to be thrown in some cases, and it is likely be be replaced
-    //       anyway.  I (jbphet) just wasn't comfortable fully deleting it just yet.
-    // const keyboardDragListener = new SoundKeyboardDragListener(
-    //   combineOptions<SoundKeyboardDragListenerOptions>( {
-    //     tandem: options.tandem.createTandem( 'keyboardDragListener' ),
-    //     positionProperty: particle.positionProperty,
-    //     transform: modelViewTransform,
-    //     dragSpeed: 200,
-    //     shiftDragSpeed: 50,
-    //
-    //     // Add a timeout before dropping the particle for better UX.
-    //     end: () => {
-    //       stepTimer.setTimeout( () => {
-    //         this.particle.isDraggingProperty.set( false );
-    //       }, 500 );
-    //     }
-    //   }, dragListenerOptions ) );
-    // this.addInputListener( keyboardDragListener );
-
-    // TODO: See https://github.com/phetsims/build-an-atom/issues/356.  This is essentially some stubbed, prototype
-    //       code for keyboard interaction that will need to be expanded upon.
-    this.addInputListener( new KeyboardListener( {
-      keys: [ 'space', 'enter' ],
-      fireOnDown: false,
-      fire: ( event, keysPressed ) => {
-        if ( keysPressed.includes( 'space' ) || keysPressed.includes( 'enter' ) ) {
-          this.particle.isDraggingProperty.value = false;
-        }
-      },
-      blur: () => {
-        this.particle.isDraggingProperty.value = false;
-      }
-    } ) );
 
     this.particle.isDraggingProperty.link( isDragging => {
       if ( isDragging ) {
