@@ -361,9 +361,15 @@ class AtomNode extends Node {
 
         affirm( layerIndex < MAX_NUMBER_OF_PARTICLE_LAYERS, 'This seems like an excessive number of layers.' );
 
+        // Track whether the particle is focused so that we can maintain focus when changing layers.
+        let particleHasFocus = false;
+
         // If the particle is currently a child, remove it from its current layer.
         this.particleLayers.forEach( particleLayer => {
           if ( particleLayer.children.includes( particleView ) ) {
+            if ( particleView.focused ) {
+              particleHasFocus = true;
+            }
             particleLayer.removeChild( particleView );
           }
         } );
@@ -378,6 +384,11 @@ class AtomNode extends Node {
 
         // Add the particle to the correct layer.
         this.particleLayers[ layerIndex ].addChild( particleView );
+
+        // If the particle had focus, restore it.
+        if ( particleHasFocus ) {
+          particleView.focus();
+        }
       };
 
       // Hook up the lister, which will also do the initial placement.
