@@ -11,6 +11,8 @@ import DynamicProperty from '../../../axon/js/DynamicProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import Property from '../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
+import dotRandom from '../../../dot/js/dotRandom.js';
+import { equalsEpsilon } from '../../../dot/js/util/equalsEpsilon.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
@@ -353,7 +355,7 @@ class AtomNode extends Node {
   /**
    * Add a particle view to this atom view, placing it in the appropriate layer based on its type and zLayerProperty.
    */
-  public addParticleView( particleView: ParticleView ): void {
+  public addParticleView( particleView: ParticleView, setFocused = false ): void {
     if ( particleView.particle.type === 'electron' ) {
 
       // Electrons always go in the front layer.
@@ -402,6 +404,12 @@ class AtomNode extends Node {
       // Add this listener to a Map so that we can remove it when the particle is removed.
       this.zLayerListeners.set( particleView, zLayerListener );
     }
+
+    // Set focus to the particle if requested.
+    setFocused && particleView.focus();
+
+    // Update which particles can have focus, since things have changed.
+    this.updateParticleFocusability();
   }
 
   /**
@@ -428,6 +436,91 @@ class AtomNode extends Node {
       particleView.particle.zLayerProperty.unlink( zLayerListener );
       this.zLayerListeners.delete( particleView );
     }
+
+    // Update which particles can have focus, since things have changed.
+    this.updateParticleFocusability();
+  }
+
+  /**
+   * Update the focusability of the particles.  There should only be one focusable proton and neutron at a time, and
+   * potentially one focusable electron per shell.  This is done so that users using alt-input don't have to tab through
+   * every particle in the atom.
+   */
+  private updateParticleFocusability(): void {
+
+    const particlesThatShouldBeFocusable: ParticleView[] = [];
+    let particleViewWithFocus: ParticleView | null = null;
+
+    const allParticleViews: ParticleView[] = [];
+    for ( const particleLayer of this.particleLayers ) {
+      for ( const particleView of particleLayer.children ) {
+        affirm( particleView instanceof ParticleView, 'Only ParticleViews should be in the particle layers.' );
+        allParticleViews.push( particleView );
+
+        // If a particle is already focused, it should remain focusable.
+        if ( particleView.focused ) {
+          particleViewWithFocus = particleView;
+          particlesThatShouldBeFocusable.push( particleView );
+        }
+      }
+    }
+
+    // Update the focusable proton.
+    if ( particleViewWithFocus === null || particleViewWithFocus.particle.type !== 'proton' ) {
+      const protonViews = allParticleViews.filter( pv => pv.particle.type === 'proton' );
+      if ( protonViews.length > 0 ) {
+        const protonViewToFocus = _.minBy(
+          protonViews,
+          pv => pv.particle.positionProperty.value.distance( this.atom.positionProperty.value )
+        )!;
+        particlesThatShouldBeFocusable.push( protonViewToFocus );
+      }
+    }
+
+    // Update the focusable neutron.
+    if ( particleViewWithFocus === null || particleViewWithFocus.particle.type !== 'neutron' ) {
+      const neutronViews = allParticleViews.filter( pv => pv.particle.type === 'neutron' );
+      if ( neutronViews.length > 0 ) {
+        const neutronViewToFocus = _.minBy(
+          neutronViews,
+          nv => nv.particle.positionProperty.value.distance( this.atom.positionProperty.value )
+        )!;
+        particlesThatShouldBeFocusable.push( neutronViewToFocus );
+      }
+    }
+
+    // Update the focusable electrons, one per shell.
+    const electronViewsInInnerShell = allParticleViews.filter( pv => {
+      if ( pv.particle.type !== 'electron' ) {
+        return false;
+      }
+      const distance = pv.particle.positionProperty.value.distance( this.atom.positionProperty.value );
+      return equalsEpsilon( distance, this.atom.innerElectronShellRadius, 1e-6 );
+    } );
+    if ( electronViewsInInnerShell.length > 0 ) {
+      if ( particleViewWithFocus === null || !electronViewsInInnerShell.includes( particleViewWithFocus ) ) {
+        const electronViewToFocus = dotRandom.sample( electronViewsInInnerShell );
+        particlesThatShouldBeFocusable.push( electronViewToFocus );
+      }
+    }
+    const electronViewsInOuterShell = allParticleViews.filter( pv => {
+      if ( pv.particle.type !== 'electron' ) {
+        return false;
+      }
+      const distance = pv.particle.positionProperty.value.distance( this.atom.positionProperty.value );
+      return equalsEpsilon( distance, this.atom.outerElectronShellRadius, 1e-6 );
+    } );
+    if ( electronViewsInOuterShell.length > 0 ) {
+      if ( particleViewWithFocus === null || !electronViewsInOuterShell.includes( particleViewWithFocus ) ) {
+        const electronViewToFocus = dotRandom.sample( electronViewsInOuterShell );
+        particlesThatShouldBeFocusable.push( electronViewToFocus );
+      }
+    }
+
+    // Set the focusable property on all identified particles.
+    allParticleViews.forEach( pv => {
+      pv.focusable = particlesThatShouldBeFocusable.includes( pv );
+    } );
   }
 
   /**
