@@ -342,7 +342,12 @@ class AtomNode extends Node {
     // Add the model as a linked element so that it can be easily navigated to in the phet-io tree.
     this.addLinkedElement( this.atom );
 
-    this.groupFocusHighlight = new GroupHighlightPath( Shape.bounds( electronShell.bounds.dilated( 5 ) ) );
+    this.groupFocusHighlight = new GroupHighlightPath(
+      new Shape().circle(
+        modelViewTransform.modelToViewPosition( atom.positionProperty.value ),
+        modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius * 1.1 )
+      )
+    );
   }
 
   /**
