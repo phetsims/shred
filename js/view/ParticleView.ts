@@ -14,6 +14,7 @@ import { combineOptions, optionize4 } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import AccessibleDraggableOptions from '../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
 import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-phet/js/SoundDragListener.js';
+import HighlightPath from '../../../scenery/js/accessibility/HighlightPath.js';
 import { PressListenerEvent } from '../../../scenery/js/listeners/PressListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
@@ -41,6 +42,8 @@ class ParticleView extends Node {
                       modelViewTransform: ModelViewTransform2,
                       providedOptions?: ParticleViewOptions ) {
 
+    const focusHighlight = new HighlightPath( Shape.circle( particle.radius * 1.5 ) );
+
     const options = optionize4<ParticleViewOptions, SelfOptions, NodeOptions>()(
       {},
       AccessibleDraggableOptions,
@@ -49,6 +52,7 @@ class ParticleView extends Node {
         tandem: Tandem.REQUIRED,
         touchOffset: null,
         isotopeNodeOptions: {},
+        focusHighlight: focusHighlight,
 
         // TODO: Should add correct a11yName! https://github.com/phetsims/build-an-atom/issues/256
         innerContent: 'div'
@@ -144,12 +148,16 @@ class ParticleView extends Node {
     const startDragListener = ( event: PressListenerEvent ) => this.dragListener.press( event, this );
     this.particle.startDragEmitter.addListener( startDragListener );
 
+    // Update some aspects of the model and view when the isDragging state changes.
     this.particle.isDraggingProperty.link( isDragging => {
       if ( isDragging ) {
 
         // Move the particle to the front of the z-order so that it is not obscured by other particles.
         particle.zLayerProperty.set( 0 );
       }
+
+      // Update the focus highlight stroke based on the dragging state.
+      focusHighlight.setDashed( isDragging );
     } );
 
     this.mutate( options );
@@ -159,8 +167,6 @@ class ParticleView extends Node {
       particleNode.dispose();
       this.dragListener.dispose();
     };
-
-    this.focusHighlight = Shape.circle( this.particle.radius * 1.5 );
   }
 
   public override dispose(): void {
