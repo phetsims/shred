@@ -52,10 +52,7 @@ class ParticleView extends Node {
         tandem: Tandem.REQUIRED,
         touchOffset: null,
         isotopeNodeOptions: {},
-        focusHighlight: focusHighlight,
-
-        // TODO: Should add correct a11yName! https://github.com/phetsims/build-an-atom/issues/256
-        innerContent: 'div'
+        focusHighlight: focusHighlight
       },
       providedOptions
     );
