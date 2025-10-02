@@ -236,6 +236,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
               return occupiedShellPosition.position.distance( electronShellPosition.position );
             } );
             if ( occupiedOuterShellPositions.length > 0 ) {
+
               // Move outer electron to inner spot.
               electronShellPosition.electron = occupiedOuterShellPositions[ 0 ].electron;
               occupiedOuterShellPositions[ 0 ].electron = null;
