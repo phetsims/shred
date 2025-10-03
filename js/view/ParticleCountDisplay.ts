@@ -20,6 +20,7 @@ import { ParticleType } from '../model/Particle.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredStrings from '../ShredStrings.js';
+import ParticleCountsAccessibleListNode from './description/ParticleCountsAccessibleListNode.js';
 import ParticleNode from './ParticleNode.js';
 
 // constants
@@ -160,6 +161,8 @@ class ParticleCountDisplay extends Panel {
     this.addLinkedElement( numberAtom.electronCountProperty, {
       tandemName: 'electronCount'
     } );
+
+    panelContents.addChild( new ParticleCountsAccessibleListNode( numberAtom ) );
   }
 }
 

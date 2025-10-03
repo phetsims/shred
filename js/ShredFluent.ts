@@ -5,12 +5,7 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import type { FluentVariable } from '../../chipper/js/browser/FluentPattern.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
-import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
-import FluentComment from '../../chipper/js/browser/FluentComment.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -303,7 +298,16 @@ const ShredFluent = {
   positiveSignIonStringProperty: _.get( ShredStrings, 'positiveSignIonStringProperty' ),
   stableStringProperty: _.get( ShredStrings, 'stableStringProperty' ),
   unstableStringProperty: _.get( ShredStrings, 'unstableStringProperty' ),
-  periodicTableStringProperty: _.get( ShredStrings, 'periodicTableStringProperty' )
+  periodicTableStringProperty: _.get( ShredStrings, 'periodicTableStringProperty' ),
+  a11y: {
+    particleCounts: {
+      accessibleListNode: {
+        protonsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.protonsStringProperty' ),
+        neutronsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.neutronsStringProperty' ),
+        electronsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.electronsStringProperty' )
+      }
+    }
+  }
 };
 
 export default ShredFluent;

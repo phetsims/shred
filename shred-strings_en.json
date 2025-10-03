@@ -394,5 +394,20 @@
   },
   "periodicTable": {
     "value": "Periodic Table"
+  },
+  "a11y": {
+    "particleCounts": {
+      "accessibleListNode": {
+        "protons": {
+          "value": "{{value}} Protons"
+        },
+        "neutrons": {
+          "value": "{{value}} Neutrons"
+        },
+        "electrons": {
+          "value": "{{value}} Electrons"
+        }
+      }
+    }
   }
 }

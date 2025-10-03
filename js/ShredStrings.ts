@@ -276,6 +276,18 @@ type StringsType = {
   'unstableStringProperty': LocalizedStringProperty;
   'periodicTable': string;
   'periodicTableStringProperty': LocalizedStringProperty;
+  'a11y': {
+    'particleCounts': {
+      'accessibleListNode': {
+        'protons': string;
+        'protonsStringProperty': LocalizedStringProperty;
+        'neutrons': string;
+        'neutronsStringProperty': LocalizedStringProperty;
+        'electrons': string;
+        'electronsStringProperty': LocalizedStringProperty;
+      }
+    }
+  }
 };
 
 const ShredStrings = getStringModule( 'SHRED' ) as StringsType;

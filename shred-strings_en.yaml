@@ -130,3 +130,10 @@ positiveSignIon: Positive Ion
 stable: Stable
 unstable: Unstable
 periodicTable: Periodic Table
+
+a11y:
+  particleCounts:
+    accessibleListNode:
+      protons: "{{value}} Protons"
+      neutrons: "{{value}} Neutrons"
+      electrons: "{{value}} Electrons"
