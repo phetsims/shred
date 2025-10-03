@@ -137,3 +137,4 @@ a11y:
       protons: "{{value}} Protons"
       neutrons: "{{value}} Neutrons"
       electrons: "{{value}} Electrons"
+    accessibleHeading: Particle Counts in Atom

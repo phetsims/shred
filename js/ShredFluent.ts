@@ -5,6 +5,7 @@
 /* eslint-disable */
 /* @formatter:off */
 
+import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
@@ -154,6 +155,7 @@ addToMapIfDefined( 'positiveSignIon', 'positiveSignIonStringProperty' );
 addToMapIfDefined( 'stable', 'stableStringProperty' );
 addToMapIfDefined( 'unstable', 'unstableStringProperty' );
 addToMapIfDefined( 'periodicTable', 'periodicTableStringProperty' );
+addToMapIfDefined( 'a11y_particleCounts_accessibleHeading', 'a11y.particleCounts.accessibleHeadingStringProperty' );
 
 // A function that creates contents for a new Fluent file, which will be needed if any string changes.
 const createFluentFile = (): string => {
@@ -305,7 +307,8 @@ const ShredFluent = {
         protonsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.protonsStringProperty' ),
         neutronsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.neutronsStringProperty' ),
         electronsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.electronsStringProperty' )
-      }
+      },
+      accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleHeading', _.get( ShredStrings, 'a11y.particleCounts.accessibleHeadingStringProperty' ) )
     }
   }
 };

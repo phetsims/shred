@@ -46,6 +46,8 @@ class ParticleCountDisplay extends Panel {
       maxParticles: 13, // This is the maximum number of particles displayed in BAA. We don't allow more for layour reasons.
       pickable: false,
       phetioFeatured: true,
+      accessibleHeading: ShredStrings.a11y.particleCounts.accessibleHeadingStringProperty,
+      accessibleHeadingIncrement: 3,
       visiblePropertyOptions: {
         phetioFeatured: true
       }

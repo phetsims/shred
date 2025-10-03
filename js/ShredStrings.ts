@@ -285,7 +285,9 @@ type StringsType = {
         'neutronsStringProperty': LocalizedStringProperty;
         'electrons': string;
         'electronsStringProperty': LocalizedStringProperty;
-      }
+      };
+      'accessibleHeading': string;
+      'accessibleHeadingStringProperty': LocalizedStringProperty;
     }
   }
 };

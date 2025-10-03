@@ -407,6 +407,9 @@
         "electrons": {
           "value": "{{value}} Electrons"
         }
+      },
+      "accessibleHeading": {
+        "value": "Particle Counts in Atom"
       }
     }
   }
