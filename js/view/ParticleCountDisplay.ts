@@ -47,7 +47,6 @@ class ParticleCountDisplay extends Panel {
       pickable: false,
       phetioFeatured: true,
       accessibleHeading: ShredStrings.a11y.particleCounts.accessibleHeadingStringProperty,
-      accessibleHeadingIncrement: 3,
       visiblePropertyOptions: {
         phetioFeatured: true
       }
