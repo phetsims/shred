@@ -8,23 +8,27 @@
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';
-import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
+import Shape from '../../../kite/js/Shape.js';
+import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
+import { EmptySelfOptions, optionize4 } from '../../../phet-core/js/optionize.js';
 import WithRequired from '../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import AccessibleInteractiveOptions from '../../../scenery-phet/js/accessibility/AccessibleInteractiveOptions.js';
 import DragListener from '../../../scenery/js/listeners/DragListener.js';
-import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
+import Circle from '../../../scenery/js/nodes/Circle.js';
+import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 
 type SelfOptions = EmptySelfOptions;
-type ElectronCloudViewOptions = SelfOptions & WithRequired<CircleOptions, 'tandem'>;
+type ElectronCloudViewOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
 
 // constants
 const DEFAULT_RADIUS = 50; // in pm, chosen as an arbitrary value that is close to the "real" values that are used
 
-class ElectronCloudView extends Circle {
+class ElectronCloudView extends Node {
 
   // function to dispose of the view, including listeners
   private readonly disposeElectronCloudView: VoidFunction;
@@ -33,29 +37,48 @@ class ElectronCloudView extends Circle {
                       modelViewTransform: ModelViewTransform2,
                       providedOptions: ElectronCloudViewOptions ) {
 
-    const options = optionize<ElectronCloudViewOptions, EmptySelfOptions, CircleOptions>()( {
-      cursor: 'pointer',
-      fill: 'transparent',
-      phetioVisiblePropertyInstrumented: false // Don't allow phet-io users to hide this.
-    }, providedOptions );
+    const cloud = new Circle( DEFAULT_RADIUS, {
+      fill: 'transparent'
+    } );
 
-    assert && assert( options.translation === undefined, 'ElectronCloudView sets translation' );
+    // Create a focus highlight that looks like a single electron positioned below the nucleus.
+    const focusHighlight = new Shape().circle(
+      0,
+      40,
+      modelViewTransform.modelToViewDeltaX( ShredConstants.ELECTRON_RADIUS * 1.5 )
+    );
+
+    const options = optionize4<ElectronCloudViewOptions, SelfOptions, NodeOptions>()(
+      {},
+      AccessibleInteractiveOptions,
+      {
+        children: [ cloud ],
+        cursor: 'pointer',
+        focusHighlight: focusHighlight,
+        focusable: false, // initially not focusable, becomes true when there are electrons
+        tagName: 'div',
+        phetioVisiblePropertyInstrumented: false // Don't allow phet-io users to hide this.
+      },
+      providedOptions
+    );
+
+    affirm( options.translation === undefined, 'ElectronCloudView sets translation' );
     options.translation = modelViewTransform.modelToViewPosition( Vector2.ZERO );
 
-    super( DEFAULT_RADIUS, options );
+    super( options );
 
     // Function that updates the size of the cloud based on the number of electrons.
     const update = ( numElectrons: number ) => {
       if ( numElectrons === 0 ) {
-        this.radius = 1E-5; // arbitrary non-zero value
-        this.fill = 'transparent';
+        cloud.radius = 1E-5; // arbitrary non-zero value
+        cloud.fill = 'transparent';
       }
       else {
         const minRadius = modelViewTransform.modelToViewDeltaX( atom.innerElectronShellRadius ) * 0.5;
         const maxRadius = modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius );
         const radius = minRadius + ( ( maxRadius - minRadius ) / ShredConstants.MAX_ELECTRONS ) * numElectrons;
-        this.radius = radius;
-        this.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
+        cloud.radius = radius;
+        cloud.fill = new RadialGradient( 0, 0, 0, 0, 0, radius )
           .addColorStop( 0, 'rgba( 0, 0, 255, 200 )' )
           .addColorStop( 0.9, 'rgba( 0, 0, 255, 0 )' );
       }

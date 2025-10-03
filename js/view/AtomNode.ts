@@ -63,6 +63,11 @@ export type AtomNodeOptions = SelfOptions & NodeOptions;
 type NumberToVoidFunction = ( value: number ) => void;
 
 class AtomNode extends Node {
+
+  // TODO: See https://github.com/phetsims/build-an-atom/issues/356.  This was made a public field to support setting
+  //       it to be focused.  Consider moving the focus management into this class.
+  public readonly electronCloud: ElectronCloudView;
+
   private readonly atom: ParticleAtom;
 
   private particleLayers: Node[] = [];
@@ -126,10 +131,10 @@ class AtomNode extends Node {
     // Add the electron shells and cloud.
     const electronShell = new ElectronShellView( atom, modelViewTransform );
     this.addChild( electronShell );
-    const electronCloud = new ElectronCloudView( atom, modelViewTransform, {
+    this.electronCloud = new ElectronCloudView( atom, modelViewTransform, {
       tandem: options.tandem.createTandem( 'electronCloud' )
     } );
-    this.addChild( electronCloud );
+    this.addChild( this.electronCloud );
 
     // Current string properties for the symbol text and element caption
     const currentElementStringProperty = new Property( AtomIdentifier.getName( 0 ) );
@@ -167,7 +172,7 @@ class AtomNode extends Node {
 
     const updateElectronShellDepictionVisibility = ( depiction: ElectronShellDepiction ) => {
       electronShell.visible = depiction === 'shells';
-      electronCloud.visible = depiction === 'cloud';
+      this.electronCloud.visible = depiction === 'cloud';
 
       updateTextPosition();
     };
@@ -313,7 +318,7 @@ class AtomNode extends Node {
 
     this.disposeAtomNode = () => {
 
-      electronCloud.dispose();
+      this.electronCloud.dispose();
 
       if ( countListener ) {
         atom.electronCountProperty.unlink( countListener );
