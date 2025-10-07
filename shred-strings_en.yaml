@@ -138,3 +138,27 @@ a11y:
       neutrons: "{{value}} Neutrons"
       electrons: "{{value}} Electrons"
     accessibleHeading: Particle Counts in Atom
+
+  particles:
+    accessibleHelpText: Grab {{particle}}. Once grabbed use arrow keys to change location or delete to return to bucket.
+
+  buckets:
+    proton: Proton
+    neutron: Neutron
+    electron: Electron
+    accessibleName: "{{particle}} Bucket"
+    accessibleHelpText: "Grab {{particle}}. Once grabbed, use arrow keys to move to specific location."
+    accessibleHeading: Particles
+    grabbed: Grabbed.
+    released: Released.
+    overNucleus: Over nucleus.
+    overInnerShell: Over inner shell.
+    overOuterShell: Over outer shell.
+    nearBuckets: Near buckets.
+    overAtom: Over atom.
+    particleAddedTo: "Particle added to {{location}}."
+    nucleus: nucleus
+    innerShell: inner shell
+    outerShell: outer shell
+    particleReturnedToBucket: Particle returned to bucket.
+    bucketEmpty: Bucket empty.

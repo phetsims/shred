@@ -288,6 +288,50 @@ type StringsType = {
       };
       'accessibleHeading': string;
       'accessibleHeadingStringProperty': LocalizedStringProperty;
+    };
+    'particles': {
+      'accessibleHelpText': string;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+    };
+    'buckets': {
+      'proton': string;
+      'protonStringProperty': LocalizedStringProperty;
+      'neutron': string;
+      'neutronStringProperty': LocalizedStringProperty;
+      'electron': string;
+      'electronStringProperty': LocalizedStringProperty;
+      'accessibleName': string;
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'accessibleHelpText': string;
+      'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      'accessibleHeading': string;
+      'accessibleHeadingStringProperty': LocalizedStringProperty;
+      'grabbed': string;
+      'grabbedStringProperty': LocalizedStringProperty;
+      'released': string;
+      'releasedStringProperty': LocalizedStringProperty;
+      'overNucleus': string;
+      'overNucleusStringProperty': LocalizedStringProperty;
+      'overInnerShell': string;
+      'overInnerShellStringProperty': LocalizedStringProperty;
+      'overOuterShell': string;
+      'overOuterShellStringProperty': LocalizedStringProperty;
+      'nearBuckets': string;
+      'nearBucketsStringProperty': LocalizedStringProperty;
+      'overAtom': string;
+      'overAtomStringProperty': LocalizedStringProperty;
+      'particleAddedTo': string;
+      'particleAddedToStringProperty': LocalizedStringProperty;
+      'nucleus': string;
+      'nucleusStringProperty': LocalizedStringProperty;
+      'innerShell': string;
+      'innerShellStringProperty': LocalizedStringProperty;
+      'outerShell': string;
+      'outerShellStringProperty': LocalizedStringProperty;
+      'particleReturnedToBucket': string;
+      'particleReturnedToBucketStringProperty': LocalizedStringProperty;
+      'bucketEmpty': string;
+      'bucketEmptyStringProperty': LocalizedStringProperty;
     }
   }
 };

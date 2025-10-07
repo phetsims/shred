@@ -18,6 +18,7 @@ import nullSoundPlayer from '../../../tambo/js/nullSoundPlayer.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
+import ShredStrings from '../ShredStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 type BucketDragListenerOptions = SelfOptions & SoundDragListenerOptions;
@@ -57,6 +58,8 @@ class BucketDragListener extends SoundDragListener {
           grabSoundPlayer.play();
           activeParticle.setPositionAndDestination( positionInModelSpace );
         }
+
+        bucketView.addAccessibleObjectResponse( ShredStrings.a11y.buckets.grabbedStringProperty );
       },
 
       drag: ( event, listener ) => {
@@ -77,6 +80,7 @@ class BucketDragListener extends SoundDragListener {
           activeParticle = null;
           releaseSoundPlayer.play();
         }
+        bucketView.addAccessibleObjectResponse( ShredStrings.a11y.buckets.releasedStringProperty );
       },
 
       // By default, the grab and release sounds are played on every press and release, but that isn't exactly what we

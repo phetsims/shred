@@ -156,6 +156,22 @@ addToMapIfDefined( 'stable', 'stableStringProperty' );
 addToMapIfDefined( 'unstable', 'unstableStringProperty' );
 addToMapIfDefined( 'periodicTable', 'periodicTableStringProperty' );
 addToMapIfDefined( 'a11y_particleCounts_accessibleHeading', 'a11y.particleCounts.accessibleHeadingStringProperty' );
+addToMapIfDefined( 'a11y_buckets_proton', 'a11y.buckets.protonStringProperty' );
+addToMapIfDefined( 'a11y_buckets_neutron', 'a11y.buckets.neutronStringProperty' );
+addToMapIfDefined( 'a11y_buckets_electron', 'a11y.buckets.electronStringProperty' );
+addToMapIfDefined( 'a11y_buckets_accessibleHeading', 'a11y.buckets.accessibleHeadingStringProperty' );
+addToMapIfDefined( 'a11y_buckets_grabbed', 'a11y.buckets.grabbedStringProperty' );
+addToMapIfDefined( 'a11y_buckets_released', 'a11y.buckets.releasedStringProperty' );
+addToMapIfDefined( 'a11y_buckets_overNucleus', 'a11y.buckets.overNucleusStringProperty' );
+addToMapIfDefined( 'a11y_buckets_overInnerShell', 'a11y.buckets.overInnerShellStringProperty' );
+addToMapIfDefined( 'a11y_buckets_overOuterShell', 'a11y.buckets.overOuterShellStringProperty' );
+addToMapIfDefined( 'a11y_buckets_nearBuckets', 'a11y.buckets.nearBucketsStringProperty' );
+addToMapIfDefined( 'a11y_buckets_overAtom', 'a11y.buckets.overAtomStringProperty' );
+addToMapIfDefined( 'a11y_buckets_nucleus', 'a11y.buckets.nucleusStringProperty' );
+addToMapIfDefined( 'a11y_buckets_innerShell', 'a11y.buckets.innerShellStringProperty' );
+addToMapIfDefined( 'a11y_buckets_outerShell', 'a11y.buckets.outerShellStringProperty' );
+addToMapIfDefined( 'a11y_buckets_particleReturnedToBucket', 'a11y.buckets.particleReturnedToBucketStringProperty' );
+addToMapIfDefined( 'a11y_buckets_bucketEmpty', 'a11y.buckets.bucketEmptyStringProperty' );
 
 // A function that creates contents for a new Fluent file, which will be needed if any string changes.
 const createFluentFile = (): string => {
@@ -309,6 +325,30 @@ const ShredFluent = {
         electronsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.electronsStringProperty' )
       },
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleHeading', _.get( ShredStrings, 'a11y.particleCounts.accessibleHeadingStringProperty' ) )
+    },
+    particles: {
+      accessibleHelpTextStringProperty: _.get( ShredStrings, 'a11y.particles.accessibleHelpTextStringProperty' )
+    },
+    buckets: {
+      protonStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_proton', _.get( ShredStrings, 'a11y.buckets.protonStringProperty' ) ),
+      neutronStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_neutron', _.get( ShredStrings, 'a11y.buckets.neutronStringProperty' ) ),
+      electronStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_electron', _.get( ShredStrings, 'a11y.buckets.electronStringProperty' ) ),
+      accessibleNameStringProperty: _.get( ShredStrings, 'a11y.buckets.accessibleNameStringProperty' ),
+      accessibleHelpTextStringProperty: _.get( ShredStrings, 'a11y.buckets.accessibleHelpTextStringProperty' ),
+      accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_accessibleHeading', _.get( ShredStrings, 'a11y.buckets.accessibleHeadingStringProperty' ) ),
+      grabbedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_grabbed', _.get( ShredStrings, 'a11y.buckets.grabbedStringProperty' ) ),
+      releasedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_released', _.get( ShredStrings, 'a11y.buckets.releasedStringProperty' ) ),
+      overNucleusStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_overNucleus', _.get( ShredStrings, 'a11y.buckets.overNucleusStringProperty' ) ),
+      overInnerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_overInnerShell', _.get( ShredStrings, 'a11y.buckets.overInnerShellStringProperty' ) ),
+      overOuterShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_overOuterShell', _.get( ShredStrings, 'a11y.buckets.overOuterShellStringProperty' ) ),
+      nearBucketsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_nearBuckets', _.get( ShredStrings, 'a11y.buckets.nearBucketsStringProperty' ) ),
+      overAtomStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_overAtom', _.get( ShredStrings, 'a11y.buckets.overAtomStringProperty' ) ),
+      particleAddedToStringProperty: _.get( ShredStrings, 'a11y.buckets.particleAddedToStringProperty' ),
+      nucleusStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_nucleus', _.get( ShredStrings, 'a11y.buckets.nucleusStringProperty' ) ),
+      innerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_innerShell', _.get( ShredStrings, 'a11y.buckets.innerShellStringProperty' ) ),
+      outerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_outerShell', _.get( ShredStrings, 'a11y.buckets.outerShellStringProperty' ) ),
+      particleReturnedToBucketStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_particleReturnedToBucket', _.get( ShredStrings, 'a11y.buckets.particleReturnedToBucketStringProperty' ) ),
+      bucketEmptyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_bucketEmpty', _.get( ShredStrings, 'a11y.buckets.bucketEmptyStringProperty' ) )
     }
   }
 };
