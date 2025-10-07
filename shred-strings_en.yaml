@@ -149,7 +149,7 @@ a11y:
     accessibleName: "{{particle}} Bucket"
     accessibleHelpText: "Grab {{particle}}. Once grabbed, use arrow keys to move to specific location."
     accessibleHeading: Particles
-    grabbed: Grabbed.
+    grabbed: Grabbed. // MOVE THIS OUT OF BUCKETS
     released: Released.
     overNucleus: Over nucleus.
     overInnerShell: Over inner shell.
@@ -160,5 +160,6 @@ a11y:
     nucleus: nucleus
     innerShell: inner shell
     outerShell: outer shell
+    cloud: cloud
     particleReturnedToBucket: Particle returned to bucket.
     bucketEmpty: Bucket empty.

@@ -328,6 +328,8 @@ type StringsType = {
       'innerShellStringProperty': LocalizedStringProperty;
       'outerShell': string;
       'outerShellStringProperty': LocalizedStringProperty;
+      'cloud': string;
+      'cloudStringProperty': LocalizedStringProperty;
       'particleReturnedToBucket': string;
       'particleReturnedToBucketStringProperty': LocalizedStringProperty;
       'bucketEmpty': string;

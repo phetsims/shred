@@ -20,6 +20,7 @@ import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
+import ShredStrings from '../ShredStrings.js';
 import IsotopeNode, { IsotopeNodeOptions } from './IsotopeNode.js';
 import ParticleNode from './ParticleNode.js';
 
@@ -111,6 +112,8 @@ class ParticleView extends Node {
         if ( !particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
           particle.destinationProperty.set( particle.positionProperty.get() );
         }
+
+        this.addAccessibleObjectResponse( ShredStrings.a11y.buckets.grabbedStringProperty );
       },
 
       drag: () => {
@@ -135,6 +138,8 @@ class ParticleView extends Node {
 
         end: () => {
           this.particle.isDraggingProperty.set( false );
+          // TODO: Why is this overriding the other object response? https://github.com/phetsims/build-an-atom/issues/362
+          // this.addAccessibleObjectResponse( ShredStrings.a11y.buckets.releasedStringProperty );
         }
       },
       dragListenerOptions
