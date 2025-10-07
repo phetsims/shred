@@ -33,12 +33,7 @@ class ElectronShellView extends Node {
       lineWidth: 1.5,
       lineDash: LINE_DASH,
       translation: modelViewTransform.modelToViewPosition( Vector2.ZERO ),
-      pickable: false,
-
-      // pdom
-      tagName: 'div',
-      ariaRole: 'option',
-      innerContent: 'Outer Electron Ring'
+      pickable: false
     } );
     this.addChild( outerRing );
 
@@ -47,12 +42,7 @@ class ElectronShellView extends Node {
       lineWidth: 1.5,
       lineDash: LINE_DASH,
       translation: modelViewTransform.modelToViewPosition( Vector2.ZERO ),
-      pickable: false,
-
-      //a11y
-      tagName: 'div',
-      ariaRole: 'option',
-      innerContent: 'Inner Electron Ring'
+      pickable: false
     } );
     this.addChild( innerRing );
 
