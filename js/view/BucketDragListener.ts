@@ -59,7 +59,7 @@ class BucketDragListener extends SoundDragListener {
           activeParticle.setPositionAndDestination( positionInModelSpace );
         }
 
-        bucketView.addAccessibleObjectResponse( ShredStrings.a11y.buckets.grabbedStringProperty );
+        bucketView.addAccessibleObjectResponse( ShredStrings.a11y.buckets.grabbedStringProperty, 'queue' );
       },
 
       drag: ( event, listener ) => {
@@ -80,7 +80,7 @@ class BucketDragListener extends SoundDragListener {
           activeParticle = null;
           releaseSoundPlayer.play();
         }
-        bucketView.addAccessibleObjectResponse( ShredStrings.a11y.buckets.releasedStringProperty );
+        bucketView.addAccessibleObjectResponse( ShredStrings.a11y.buckets.releasedStringProperty, 'queue' );
       },
 
       // By default, the grab and release sounds are played on every press and release, but that isn't exactly what we

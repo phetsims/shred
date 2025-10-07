@@ -113,7 +113,7 @@ class ParticleView extends Node {
           particle.destinationProperty.set( particle.positionProperty.get() );
         }
 
-        this.addAccessibleObjectResponse( ShredStrings.a11y.buckets.grabbedStringProperty );
+        this.addAccessibleObjectResponse( ShredStrings.a11y.buckets.grabbedStringProperty, 'queue' );
       },
 
       drag: () => {
@@ -138,8 +138,7 @@ class ParticleView extends Node {
 
         end: () => {
           this.particle.isDraggingProperty.set( false );
-          // TODO: Why is this overriding the other object response? https://github.com/phetsims/build-an-atom/issues/362
-          // this.addAccessibleObjectResponse( ShredStrings.a11y.buckets.releasedStringProperty );
+          this.addAccessibleObjectResponse( ShredStrings.a11y.buckets.releasedStringProperty, 'queue' );
         }
       },
       dragListenerOptions
