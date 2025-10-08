@@ -208,7 +208,7 @@ class AtomNode extends Node {
     options.showElementNameProperty.link( updateElementNameVisibility );
 
     const ionIndicatorTextTranslation = modelViewTransform.modelToViewPosition( atom.positionProperty.get().plus(
-      new Vector2( atom.outerElectronShellRadius * 1.05, 0 ).rotated( Math.PI * 0.3 ) ) );
+      new Vector2( atom.outerElectronShellRadius * 1.15, 0 ).rotated( Math.PI * 0.35 ) ) );
 
     // Create the textual readout for the ion indicator, set by trial and error.
     this.ionIndicatorText = new Text( '', {
