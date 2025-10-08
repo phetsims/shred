@@ -265,6 +265,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
         particle.setPositionAndDestination( particle.positionProperty.get().plus( translation ) );
       }
       else {
+
         // Particle is moving, only change the destination.
         particle.destinationProperty.set( particle.destinationProperty.get().plus( translation ) );
       }
