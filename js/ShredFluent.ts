@@ -5,9 +5,9 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import FluentComment from '../../chipper/js/browser/FluentComment.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
+import FluentComment from '../../chipper/js/browser/FluentComment.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
