@@ -289,11 +289,11 @@ type StringsType = {
       'accessibleHeading': string;
       'accessibleHeadingStringProperty': LocalizedStringProperty;
     };
+    'grabbed': string;
+    'grabbedStringProperty': LocalizedStringProperty;
+    'released': string;
+    'releasedStringProperty': LocalizedStringProperty;
     'particles': {
-      'accessibleHelpText': string;
-      'accessibleHelpTextStringProperty': LocalizedStringProperty;
-    };
-    'buckets': {
       'proton': string;
       'protonStringProperty': LocalizedStringProperty;
       'neutron': string;
@@ -302,16 +302,10 @@ type StringsType = {
       'electronStringProperty': LocalizedStringProperty;
       'accessibleName': string;
       'accessibleNameStringProperty': LocalizedStringProperty;
-      'emptyName': string;
-      'emptyNameStringProperty': LocalizedStringProperty;
       'accessibleHelpText': string;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
       'accessibleHeading': string;
       'accessibleHeadingStringProperty': LocalizedStringProperty;
-      'grabbed': string;
-      'grabbedStringProperty': LocalizedStringProperty;
-      'released': string;
-      'releasedStringProperty': LocalizedStringProperty;
       'overNucleus': string;
       'overNucleusStringProperty': LocalizedStringProperty;
       'overInnerShell': string;
@@ -336,6 +330,12 @@ type StringsType = {
       'particleReturnedToBucketStringProperty': LocalizedStringProperty;
       'bucketEmpty': string;
       'bucketEmptyStringProperty': LocalizedStringProperty;
+    };
+    'buckets': {
+      'accessibleName': string;
+      'accessibleNameStringProperty': LocalizedStringProperty;
+      'emptyName': string;
+      'emptyNameStringProperty': LocalizedStringProperty;
     }
   }
 };
