@@ -139,7 +139,7 @@ a11y:
       electrons: "{{value}} Electrons"
     accessibleHeading: Particle Counts in Atom
 
-  grabbed: Grabbed. # MOVE OUT OF INDENTATION
+  grabbed: Grabbed.
   released: Released.
 
   particles:
