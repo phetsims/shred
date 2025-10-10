@@ -147,7 +147,8 @@ a11y:
     neutron: Neutron
     electron: Electron
     accessibleName: "{{particle}} Bucket"
-    accessibleHelpText: "Grab {{particle}}. Once grabbed, use arrow keys to move to specific location."
+    emptyName: Empty {{particle}} Bucket
+    accessibleHelpText: Grab {{particle}}. Once grabbed, use arrow keys to move to specific location.
     accessibleHeading: Particles
     # MOVE THIS OUT OF BUCKETS
     grabbed: Grabbed.
@@ -157,7 +158,7 @@ a11y:
     overOuterShell: Over outer shell.
     nearBuckets: Near buckets.
     overAtom: Over atom.
-    particleAddedTo: "Particle added to {{location}}."
+    particleAddedTo: Particle added to {{location}}.
     nucleus: nucleus
     innerShell: inner shell
     outerShell: outer shell

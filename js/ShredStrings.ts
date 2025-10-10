@@ -302,6 +302,8 @@ type StringsType = {
       'electronStringProperty': LocalizedStringProperty;
       'accessibleName': string;
       'accessibleNameStringProperty': LocalizedStringProperty;
+      'emptyName': string;
+      'emptyNameStringProperty': LocalizedStringProperty;
       'accessibleHelpText': string;
       'accessibleHelpTextStringProperty': LocalizedStringProperty;
       'accessibleHeading': string;

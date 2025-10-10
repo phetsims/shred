@@ -430,6 +430,9 @@
       "accessibleName": {
         "value": "{{particle}} Bucket"
       },
+      "emptyName": {
+        "value": "Empty {{particle}} Bucket"
+      },
       "accessibleHelpText": {
         "value": "Grab {{particle}}. Once grabbed, use arrow keys to move to specific location."
       },

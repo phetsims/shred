@@ -5,9 +5,9 @@
 /* eslint-disable */
 /* @formatter:off */
 
+import FluentComment from '../../chipper/js/browser/FluentComment.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
-import FluentComment from '../../chipper/js/browser/FluentComment.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -336,6 +336,7 @@ const ShredFluent = {
       neutronStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_neutron', _.get( ShredStrings, 'a11y.buckets.neutronStringProperty' ) ),
       electronStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_electron', _.get( ShredStrings, 'a11y.buckets.electronStringProperty' ) ),
       accessibleNameStringProperty: _.get( ShredStrings, 'a11y.buckets.accessibleNameStringProperty' ),
+      emptyNameStringProperty: _.get( ShredStrings, 'a11y.buckets.emptyNameStringProperty' ),
       accessibleHelpTextStringProperty: _.get( ShredStrings, 'a11y.buckets.accessibleHelpTextStringProperty' ),
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_accessibleHeading', _.get( ShredStrings, 'a11y.buckets.accessibleHeadingStringProperty' ) ),
       _comment_0: new FluentComment( {"comment":"MOVE THIS OUT OF BUCKETS","associatedKey":"grabbed"} ),
