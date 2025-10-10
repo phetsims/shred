@@ -171,6 +171,7 @@ addToMapIfDefined( 'a11y_particles_nucleus', 'a11y.particles.nucleusStringProper
 addToMapIfDefined( 'a11y_particles_innerShell', 'a11y.particles.innerShellStringProperty' );
 addToMapIfDefined( 'a11y_particles_outerShell', 'a11y.particles.outerShellStringProperty' );
 addToMapIfDefined( 'a11y_particles_cloud', 'a11y.particles.cloudStringProperty' );
+addToMapIfDefined( 'a11y_particles_bucket', 'a11y.particles.bucketStringProperty' );
 addToMapIfDefined( 'a11y_particles_particleReturnedToBucket', 'a11y.particles.particleReturnedToBucketStringProperty' );
 addToMapIfDefined( 'a11y_particles_bucketEmpty', 'a11y.particles.bucketEmptyStringProperty' );
 
@@ -346,6 +347,7 @@ const ShredFluent = {
       innerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_innerShell', _.get( ShredStrings, 'a11y.particles.innerShellStringProperty' ) ),
       outerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_outerShell', _.get( ShredStrings, 'a11y.particles.outerShellStringProperty' ) ),
       cloudStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_cloud', _.get( ShredStrings, 'a11y.particles.cloudStringProperty' ) ),
+      bucketStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_bucket', _.get( ShredStrings, 'a11y.particles.bucketStringProperty' ) ),
       particleReturnedToBucketStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_particleReturnedToBucket', _.get( ShredStrings, 'a11y.particles.particleReturnedToBucketStringProperty' ) ),
       bucketEmptyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_bucketEmpty', _.get( ShredStrings, 'a11y.particles.bucketEmptyStringProperty' ) )
     },

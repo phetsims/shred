@@ -159,6 +159,7 @@ a11y:
     innerShell: inner shell
     outerShell: outer shell
     cloud: cloud
+    bucket: bucket
     particleReturnedToBucket: Particle returned to bucket.
     bucketEmpty: Bucket empty.
 
