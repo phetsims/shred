@@ -11,6 +11,7 @@ import DynamicProperty from '../../../axon/js/DynamicProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import Property from '../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
+import { equalsEpsilon } from '../../../dot/js/util/equalsEpsilon.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
@@ -23,7 +24,7 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
-import Particle from '../model/Particle.js';
+import Particle, { ParticleType } from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredColors from '../ShredColors.js';
@@ -42,6 +43,7 @@ const unstableStringProperty = ShredStrings.unstableStringProperty;
 const ELEMENT_NAME_FONT_SIZE = 22;
 const ION_FONT_SIZE = 20;
 const INITIAL_NUMBER_OF_PARTICLE_LAYERS = 8;
+const DISTANCE_TESTING_TOLERANCE = 1e-6;
 
 // This constant exists for error checking.  We should probably never need more layers than this, but if we do, this
 // value can be adjusted.
@@ -49,6 +51,7 @@ const MAX_NUMBER_OF_PARTICLE_LAYERS = 20;
 
 export const ElectronShellDepictionValues = [ 'shells', 'cloud' ] as const;
 export type ElectronShellDepiction = typeof ElectronShellDepictionValues[number];
+export type FocusUpdateDirection = 'forward' | 'backward';
 
 type SelfOptions = {
   showCenterX?: boolean;
@@ -64,12 +67,9 @@ type NumberToVoidFunction = ( value: number ) => void;
 
 class AtomNode extends Node {
 
-  // TODO: See https://github.com/phetsims/build-an-atom/issues/356.  This was made a public field to support setting
-  //       it to be focused.  Consider moving the focus management into this class.
   public readonly electronCloud: ElectronCloudView;
-
+  private readonly electronShellDepictionProperty: TReadOnlyProperty<ElectronShellDepiction>;
   private readonly atom: ParticleAtom;
-
   private particleLayers: Node[] = [];
 
   // This text can be hidden if protons=0 or if the option is set to hide it.
@@ -100,6 +100,7 @@ class AtomNode extends Node {
     super();
 
     this.atom = atom;
+    this.electronShellDepictionProperty = options.electronShellDepictionProperty;
 
     // Create the X where the nucleus goes.
     let countListener: VoidFunction | null = null;
@@ -466,6 +467,197 @@ class AtomNode extends Node {
   public override dispose(): void {
     this.disposeAtomNode();
     super.dispose();
+  }
+
+  /**
+   * Get the first particle in the atom of the specified type that should receive focus.  This should be based on its
+   * proximity to the center of the atom and, if two particles are at the same distance, then the one that is furthest
+   * in front (lowest zLayerProperty value).
+   */
+  private getFirstFocusParticleView( particleType: ParticleType ): ParticleView | null {
+
+    // Get all particles of the specified type.
+    const particles = particleType === 'proton' ? this.atom.protons :
+                      particleType === 'neutron' ? this.atom.neutrons :
+                      particleType === 'electron' ? this.atom.electrons : [];
+
+    if ( particles.length === 0 ) {
+      return null;
+    }
+
+    // Sort the particles based on distance to the center of the atom, and then by zLayerProperty value.
+    const atomCenter = this.atom.positionProperty.value;
+    const sortedParticles = [ ...particles ].sort( ( a, b ) => {
+      const aDistance = a.positionProperty.value.distance( atomCenter );
+      const bDistance = b.positionProperty.value.distance( atomCenter );
+      if ( aDistance !== bDistance ) {
+        return aDistance - bDistance;
+      }
+      else {
+        return a.zLayerProperty.value - b.zLayerProperty.value;
+      }
+    } );
+
+    // Get the ParticleView for the first particle in the sorted list.
+    return this.getParticleView( sortedParticles[ 0 ] );
+  }
+
+  /**
+   * Get the shell number (0 for inner, 1 for outer) for the provided electron.  If the electron is not in the atom,
+   * or if it is not in either shell, -1 is returned.
+   */
+  private getElectronShellNumber( electron: Particle ): number {
+    affirm( electron.type === 'electron', 'The provided particle must be an electron' );
+    let electronShellNumber = -1;
+    if ( this.atom.electrons.includes( electron ) ) {
+      const distanceFromAtomCenter =
+        electron.positionProperty.value.distance( this.atom.positionProperty.value );
+      electronShellNumber = equalsEpsilon(
+        distanceFromAtomCenter,
+        this.atom.innerElectronShellRadius,
+        DISTANCE_TESTING_TOLERANCE
+      ) ? 0 : 1;
+    }
+    return electronShellNumber;
+  }
+
+  /**
+   * Update which particle in the atom has focus based on the current particle that has focus and the direction to move.
+   * This is for alt-input support.  If no node is supplied, then the focus will be set to the first available particle
+   * in the atom.
+   */
+  public updateParticleFocus( currentlyFocusedNode: ParticleView | ElectronCloudView | null,
+                              direction: FocusUpdateDirection ): void {
+
+    affirm(
+      currentlyFocusedNode === null || currentlyFocusedNode.focused,
+      'The provided particle view or electron cloud must have focus for this to work.'
+    );
+
+    // This array will be populated with the nodes that are eligible to receive focus, in the order in which they
+    // should receive focus.
+    const focusOrder: ( ParticleView | ElectronCloudView )[] = [];
+
+    let particleType: ParticleType | null;
+    if ( currentlyFocusedNode ) {
+      if ( currentlyFocusedNode instanceof ParticleView ) {
+        particleType = currentlyFocusedNode.particle.type;
+      }
+      else {
+
+        // The provided node must be the electron cloud.
+        particleType = 'electron';
+      }
+    }
+    else {
+      particleType = null;
+    }
+
+    if ( currentlyFocusedNode && particleType === 'proton' ) {
+      focusOrder.push( currentlyFocusedNode );
+    }
+    else {
+      const firstFocusableProtonView = this.getFirstFocusParticleView( 'proton' );
+      if ( firstFocusableProtonView ) {
+        focusOrder.push( firstFocusableProtonView );
+      }
+    }
+
+    if ( currentlyFocusedNode && particleType === 'neutron' ) {
+      focusOrder.push( currentlyFocusedNode );
+    }
+    else {
+      const firstFocusableNeutronView = this.getFirstFocusParticleView( 'neutron' );
+      if ( firstFocusableNeutronView ) {
+        focusOrder.push( firstFocusableNeutronView );
+      }
+    }
+
+    if ( this.atom.electrons.length > 0 ) {
+      if ( this.electronShellDepictionProperty.value === 'cloud' ) {
+
+        // We are in cloud mode, so add the cloud to the focus order.
+        focusOrder.push( this.electronCloud );
+      }
+      else {
+
+        let electronShellNumber = -1;
+        if ( particleType === 'electron' ) {
+          electronShellNumber = this.getElectronShellNumber( ( currentlyFocusedNode as ParticleView ).particle );
+        }
+
+        // Define a couple of closure functions that will help with adding electrons to the focus order.
+        const addInnerElectronToFocusOrder = () => {
+          const electronsInInnerShell = [ ...this.atom.electrons ].filter( e =>
+            this.getElectronShellNumber( e ) === 0
+          );
+          if ( electronsInInnerShell.length > 0 ) {
+            const innerShellElectron = this.getParticleView( electronsInInnerShell[ 0 ] );
+            affirm( innerShellElectron, 'Missing ParticleView for electron in inner shell' );
+            focusOrder.push( innerShellElectron );
+          }
+        };
+        const addOuterElectronToFocusOrder = () => {
+          const electronsInOuterShell = [ ...this.atom.electrons ].filter( electron =>
+            this.getElectronShellNumber( electron ) === 1
+          );
+          if ( electronsInOuterShell.length > 0 ) {
+            const outerShellElectron = this.getParticleView( electronsInOuterShell[ 0 ] );
+            affirm( outerShellElectron, 'Missing ParticleView for electron in outer shell' );
+            focusOrder.push( outerShellElectron );
+          }
+        };
+
+        if ( electronShellNumber === -1 ) {
+
+          // The provided particle is not an electron, so add one electron from each shell, inner first.
+          addInnerElectronToFocusOrder();
+          addOuterElectronToFocusOrder();
+        }
+        else if ( currentlyFocusedNode && electronShellNumber === 0 ) {
+
+          // The provided particle is an electron in the inner shell, so add it first, then add an electron from the
+          // outer shell if there is one.
+          focusOrder.push( currentlyFocusedNode );
+          addOuterElectronToFocusOrder();
+        }
+        else {
+
+          // The provided particle is an electron in the outer shell, so add one from the inner shell first, then add
+          // this one.
+          addInnerElectronToFocusOrder();
+          currentlyFocusedNode && focusOrder.push( currentlyFocusedNode );
+        }
+      }
+    }
+
+    // If there is something available in the atom to shift focus to, do so.
+    if ( focusOrder.length > 0 ) {
+      const currentIndex = currentlyFocusedNode === null ?
+                           focusOrder.length - 1 :
+                           focusOrder.indexOf( currentlyFocusedNode );
+      let newIndex;
+      if ( direction === 'forward' ) {
+        newIndex = ( currentIndex + 1 ) % focusOrder.length;
+      }
+      else {
+        newIndex = ( currentIndex - 1 + focusOrder.length ) % focusOrder.length;
+      }
+
+      // Set focus to the new node.
+      const focusedParticleView = focusOrder[ newIndex ];
+      focusedParticleView.focusable = true;
+      focusedParticleView.focus();
+
+      // For every other particle node in the atom, set focusable to false so there is only one focusable particle.
+      const particleInAtom = [ ...this.atom.protons, ...this.atom.neutrons, ...this.atom.electrons ];
+      for ( const particle of particleInAtom ) {
+        const particleView = this.getParticleView( particle );
+        if ( particleView && particleView !== focusedParticleView ) {
+          particleView.focusable = false;
+        }
+      }
+    }
   }
 }
 
