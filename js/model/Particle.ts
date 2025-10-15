@@ -45,10 +45,6 @@ export const PARTICLE_COLORS: Record<ParticleType, Color> = {
 // like particle color, particle behavior in the model, error checking, and so forth.
 export type ParticleType = 'proton' | 'neutron' | 'electron' | 'positron' | 'isotope';
 
-// List of the places the particle in BAA could be located.
-// TODO: Maybe move to BAAParticle? https://github.com/phetsims/build-an-atom/issues/351
-export type ParticleLocations = 'nucleus' | 'innerShell' | 'outerShell' | 'electronCloud' | 'bucket';
-
 type SelfOptions = {
   maxZLayer?: number;
   particleRadius?: number; // radius of the particle, in model space
@@ -94,9 +90,6 @@ class Particle extends PhetioObject {
 
   // Used in view to create 3D effect in nucleus, integer value, higher means further back in z-order.
   public readonly zLayerProperty: TProperty<number>;
-
-  // The location of the particle in Build an Atom.
-  public readonly locationNameProperty: TProperty<ParticleLocations>;
 
   private readonly disposeParticle: VoidFunction;
 
@@ -178,9 +171,6 @@ class Particle extends PhetioObject {
       numberType: 'Integer',
       range: new Range( 0, options.maxZLayer )
     } );
-
-    // TODO: This is for description, should it have a tandem? https://github.com/phetsims/build-an-atom/issues/351
-    this.locationNameProperty = new Property<ParticleLocations>( 'bucket' );
 
     // If we are no longer dragging, and our z-layer is 0, then set it to 1 so that we are above non-dragged
     // particles.
