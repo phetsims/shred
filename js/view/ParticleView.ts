@@ -113,7 +113,7 @@ class ParticleView extends Node {
           particle.destinationProperty.set( particle.positionProperty.get() );
         }
 
-        this.addAccessibleObjectResponse( ShredStrings.a11y.grabbedStringProperty, 'queue' );
+        this.addAccessibleObjectResponse( ShredStrings.a11y.grabbedStringProperty, { alertBehavior: 'queue' } );
       },
 
       drag: () => {
@@ -138,7 +138,7 @@ class ParticleView extends Node {
 
         end: () => {
           this.particle.isDraggingProperty.set( false );
-          this.addAccessibleObjectResponse( ShredStrings.a11y.grabbedStringProperty, 'queue' );
+          this.addAccessibleObjectResponse( ShredStrings.a11y.grabbedStringProperty, { alertBehavior: 'queue' } );
         }
       },
       dragListenerOptions
