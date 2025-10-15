@@ -5,8 +5,10 @@
 /* eslint-disable */
 /* @formatter:off */
 
+import {TReadOnlyProperty} from '../../axon/js/TReadOnlyProperty.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -155,6 +157,9 @@ addToMapIfDefined( 'positiveSignIon', 'positiveSignIonStringProperty' );
 addToMapIfDefined( 'stable', 'stableStringProperty' );
 addToMapIfDefined( 'unstable', 'unstableStringProperty' );
 addToMapIfDefined( 'periodicTable', 'periodicTableStringProperty' );
+addToMapIfDefined( 'a11y_particleCounts_accessibleListNode_protons', 'a11y.particleCounts.accessibleListNode.protonsStringProperty' );
+addToMapIfDefined( 'a11y_particleCounts_accessibleListNode_neutrons', 'a11y.particleCounts.accessibleListNode.neutronsStringProperty' );
+addToMapIfDefined( 'a11y_particleCounts_accessibleListNode_electrons', 'a11y.particleCounts.accessibleListNode.electronsStringProperty' );
 addToMapIfDefined( 'a11y_particleCounts_accessibleHeading', 'a11y.particleCounts.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_grabbed', 'a11y.grabbedStringProperty' );
 addToMapIfDefined( 'a11y_released', 'a11y.releasedStringProperty' );
@@ -322,9 +327,9 @@ const ShredFluent = {
   a11y: {
     particleCounts: {
       accessibleListNode: {
-        protonsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.protonsStringProperty' ),
-        neutronsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.neutronsStringProperty' ),
-        electronsStringProperty: _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.electronsStringProperty' )
+        protons: new FluentPattern<{ count: number | 'one' | number | 'two' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'two' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_protons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.protonsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"two"},{"type":"number","value":"other"}]}] ),
+        neutrons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_neutrons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.neutronsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
+        electrons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_electrons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.electronsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
       },
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleHeading', _.get( ShredStrings, 'a11y.particleCounts.accessibleHeadingStringProperty' ) )
     },

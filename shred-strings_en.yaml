@@ -134,9 +134,21 @@ periodicTable: Periodic Table
 a11y:
   particleCounts:
     accessibleListNode:
-      protons: "{{value}} Protons"
-      neutrons: "{{value}} Neutrons"
-      electrons: "{{value}} Electrons"
+      protons: |-
+        { $count ->
+          [one] { $count } Proton
+         *[other] { $count } Protons
+        }
+      neutrons: |-
+        { $count ->
+          [one] { $count } Neutron
+         *[other] { $count } Neutrons
+        }
+      electrons: |-
+        { $count ->
+          [one] { $count } Electron
+         *[other] { $count } Electrons
+        }
     accessibleHeading: Particle Counts in Atom
 
   grabbed: Grabbed.
