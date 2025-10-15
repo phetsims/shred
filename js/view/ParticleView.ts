@@ -138,7 +138,7 @@ class ParticleView extends Node {
 
         end: () => {
           this.particle.isDraggingProperty.set( false );
-          this.addAccessibleObjectResponse( ShredStrings.a11y.grabbedStringProperty, { alertBehavior: 'queue' } );
+          this.addAccessibleObjectResponse( ShredStrings.a11y.releasedStringProperty, { alertBehavior: 'queue' } );
         }
       },
       dragListenerOptions
