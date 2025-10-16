@@ -646,6 +646,7 @@ class AtomNode extends Node {
 
       // Set focus to the new node.
       const focusedParticleView = focusOrder[ newIndex ];
+      focusedParticleView.pdomVisible = true;
       focusedParticleView.focusable = true;
       focusedParticleView.focus();
 
@@ -655,6 +656,7 @@ class AtomNode extends Node {
         const particleView = this.getParticleView( particle );
         if ( particleView && particleView !== focusedParticleView ) {
           particleView.focusable = false;
+          particleView.pdomVisible = false;
         }
       }
     }
