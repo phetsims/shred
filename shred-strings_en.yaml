@@ -178,3 +178,4 @@ a11y:
   buckets:
     accessibleName: "{{particle}} Bucket"
     emptyName: Empty {{particle}} Bucket
+    emptyHelpText: Disabled when bucket is empty.

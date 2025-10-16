@@ -338,6 +338,8 @@ type StringsType = {
       'accessibleNameStringProperty': LocalizedStringProperty;
       'emptyName': string;
       'emptyNameStringProperty': LocalizedStringProperty;
+      'emptyHelpText': string;
+      'emptyHelpTextStringProperty': LocalizedStringProperty;
     }
   }
 };

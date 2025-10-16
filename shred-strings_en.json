@@ -483,6 +483,9 @@
       },
       "emptyName": {
         "value": "Empty {{particle}} Bucket"
+      },
+      "emptyHelpText": {
+        "value": "Disabled when bucket is empty."
       }
     }
   }
