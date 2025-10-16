@@ -5,10 +5,10 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import {TReadOnlyProperty} from '../../axon/js/TReadOnlyProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -327,7 +327,7 @@ const ShredFluent = {
   a11y: {
     particleCounts: {
       accessibleListNode: {
-        protons: new FluentPattern<{ count: number | 'one' | number | 'two' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'two' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_protons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.protonsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"two"},{"type":"number","value":"other"}]}] ),
+        protons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_protons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.protonsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
         neutrons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_neutrons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.neutronsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
         electrons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_electrons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.electronsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
       },
