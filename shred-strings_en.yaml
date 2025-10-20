@@ -159,7 +159,6 @@ a11y:
     neutron: Neutron
     electron: Electron
     accessibleName: "{{particle}}, in {{location}}"
-    accessibleHelpText: Grab {{particle}}. Once grabbed use arrow keys to change location or delete to return to bucket.
     accessibleHeading: Particles
     overNucleus: Over nucleus.
     overInnerShell: Over inner shell.
