@@ -174,7 +174,6 @@ class AtomNode extends Node {
     const updateElectronShellDepictionVisibility = ( depiction: ElectronShellDepiction ) => {
       electronShell.visible = depiction === 'shells';
       this.electronCloud.visible = depiction === 'cloud';
-
       updateTextPosition();
     };
     options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
@@ -317,6 +316,21 @@ class AtomNode extends Node {
     };
     options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );
 
+    // Set up listeners that will update the PDOM visibility of the particles as conditions in the atom and view change.
+    const updateParticlePdomVisibility = this.updateParticlePdomVisibility.bind( this );
+    atom.particleCountProperty.lazyLink( updateParticlePdomVisibility );
+    options.electronShellDepictionProperty.lazyLink( updateParticlePdomVisibility );
+    const particleArrays = [ atom.protons, atom.neutrons, atom.electrons ];
+    particleArrays.forEach( particleArray => {
+      particleArray.addItemAddedListener(
+        particle => particle.animationEndedEmitter.addListener( updateParticlePdomVisibility )
+      );
+      particleArray.addItemRemovedListener(
+        particle => particle.animationEndedEmitter.removeListener( updateParticlePdomVisibility )
+      );
+    } );
+
+    // Create the disposal function.
     this.disposeAtomNode = () => {
 
       this.electronCloud.dispose();
@@ -328,6 +342,7 @@ class AtomNode extends Node {
       }
 
       options.electronShellDepictionProperty.unlink( updateElectronShellDepictionVisibility );
+      options.electronShellDepictionProperty.unlink( updateParticlePdomVisibility );
       atom.protonCountProperty.unlink( updateElementName );
       options.showElementNameProperty.unlink( updateElementNameVisibility );
       atom.protonCountProperty.unlink( updateIonIndicator );
@@ -336,6 +351,7 @@ class AtomNode extends Node {
       atom.protonCountProperty.unlink( updateStabilityIndicator );
       atom.neutronCountProperty.unlink( updateStabilityIndicator );
       options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
+      atom.particleCountProperty.unlink( updateParticlePdomVisibility );
       atomCenterMarker && atomCenterMarker.dispose();
       electronShell.dispose();
       this.elementNameText.dispose();
@@ -442,7 +458,7 @@ class AtomNode extends Node {
   /**
    * Get the ParticleView for a given particle, or null if it is not found.
    */
-  public getParticleView( particle: Particle ): ParticleView | null {
+  private getParticleView( particle: Particle ): ParticleView | null {
     let particleView: ParticleView | null = null;
     for ( const particleLayer of this.particleLayers ) {
       for ( const child of particleLayer.children ) {
@@ -454,19 +470,67 @@ class AtomNode extends Node {
     return particleView;
   }
 
+  /**
+   * Update the PDOM visibility of the particles that comprise the atom.  The basic idea here is that we don't want ALL
+   * particles appearing in the PDOM because it's overwhelming and distracting.  Instead, we try to have a max of one
+   * proton, one neutron, and one electron from each of the populated shells visible in the PDOM.  This corresponds to
+   * they way users move focus through the atom when using the arrow keys.
+   */
+  private updateParticlePdomVisibility(): void {
+
+    // Define a reusable function that makes the first particle in a set PDOM visible and all other PDOM invisible.
+    const updateViz = ( particle: Particle, index: number ) => {
+      const particleView = this.getParticleView( particle );
+
+      // There are race conditions that we can run into here where particles have been added to the atom model but whose
+      // view nodes are not yet a child of this node.  The code below tolerates that condition and does not treat it as
+      // an error.  We count on subsequent updates to get everything correctly reconciled.
+      if ( particleView ) {
+        particleView.pdomVisible = index === 0;
+      }
+    };
+
+    // protons
+    const sortedProtons = AtomNode.getSortedParticles( this.atom.protons, this.atom.positionProperty.value );
+    sortedProtons.forEach( updateViz );
+
+    // neutrons
+    const sortedNeutrons = AtomNode.getSortedParticles( this.atom.neutrons, this.atom.positionProperty.value );
+    sortedNeutrons.forEach( updateViz );
+
+    // Get all electrons in the inner shell.
+    const innerShellElectrons = this.atom.electrons.filter( e => this.getElectronShellNumber( e ) === 0 );
+
+    // For consistent behavior, sort these by closest to the top of the atom.
+    innerShellElectrons.sort( ( ( e1, e2 ) => e1.destinationProperty.value.y - e2.destinationProperty.value.y ) );
+
+    // inner shell electrons
+    innerShellElectrons.forEach( updateViz );
+
+    // Get all electrons in the outer shell.
+    const outerShellElectrons = this.atom.electrons.filter( e => this.getElectronShellNumber( e ) === 1 );
+
+    // For consistent behavior, sort these by closest to the top of the atom.
+    outerShellElectrons.sort( ( ( e1, e2 ) => e1.destinationProperty.value.y - e2.destinationProperty.value.y ) );
+
+    // outer shell electrons
+    outerShellElectrons.forEach( updateViz );
+  }
+
+  /**
+   * Override this function so that clients don't use it directly.
+   */
   public override addChild( node: Node, isComposite?: boolean ): this {
     affirm( !( node instanceof ParticleView ), 'Use addParticleView to add ParticleViews' );
     return super.addChild( node, isComposite );
   }
 
+  /**
+   * Override this function so that clients don't use it directly.
+   */
   public override removeChild( node: Node, isComposite?: boolean ): this {
     affirm( !( node instanceof ParticleView ), 'Use removeParticleView to remove ParticleViews' );
     return super.removeChild( node, isComposite );
-  }
-
-  public override dispose(): void {
-    this.disposeAtomNode();
-    super.dispose();
   }
 
   /**
@@ -510,13 +574,20 @@ class AtomNode extends Node {
     affirm( electron.type === 'electron', 'The provided particle must be an electron' );
     let electronShellNumber = -1;
     if ( this.atom.electrons.includes( electron ) ) {
-      const distanceFromAtomCenter =
-        electron.positionProperty.value.distance( this.atom.positionProperty.value );
-      electronShellNumber = equalsEpsilon(
-        distanceFromAtomCenter,
-        this.atom.innerElectronShellRadius,
-        DISTANCE_TESTING_TOLERANCE
-      ) ? 0 : 1;
+      const distance = electron.destinationProperty.value.distance( this.atom.positionProperty.value );
+      if ( equalsEpsilon( distance, this.atom.innerElectronShellRadius, DISTANCE_TESTING_TOLERANCE ) ) {
+        electronShellNumber = 0;
+      }
+      else if ( equalsEpsilon( distance, this.atom.outerElectronShellRadius, DISTANCE_TESTING_TOLERANCE ) ) {
+        electronShellNumber = 1;
+      }
+      else {
+
+        // The electron is not currently at either the inner or outer radius, which means that it has probably just been
+        // added to the atom.  In this case, we essentially need to deduce the shell it is headed for based on the
+        // number of electrons already present.
+        electronShellNumber = this.atom.electrons.length <= 2 ? 0 : 1;
+      }
     }
     return electronShellNumber;
   }
@@ -646,7 +717,6 @@ class AtomNode extends Node {
 
       // Set focus to the new node.
       const focusedParticleView = focusOrder[ newIndex ];
-      focusedParticleView.pdomVisible = true;
       focusedParticleView.focusable = true;
       focusedParticleView.focus();
 
@@ -656,10 +726,39 @@ class AtomNode extends Node {
         const particleView = this.getParticleView( particle );
         if ( particleView && particleView !== focusedParticleView ) {
           particleView.focusable = false;
-          particleView.pdomVisible = false;
         }
       }
     }
+  }
+
+  public override dispose(): void {
+    this.disposeAtomNode();
+    super.dispose();
+  }
+
+  /**
+   * This method takes a set of particles and returns a new array containing the same particles but sorted from closest
+   * to furthest from the provided point.
+   */
+  private static getSortedParticles( particles: Particle[], point: Vector2 ): Particle[] {
+
+    const particlesCopy = [ ...particles ];
+
+    // Sort the particles by distance from the provided point, closest ones first.
+    particlesCopy.sort( ( p1, p2 ) => {
+      const p1Distance = p1.destinationProperty.value.distance( point );
+      const p2Distance = p2.destinationProperty.value.distance( point );
+      if ( p1Distance !== p2Distance ) {
+        return p1Distance - p2Distance;
+      }
+      else {
+
+        // Break ties in distance by comparing Y positions, though this could still potentially tie.
+        return p1.destinationProperty.value.y - p2.destinationProperty.value.y;
+      }
+    } );
+
+    return particlesCopy;
   }
 }
 

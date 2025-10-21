@@ -88,7 +88,7 @@ class Particle extends PhetioObject {
   // Whether the particle is being dragged by the user at the moment.
   public readonly isDraggingProperty: TProperty<boolean>;
 
-  // Used in view to create 3D effect in nucleus, integer value, higher means further back in z-order.
+  // Used in view to create 3D effect in nucleus.  This is an integer value, higher means further back in z-order.
   public readonly zLayerProperty: TProperty<number>;
 
   private readonly disposeParticle: VoidFunction;
