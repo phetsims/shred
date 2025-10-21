@@ -5,10 +5,10 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
+import {TReadOnlyProperty} from '../../axon/js/TReadOnlyProperty.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -166,6 +166,9 @@ addToMapIfDefined( 'a11y_released', 'a11y.releasedStringProperty' );
 addToMapIfDefined( 'a11y_particles_proton', 'a11y.particles.protonStringProperty' );
 addToMapIfDefined( 'a11y_particles_neutron', 'a11y.particles.neutronStringProperty' );
 addToMapIfDefined( 'a11y_particles_electron', 'a11y.particles.electronStringProperty' );
+addToMapIfDefined( 'a11y_particles_protons', 'a11y.particles.protonsStringProperty' );
+addToMapIfDefined( 'a11y_particles_neutrons', 'a11y.particles.neutronsStringProperty' );
+addToMapIfDefined( 'a11y_particles_electrons', 'a11y.particles.electronsStringProperty' );
 addToMapIfDefined( 'a11y_particles_accessibleHeading', 'a11y.particles.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_particles_overNucleus', 'a11y.particles.overNucleusStringProperty' );
 addToMapIfDefined( 'a11y_particles_overInnerShell', 'a11y.particles.overInnerShellStringProperty' );
@@ -340,6 +343,9 @@ const ShredFluent = {
       protonStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_proton', _.get( ShredStrings, 'a11y.particles.protonStringProperty' ) ),
       neutronStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_neutron', _.get( ShredStrings, 'a11y.particles.neutronStringProperty' ) ),
       electronStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_electron', _.get( ShredStrings, 'a11y.particles.electronStringProperty' ) ),
+      protonsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_protons', _.get( ShredStrings, 'a11y.particles.protonsStringProperty' ) ),
+      neutronsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_neutrons', _.get( ShredStrings, 'a11y.particles.neutronsStringProperty' ) ),
+      electronsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_electrons', _.get( ShredStrings, 'a11y.particles.electronsStringProperty' ) ),
       accessibleNameStringProperty: _.get( ShredStrings, 'a11y.particles.accessibleNameStringProperty' ),
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_accessibleHeading', _.get( ShredStrings, 'a11y.particles.accessibleHeadingStringProperty' ) ),
       overNucleusStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_overNucleus', _.get( ShredStrings, 'a11y.particles.overNucleusStringProperty' ) ),
@@ -357,7 +363,6 @@ const ShredFluent = {
       bucketEmptyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_bucketEmpty', _.get( ShredStrings, 'a11y.particles.bucketEmptyStringProperty' ) )
     },
     buckets: {
-      accessibleNameStringProperty: _.get( ShredStrings, 'a11y.buckets.accessibleNameStringProperty' ),
       emptyNameStringProperty: _.get( ShredStrings, 'a11y.buckets.emptyNameStringProperty' ),
       emptyHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_emptyHelpText', _.get( ShredStrings, 'a11y.buckets.emptyHelpTextStringProperty' ) )
     }

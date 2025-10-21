@@ -158,6 +158,9 @@ a11y:
     proton: Proton
     neutron: Neutron
     electron: Electron
+    protons: Protons
+    neutrons: Neutrons
+    electrons: Electrons
     accessibleName: "{{particle}}, in {{location}}"
     accessibleHeading: Particles
     overNucleus: Over nucleus.
@@ -175,6 +178,5 @@ a11y:
     bucketEmpty: Bucket empty.
 
   buckets:
-    accessibleName: "{{particle}} Bucket"
     emptyName: Empty {{particle}} Bucket
     emptyHelpText: Disabled when bucket is empty.

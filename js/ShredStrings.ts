@@ -300,6 +300,12 @@ type StringsType = {
       'neutronStringProperty': LocalizedStringProperty;
       'electron': string;
       'electronStringProperty': LocalizedStringProperty;
+      'protons': string;
+      'protonsStringProperty': LocalizedStringProperty;
+      'neutrons': string;
+      'neutronsStringProperty': LocalizedStringProperty;
+      'electrons': string;
+      'electronsStringProperty': LocalizedStringProperty;
       'accessibleName': string;
       'accessibleNameStringProperty': LocalizedStringProperty;
       'accessibleHeading': string;
@@ -332,8 +338,6 @@ type StringsType = {
       'bucketEmptyStringProperty': LocalizedStringProperty;
     };
     'buckets': {
-      'accessibleName': string;
-      'accessibleNameStringProperty': LocalizedStringProperty;
       'emptyName': string;
       'emptyNameStringProperty': LocalizedStringProperty;
       'emptyHelpText': string;

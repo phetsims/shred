@@ -428,6 +428,15 @@
       "electron": {
         "value": "Electron"
       },
+      "protons": {
+        "value": "Protons"
+      },
+      "neutrons": {
+        "value": "Neutrons"
+      },
+      "electrons": {
+        "value": "Electrons"
+      },
       "accessibleName": {
         "value": "{{particle}}, in {{location}}"
       },
@@ -475,9 +484,6 @@
       }
     },
     "buckets": {
-      "accessibleName": {
-        "value": "{{particle}} Bucket"
-      },
       "emptyName": {
         "value": "Empty {{particle}} Bucket"
       },
