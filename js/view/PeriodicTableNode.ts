@@ -159,6 +159,27 @@ class PeriodicTableNode extends Node {
     this.disposePeriodicTableNode();
     super.dispose();
   }
+
+  /**
+   * Given an element index (atomic number), return its coordinates in the periodic table grid.
+   * This function ignores the lanthanides and actinides series, only based on POPULATED_CELLS.
+   *
+   * Mostly used for description purposes.
+   */
+  public static getElementCoordinates( elementIndex: number ): Vector2 {
+    let row = 0;
+    let column = 0;
+
+    for ( let i = 0; i < elementIndex; i++ ) {
+      if ( POPULATED_CELLS[ row ].length === column ) {
+        row++;
+        column = 0;
+      }
+      column++;
+    }
+
+    return new Vector2( POPULATED_CELLS[ row ][ column - 1 ] + 1, row + 1 ); // +1 to convert from 0-indexed to 1-indexed
+  }
 }
 
 shred.register( 'PeriodicTableNode', PeriodicTableNode );
