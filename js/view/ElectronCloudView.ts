@@ -21,6 +21,7 @@ import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
+import ShredStrings from '../ShredStrings.js';
 
 type SelfOptions = EmptySelfOptions;
 type ElectronCloudViewOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
@@ -55,8 +56,8 @@ class ElectronCloudView extends Node {
         children: [ cloud ],
         cursor: 'pointer',
         focusHighlight: focusHighlight,
-        focusable: false, // initially not focusable, becomes true when there are electrons
-        tagName: 'div',
+        focusable: false, // initially not focusable, set to true when there are electrons
+        accessibleName: ShredStrings.a11y.particles.electronCloudStringProperty,
         phetioVisiblePropertyInstrumented: false // Don't allow phet-io users to hide this.
       },
       providedOptions

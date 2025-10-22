@@ -158,6 +158,7 @@ a11y:
     proton: Proton
     neutron: Neutron
     electron: Electron
+    electronCloud: Electron Cloud
     protons: Protons
     neutrons: Neutrons
     electrons: Electrons

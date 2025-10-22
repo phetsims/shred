@@ -479,7 +479,7 @@ class AtomNode extends Node {
   private updateParticlePdomVisibility(): void {
 
     // Define a reusable function that makes the first particle in a set PDOM visible and all other PDOM invisible.
-    const updateViz = ( particle: Particle, index: number ) => {
+    const updatePdomViz = ( particle: Particle, index: number ) => {
       const particleView = this.getParticleView( particle );
 
       // There are race conditions that we can run into here where particles have been added to the atom model but whose
@@ -492,29 +492,43 @@ class AtomNode extends Node {
 
     // protons
     const sortedProtons = AtomNode.getSortedParticles( this.atom.protons, this.atom.positionProperty.value );
-    sortedProtons.forEach( updateViz );
+    sortedProtons.forEach( updatePdomViz );
 
     // neutrons
     const sortedNeutrons = AtomNode.getSortedParticles( this.atom.neutrons, this.atom.positionProperty.value );
-    sortedNeutrons.forEach( updateViz );
+    sortedNeutrons.forEach( updatePdomViz );
 
-    // Get all electrons in the inner shell.
-    const innerShellElectrons = this.atom.electrons.filter( e => this.getElectronShellNumber( e ) === 0 );
+    // electrons
+    if ( this.electronShellDepictionProperty.value === 'shells' ) {
 
-    // For consistent behavior, sort these by closest to the top of the atom.
-    innerShellElectrons.sort( ( ( e1, e2 ) => e1.destinationProperty.value.y - e2.destinationProperty.value.y ) );
+      // Get a list of all electrons currently in the inner shell.
+      const innerShellElectrons = this.atom.electrons.filter( e => this.getElectronShellNumber( e ) === 0 );
 
-    // inner shell electrons
-    innerShellElectrons.forEach( updateViz );
+      // For consistent behavior, sort these by closest to the top of the atom.
+      innerShellElectrons.sort( ( ( e1, e2 ) => e1.destinationProperty.value.y - e2.destinationProperty.value.y ) );
 
-    // Get all electrons in the outer shell.
-    const outerShellElectrons = this.atom.electrons.filter( e => this.getElectronShellNumber( e ) === 1 );
+      // Update the PDOM visibility for the inner shell electrons.
+      innerShellElectrons.forEach( updatePdomViz );
 
-    // For consistent behavior, sort these by closest to the top of the atom.
-    outerShellElectrons.sort( ( ( e1, e2 ) => e1.destinationProperty.value.y - e2.destinationProperty.value.y ) );
+      // Get a list of all electrons currently in the outer shell.
+      const outerShellElectrons = this.atom.electrons.filter( e => this.getElectronShellNumber( e ) === 1 );
 
-    // outer shell electrons
-    outerShellElectrons.forEach( updateViz );
+      // For consistent behavior, sort these by closest to the top of the atom.
+      outerShellElectrons.sort( ( ( e1, e2 ) => e1.destinationProperty.value.y - e2.destinationProperty.value.y ) );
+
+      // Update the PDOM visibility for the outer shell electrons.
+      outerShellElectrons.forEach( updatePdomViz );
+
+      // Make sure the electron cloud is not PDOM visible.
+      this.electronCloud.pdomVisible = false;
+    }
+    else {
+
+      // The electrons are currently being represented as a cloud.  The electrons won't show up in the PDOM since they
+      // are made invisible by other portions of the code, so we don't need to worry about them here.  We do need to
+      // set the PDOM visibility of the electron cloud.
+      this.electronCloud.pdomVisible = this.atom.electrons.length > 0;
+    }
   }
 
   /**

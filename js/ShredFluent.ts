@@ -166,6 +166,7 @@ addToMapIfDefined( 'a11y_released', 'a11y.releasedStringProperty' );
 addToMapIfDefined( 'a11y_particles_proton', 'a11y.particles.protonStringProperty' );
 addToMapIfDefined( 'a11y_particles_neutron', 'a11y.particles.neutronStringProperty' );
 addToMapIfDefined( 'a11y_particles_electron', 'a11y.particles.electronStringProperty' );
+addToMapIfDefined( 'a11y_particles_electronCloud', 'a11y.particles.electronCloudStringProperty' );
 addToMapIfDefined( 'a11y_particles_protons', 'a11y.particles.protonsStringProperty' );
 addToMapIfDefined( 'a11y_particles_neutrons', 'a11y.particles.neutronsStringProperty' );
 addToMapIfDefined( 'a11y_particles_electrons', 'a11y.particles.electronsStringProperty' );
@@ -343,6 +344,7 @@ const ShredFluent = {
       protonStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_proton', _.get( ShredStrings, 'a11y.particles.protonStringProperty' ) ),
       neutronStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_neutron', _.get( ShredStrings, 'a11y.particles.neutronStringProperty' ) ),
       electronStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_electron', _.get( ShredStrings, 'a11y.particles.electronStringProperty' ) ),
+      electronCloudStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_electronCloud', _.get( ShredStrings, 'a11y.particles.electronCloudStringProperty' ) ),
       protonsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_protons', _.get( ShredStrings, 'a11y.particles.protonsStringProperty' ) ),
       neutronsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_neutrons', _.get( ShredStrings, 'a11y.particles.neutronsStringProperty' ) ),
       electronsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_electrons', _.get( ShredStrings, 'a11y.particles.electronsStringProperty' ) ),
