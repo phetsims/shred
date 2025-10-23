@@ -155,13 +155,18 @@ a11y:
   released: Released.
 
   particles:
+    # Singular name
     proton: Proton
     neutron: Neutron
     electron: Electron
     electronCloud: Electron Cloud
+
+    # Plural name
     protons: Protons
     neutrons: Neutrons
     electrons: Electrons
+
+    # For Object Response
     accessibleName: "{{particle}}, in {{location}}"
     accessibleHeading: Particles
     overNucleus: Over nucleus.
@@ -170,10 +175,6 @@ a11y:
     nearBuckets: Near buckets.
     overAtom: Over atom.
     particleAddedTo: Particle added to {{location}}.
-    nucleus: nucleus
-    innerShell: inner shell
-    outerShell: outer shell
-    cloud: cloud
     bucket: bucket
     particleReturnedToBucket: Particle returned to bucket.
     bucketEmpty: Bucket empty.
