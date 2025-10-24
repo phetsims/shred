@@ -324,6 +324,14 @@ type StringsType = {
       'overAtomStringProperty': LocalizedStringProperty;
       'particleAddedTo': string;
       'particleAddedToStringProperty': LocalizedStringProperty;
+      'nucleus': string;
+      'nucleusStringProperty': LocalizedStringProperty;
+      'innerShell': string;
+      'innerShellStringProperty': LocalizedStringProperty;
+      'outerShell': string;
+      'outerShellStringProperty': LocalizedStringProperty;
+      'cloud': string;
+      'cloudStringProperty': LocalizedStringProperty;
       'bucket': string;
       'bucketStringProperty': LocalizedStringProperty;
       'particleReturnedToBucket': string;
