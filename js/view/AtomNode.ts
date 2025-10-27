@@ -316,17 +316,17 @@ class AtomNode extends Node {
     };
     options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );
 
-    // Set up listeners that will update the PDOM visibility of the particles as conditions in the atom and view change.
-    const updateParticlePdomVisibility = this.updateParticlePdomVisibility.bind( this );
-    atom.particleCountProperty.lazyLink( updateParticlePdomVisibility );
-    options.electronShellDepictionProperty.lazyLink( updateParticlePdomVisibility );
+    // Set up listeners that will update the alt-input state of the particles as conditions in the atom and view change.
+    const updateParticleViewAltInputState = this.updateParticleViewAltInputState.bind( this );
+    atom.particleCountProperty.lazyLink( updateParticleViewAltInputState );
+    options.electronShellDepictionProperty.lazyLink( updateParticleViewAltInputState );
     const particleArrays = [ atom.protons, atom.neutrons, atom.electrons ];
     particleArrays.forEach( particleArray => {
       particleArray.addItemAddedListener(
-        particle => particle.animationEndedEmitter.addListener( updateParticlePdomVisibility )
+        particle => particle.animationEndedEmitter.addListener( updateParticleViewAltInputState )
       );
       particleArray.addItemRemovedListener(
-        particle => particle.animationEndedEmitter.removeListener( updateParticlePdomVisibility )
+        particle => particle.animationEndedEmitter.removeListener( updateParticleViewAltInputState )
       );
     } );
 
@@ -342,7 +342,7 @@ class AtomNode extends Node {
       }
 
       options.electronShellDepictionProperty.unlink( updateElectronShellDepictionVisibility );
-      options.electronShellDepictionProperty.unlink( updateParticlePdomVisibility );
+      options.electronShellDepictionProperty.unlink( updateParticleViewAltInputState );
       atom.protonCountProperty.unlink( updateElementName );
       options.showElementNameProperty.unlink( updateElementNameVisibility );
       atom.protonCountProperty.unlink( updateIonIndicator );
@@ -351,7 +351,7 @@ class AtomNode extends Node {
       atom.protonCountProperty.unlink( updateStabilityIndicator );
       atom.neutronCountProperty.unlink( updateStabilityIndicator );
       options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
-      atom.particleCountProperty.unlink( updateParticlePdomVisibility );
+      atom.particleCountProperty.unlink( updateParticleViewAltInputState );
       atomCenterMarker && atomCenterMarker.dispose();
       electronShell.dispose();
       this.elementNameText.dispose();
@@ -486,12 +486,15 @@ class AtomNode extends Node {
   }
 
   /**
-   * Update the PDOM visibility of the particles that comprise the atom.  The basic idea here is that we don't want ALL
-   * particles appearing in the PDOM because it's overwhelming and distracting.  Instead, we try to have a max of one
-   * proton, one neutron, and one electron from each of the populated shells visible in the PDOM.  This corresponds to
-   * the way users move focus through the atom when using the arrow keys.
+   * Update the PDOM visibility and focusability of the particles that comprise the atom based on the current model and
+   * view state.  The main things we are trying to accomplish here are:
+   * 1.  Make sure that at least one particle in the atom is focusable, so that the tab order has something to land on.
+   * 2.  Make sure that only one particle is focusable at a time so that there is a single tab stop for the atom.
+   * 3.  Make sure that only a small number of particles are PDOM visible at a time, so that the PDOM is not
+   *     overwhelming.  There should be at max one proton, one neutron, and one electron from each shell visible in the
+   *     PDOM, plus the particle being dragged.
    */
-  private updateParticlePdomVisibility(): void {
+  private updateParticleViewAltInputState(): void {
 
     // Get a list of all particle views that are currently children of this node.
     const allParticleViews = this.getAllParticleViews();
@@ -573,7 +576,7 @@ class AtomNode extends Node {
       }
       outerShellElectronViews.forEach( electronView => {
         electronView.pdomVisible = electronView === focusedOuterShellElectronView ||
-                                    electronView === otherPdomVisibleOuterShellElectronView;
+                                   electronView === otherPdomVisibleOuterShellElectronView;
       } );
 
       // Make sure the electron cloud is not PDOM visible.
@@ -585,6 +588,28 @@ class AtomNode extends Node {
       // are made invisible by other portions of the code, so we don't need to worry about them here.  We do need to
       // set the PDOM visibility of the electron cloud.
       this.electronCloud.pdomVisible = this.atom.electrons.length > 0;
+    }
+
+    // If there is at least one particle in the atom, then something should be focusable so that the tab order has
+    // something to land on.  Make sure that this is the case.
+    const focusedParticle = allParticleViews.find( pv => pv.focused );
+    if ( allParticleViews.length > 0 && !focusedParticle ) {
+      const focusableParticleViews = allParticleViews.filter( pv => pv.focusable );
+      affirm(
+        focusableParticleViews.length <= 1,
+        'There should be either zero or one focusable particle views at this point.'
+      );
+      const pdomVisibleParticleViews = allParticleViews.filter( pv => pv.pdomVisible );
+      if ( !( focusableParticleViews.length === 1 && pdomVisibleParticleViews.includes( focusableParticleViews[ 0 ] ) ) ) {
+        for ( const particleType of [ 'proton', 'neutron', 'electron' ] as ParticleType[] ) {
+          const focusableParticleView = this.getFirstFocusParticleView( particleType );
+          if ( focusableParticleView ) {
+            focusableParticleView.focusable = true;
+            this.makeAllOtherParticleViewsNotFocusable( focusableParticleView );
+            break;
+          }
+        }
+      }
     }
   }
 
@@ -605,9 +630,9 @@ class AtomNode extends Node {
   }
 
   /**
-   * Get the first particle in the atom of the specified type that should receive focus.  This should be based on its
-   * proximity to the center of the atom and, if two particles are at the same distance, then the one that is furthest
-   * in front (lowest zLayerProperty value).
+   * Get the first particle view in the atom of the specified type that should receive focus.  This should be based on
+   * its proximity to the center of the atom and, if two particles are at the same distance, then the one that is
+   * furthest in front (lowest zLayerProperty value).
    */
   private getFirstFocusParticleView( particleType: ParticleType ): ParticleView | null {
 
@@ -797,7 +822,7 @@ class AtomNode extends Node {
     }
 
     // Update the PDOM visibility of the particles in the atom.
-    this.updateParticlePdomVisibility();
+    this.updateParticleViewAltInputState();
   }
 
   public makeAllOtherParticleViewsNotFocusable( focusedParticleView: ParticleView | ElectronCloudView ): void {
