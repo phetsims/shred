@@ -595,10 +595,6 @@ class AtomNode extends Node {
     const focusedParticle = allParticleViews.find( pv => pv.focused );
     if ( allParticleViews.length > 0 && !focusedParticle ) {
       const focusableParticleViews = allParticleViews.filter( pv => pv.focusable );
-      affirm(
-        focusableParticleViews.length <= 1,
-        'There should be either zero or one focusable particle views at this point.'
-      );
       const pdomVisibleParticleViews = allParticleViews.filter( pv => pv.pdomVisible );
       if ( !( focusableParticleViews.length === 1 && pdomVisibleParticleViews.includes( focusableParticleViews[ 0 ] ) ) ) {
         for ( const particleType of [ 'proton', 'neutron', 'electron' ] as ParticleType[] ) {
