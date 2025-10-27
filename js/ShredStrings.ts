@@ -334,8 +334,6 @@ type StringsType = {
       'cloudStringProperty': LocalizedStringProperty;
       'bucket': string;
       'bucketStringProperty': LocalizedStringProperty;
-      'particleReturnedToBucket': string;
-      'particleReturnedToBucketStringProperty': LocalizedStringProperty;
       'bucketEmpty': string;
       'bucketEmptyStringProperty': LocalizedStringProperty;
     };

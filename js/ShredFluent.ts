@@ -5,10 +5,10 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
+import {TReadOnlyProperty} from '../../axon/js/TReadOnlyProperty.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -181,7 +181,6 @@ addToMapIfDefined( 'a11y_particles_innerShell', 'a11y.particles.innerShellString
 addToMapIfDefined( 'a11y_particles_outerShell', 'a11y.particles.outerShellStringProperty' );
 addToMapIfDefined( 'a11y_particles_cloud', 'a11y.particles.cloudStringProperty' );
 addToMapIfDefined( 'a11y_particles_bucket', 'a11y.particles.bucketStringProperty' );
-addToMapIfDefined( 'a11y_particles_particleReturnedToBucket', 'a11y.particles.particleReturnedToBucketStringProperty' );
 addToMapIfDefined( 'a11y_particles_bucketEmpty', 'a11y.particles.bucketEmptyStringProperty' );
 addToMapIfDefined( 'a11y_buckets_emptyHelpText', 'a11y.buckets.emptyHelpTextStringProperty' );
 
@@ -361,7 +360,6 @@ const ShredFluent = {
       outerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_outerShell', _.get( ShredStrings, 'a11y.particles.outerShellStringProperty' ) ),
       cloudStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_cloud', _.get( ShredStrings, 'a11y.particles.cloudStringProperty' ) ),
       bucketStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_bucket', _.get( ShredStrings, 'a11y.particles.bucketStringProperty' ) ),
-      particleReturnedToBucketStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_particleReturnedToBucket', _.get( ShredStrings, 'a11y.particles.particleReturnedToBucketStringProperty' ) ),
       bucketEmptyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_bucketEmpty', _.get( ShredStrings, 'a11y.particles.bucketEmptyStringProperty' ) )
     },
     buckets: {

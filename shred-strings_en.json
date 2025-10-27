@@ -479,9 +479,6 @@
       "bucket": {
         "value": "bucket"
       },
-      "particleReturnedToBucket": {
-        "value": "Particle returned to bucket."
-      },
       "bucketEmpty": {
         "value": "Bucket empty."
       }
