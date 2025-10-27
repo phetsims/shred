@@ -668,8 +668,8 @@ class AtomNode extends Node {
    * This is for alt-input support.  If no node is supplied, then the focus will be set to the first available particle
    * in the atom.
    */
-  public updateParticleFocus( currentlyFocusedNode: ParticleView | ElectronCloudView | null,
-                              direction: FocusUpdateDirection ): void {
+  public shiftParticleFocus( currentlyFocusedNode: ParticleView | ElectronCloudView | null,
+                             direction: FocusUpdateDirection ): void {
 
     affirm(
       currentlyFocusedNode === null || currentlyFocusedNode.focused,
