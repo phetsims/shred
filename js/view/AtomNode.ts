@@ -319,7 +319,6 @@ class AtomNode extends Node {
     // Set up listeners that will update the alt-input state of the particles as conditions in the atom and view change.
     const updateParticleViewAltInputState = this.updateParticleViewAltInputState.bind( this );
     atom.particleCountProperty.lazyLink( updateParticleViewAltInputState );
-    options.electronShellDepictionProperty.lazyLink( updateParticleViewAltInputState );
     const particleArrays = [ atom.protons, atom.neutrons, atom.electrons ];
     particleArrays.forEach( particleArray => {
       particleArray.addItemAddedListener(
@@ -328,6 +327,40 @@ class AtomNode extends Node {
       particleArray.addItemRemovedListener(
         particle => particle.animationEndedEmitter.removeListener( updateParticleViewAltInputState )
       );
+    } );
+
+    // Set up a listener that will shift focusability between electrons and the electron cloud when the depiction
+    // changes.
+    options.electronShellDepictionProperty.lazyLink( electronShellDepiction => {
+      console.log( '   ######### electronShellDepictionProperty.lazyLink' );
+      if ( electronShellDepiction === 'shells' ) {
+        if ( this.electronCloud.focusable ) {
+
+          // The cloud is currently focusable, so we need to transfer focusability to an electron.  Choose using the
+          // same method as in updateParticleViewAltInputState.
+          const innerShellElectrons = atom.electrons.filter( e => this.getElectronShellNumber( e ) === 0 );
+          innerShellElectrons.sort( ( e1, e2 ) => e2.destinationProperty.value.x - e1.destinationProperty.value.x );
+          const firstElectronView = this.getParticleView( innerShellElectrons[ 0 ] );
+          console.log( `firstElectronView.phetioID = ${firstElectronView!.phetioID}` );
+          affirm( firstElectronView, 'There should be at least one electron view if the cloud is focusable.' );
+          firstElectronView.focusable = true;
+          this.electronCloud.focusable = false;
+        }
+      }
+      else {
+        const focusableElectronViews = this.getAllParticleViews().filter(
+          pv => pv.particle.type === 'electron' && pv.focusable
+        );
+        if ( focusableElectronViews.length > 0 ) {
+
+          // One or more electrons are currently focusable, so we need to transfer focusability to the cloud.
+          this.electronCloud.focusable = true;
+          focusableElectronViews.forEach( ev => {
+            ev.focusable = false;
+          } );
+        }
+      }
+      this.updateParticleViewAltInputState();
     } );
 
     // Create the disposal function.
@@ -427,6 +460,8 @@ class AtomNode extends Node {
 
     // Set focus to the particle if requested.
     setFocused && particleView.focus();
+
+    this.updateParticleViewAltInputState();
   }
 
   /**
@@ -494,89 +529,97 @@ class AtomNode extends Node {
    *     overwhelming.  There should be at max one proton, one neutron, and one electron from each shell visible in the
    *     PDOM, plus the particle being dragged.
    */
-  private updateParticleViewAltInputState(): void {
+  public updateParticleViewAltInputState(): void {
 
-    // Get a list of all particle views that are currently children of this node.
+    console.log( '----- updateParticleViewAltInputState called -----' );
+
+    // Get a list of all particle views that are currently children of this node.  This will potentially include
+    // particle views whose particles are not currently in the atom if they are being dragged.
     const allParticleViews = this.getAllParticleViews();
 
-    // Extract the particle views that are for protons.
-    const protonViews = allParticleViews.filter( pv => pv.particle.type === 'proton' );
-
-    // Find out whether there is a currently focused proton.
-    const focusedProtonView = protonViews.find( pv => pv.focused );
-
-    // If there is a focused proton that is in the atom, then we don't need to do anything further for protons.
-    // If there isn't, and there are proton views present, we need to make one of them PDOM visible.
-    let otherPdomVisibleProtonView: ParticleView | null = null;
-    if ( !focusedProtonView || !this.atom.protons.includes( focusedProtonView.particle ) ) {
-
-      // Get the proton view that is closest to the center of the atom, and make it PDOM visible.
-      otherPdomVisibleProtonView = this.getFirstFocusParticleView( 'proton' );
-    }
-
-    // Update the PDOM visibility for the proton views.
-    protonViews.forEach( protonView => {
-      protonView.pdomVisible = protonView === focusedProtonView ||
-                               protonView === otherPdomVisibleProtonView;
+    // TODO: Debugging output, remove later.  See https://github.com/phetsims/build-an-atom/issues/385.
+    console.log( '----- beginning of updateParticleViewAltInputState, focusable node(s):' );
+    let allPotentiallyFocusableNodes = [ ...allParticleViews, this.electronCloud ];
+    let focusableNodes = allPotentiallyFocusableNodes.filter( pv => pv.focusable );
+    focusableNodes.forEach( pv => {
+      console.log( `  ${pv.phetioID}` );
     } );
 
-    // Repeat the process for the neutrons
-    const neutronViews = allParticleViews.filter( nv => nv.particle.type === 'neutron' );
-    const focusedNeutronView = neutronViews.find( nv => nv.focused );
-    let otherPdomVisibleNeutronView: ParticleView | null = null;
-    if ( !focusedNeutronView || !this.atom.neutrons.includes( focusedNeutronView.particle ) ) {
-      otherPdomVisibleNeutronView = this.getFirstFocusParticleView( 'neutron' );
+    // If there is a focused particle that is currently being dragged, make sure it's the only thing that is focusable.
+    const focusedAndDraggingParticleView = allParticleViews.find( pv => pv.focused && pv.particle.isDraggingProperty.value );
+    if ( focusedAndDraggingParticleView ) {
+      console.log( '~~~ making only the dragging particle focusable' );
+      this.makeAllOtherParticleViewsNotFocusable( focusedAndDraggingParticleView );
     }
-    neutronViews.forEach( neutronView => {
-      neutronView.pdomVisible = neutronView === focusedNeutronView ||
-                                neutronView === otherPdomVisibleNeutronView;
+
+    const nucleonSortingFunction = ( p1: Particle, p2: Particle ) => {
+      const atomCenter = this.atom.positionProperty.value;
+      const p1Distance = p1.positionProperty.value.distance( atomCenter );
+      const p2Distance = p2.positionProperty.value.distance( atomCenter );
+      return p1Distance - p2Distance;
+    };
+
+    // Handle PDOM visibility for the nucleons (i.e. protons and neutrons).
+    const nucleonTypes = [ 'proton', 'neutron' ] as ParticleType[];
+    nucleonTypes.forEach( nucleonType => {
+      const nucleonViews = allParticleViews.filter(
+        pv => pv.particle.type === nucleonType && this.atom.containsParticle( pv.particle )
+      );
+      const numberOfPdomVisibleNucleonViews = nucleonViews.filter( pv => pv.pdomVisible ).length;
+      if ( nucleonViews.length > 0 && numberOfPdomVisibleNucleonViews !== 1 ) {
+
+        // The most common case for this is that a nucleon was just added so now there are two visible.  In that case,
+        // keep only the one that has focus visible in the PDOM.
+        const focusedNucleonView = nucleonViews.find( pv => pv.focused );
+        if ( numberOfPdomVisibleNucleonViews === 2 && focusedNucleonView ) {
+          const unfocusedNucleonView = nucleonViews.find( pv => !pv.focused );
+          affirm( unfocusedNucleonView, 'There should be an unfocused nucleon view' );
+          unfocusedNucleonView.pdomVisible = false;
+        }
+        else {
+          const particles = nucleonType === 'proton' ? this.atom.protons : this.atom.neutrons;
+          const sortedParticles = [ ...particles ].sort( nucleonSortingFunction );
+          const particleView = this.getParticleView( sortedParticles[ 0 ] );
+          affirm( particleView, 'There should be a particle view for this nucleon' );
+          nucleonViews.forEach( pv => {
+            pv.pdomVisible = pv === particleView;
+          } );
+        }
+      }
     } );
 
-    // electrons
+    // Handle PDOM visibility for the electrons.
     if ( this.electronShellDepictionProperty.value === 'shells' ) {
 
-      // Get a list of all electrons currently in the inner shell.
-      const innerShellElectrons = this.atom.electrons.filter( e => this.getElectronShellNumber( e ) === 0 );
-
-      // Get the views associated with the inner shell electrons.
-      const innerShellElectronViews = allParticleViews.filter( pv => innerShellElectrons.includes( pv.particle ) );
-
-      // Find out whether there is a currently focused inner shell electron.
-      const focusedInnerShellElectronView = innerShellElectronViews.find( e => e.focused );
-
-      // If there is a focused inner shell electron that is in the atom, then we don't need to do anything further for
-      // inner shell electrons.  Otherwise, we need to make sure that one inner shell electron is PDOM visible.
-      let otherPdomVisibleInnerShellElectronView: ParticleView | null = null;
-      if ( !focusedInnerShellElectronView || !this.atom.electrons.includes( focusedInnerShellElectronView.particle ) ) {
-
-        // For consistent behavior, sort these by closest to the top of the atom.
-        innerShellElectronViews.sort(
-          ( ev1, ev2 ) => ev1.particle.destinationProperty.value.y - ev2.particle.destinationProperty.value.y
+      // For each of the electron shells, make sure that only one electron in that shell is PDOM visible, but take care
+      // to prefer the focused electron if there is one.
+      const electronShellNumbers = [ 0, 1 ];
+      electronShellNumbers.forEach( shellNumber => {
+        const electronViewsInShell = allParticleViews.filter(
+          pv => pv.particle.type === 'electron' &&
+                this.atom.containsParticle( pv.particle ) &&
+                this.getElectronShellNumber( pv.particle ) === shellNumber
         );
+        const numberOfPdomVisibleElectronViews = electronViewsInShell.filter( pv => pv.pdomVisible ).length;
+        if ( electronViewsInShell.length > 0 && numberOfPdomVisibleElectronViews !== 1 ) {
 
-        otherPdomVisibleInnerShellElectronView = innerShellElectronViews[ 0 ];
-      }
+          // Sort the electrons by their X position, but if any of them is focused, that trumps everything.
+          electronViewsInShell.sort( ( ev1, ev2 ) => {
+            if ( ev1.focused || ev1.focusable ) {
+              return -1;
+            }
+            else if ( ev2.focused || ev2.focusable ) {
+              return 1;
+            }
+            else {
+              return ev2.particle.destinationProperty.value.x - ev1.particle.destinationProperty.value.x;
+            }
+          } );
 
-      // Update the PDOM visibility for the inner shell electron views.
-      innerShellElectronViews.forEach( electronView => {
-        electronView.pdomVisible = electronView === focusedInnerShellElectronView ||
-                                   electronView === otherPdomVisibleInnerShellElectronView;
-      } );
-
-      // Repeat the process for the outer shell electrons.
-      const outerShellElectrons = this.atom.electrons.filter( e => this.getElectronShellNumber( e ) === 1 );
-      const outerShellElectronViews = allParticleViews.filter( pv => outerShellElectrons.includes( pv.particle ) );
-      const focusedOuterShellElectronView = outerShellElectronViews.find( e => e.focused );
-      let otherPdomVisibleOuterShellElectronView: ParticleView | null = null;
-      if ( !focusedOuterShellElectronView || !this.atom.electrons.includes( focusedOuterShellElectronView.particle ) ) {
-        outerShellElectronViews.sort(
-          ( ev1, ev2 ) => ev1.particle.destinationProperty.value.y - ev2.particle.destinationProperty.value.y
-        );
-        otherPdomVisibleOuterShellElectronView = outerShellElectronViews[ 0 ];
-      }
-      outerShellElectronViews.forEach( electronView => {
-        electronView.pdomVisible = electronView === focusedOuterShellElectronView ||
-                                   electronView === otherPdomVisibleOuterShellElectronView;
+          electronViewsInShell.forEach( ( ev, index ) => {
+            ev.pdomVisible = index === 0;
+          } );
+        }
       } );
 
       // Make sure the electron cloud is not PDOM visible.
@@ -584,29 +627,68 @@ class AtomNode extends Node {
     }
     else {
 
-      // The electrons are currently being represented as a cloud.  The electrons won't show up in the PDOM since they
-      // are made invisible by other portions of the code, so we don't need to worry about them here.  We do need to
-      // set the PDOM visibility of the electron cloud.
+      // The electrons are currently being represented as a cloud.  The individual electron views won't show up in the
+      // PDOM since they are made invisible by other portions of the code, so we don't need to worry about them here.
+      // We *do* need to set the PDOM visibility of the electron cloud.
       this.electronCloud.pdomVisible = this.atom.electrons.length > 0;
     }
 
-    // If there is at least one particle in the atom, then something should be focusable so that the tab order has
-    // something to land on.  Make sure that this is the case.
-    const focusedParticle = allParticleViews.find( pv => pv.focused );
-    if ( allParticleViews.length > 0 && !focusedParticle ) {
-      const focusableParticleViews = allParticleViews.filter( pv => pv.focusable );
+    // Update the focusable state of the particle views and electron cloud.
+    if ( !focusedAndDraggingParticleView ) {
+
+      // Make a list of all particle views that are currently visible in the PDOM.
       const pdomVisibleParticleViews = allParticleViews.filter( pv => pv.pdomVisible );
-      if ( !( focusableParticleViews.length === 1 && pdomVisibleParticleViews.includes( focusableParticleViews[ 0 ] ) ) ) {
-        for ( const particleType of [ 'proton', 'neutron', 'electron' ] as ParticleType[] ) {
-          const focusableParticleView = this.getFirstFocusParticleView( particleType );
-          if ( focusableParticleView ) {
-            focusableParticleView.focusable = true;
-            this.makeAllOtherParticleViewsNotFocusable( focusableParticleView );
-            break;
+
+      // Of these, are any currently focusable?
+      const focusableParticleViews = pdomVisibleParticleViews.filter( pv => pv.focusable );
+
+      // Count the number of focusable nodes, potentially including the electron cloud.
+      const numberOfFocusableNodes = focusableParticleViews.length + ( this.electronCloud.focusable ? 1 : 0 );
+
+      // Only one of these things should be focusable at a time.
+      if ( this.atom.particleCountProperty.value > 0 && numberOfFocusableNodes !== 1 ) {
+
+        console.log( `numberOfFocusableNodes = ${numberOfFocusableNodes}` );
+
+        // Decide which Node should be focusable based on designed priority.
+        const particleNodesInPriorityOrder: Node[] = [];
+        const protonView = pdomVisibleParticleViews.find( pv => pv.particle.type === 'proton' );
+        protonView && particleNodesInPriorityOrder.push( protonView );
+        const neutronView = pdomVisibleParticleViews.find( pv => pv.particle.type === 'neutron' );
+        neutronView && particleNodesInPriorityOrder.push( neutronView );
+        if ( this.electronShellDepictionProperty.value === 'shells' ) {
+          const innerShellElectronView = pdomVisibleParticleViews.find(
+            pv => pv.particle.type === 'electron' && this.getElectronShellNumber( pv.particle ) === 0
+          );
+          innerShellElectronView && particleNodesInPriorityOrder.push( innerShellElectronView );
+          const outerShellElectronView = pdomVisibleParticleViews.find(
+            pv => pv.particle.type === 'electron' && this.getElectronShellNumber( pv.particle ) === 1
+          );
+          outerShellElectronView && particleNodesInPriorityOrder.push( outerShellElectronView );
+        }
+        else {
+          if ( this.electronCloud.pdomVisible ) {
+            particleNodesInPriorityOrder.push( this.electronCloud );
           }
+        }
+
+        // Set the first Node in the priority list to be focusable, and all other particle view not focusable.
+        if ( particleNodesInPriorityOrder.length > 0 ) {
+          const firstFocusableNode = particleNodesInPriorityOrder[ 0 ];
+          allPotentiallyFocusableNodes.forEach( node => {
+            node.focusable = node === firstFocusableNode;
+          } );
         }
       }
     }
+
+    // TODO: Debugging output, remove later.  See https://github.com/phetsims/build-an-atom/issues/385.
+    console.log( '----- end of updateParticleViewAltInputState, focusable node(s):' );
+    allPotentiallyFocusableNodes = [ ...allParticleViews, this.electronCloud ];
+    focusableNodes = allPotentiallyFocusableNodes.filter( pv => pv.focusable );
+    focusableNodes.forEach( pv => {
+      console.log( `  ${pv.phetioID}` );
+    } );
   }
 
   /**
@@ -821,12 +903,19 @@ class AtomNode extends Node {
     this.updateParticleViewAltInputState();
   }
 
+  /**
+   * Set all particle views that are currently children of this atom node, including the electron cloud, to be not
+   * focusable, except for the provided one.
+   */
   public makeAllOtherParticleViewsNotFocusable( focusedParticleView: ParticleView | ElectronCloudView ): void {
     this.getAllParticleViews().forEach( particleView => {
       if ( particleView !== focusedParticleView ) {
         particleView.focusable = false;
       }
     } );
+    if ( this.electronCloud !== focusedParticleView ) {
+      this.electronCloud.focusable = false;
+    }
   }
 
   public override dispose(): void {
