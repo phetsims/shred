@@ -333,7 +333,6 @@ class AtomNode extends Node {
     // Set up a listener that will shift focusability between electrons and the electron cloud when the depiction
     // changes.
     options.electronShellDepictionProperty.lazyLink( electronShellDepiction => {
-      console.log( '   ######### electronShellDepictionProperty.lazyLink' );
       if ( electronShellDepiction === 'shells' ) {
         if ( this.electronCloud.focusable ) {
 
@@ -342,7 +341,6 @@ class AtomNode extends Node {
           const innerShellElectrons = atom.electrons.filter( e => this.getElectronShellNumber( e ) === 0 );
           innerShellElectrons.sort( ( e1, e2 ) => e2.destinationProperty.value.x - e1.destinationProperty.value.x );
           const firstElectronView = this.getParticleView( innerShellElectrons[ 0 ] );
-          console.log( `firstElectronView.phetioID = ${firstElectronView!.phetioID}` );
           affirm(
             firstElectronView || isResettingAllProperty.value,
             'There should be at least one electron view if the cloud is focusable (except maybe during reset).'
@@ -546,24 +544,13 @@ class AtomNode extends Node {
    */
   public updateParticleViewAltInputState(): void {
 
-    console.log( '----- updateParticleViewAltInputState called -----' );
-
     // Get a list of all particle views that are currently children of this node.  This will potentially include
     // particle views whose particles are not currently in the atom if they are being dragged.
     const allParticleViews = this.getAllParticleViews();
 
-    // TODO: Debugging output, remove later.  See https://github.com/phetsims/build-an-atom/issues/385.
-    console.log( '----- beginning of updateParticleViewAltInputState, focusable node(s):' );
-    let allPotentiallyFocusableNodes = [ ...allParticleViews, this.electronCloud ];
-    let focusableNodes = allPotentiallyFocusableNodes.filter( pv => pv.focusable );
-    focusableNodes.forEach( pv => {
-      console.log( `  ${pv.phetioID}` );
-    } );
-
     // If there is a focused particle that is currently being dragged, make sure it's the only thing that is focusable.
     const focusedAndDraggingParticleView = allParticleViews.find( pv => pv.focused && pv.particle.isDraggingProperty.value );
     if ( focusedAndDraggingParticleView ) {
-      console.log( '~~~ making only the dragging particle focusable' );
       this.makeAllOtherParticleViewsNotFocusable( focusedAndDraggingParticleView );
     }
 
@@ -663,8 +650,6 @@ class AtomNode extends Node {
       // Only one of these things should be focusable at a time.
       if ( this.atom.particleCountProperty.value > 0 && numberOfFocusableNodes !== 1 ) {
 
-        console.log( `numberOfFocusableNodes = ${numberOfFocusableNodes}` );
-
         // Decide which Node should be focusable based on designed priority.
         const particleNodesInPriorityOrder: Node[] = [];
         const protonView = pdomVisibleParticleViews.find( pv => pv.particle.type === 'proton' );
@@ -699,20 +684,15 @@ class AtomNode extends Node {
           else {
             nodeToBeFocusable = particleNodesInPriorityOrder[ 0 ];
           }
+
+          // Make only the selected node focusable.
+          const allPotentiallyFocusableNodes = [ ...pdomVisibleParticleViews, this.electronCloud ];
           allPotentiallyFocusableNodes.forEach( node => {
             node.focusable = node === nodeToBeFocusable;
           } );
         }
       }
     }
-
-    // TODO: Debugging output, remove later.  See https://github.com/phetsims/build-an-atom/issues/385.
-    console.log( '----- end of updateParticleViewAltInputState, focusable node(s):' );
-    allPotentiallyFocusableNodes = [ ...allParticleViews, this.electronCloud ];
-    focusableNodes = allPotentiallyFocusableNodes.filter( pv => pv.focusable );
-    focusableNodes.forEach( pv => {
-      console.log( `  ${pv.phetioID}` );
-    } );
   }
 
   /**
