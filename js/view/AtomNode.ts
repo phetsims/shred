@@ -17,6 +17,7 @@ import Shape from '../../../kite/js/Shape.js';
 import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
+import isResettingAllProperty from '../../../scenery-phet/js/isResettingAllProperty.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import GroupHighlightPath from '../../../scenery/js/accessibility/GroupHighlightPath.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
@@ -342,12 +343,26 @@ class AtomNode extends Node {
           innerShellElectrons.sort( ( e1, e2 ) => e2.destinationProperty.value.x - e1.destinationProperty.value.x );
           const firstElectronView = this.getParticleView( innerShellElectrons[ 0 ] );
           console.log( `firstElectronView.phetioID = ${firstElectronView!.phetioID}` );
-          affirm( firstElectronView, 'There should be at least one electron view if the cloud is focusable.' );
-          firstElectronView.focusable = true;
+          affirm(
+            firstElectronView || isResettingAllProperty.value,
+            'There should be at least one electron view if the cloud is focusable (except maybe during reset).'
+          );
+          if ( firstElectronView ) {
+            firstElectronView.focusable = true;
+          }
           this.electronCloud.focusable = false;
         }
+
+        // Make sure individual electrons are not PDOM visible.
+        this.getAllParticleViews().forEach( pv => {
+          if ( pv.particle.type === 'electron' ) {
+            pv.pdomVisible = false;
+          }
+        } );
       }
       else {
+
+        // The depiction is now cloud, so if any electrons are focusable, transfer focusability to the cloud.
         const focusableElectronViews = this.getAllParticleViews().filter(
           pv => pv.particle.type === 'electron' && pv.focusable
         );
