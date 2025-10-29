@@ -687,11 +687,20 @@ class AtomNode extends Node {
           }
         }
 
-        // Set the first Node in the priority list to be focusable, and all other particle view not focusable.
         if ( particleNodesInPriorityOrder.length > 0 ) {
-          const firstFocusableNode = particleNodesInPriorityOrder[ 0 ];
+
+          // If any of these nodes currently has the focus, leave it focusable, i.e. to force it to be defocused.
+          let nodeToBeFocusable;
+          const currentlyFocusedNodes = particleNodesInPriorityOrder.filter( node => node.focused );
+          affirm( currentlyFocusedNodes.length <= 1, 'There should not be more than one currently focused node.' );
+          if ( currentlyFocusedNodes.length === 1 ) {
+            nodeToBeFocusable = currentlyFocusedNodes[ 0 ];
+          }
+          else {
+            nodeToBeFocusable = particleNodesInPriorityOrder[ 0 ];
+          }
           allPotentiallyFocusableNodes.forEach( node => {
-            node.focusable = node === firstFocusableNode;
+            node.focusable = node === nodeToBeFocusable;
           } );
         }
       }
