@@ -23,6 +23,7 @@ import GroupHighlightPath from '../../../scenery/js/accessibility/GroupHighlight
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Text from '../../../scenery/js/nodes/Text.js';
+import isSettingPhetioStateProperty from '../../../tandem/js/isSettingPhetioStateProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import Particle, { ParticleType } from '../model/Particle.js';
@@ -374,6 +375,15 @@ class AtomNode extends Node {
         }
       }
       this.updateParticleViewAltInputState();
+    } );
+
+    // The order in which phet-io sets up the state attributes of the atom causes the focusable particle to be incorrect
+    // at startup, so we update the state at the end of the setup process.  See
+    // https://github.com/phetsims/build-an-atom/issues/382.
+    isSettingPhetioStateProperty.lazyLink( isSetting => {
+      if ( !isSetting ) {
+        this.updateParticleViewAltInputState();
+      }
     } );
 
     // Create the disposal function.
