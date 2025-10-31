@@ -300,8 +300,8 @@ type StringsType = {
       'neutronStringProperty': LocalizedStringProperty;
       'electron': string;
       'electronStringProperty': LocalizedStringProperty;
-      'electronCloud': string;
-      'electronCloudStringProperty': LocalizedStringProperty;
+      'electronInCloud': string;
+      'electronInCloudStringProperty': LocalizedStringProperty;
       'protons': string;
       'protonsStringProperty': LocalizedStringProperty;
       'neutrons': string;

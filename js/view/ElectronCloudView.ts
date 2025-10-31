@@ -57,7 +57,7 @@ class ElectronCloudView extends Node {
         cursor: 'pointer',
         focusHighlight: focusHighlight,
         focusable: false, // initially not focusable, set to true when there are electrons
-        accessibleName: ShredStrings.a11y.particles.electronCloudStringProperty,
+        accessibleName: ShredStrings.a11y.particles.electronInCloudStringProperty,
         phetioVisiblePropertyInstrumented: false // Don't allow phet-io users to hide this.
       },
       providedOptions
