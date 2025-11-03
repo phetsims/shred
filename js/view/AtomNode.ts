@@ -173,12 +173,13 @@ class AtomNode extends Node {
                                     positionInShellsDepiction : positionInCloudDepiction;
     };
 
-    const updateElectronShellDepictionVisibility = ( depiction: ElectronShellDepiction ) => {
+    const electronShellDepictionListener = ( depiction: ElectronShellDepiction ) => {
       electronShell.visible = depiction === 'shells';
       this.electronCloud.visible = depiction === 'cloud';
       updateTextPosition();
+      this.updateParticleViewAltInputState();
     };
-    options.electronShellDepictionProperty.link( updateElectronShellDepictionVisibility );
+    options.electronShellDepictionProperty.link( electronShellDepictionListener );
 
     // Define the update function for the element name.
     const updateElementName = () => {
@@ -397,7 +398,7 @@ class AtomNode extends Node {
         atom.protonCountProperty.unlink( countListener );
       }
 
-      options.electronShellDepictionProperty.unlink( updateElectronShellDepictionVisibility );
+      options.electronShellDepictionProperty.unlink( electronShellDepictionListener );
       options.electronShellDepictionProperty.unlink( updateParticleViewAltInputState );
       atom.protonCountProperty.unlink( updateElementName );
       options.showElementNameProperty.unlink( updateElementNameVisibility );
