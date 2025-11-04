@@ -662,11 +662,12 @@ class AtomNode extends Node {
       if ( this.atom.particleCountProperty.value > 0 && numberOfFocusableNodes !== 1 ) {
 
         // Decide which Node should be focusable based on designed priority.
-        const particleNodesInPriorityOrder: Node[] = [];
+        const particleNodesInPriorityOrder: ( ParticleView | ElectronCloudView )[] = [];
         const protonView = pdomVisibleParticleViews.find( pv => pv.particle.type === 'proton' );
         protonView && particleNodesInPriorityOrder.push( protonView );
         const neutronView = pdomVisibleParticleViews.find( pv => pv.particle.type === 'neutron' );
         neutronView && particleNodesInPriorityOrder.push( neutronView );
+        this.electronCloud.focusable = false; // will be set true below if needed
         if ( this.electronShellDepictionProperty.value === 'shells' ) {
           const innerShellElectronView = pdomVisibleParticleViews.find(
             pv => pv.particle.type === 'electron' && this.getElectronShellNumber( pv.particle ) === 0
@@ -686,7 +687,7 @@ class AtomNode extends Node {
         if ( particleNodesInPriorityOrder.length > 0 ) {
 
           // If any of these nodes currently has the focus, leave it focusable, i.e. to force it to be defocused.
-          let nodeToBeFocusable;
+          let nodeToBeFocusable: ParticleView | ElectronCloudView;
           const currentlyFocusedNodes = particleNodesInPriorityOrder.filter( node => node.focused );
           affirm( currentlyFocusedNodes.length <= 1, 'There should not be more than one currently focused node.' );
           if ( currentlyFocusedNodes.length === 1 ) {
@@ -697,11 +698,14 @@ class AtomNode extends Node {
           }
 
           // Make only the selected node focusable.
-          const allPotentiallyFocusableNodes = [ ...pdomVisibleParticleViews, this.electronCloud ];
-          allPotentiallyFocusableNodes.forEach( node => {
-            node.focusable = node === nodeToBeFocusable;
-          } );
+          nodeToBeFocusable.focusable = true;
+          this.makeAllOtherParticleViewsNotFocusable( nodeToBeFocusable );
         }
+      }
+      else if ( this.atom.electrons.length === 0 ) {
+
+        // There are no particles in the atom, so make sure the electron cloud is not focusable.
+        this.electronCloud.focusable = false;
       }
     }
   }
