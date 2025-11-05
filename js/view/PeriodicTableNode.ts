@@ -77,7 +77,7 @@ class PeriodicTableNode extends Node {
       selectedCellColor: SELECTED_CELL_COLOR
     }, providedOptions );
 
-    super();
+    super( options );
 
     let elementIndex = 1;
     for ( let i = 0; i < POPULATED_CELLS.length; i++ ) {
