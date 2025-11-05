@@ -61,6 +61,9 @@ type SelfOptions = {
   showNeutralOrIonProperty?: TReadOnlyProperty<boolean>;
   showStableOrUnstableProperty?: TReadOnlyProperty<boolean>;
   electronShellDepictionProperty?: TReadOnlyProperty<ElectronShellDepiction>;
+
+  // Optional describer for the atom, used for accessibility.
+  atomDescriber?: Node | null;
 };
 
 export type AtomNodeOptions = SelfOptions & NodeOptions;
@@ -96,6 +99,7 @@ class AtomNode extends Node {
       showNeutralOrIonProperty: new Property( true ),
       showStableOrUnstableProperty: new Property( true ),
       electronShellDepictionProperty: new Property( 'shells' ),
+      atomDescriber: null,
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
@@ -427,6 +431,15 @@ class AtomNode extends Node {
         modelViewTransform.modelToViewDeltaX( atom.outerElectronShellRadius * 1.1 )
       )
     );
+
+    if ( options.atomDescriber ) {
+      this.addChild( options.atomDescriber );
+    }
+
+    this.pdomOrder = [
+      options.atomDescriber || new Node(),
+      ...this.particleLayers
+    ];
   }
 
   /**
