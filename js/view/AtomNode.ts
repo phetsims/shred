@@ -103,7 +103,7 @@ class AtomNode extends Node {
       tandem: Tandem.REQUIRED
     }, providedOptions );
 
-    super();
+    super( options );
 
     this.atom = atom;
     this.electronShellDepictionProperty = options.electronShellDepictionProperty;
@@ -419,8 +419,6 @@ class AtomNode extends Node {
       this.ionIndicatorText.dispose();
       this.stabilityIndicatorText.dispose();
     };
-
-    this.mutate( options );
 
     // Add the model as a linked element so that it can be easily navigated to in the phet-io tree.
     this.addLinkedElement( this.atom );
