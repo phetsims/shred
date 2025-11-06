@@ -174,31 +174,10 @@ class PeriodicTableNode extends Node {
           }
           else {
             if ( keysPressed === 'arrowRight' || keysPressed === 'd' ) {
-              let proposedProtonCount = Math.min( protonCountProperty.value + 1, options.interactiveMax );
-              if ( proposedProtonCount === 58 ) {
-
-                // When the element index is 58, it corresponds to Cerium (Ce), which is the start of the lanthanides,
-                // it should jump to 72, which is Hafnium (Hf), back on the main table.
-                proposedProtonCount = 72;
-              }
-              if ( proposedProtonCount === 90 ) {
-
-                // When the element index is 90, it corresponds to Thorium (Th), which is the start of the actinides,
-                // it should jump to 104, which is Rutherfordium (Rf), back on the main table.
-                proposedProtonCount = 104;
-              }
-
-              protonCountProperty.value = proposedProtonCount;
+              protonCountProperty.value = PeriodicTableNode.move( protonCountProperty.value, +1, 0 );
             }
             else if ( keysPressed === 'arrowLeft' || keysPressed === 'a' ) {
-              let proposedProtonCount = Math.max( protonCountProperty.value - 1, 1 );
-              if ( proposedProtonCount === 71 ) {
-                proposedProtonCount = 57;
-              }
-              if ( proposedProtonCount === 103 ) {
-                proposedProtonCount = 89;
-              }
-              protonCountProperty.value = proposedProtonCount;
+              protonCountProperty.value = PeriodicTableNode.move( protonCountProperty.value, -1, 0 );
             }
             else if ( keysPressed === 'arrowDown' || keysPressed === 's' ) {
               protonCountProperty.value = PeriodicTableNode.move( protonCountProperty.value, 0, +1 );
@@ -218,22 +197,46 @@ class PeriodicTableNode extends Node {
   }
 
   /**
-   * Given an element index (atomic number), return its coordinates in the periodic table grid.
-   * This function ignores the lanthanides and actinides series, only based on POPULATED_CELLS.
+   * Moves around the periodic table based on dx and dy values.
+   * When moving horizontally we go to elementIndex + dx, then back to protonCount.
+   * When moving vertically, we need to find the coordinates above or below, find element index, and then back to protonCount.
    */
-  private static elementIndexToCoordinates( elementIndex: number ): Vector2 {
-    let row = 0;
-    let column = 0;
+  private static move( protonCount: number, dx: number, dy: number ): number {
+    if ( dx !== 0 ) {
+      protonCount = PeriodicTableNode.elementIndexToProtonCount( PeriodicTableNode.protonCountToElementIndex( protonCount ) + dx );
+    }
+    if ( dy !== 0 ) {
+      const currentCoordinates = PeriodicTableNode.protonCountToCoordinates( protonCount );
+      const proposedNewCoordinates = new Vector2( currentCoordinates.x + dx, currentCoordinates.y + dy );
 
-    for ( let i = 0; i < elementIndex; i++ ) {
-      column++;
-      if ( POPULATED_CELLS[ row ].length === column ) {
-        row++;
-        column = 0;
+      if ( proposedNewCoordinates.y >= 0 && proposedNewCoordinates.y < POPULATED_CELLS.length &&
+           POPULATED_CELLS[ proposedNewCoordinates.y ].includes( currentCoordinates.x )
+      ) {
+        protonCount = PeriodicTableNode.coordinatesToProtonCount( proposedNewCoordinates );
       }
     }
+    return protonCount;
+  }
 
-    return new Vector2( POPULATED_CELLS[ row ][ column ], row );
+
+  /**
+   * Coordinate transformation utility functions: We use 3 identifications of an element:
+   * 1) protonCount: number of protons, from 1 to 118
+   * 2) elementIndex: index of the element in the periodic table ignoring lanthanides and actinides,
+   *    sequential from 0 to 87
+   * 3) coordinates: (x,y) coordinates in the periodic table grid
+   *
+   * In order to navigate the table with arrow keys, we need to be able to convert between these identifications.
+   */
+
+  public static protonCountToCoordinates( protonCount: number ): Vector2 {
+    const elementIndex = PeriodicTableNode.protonCountToElementIndex( protonCount );
+    return PeriodicTableNode.elementIndexToCoordinates( elementIndex );
+  }
+
+  private static coordinatesToProtonCount( coordinates: Vector2 ): number {
+    const elementIndex = PeriodicTableNode.coordinatesToElementIndex( coordinates );
+    return PeriodicTableNode.elementIndexToProtonCount( elementIndex );
   }
 
   private static protonCountToElementIndex( protonCount: number ): number {
@@ -264,6 +267,21 @@ class PeriodicTableNode extends Node {
     return protonCount;
   }
 
+  private static elementIndexToCoordinates( elementIndex: number ): Vector2 {
+    let row = 0;
+    let column = 0;
+
+    for ( let i = 0; i < elementIndex; i++ ) {
+      column++;
+      if ( POPULATED_CELLS[ row ].length === column ) {
+        row++;
+        column = 0;
+      }
+    }
+
+    return new Vector2( POPULATED_CELLS[ row ][ column ], row );
+  }
+
   private static coordinatesToElementIndex( coordinates: Vector2 ): number {
     let elementIndex = 0;
     for ( let i = 0; i < coordinates.y; i++ ) {
@@ -276,28 +294,6 @@ class PeriodicTableNode extends Node {
       }
     }
     return elementIndex;
-  }
-
-  public static protonCountToCoordinates( protonCount: number ): Vector2 {
-    const elementIndex = PeriodicTableNode.protonCountToElementIndex( protonCount );
-    return PeriodicTableNode.elementIndexToCoordinates( elementIndex );
-  }
-
-  private static coordinatesToProtonCount( coordinates: Vector2 ): number {
-    const elementIndex = PeriodicTableNode.coordinatesToElementIndex( coordinates );
-    return PeriodicTableNode.elementIndexToProtonCount( elementIndex );
-  }
-
-  private static move( protonCount: number, dx: number, dy: number ): number {
-    const currentCoordinates = PeriodicTableNode.protonCountToCoordinates( protonCount );
-    const proposedNewCoordinates = new Vector2( currentCoordinates.x + dx, currentCoordinates.y + dy );
-
-    if ( proposedNewCoordinates.y >= 0 && proposedNewCoordinates.y < POPULATED_CELLS.length &&
-          POPULATED_CELLS[ proposedNewCoordinates.y ].includes( currentCoordinates.x )
-    ) {
-      return PeriodicTableNode.coordinatesToProtonCount( proposedNewCoordinates );
-    }
-    return protonCount;
   }
 }
 
