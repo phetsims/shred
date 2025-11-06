@@ -43,6 +43,7 @@ export type CellColor = {
 };
 
 class PeriodicTableCell extends Rectangle {
+  public readonly atomicNumber: number;
   private readonly disposePeriodicTableCell: VoidFunction;
   private readonly strokeHighlightColor: TColor;
   private readonly strokeHighlightWidth: number;
@@ -80,6 +81,7 @@ class PeriodicTableCell extends Rectangle {
       cursor: options.protonCountProperty ? 'pointer' : null
     } );
 
+    this.atomicNumber = atomicNumber;
     this.strokeHighlightColor = options.strokeHighlightColor;
     this.strokeHighlightWidth = options.strokeHighlightWidth;
     this.showLabels = options.showLabels;
