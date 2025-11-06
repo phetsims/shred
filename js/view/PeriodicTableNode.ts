@@ -201,24 +201,10 @@ class PeriodicTableNode extends Node {
               protonCountProperty.value = proposedProtonCount;
             }
             else if ( keysPressed === 'arrowDown' || keysPressed === 's' ) {
-              const currentCoordinates = PeriodicTableNode.getElementCoordinates( protonCountProperty.value );
-              const proposedNewCoordinates = new Vector2( currentCoordinates.x, currentCoordinates.y + 1 );
-              if ( proposedNewCoordinates.y < POPULATED_CELLS.length ) {
-                const proposedElementIndex = PeriodicTableNode.tableCoordinatesToElementIndex( proposedNewCoordinates );
-                affirm( this.cells[ proposedElementIndex ], 'proposedElementIndex should be valid' );
-                protonCountProperty.value = this.cells[ proposedElementIndex ].atomicNumber;
-              }
-              // else do nothing, at bottom of table
+              protonCountProperty.value = PeriodicTableNode.move( protonCountProperty.value, 0, +1 );
             }
             else if ( keysPressed === 'arrowUp' || keysPressed === 'w' ) {
-              const currentCoordinates = PeriodicTableNode.getElementCoordinates( protonCountProperty.value );
-              const proposedNewCoordinates = new Vector2( currentCoordinates.x, currentCoordinates.y - 1 );
-              if ( proposedNewCoordinates.y >= 0 ) {
-                const proposedElementIndex = PeriodicTableNode.tableCoordinatesToElementIndex( proposedNewCoordinates );
-                affirm( this.cells[ proposedElementIndex ], 'proposedElementIndex should be valid' );
-                protonCountProperty.value = this.cells[ proposedElementIndex ].atomicNumber;
-              }
-              // else do nothing, at top of table
+              protonCountProperty.value = PeriodicTableNode.move( protonCountProperty.value, 0, -1 );
             }
           }
         }
@@ -235,19 +221,19 @@ class PeriodicTableNode extends Node {
    * Given an element index (atomic number), return its coordinates in the periodic table grid.
    * This function ignores the lanthanides and actinides series, only based on POPULATED_CELLS.
    */
-  public static getElementCoordinates( elementIndex: number ): Vector2 {
+  private static elementIndexToCoordinates( elementIndex: number ): Vector2 {
     let row = 0;
     let column = 0;
 
     for ( let i = 0; i < elementIndex; i++ ) {
+      column++;
       if ( POPULATED_CELLS[ row ].length === column ) {
         row++;
         column = 0;
       }
-      column++;
     }
 
-    return new Vector2( POPULATED_CELLS[ row ][ column - 1 ], row );
+    return new Vector2( POPULATED_CELLS[ row ][ column ], row );
   }
 
   private static protonCountToElementIndex( protonCount: number ): number {
@@ -265,7 +251,20 @@ class PeriodicTableNode extends Node {
     return elementIndex;
   }
 
-  private static tableCoordinatesToElementIndex( coordinates: Vector2 ): number {
+  private static elementIndexToProtonCount( elementIndex: number ): number {
+    let protonCount = elementIndex + 1;
+
+    // adjust for lanthanides and actinides
+    if ( protonCount >= 58 ) {
+      protonCount += 14;
+    }
+    if ( protonCount >= 90 ) {
+      protonCount += 14;
+    }
+    return protonCount;
+  }
+
+  private static coordinatesToElementIndex( coordinates: Vector2 ): number {
     let elementIndex = 0;
     for ( let i = 0; i < coordinates.y; i++ ) {
       elementIndex += POPULATED_CELLS[ i ].length;
@@ -277,6 +276,28 @@ class PeriodicTableNode extends Node {
       }
     }
     return elementIndex;
+  }
+
+  public static protonCountToCoordinates( protonCount: number ): Vector2 {
+    const elementIndex = PeriodicTableNode.protonCountToElementIndex( protonCount );
+    return PeriodicTableNode.elementIndexToCoordinates( elementIndex );
+  }
+
+  private static coordinatesToProtonCount( coordinates: Vector2 ): number {
+    const elementIndex = PeriodicTableNode.coordinatesToElementIndex( coordinates );
+    return PeriodicTableNode.elementIndexToProtonCount( elementIndex );
+  }
+
+  private static move( protonCount: number, dx: number, dy: number ): number {
+    const currentCoordinates = PeriodicTableNode.protonCountToCoordinates( protonCount );
+    const proposedNewCoordinates = new Vector2( currentCoordinates.x + dx, currentCoordinates.y + dy );
+
+    if ( proposedNewCoordinates.y >= 0 && proposedNewCoordinates.y < POPULATED_CELLS.length &&
+          POPULATED_CELLS[ proposedNewCoordinates.y ].includes( currentCoordinates.x )
+    ) {
+      return PeriodicTableNode.coordinatesToProtonCount( proposedNewCoordinates );
+    }
+    return protonCount;
   }
 }
 
