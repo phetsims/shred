@@ -21,6 +21,7 @@ import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2
 import isResettingAllProperty from '../../../scenery-phet/js/isResettingAllProperty.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import GroupHighlightPath from '../../../scenery/js/accessibility/GroupHighlightPath.js';
+import { PDOMValueType } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -64,6 +65,11 @@ type SelfOptions = {
 
   // Optional describer for the atom, used for accessibility.
   atomDescriber?: Node | null;
+
+  // Options for adding descriptions to the particles comprising the atom.
+  particlesDescriptionOptions?: {
+    accessibleParagraph?: PDOMValueType;
+  };
 };
 
 export type AtomNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
@@ -99,7 +105,10 @@ class AtomNode extends Node {
       showNeutralOrIonProperty: new Property( true ),
       showStableOrUnstableProperty: new Property( true ),
       electronShellDepictionProperty: new Property( 'shells' ),
-      atomDescriber: null
+      atomDescriber: null,
+      particlesDescriptionOptions: {
+        accessibleParagraph: null
+      }
     }, providedOptions );
 
     super( options );
@@ -433,8 +442,14 @@ class AtomNode extends Node {
       this.addChild( options.atomDescriber );
     }
 
+    const particlesDescriber = new Node( {
+      accessibleParagraph: options.particlesDescriptionOptions?.accessibleParagraph
+    } );
+    this.addChild( particlesDescriber );
+
     this.pdomOrder = [
       options.atomDescriber || new Node(),
+      particlesDescriber,
       ...this.particleLayers
     ];
   }

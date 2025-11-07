@@ -82,7 +82,8 @@ class PeriodicTableNode extends Node {
       labelTextHighlightFill: 'black',
       enabledCellColor: ENABLED_CELL_COLOR,
       disabledCellColor: DISABLED_CELL_COLOR,
-      selectedCellColor: SELECTED_CELL_COLOR
+      selectedCellColor: SELECTED_CELL_COLOR,
+      pdomVisible: false
     }, providedOptions );
 
     affirm( options.interactiveMax === 0 || isTProperty<number>( protonCountProperty ),
