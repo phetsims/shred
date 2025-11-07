@@ -5,10 +5,10 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
+import {TReadOnlyProperty} from '../../axon/js/TReadOnlyProperty.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -329,6 +329,7 @@ const ShredFluent = {
   unstableStringProperty: _.get( ShredStrings, 'unstableStringProperty' ),
   periodicTableStringProperty: _.get( ShredStrings, 'periodicTableStringProperty' ),
   a11y: {
+    spokenSymbolStringProperty: _.get( ShredStrings, 'a11y.spokenSymbolStringProperty' ),
     particleCounts: {
       accessibleListNode: {
         protons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_protons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.protonsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),

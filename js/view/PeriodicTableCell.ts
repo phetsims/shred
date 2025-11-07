@@ -69,17 +69,18 @@ class PeriodicTableCell extends Rectangle {
       strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
       labelTextHighlightFill: 'black', // fill of label text when highlighted
       protonCountProperty: null,
+
+      stroke: 'black',
+      lineWidth: 1,
+      fill: providedOptions && providedOptions.protonCountProperty ? cellColor.enabled : cellColor.disabled,
+      cursor: providedOptions && providedOptions.protonCountProperty ? 'pointer' : null,
+
       soundPlayer: sharedSoundPlayers.get( 'generalSoftClick' ) // sound to play when cell is clicked
     }, providedOptions );
 
     const normalFill = options.protonCountProperty ? cellColor.enabled : cellColor.disabled;
 
-    super( 0, 0, options.length, options.length, 0, 0, {
-      stroke: 'black',
-      lineWidth: 1,
-      fill: normalFill,
-      cursor: options.protonCountProperty ? 'pointer' : null
-    } );
+    super( 0, 0, options.length, options.length, 0, 0, options );
 
     this.atomicNumber = atomicNumber;
     this.strokeHighlightColor = options.strokeHighlightColor;

@@ -132,6 +132,7 @@ unstable: Unstable
 periodicTable: Periodic Table
 
 a11y:
+  spokenSymbol: "upper {{symbol}}"
   particleCounts:
     accessibleListNode:
       protons: |-

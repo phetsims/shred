@@ -9,15 +9,19 @@
 import TProperty, { isTProperty } from '../../../axon/js/TProperty.js';
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
+import Shape from '../../../kite/js/Shape.js';
 import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
+import GroupHighlightPath from '../../../scenery/js/accessibility/GroupHighlightPath.js';
+import HighlightFromNode from '../../../scenery/js/accessibility/HighlightFromNode.js';
 import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
 import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import PeriodicTableCell, { CellColor } from './PeriodicTableCell.js';
@@ -113,8 +117,14 @@ class PeriodicTableNode extends Node {
           strokeHighlightColor: options.strokeHighlightColor,
           labelTextHighlightFill: options.labelTextHighlightFill,
           length: options.cellDimension,
-          tandem: Tandem.OPT_OUT
+          tandem: Tandem.OPT_OUT,
+
+          tagName: 'button',
+          focusable: true,
+          pdomVisible: false,
+          accessibleName: AtomIdentifier.getSpokenSymbol( protonCount )
         } );
+        cell.focusHighlight = new HighlightFromNode( cell );
         cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );
         this.addChild( cell );
         this.cells.push( cell );
@@ -140,15 +150,20 @@ class PeriodicTableNode extends Node {
     const updateHighlightedCell = ( protonCount: number ) => {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
+        highlightedCell.pdomVisible = false;
       }
       if ( protonCount !== 0 ) {
         const elementIndex = PeriodicTableNode.protonCountToElementIndex( protonCount );
         highlightedCell = this.cells[ elementIndex ];
         highlightedCell.moveToFront();
         highlightedCell.setHighlighted( true );
+        highlightedCell.pdomVisible = true;
+        highlightedCell.focus();
       }
     };
     protonCountProperty.link( updateHighlightedCell );
+
+    this.groupFocusHighlight = new GroupHighlightPath( Shape.bounds( this.bounds ) );
 
     this.disposePeriodicTableNode = () => {
       this.children.forEach( node => node.dispose() );

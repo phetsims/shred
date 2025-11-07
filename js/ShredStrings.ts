@@ -277,6 +277,8 @@ type StringsType = {
   'periodicTable': string;
   'periodicTableStringProperty': LocalizedStringProperty;
   'a11y': {
+    'spokenSymbol': string;
+    'spokenSymbolStringProperty': LocalizedStringProperty;
     'particleCounts': {
       'accessibleListNode': {
         'protons': string;
