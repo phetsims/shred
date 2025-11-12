@@ -9,12 +9,11 @@
 import TProperty, { isTProperty } from '../../../axon/js/TProperty.js';
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
-import Shape from '../../../kite/js/Shape.js';
 import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
-import GroupHighlightPath from '../../../scenery/js/accessibility/GroupHighlightPath.js';
 import HighlightFromNode from '../../../scenery/js/accessibility/HighlightFromNode.js';
+import { PDOMValueType } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
 import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
@@ -55,6 +54,9 @@ type SelfOptions = {
   enabledCellColor?: TColor | LinearGradient;
   disabledCellColor?: TColor;
   selectedCellColor?: TColor;
+
+  // Accessibility
+  cellAriaRoleDescription?: PDOMValueType;
 };
 
 type PeriodicTableNodeOptions = SelfOptions & NodeOptions;
@@ -83,7 +85,8 @@ class PeriodicTableNode extends Node {
       enabledCellColor: ENABLED_CELL_COLOR,
       disabledCellColor: DISABLED_CELL_COLOR,
       selectedCellColor: SELECTED_CELL_COLOR,
-      pdomVisible: false
+      pdomVisible: false,
+      cellAriaRoleDescription: null
     }, providedOptions );
 
     affirm( options.interactiveMax === 0 || isTProperty<number>( protonCountProperty ),
@@ -120,7 +123,9 @@ class PeriodicTableNode extends Node {
           length: options.cellDimension,
           tandem: Tandem.OPT_OUT,
 
-          tagName: 'button',
+          tagName: 'div',
+          ariaRole: 'figure',
+          accessibleRoleDescription: 'selected element',
           focusable: true,
           pdomVisible: false,
           accessibleName: AtomIdentifier.getSpokenSymbol( protonCount )
@@ -164,7 +169,7 @@ class PeriodicTableNode extends Node {
     };
     protonCountProperty.link( updateHighlightedCell );
 
-    this.groupFocusHighlight = new GroupHighlightPath( Shape.bounds( this.bounds ) );
+    // this.groupFocusHighlight = new GroupHighlightPath( Shape.bounds( this.bounds ) );
 
     this.disposePeriodicTableNode = () => {
       this.children.forEach( node => node.dispose() );
