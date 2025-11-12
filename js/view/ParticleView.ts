@@ -13,7 +13,7 @@ import Shape from '../../../kite/js/Shape.js';
 import { combineOptions, optionize4 } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import AccessibleDraggableOptions from '../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
-import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-phet/js/SoundDragListener.js';
+import SoundDragListener from '../../../scenery-phet/js/SoundDragListener.js';
 import HighlightPath from '../../../scenery/js/accessibility/HighlightPath.js';
 import { PressListenerEvent } from '../../../scenery/js/listeners/PressListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
@@ -100,12 +100,19 @@ class ParticleView extends Node {
     };
     particle.positionProperty.link( updateParticlePosition );
 
-    const dragListenerOptions = {
+    // add a drag listener
+    this.dragListener = new SoundDragListener( {
       positionProperty: particle.destinationProperty,
       applyOffset: false,
       transform: modelViewTransform,
       targetNode: this,
       dragBoundsProperty: options.dragBounds ? new Property( options.dragBounds ) : null,
+
+      // Offset the position a little if this is a touch pointer so that the finger doesn't cover the particle.
+      offsetPosition: ( viewPoint, dragListener ) => {
+        return options.touchOffset && dragListener.pointer.isTouchLike() ? options.touchOffset : Vector2.ZERO;
+      },
+
       start: () => {
 
         // If there is an animation in progress, cancel it by setting the destination to the current position.
@@ -115,7 +122,6 @@ class ParticleView extends Node {
 
         this.addAccessibleObjectResponse( ShredStrings.a11y.grabbedStringProperty, { alertBehavior: 'queue' } );
       },
-
       drag: () => {
 
         // Once the particle is being dragged, set a value indicating that the particle is user controlled.
@@ -124,25 +130,13 @@ class ParticleView extends Node {
         // Because the destination property is what is being set by the drag listener, we need to tell the particle to
         // go immediately to its destination when a drag occurs.
         this.particle.moveImmediatelyToDestination();
-      }
-    };
-
-    // add a drag listener
-    this.dragListener = new SoundDragListener( combineOptions<SoundDragListenerOptions>( {
-        tandem: options.tandem.createTandem( 'dragListener' ),
-
-        // Offset the position a little if this is a touch pointer so that the finger doesn't cover the particle.
-        offsetPosition: ( viewPoint, dragListener ) => {
-          return options.touchOffset && dragListener.pointer.isTouchLike() ? options.touchOffset : Vector2.ZERO;
-        },
-
-        end: () => {
-          this.particle.isDraggingProperty.set( false );
-          this.addAccessibleObjectResponse( ShredStrings.a11y.releasedStringProperty, { alertBehavior: 'queue' } );
-        }
       },
-      dragListenerOptions
-    ) );
+      end: () => {
+        this.particle.isDraggingProperty.set( false );
+        this.addAccessibleObjectResponse( ShredStrings.a11y.releasedStringProperty, { alertBehavior: 'queue' } );
+      },
+      tandem: options.tandem.createTandem( 'dragListener' )
+    } );
     this.addInputListener( this.dragListener );
 
     // Allow the particle to emit an event that will be used by this drag listener
