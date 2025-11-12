@@ -31,7 +31,9 @@ import Particle, { ParticleType } from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredColors from '../ShredColors.js';
+import ShredConstants from '../ShredConstants.js';
 import ShredStrings from '../ShredStrings.js';
+import ElectronCloudKeyboardListener from './ElectronCloudKeyboardListener.js';
 import ElectronCloudView from './ElectronCloudView.js';
 import ElectronShellView from './ElectronShellView.js';
 import ParticleView from './ParticleView.js';
@@ -95,10 +97,17 @@ class AtomNode extends Node {
 
   /**
    * @param atom - Model that represents the atom, including particle positions
+   * @param mapParticlesToViews - Map from particles to their views, needed for focus management (alt-input)
    * @param modelViewTransform - Model-View transform
    * @param providedOptions
    */
-  public constructor( atom: ParticleAtom, modelViewTransform: ModelViewTransform2, providedOptions?: AtomNodeOptions ) {
+  public constructor(
+    atom: ParticleAtom,
+    mapParticlesToViews: Map<Particle, ParticleView>,
+    modelViewTransform: ModelViewTransform2,
+    providedOptions?: AtomNodeOptions
+  ) {
+
     const options = optionize<AtomNodeOptions, SelfOptions, NodeOptions>()( {
       showCenterX: true,
       showElementNameProperty: new Property( true ),
@@ -150,6 +159,16 @@ class AtomNode extends Node {
       tandem: options.tandem.createTandem( 'electronCloud' )
     } );
     this.addChild( this.electronCloud );
+
+    // Add a keyboard listener to the electron cloud.
+    this.electronCloud.addInputListener( new ElectronCloudKeyboardListener(
+      atom,
+      this,
+      mapParticlesToViews,
+      ShredConstants.BELOW_NUCLEUS_OFFSET,
+      this.shiftParticleFocus.bind( this ),
+      options.tandem.createTandem( 'electronCloudKeyboardListener' )
+    ) );
 
     // Current string properties for the symbol text and element caption
     const currentElementStringProperty = new Property( AtomIdentifier.getName( 0 ) );

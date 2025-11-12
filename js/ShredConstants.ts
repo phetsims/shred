@@ -6,6 +6,7 @@
  * @author John Blanco
  */
 
+import Vector2 from '../../dot/js/Vector2.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import TColor from '../../scenery/js/util/TColor.js';
 import { PARTICLE_COLORS } from './model/Particle.js';
@@ -34,7 +35,10 @@ const ShredConstants = {
   // Function for choosing text color based on charge value.
   CHARGE_TEXT_COLOR: function( charge: number ): TColor {
     return charge > 0 ? PARTICLE_COLORS.proton : charge < 0 ? 'blue' : 'black';
-  }
+  },
+
+  // an offset used by alt-input to position particles just below the nucleus
+  BELOW_NUCLEUS_OFFSET: new Vector2( 0, -40 )
 };
 shred.register( 'ShredConstants', ShredConstants );
 export default ShredConstants;
