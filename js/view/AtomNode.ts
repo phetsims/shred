@@ -33,6 +33,7 @@ import shred from '../shred.js';
 import ShredColors from '../ShredColors.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredStrings from '../ShredStrings.js';
+import AtomViewProperties from './AtomViewProperties.js';
 import ElectronCloudKeyboardListener from './ElectronCloudKeyboardListener.js';
 import ElectronCloudView from './ElectronCloudView.js';
 import ElectronShellView from './ElectronShellView.js';
@@ -60,10 +61,9 @@ export type FocusUpdateDirection = 'forward' | 'backward';
 
 type SelfOptions = {
   showCenterX?: boolean;
-  showElementNameProperty?: TReadOnlyProperty<boolean>;
-  showNeutralOrIonProperty?: TReadOnlyProperty<boolean>;
-  showStableOrUnstableProperty?: TReadOnlyProperty<boolean>;
-  electronShellDepictionProperty?: TReadOnlyProperty<ElectronShellDepiction>;
+
+  // Options that control how the atom is presented in the view.
+  atomViewProperties?: AtomViewProperties;
 
   // Optional describer for the atom, used for accessibility.
   atomDescriber?: Node | null;
@@ -105,15 +105,14 @@ class AtomNode extends Node {
     atom: ParticleAtom,
     mapParticlesToViews: Map<Particle, ParticleView>,
     modelViewTransform: ModelViewTransform2,
-    providedOptions?: AtomNodeOptions
+    providedOptions: AtomNodeOptions
   ) {
 
     const options = optionize<AtomNodeOptions, SelfOptions, NodeOptions>()( {
       showCenterX: true,
-      showElementNameProperty: new Property( true ),
-      showNeutralOrIonProperty: new Property( true ),
-      showStableOrUnstableProperty: new Property( true ),
-      electronShellDepictionProperty: new Property( 'shells' ),
+      atomViewProperties: new AtomViewProperties( {
+        tandem: providedOptions.tandem.createTandem( 'atomViewProperties' )
+      } ),
       atomDescriber: null,
       particlesDescriptionOptions: {
         accessibleParagraph: null
@@ -123,7 +122,7 @@ class AtomNode extends Node {
     super( options );
 
     this.atom = atom;
-    this.electronShellDepictionProperty = options.electronShellDepictionProperty;
+    this.electronShellDepictionProperty = options.atomViewProperties.electronModelProperty;
 
     // Create the X where the nucleus goes.
     let countListener: VoidFunction | null = null;
@@ -200,7 +199,7 @@ class AtomNode extends Node {
         atom.positionProperty.get().plus( new Vector2( 0, initialHeight + heightPerElectron * electrons ) )
       );
 
-      this.elementNameText.center = options.electronShellDepictionProperty.value === 'shells' ?
+      this.elementNameText.center = this.electronShellDepictionProperty.value === 'shells' ?
                                     positionInShellsDepiction : positionInCloudDepiction;
     };
 
@@ -210,7 +209,7 @@ class AtomNode extends Node {
       updateTextPosition();
       this.updateParticleViewAltInputState();
     };
-    options.electronShellDepictionProperty.link( electronShellDepictionListener );
+    this.electronShellDepictionProperty.link( electronShellDepictionListener );
 
     // Define the update function for the element name.
     const updateElementName = () => {
@@ -239,7 +238,7 @@ class AtomNode extends Node {
     const updateElementNameVisibility = ( visible: boolean ) => {
       this.elementNameText.visible = visible;
     };
-    options.showElementNameProperty.link( updateElementNameVisibility );
+    options.atomViewProperties.elementNameVisibleProperty.link( updateElementNameVisibility );
 
     const ionIndicatorTextTranslation = modelViewTransform.modelToViewPosition( atom.positionProperty.get().plus(
       new Vector2( atom.outerElectronShellRadius * 1.15, 0 ).rotated( Math.PI * 0.35 ) ) );
@@ -292,7 +291,7 @@ class AtomNode extends Node {
     const updateIonIndicatorVisibility = ( visible: boolean ) => {
       this.ionIndicatorText.visible = visible;
     };
-    options.showNeutralOrIonProperty.link( updateIonIndicatorVisibility );
+    options.atomViewProperties.neutralAtomOrIonVisibleProperty.link( updateIonIndicatorVisibility );
 
     // Create the textual readout for the stability indicator.
     const stabilityIndicatorTextCenterPos = modelViewTransform.modelToViewPosition( atom.positionProperty.get().plus(
@@ -348,7 +347,7 @@ class AtomNode extends Node {
     const updateStabilityIndicatorVisibility = ( visible: boolean ) => {
       this.stabilityIndicatorText.visible = visible;
     };
-    options.showStableOrUnstableProperty.link( updateStabilityIndicatorVisibility );
+    options.atomViewProperties.nuclearStabilityVisibleProperty.link( updateStabilityIndicatorVisibility );
 
     // Set up listeners that will update the alt-input state of the particles as conditions in the atom and view change.
     const updateParticleViewAltInputState = this.updateParticleViewAltInputState.bind( this );
@@ -365,7 +364,7 @@ class AtomNode extends Node {
 
     // Set up a listener that will shift focusability between electrons and the electron cloud when the depiction
     // changes.
-    options.electronShellDepictionProperty.lazyLink( electronShellDepiction => {
+    this.electronShellDepictionProperty.lazyLink( electronShellDepiction => {
       if ( electronShellDepiction === 'shells' ) {
         if ( this.electronCloud.focusable ) {
 
@@ -429,16 +428,16 @@ class AtomNode extends Node {
         atom.protonCountProperty.unlink( countListener );
       }
 
-      options.electronShellDepictionProperty.unlink( electronShellDepictionListener );
-      options.electronShellDepictionProperty.unlink( updateParticleViewAltInputState );
+      this.electronShellDepictionProperty.unlink( electronShellDepictionListener );
+      this.electronShellDepictionProperty.unlink( updateParticleViewAltInputState );
       atom.protonCountProperty.unlink( updateElementName );
-      options.showElementNameProperty.unlink( updateElementNameVisibility );
+      options.atomViewProperties.elementNameVisibleProperty.unlink( updateElementNameVisibility );
       atom.protonCountProperty.unlink( updateIonIndicator );
       atom.electronCountProperty.unlink( updateIonIndicator );
-      options.showNeutralOrIonProperty.unlink( updateIonIndicatorVisibility );
+      options.atomViewProperties.neutralAtomOrIonVisibleProperty.unlink( updateIonIndicatorVisibility );
       atom.protonCountProperty.unlink( updateStabilityIndicator );
       atom.neutronCountProperty.unlink( updateStabilityIndicator );
-      options.showStableOrUnstableProperty.unlink( updateStabilityIndicatorVisibility );
+      options.atomViewProperties.nuclearStabilityVisibleProperty.unlink( updateStabilityIndicatorVisibility );
       atom.particleCountProperty.unlink( updateParticleViewAltInputState );
       atomCenterMarker && atomCenterMarker.dispose();
       electronShell.dispose();
