@@ -176,8 +176,6 @@ class PeriodicTableNode extends Node {
     };
     protonCountProperty.link( updateHighlightedCell );
 
-    // this.groupFocusHighlight = new GroupHighlightPath( Shape.bounds( this.bounds ) );
-
     this.disposePeriodicTableNode = () => {
       this.children.forEach( node => node.dispose() );
       protonCountProperty.hasListener( updateHighlightedCell ) && protonCountProperty.unlink( updateHighlightedCell );
@@ -245,7 +243,6 @@ class PeriodicTableNode extends Node {
     }
     return protonCount;
   }
-
 
   /**
    * Coordinate transformation utility functions: We use 3 identifications of an element:
