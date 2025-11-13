@@ -16,7 +16,6 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import WithRequired from '../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import isResettingAllProperty from '../../../scenery-phet/js/isResettingAllProperty.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
@@ -26,6 +25,7 @@ import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import isSettingPhetioStateProperty from '../../../tandem/js/isSettingPhetioStateProperty.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import Particle, { ParticleType } from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
@@ -74,7 +74,7 @@ type SelfOptions = {
   };
 };
 
-export type AtomNodeOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
+export type AtomNodeOptions = SelfOptions & NodeOptions;
 
 type NumberToVoidFunction = ( value: number ) => void;
 
@@ -111,7 +111,7 @@ class AtomNode extends Node {
     const options = optionize<AtomNodeOptions, SelfOptions, NodeOptions>()( {
       showCenterX: true,
       atomViewProperties: new AtomViewProperties( {
-        tandem: providedOptions.tandem.createTandem( 'atomViewProperties' )
+        tandem: providedOptions.tandem ? providedOptions.tandem.createTandem( 'atomViewProperties' ) : Tandem.OPT_OUT
       } ),
       atomDescriber: null,
       particlesDescriptionOptions: {
