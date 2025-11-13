@@ -26,6 +26,12 @@ import ShredConstants from '../ShredConstants.js';
 import PeriodicTableCell, { CellColor } from './PeriodicTableCell.js';
 
 // constants
+const ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
+const DISABLED_CELL_COLOR = '#EEEEEE';
+const SELECTED_CELL_COLOR = '#FA8072'; //salmon
+const NAVIGATION_KEYS: OneKeyStroke[] = [ 'arrowRight', 'arrowLeft', 'arrowDown', 'arrowUp', 'w', 'a', 's', 'd' ];
+const MAX_PROTON_COUNT = 118;
+
 // 2D array that defines the table structure.
 const POPULATED_CELLS = [
   [ 0, 17 ],
@@ -36,11 +42,6 @@ const POPULATED_CELLS = [
   [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
   [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
 ];
-const ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
-const DISABLED_CELL_COLOR = '#EEEEEE';
-const SELECTED_CELL_COLOR = '#FA8072'; //salmon
-const NAVIGATION_KEYS: OneKeyStroke[] = [ 'arrowRight', 'arrowLeft', 'arrowDown', 'arrowUp', 'w', 'a', 's', 'd' ];
-const MAX_PROTON_COUNT = 118;
 
 type SelfOptions = {
 
@@ -66,11 +67,14 @@ class PeriodicTableNode extends Node {
 
   // the cells of the table
   private readonly cells: PeriodicTableCell[] = [];
+
+  // disposal function
   private readonly disposePeriodicTableNode: VoidFunction;
 
   /**
    * @param protonCountProperty - Atomic number (i.e. number of protons) that defines which element is currently
-   * highlighted.  This may or may not be changed by this table, depending on the interactiveMax option.
+   *                              highlighted.  This may or may not be changed by this table, depending on the
+   *                              interactiveMax option.
    * @param providedOptions
    */
   public constructor( protonCountProperty: TReadOnlyProperty<number> | TProperty<number>,
@@ -137,14 +141,16 @@ class PeriodicTableNode extends Node {
         this.cells.push( cell );
         protonCount++;
 
-        // Because of the lactanides and actinides groups (separate from the rest of the periodic table and not shown in the sim),
-        // we need to adjust the element index to ignore those groups.
+        // Because of the lanthanides and actinides groups (separate from the rest of the periodic table and not shown
+        // in the sim), we need to adjust the element index to ignore those groups.
         if ( protonCount === 58 ) {
+
           // When the element index is 58, it corresponds to Cerium (Ce), which is the start of the lanthanides,
           // it should jump to 72, which is Hafnium (Hf), back on the main table.
           protonCount = 72;
         }
         if ( protonCount === 90 ) {
+
           // When the element index is 90, it corresponds to Thorium (Th), which is the start of the actinides,
           // it should jump to 104, which is Rutherfordium (Rf), back on the main table.
           protonCount = 104;
@@ -219,9 +225,9 @@ class PeriodicTableNode extends Node {
   }
 
   /**
-   * Moves around the periodic table based on dx and dy values.
-   * When moving horizontally we go to elementIndex + dx, then back to protonCount.
-   * When moving vertically, we need to find the coordinates above or below, find element index, and then back to protonCount.
+   * Moves around the periodic table based on dx and dy values. When moving horizontally we go to elementIndex + dx,
+   * then back to protonCount. When moving vertically, we need to find the coordinates above or below, find element
+   * index, and then back to protonCount.
    */
   private static move( protonCount: number, dx: number, dy: number ): number {
     if ( dx !== 0 && protonCount + dx > 0 && protonCount + dx <= MAX_PROTON_COUNT ) {
