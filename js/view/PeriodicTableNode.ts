@@ -40,6 +40,7 @@ const ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
 const DISABLED_CELL_COLOR = '#EEEEEE';
 const SELECTED_CELL_COLOR = '#FA8072'; //salmon
 const NAVIGATION_KEYS: OneKeyStroke[] = [ 'arrowRight', 'arrowLeft', 'arrowDown', 'arrowUp', 'w', 'a', 's', 'd' ];
+const MAX_PROTON_COUNT = 118;
 
 type SelfOptions = {
 
@@ -223,7 +224,7 @@ class PeriodicTableNode extends Node {
    * When moving vertically, we need to find the coordinates above or below, find element index, and then back to protonCount.
    */
   private static move( protonCount: number, dx: number, dy: number ): number {
-    if ( dx !== 0 ) {
+    if ( dx !== 0 && protonCount + dx > 0 && protonCount + dx <= MAX_PROTON_COUNT ) {
       protonCount = PeriodicTableNode.elementIndexToProtonCount( PeriodicTableNode.protonCountToElementIndex( protonCount ) + dx );
     }
     if ( dy !== 0 ) {
@@ -261,15 +262,14 @@ class PeriodicTableNode extends Node {
   }
 
   private static protonCountToElementIndex( protonCount: number ): number {
-    const maxProtonCount = 118;
-    affirm( protonCount > 0 && protonCount <= maxProtonCount, 'protonCount must be between 1 and 118' );
+    affirm( protonCount > 0 && protonCount <= MAX_PROTON_COUNT, 'protonCount must be between 1 and 118' );
     let elementIndex = protonCount - 1;
 
     // adjust for lanthanides and actinides
     if ( protonCount >= 72 ) {
       elementIndex -= 14;
     }
-    if ( protonCount >= 104 && protonCount <= maxProtonCount ) {
+    if ( protonCount >= 104 && protonCount <= MAX_PROTON_COUNT ) {
       elementIndex -= 14;
     }
     return elementIndex;
