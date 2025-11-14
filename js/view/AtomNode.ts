@@ -17,10 +17,10 @@ import Shape from '../../../kite/js/Shape.js';
 import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import { AccessibleListItem } from '../../../scenery-phet/js/accessibility/AccessibleListNode.js';
 import isResettingAllProperty from '../../../scenery-phet/js/isResettingAllProperty.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import GroupHighlightPath from '../../../scenery/js/accessibility/GroupHighlightPath.js';
+import { PDOMValueType } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Path from '../../../scenery/js/nodes/Path.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -69,7 +69,7 @@ type SelfOptions = {
   atomDescriber?: Node | null;
 
   // Options for adding descriptions to the particles comprising the atom.
-  particlesDescriptionOptions?: AccessibleListItem;
+  particlesAccessibleParagraph?: PDOMValueType;
 };
 
 export type AtomNodeOptions = SelfOptions & NodeOptions;
@@ -112,9 +112,7 @@ class AtomNode extends Node {
         tandem: providedOptions.tandem ? providedOptions.tandem.createTandem( 'atomViewProperties' ) : Tandem.OPT_OUT
       } ),
       atomDescriber: null,
-      particlesDescriptionOptions: {
-        stringProperty: new Property<string>( '' )
-      }
+      particlesAccessibleParagraph: null
     }, providedOptions );
 
     super( options );
@@ -459,9 +457,8 @@ class AtomNode extends Node {
     }
 
     const particlesDescriber = new Node( {
-      accessibleParagraph: options.particlesDescriptionOptions.stringProperty,
-      visibleProperty: options.particlesDescriptionOptions.visibleProperty ?
-                       options.particlesDescriptionOptions.visibleProperty : null
+      accessibleParagraph: options.particlesAccessibleParagraph,
+      visibleProperty: this.enabledProperty
     } );
     this.addChild( particlesDescriber );
 
