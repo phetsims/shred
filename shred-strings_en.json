@@ -467,20 +467,8 @@
       "particleAddedTo": {
         "value": "Particle added to {{location}}."
       },
-      "nucleus": {
-        "value": "nucleus"
-      },
-      "innerShell": {
-        "value": "inner shell"
-      },
-      "outerShell": {
-        "value": "outer shell"
-      },
-      "cloud": {
-        "value": "cloud"
-      },
-      "bucket": {
-        "value": "bucket"
+      "location": {
+        "value": "{ $location ->\n  [nucleus] nucleus\n  [innerShell] inner shell\n  [outerShell] outer shell\n  [cloud] cloud\n  *[bucket] bucket\n}"
       },
       "bucketEmpty": {
         "value": "Bucket empty."

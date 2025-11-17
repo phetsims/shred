@@ -171,11 +171,13 @@ a11y:
     nearBuckets: Near buckets.
     overAtom: Over atom.
     particleAddedTo: Particle added to {{location}}.
-    nucleus: nucleus
-    innerShell: inner shell
-    outerShell: outer shell
-    cloud: cloud
-    bucket: bucket
+    location:
+      select_location:
+        nucleus: nucleus
+        innerShell: inner shell
+        outerShell: outer shell
+        cloud: cloud
+        bucket: bucket
     bucketEmpty: Bucket empty.
 
   buckets:
