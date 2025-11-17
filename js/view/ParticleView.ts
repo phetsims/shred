@@ -20,7 +20,6 @@ import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
-import ShredStrings from '../ShredStrings.js';
 import IsotopeNode, { IsotopeNodeOptions } from './IsotopeNode.js';
 import ParticleNode from './ParticleNode.js';
 
@@ -130,7 +129,6 @@ class ParticleView extends Node {
         this.particle.moveImmediatelyToDestination();
       },
       end: () => {
-        this.addAccessibleObjectResponse( ShredStrings.a11y.releasedStringProperty, { alertBehavior: 'queue' } );
         this.particle.isDraggingProperty.set( false );
       },
       tandem: options.tandem.createTandem( 'dragListener' )
