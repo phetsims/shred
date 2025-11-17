@@ -119,8 +119,6 @@ class ParticleView extends Node {
         if ( !particle.positionProperty.get().equals( particle.destinationProperty.get() ) ) {
           particle.destinationProperty.set( particle.positionProperty.get() );
         }
-
-        this.addAccessibleObjectResponse( ShredStrings.a11y.grabbedStringProperty, { alertBehavior: 'queue' } );
       },
       drag: () => {
 
@@ -132,8 +130,8 @@ class ParticleView extends Node {
         this.particle.moveImmediatelyToDestination();
       },
       end: () => {
-        this.particle.isDraggingProperty.set( false );
         this.addAccessibleObjectResponse( ShredStrings.a11y.releasedStringProperty, { alertBehavior: 'queue' } );
+        this.particle.isDraggingProperty.set( false );
       },
       tandem: options.tandem.createTandem( 'dragListener' )
     } );
