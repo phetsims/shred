@@ -13,7 +13,7 @@ import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import HighlightFromNode from '../../../scenery/js/accessibility/HighlightFromNode.js';
-import { PDOMValueType } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import ParallelDOM, { PDOMValueType } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
 import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
 import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
@@ -99,6 +99,11 @@ class PeriodicTableNode extends Node {
     );
 
     super( options );
+
+    const helpTextNode = new Node();
+    this.addChild( helpTextNode );
+
+    ParallelDOM.forwardHelpText( this, helpTextNode );
 
     let protonCount = 1;
     for ( let i = 0; i < POPULATED_CELLS.length; i++ ) {
