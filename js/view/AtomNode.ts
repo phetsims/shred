@@ -358,6 +358,12 @@ class AtomNode extends Node {
       );
     } );
 
+    // It is possible that the atom was created with particles already present, so we need to set up the listeners for
+    // those particles as well.
+    particleArrays.forEach( particleArray => {
+      particleArray.forEach( particle => particle.animationEndedEmitter.addListener( updateParticleViewAltInputState ) );
+    } );
+
     // Set up a listener that will shift focusability between electrons and the electron cloud when the depiction
     // changes.
     this.electronShellDepictionProperty.lazyLink( electronShellDepiction => {
