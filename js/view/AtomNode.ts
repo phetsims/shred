@@ -70,6 +70,9 @@ type SelfOptions = {
 
   // Options for adding descriptions to the particles comprising the atom.
   particlesAccessibleParagraph?: PDOMValueType;
+
+  // Wether the particles layer is visible in pdom
+  particlesPDOMVisible?: boolean;
 };
 
 export type AtomNodeOptions = SelfOptions & NodeOptions;
@@ -112,7 +115,8 @@ class AtomNode extends Node {
         tandem: providedOptions.tandem ? providedOptions.tandem.createTandem( 'atomViewProperties' ) : Tandem.OPT_OUT
       } ),
       atomDescriber: null,
-      particlesAccessibleParagraph: null
+      particlesAccessibleParagraph: null,
+      particlesPDOMVisible: true
     }, providedOptions );
 
     super( options );
@@ -331,7 +335,7 @@ class AtomNode extends Node {
     // Layer 0 is the front layer, and is reserved for particles that are being dragged and electrons.  The other layers
     // are used for the nucleons to create the depth effect.
     _.times( INITIAL_NUMBER_OF_PARTICLE_LAYERS, () => {
-      const nucleonLayer = new Node();
+      const nucleonLayer = new Node( { pdomVisible: options.particlesPDOMVisible } );
       this.particleLayers.push( nucleonLayer );
       this.addChild( nucleonLayer );
     } );
