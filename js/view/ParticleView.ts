@@ -136,10 +136,6 @@ class ParticleView extends InteractiveHighlighting( Node ) {
     } );
     this.addInputListener( this.dragListener );
 
-    // Allow the particle to emit an event that will be used by this drag listener
-    const startDragListener = ( event: PressListenerEvent ) => this.dragListener.press( event, this );
-    this.particle.startDragEmitter.addListener( startDragListener );
-
     // Update some aspects of the model and view when the isDragging state changes.
     this.particle.isDraggingProperty.link( isDragging => {
       if ( isDragging ) {

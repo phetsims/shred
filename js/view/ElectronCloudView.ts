@@ -14,14 +14,17 @@ import { EmptySelfOptions, optionize4 } from '../../../phet-core/js/optionize.js
 import WithRequired from '../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import AccessibleInteractiveOptions from '../../../scenery-phet/js/accessibility/AccessibleInteractiveOptions.js';
+import InteractiveHighlighting from '../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
+import Particle from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredStrings from '../ShredStrings.js';
+import ParticleView from './ParticleView.js';
 
 type SelfOptions = EmptySelfOptions;
 type ElectronCloudViewOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'>;
@@ -29,12 +32,13 @@ type ElectronCloudViewOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'
 // constants
 const DEFAULT_RADIUS = 50; // in pm, chosen as an arbitrary value that is close to the "real" values that are used
 
-class ElectronCloudView extends Node {
+class ElectronCloudView extends InteractiveHighlighting( Node ) {
 
   // function to dispose of the view, including listeners
   private readonly disposeElectronCloudView: VoidFunction;
 
   public constructor( atom: ParticleAtom,
+                      mapElectronsToViews: Map<Particle, ParticleView>,
                       modelViewTransform: ModelViewTransform2,
                       providedOptions: ElectronCloudViewOptions ) {
 
@@ -106,9 +110,11 @@ class ElectronCloudView extends Node {
 
       const electron = atom.extractParticle( 'electron' );
       if ( electron !== null ) {
+        const electronView = mapElectronsToViews.get( electron );
+        affirm( electronView, 'Missing ParticleView for electron' );
         electron.isDraggingProperty.set( true );
         electron.setPositionAndDestination( positionInModelSpace );
-        electron.startDragEmitter.emit( event );
+        electronView.startSyntheticDrag( event );
       }
     } ) );
 
