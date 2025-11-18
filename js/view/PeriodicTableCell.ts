@@ -10,6 +10,7 @@ import TProperty from '../../../axon/js/TProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
+import InteractiveHighlighting from '../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import FireListener from '../../../scenery/js/listeners/FireListener.js';
 import Rectangle, { RectangleOptions } from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
@@ -42,7 +43,7 @@ export type CellColor = {
   selected: TColor;
 };
 
-class PeriodicTableCell extends Rectangle {
+class PeriodicTableCell extends InteractiveHighlighting( Rectangle ) {
   public readonly atomicNumber: number;
   private readonly disposePeriodicTableCell: VoidFunction;
   private readonly strokeHighlightColor: TColor;
