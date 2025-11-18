@@ -14,6 +14,7 @@ import { EmptySelfOptions, optionize4 } from '../../../phet-core/js/optionize.js
 import WithRequired from '../../../phet-core/js/types/WithRequired.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
 import AccessibleInteractiveOptions from '../../../scenery-phet/js/accessibility/AccessibleInteractiveOptions.js';
+import InteractiveHighlighting from '../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
 import DragListener from '../../../scenery/js/listeners/DragListener.js';
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
@@ -29,7 +30,7 @@ type ElectronCloudViewOptions = SelfOptions & WithRequired<NodeOptions, 'tandem'
 // constants
 const DEFAULT_RADIUS = 50; // in pm, chosen as an arbitrary value that is close to the "real" values that are used
 
-class ElectronCloudView extends Node {
+class ElectronCloudView extends InteractiveHighlighting( Node ) {
 
   // function to dispose of the view, including listeners
   private readonly disposeElectronCloudView: VoidFunction;
