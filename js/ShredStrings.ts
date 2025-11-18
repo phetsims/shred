@@ -296,20 +296,16 @@ type StringsType = {
     'released': string;
     'releasedStringProperty': LocalizedStringProperty;
     'particles': {
-      'proton': string;
-      'protonStringProperty': LocalizedStringProperty;
-      'neutron': string;
-      'neutronStringProperty': LocalizedStringProperty;
-      'electron': string;
-      'electronStringProperty': LocalizedStringProperty;
-      'electronInCloud': string;
-      'electronInCloudStringProperty': LocalizedStringProperty;
+      'type': string;
+      'typeStringProperty': LocalizedStringProperty;
       'protons': string;
       'protonsStringProperty': LocalizedStringProperty;
       'neutrons': string;
       'neutronsStringProperty': LocalizedStringProperty;
       'electrons': string;
       'electronsStringProperty': LocalizedStringProperty;
+      'electronInCloud': string;
+      'electronInCloudStringProperty': LocalizedStringProperty;
       'accessibleName': string;
       'accessibleNameStringProperty': LocalizedStringProperty;
       'accessibleHeading': string;

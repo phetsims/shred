@@ -156,13 +156,15 @@ a11y:
   released: Released.
 
   particles:
-    proton: Proton
-    neutron: Neutron
-    electron: Electron
-    electronInCloud: Electron, in cloud
+    type:
+      select_type:
+        proton: Proton
+        neutron: Neutron
+        electron: Electron
     protons: Protons
     neutrons: Neutrons
     electrons: Electrons
+    electronInCloud: Electron, in cloud
     accessibleName: "{{particle}}, in {{location}}"
     accessibleHeading: Particles
     overNucleus: Over nucleus.

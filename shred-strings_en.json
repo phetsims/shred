@@ -422,17 +422,8 @@
       "value": "Released."
     },
     "particles": {
-      "proton": {
-        "value": "Proton"
-      },
-      "neutron": {
-        "value": "Neutron"
-      },
-      "electron": {
-        "value": "Electron"
-      },
-      "electronInCloud": {
-        "value": "Electron, in cloud"
+      "type": {
+        "value": "{ $type ->\n  [proton] Proton\n  [neutron] Neutron\n  *[electron] Electron\n}"
       },
       "protons": {
         "value": "Protons"
@@ -442,6 +433,9 @@
       },
       "electrons": {
         "value": "Electrons"
+      },
+      "electronInCloud": {
+        "value": "Electron, in cloud"
       },
       "accessibleName": {
         "value": "{{particle}}, in {{location}}"
