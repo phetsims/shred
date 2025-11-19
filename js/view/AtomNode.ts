@@ -7,6 +7,7 @@
  * @author John Blanco
  */
 
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../../axon/js/DynamicProperty.js';
 import Multilink from '../../../axon/js/Multilink.js';
 import Property from '../../../axon/js/Property.js';
@@ -468,7 +469,12 @@ class AtomNode extends Node {
 
     const particlesDescriber = new Node( {
       accessibleParagraph: options.particlesAccessibleParagraph,
-      visibleProperty: this.enabledProperty
+      visibleProperty: new DerivedProperty( [
+        this.enabledProperty,
+        atom.particleCountProperty
+      ], ( enabled: boolean, particleCount: number ) => {
+        return enabled && particleCount > 0;
+      } )
     } );
     this.addChild( particlesDescriber );
 
