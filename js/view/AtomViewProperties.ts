@@ -68,6 +68,13 @@ class AtomViewProperties {
     this.nuclearStabilityVisibleProperty.reset();
     this.electronModelProperty.reset();
   }
+
+  public dispose(): void {
+    this.elementNameVisibleProperty.dispose();
+    this.neutralAtomOrIonVisibleProperty.dispose();
+    this.nuclearStabilityVisibleProperty.dispose();
+    this.electronModelProperty.dispose();
+  }
 }
 
 /** Reduced set of AtomViewProperties for use in more constrained views, like the Game Screen. */
@@ -83,6 +90,13 @@ export class ReducedAtomViewProperties {
 
   public reset(): void {
     // no-op
+  }
+
+  public dispose(): void {
+    this.elementNameVisibleProperty.dispose();
+    this.neutralAtomOrIonVisibleProperty.dispose();
+    this.nuclearStabilityVisibleProperty.dispose();
+    this.electronModelProperty.dispose();
   }
 }
 

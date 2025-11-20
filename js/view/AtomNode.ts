@@ -64,7 +64,7 @@ type SelfOptions = {
   showCenterX?: boolean;
 
   // Options that control how the atom is presented in the view.
-  atomViewProperties?: AtomViewProperties;
+  atomViewProperties?: AtomViewProperties | null;
 
   // Optional describer for the atom, used for accessibility.
   atomDescriber?: Node | null;
@@ -112,13 +112,19 @@ class AtomNode extends Node {
 
     const options = optionize<AtomNodeOptions, SelfOptions, NodeOptions>()( {
       showCenterX: true,
-      atomViewProperties: new AtomViewProperties( {
-        tandem: providedOptions.tandem ? providedOptions.tandem.createTandem( 'atomViewProperties' ) : Tandem.OPT_OUT
-      } ),
+      atomViewProperties: null,
       atomDescriber: null,
       particlesAccessibleParagraph: null,
       particlesPDOMVisible: true
     }, providedOptions );
+
+    let isAtomViewPropertiesLocallyCreated = false;
+    if ( !options.atomViewProperties ) {
+      options.atomViewProperties = new AtomViewProperties( {
+        tandem: Tandem.OPT_OUT
+      } );
+      isAtomViewPropertiesLocallyCreated = true;
+    }
 
     super( options );
 
@@ -438,19 +444,24 @@ class AtomNode extends Node {
       this.electronShellDepictionProperty.unlink( electronShellDepictionListener );
       this.electronShellDepictionProperty.unlink( updateParticleViewAltInputState );
       atom.protonCountProperty.unlink( updateElementName );
-      options.atomViewProperties.elementNameVisibleProperty.unlink( updateElementNameVisibility );
       atom.protonCountProperty.unlink( updateIonIndicator );
       atom.electronCountProperty.unlink( updateIonIndicator );
-      options.atomViewProperties.neutralAtomOrIonVisibleProperty.unlink( updateIonIndicatorVisibility );
       atom.protonCountProperty.unlink( updateStabilityIndicator );
       atom.neutronCountProperty.unlink( updateStabilityIndicator );
-      options.atomViewProperties.nuclearStabilityVisibleProperty.unlink( updateStabilityIndicatorVisibility );
       atom.particleCountProperty.unlink( updateParticleViewAltInputState );
       atomCenterMarker && atomCenterMarker.dispose();
       electronShell.dispose();
       this.elementNameText.dispose();
       this.ionIndicatorText.dispose();
       this.stabilityIndicatorText.dispose();
+      if ( options.atomViewProperties ) {
+        options.atomViewProperties.elementNameVisibleProperty.unlink( updateElementNameVisibility );
+        options.atomViewProperties.neutralAtomOrIonVisibleProperty.unlink( updateIonIndicatorVisibility );
+        options.atomViewProperties.nuclearStabilityVisibleProperty.unlink( updateStabilityIndicatorVisibility );
+        if ( isAtomViewPropertiesLocallyCreated ) {
+          options.atomViewProperties.dispose();
+        }
+      }
     };
 
     // Add the model as a linked element so that it can be easily navigated to in the phet-io tree.
