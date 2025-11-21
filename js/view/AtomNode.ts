@@ -618,7 +618,7 @@ class AtomNode extends Node {
    * 2.  Make sure that only one particle is focusable at a time so that there is a single tab stop for the atom.
    * 3.  Make sure that only a small number of particles are PDOM visible at a time, so that the PDOM is not
    *     overwhelming.  There should be at max one proton, one neutron, and one electron from each shell visible in the
-   *     PDOM, plus the particle being dragged.
+   *     PDOM, plus the particle being dragged if there is one.
    */
   public updateParticleViewAltInputState(): void {
 
@@ -652,11 +652,15 @@ class AtomNode extends Node {
         // keep only the one that has focus visible in the PDOM.
         const focusedNucleonView = nucleonViews.find( pv => pv.focused );
         if ( numberOfPdomVisibleNucleonViews === 2 && focusedNucleonView ) {
-          const unfocusedNucleonView = nucleonViews.find( pv => !pv.focused );
-          affirm( unfocusedNucleonView, 'There should be an unfocused nucleon view' );
-          unfocusedNucleonView.pdomVisible = false;
+
+          // Find the unfocused nucleon that is currently PDOM visible and make it not PDOM visible.
+          const unfocusedPdomVisibleNucleonView = nucleonViews.find( pv => !pv.focused && pv.pdomVisible );
+          affirm( unfocusedPdomVisibleNucleonView, 'There should be an unfocused PDOM visible nucleon view' );
+          unfocusedPdomVisibleNucleonView.pdomVisible = false;
         }
         else {
+
+          // Otherwise, just make the closest nucleon to the center of the atom PDOM visible.
           const particles = nucleonType === 'proton' ? this.atom.protons : this.atom.neutrons;
           const sortedParticles = [ ...particles ].sort( nucleonSortingFunction );
           const particleView = this.getParticleView( sortedParticles[ 0 ] );
