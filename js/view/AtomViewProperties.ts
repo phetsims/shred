@@ -10,10 +10,11 @@ import BooleanProperty from '../../../axon/js/BooleanProperty.js';
 import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
+import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
-import { ElectronShellDepiction, ElectronShellDepictionValues } from './AtomNode.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import StringUnionIO from '../../../tandem/js/types/StringUnionIO.js';
+import { ElectronShellDepiction, ElectronShellDepictionValues } from './AtomNode.js';
 
 type SelfOptions = {
   elementNameVisibleInitialValue?: boolean;
@@ -75,29 +76,15 @@ class AtomViewProperties {
     this.nuclearStabilityVisibleProperty.dispose();
     this.electronModelProperty.dispose();
   }
-}
 
-/** Reduced set of AtomViewProperties for use in more constrained views, like the Game Screen. */
-export class ReducedAtomViewProperties {
-  public readonly elementNameVisibleProperty: BooleanProperty = new BooleanProperty( false );
-  public readonly neutralAtomOrIonVisibleProperty: BooleanProperty = new BooleanProperty( false );
-  public readonly nuclearStabilityVisibleProperty: BooleanProperty = new BooleanProperty( false );
-  public readonly electronModelProperty: Property<ElectronShellDepiction> = new Property<ElectronShellDepiction>( 'shells' );
-
-  public constructor() {
-    // no-op
-  }
-
-  public reset(): void {
-    // no-op
-  }
-
-  public dispose(): void {
-    this.elementNameVisibleProperty.dispose();
-    this.neutralAtomOrIonVisibleProperty.dispose();
-    this.nuclearStabilityVisibleProperty.dispose();
-    this.electronModelProperty.dispose();
-  }
+  // A configuration with all labels turned off, and electron shells depicted as shells.
+  public static everythingOffAtomViewProperties = new AtomViewProperties( {
+    elementNameVisibleInitialValue: false,
+    neutralAtomOrIonVisibleInitialValue: false,
+    nuclearStabilityVisibleInitialValue: false,
+    electronModelInitialValue: 'shells',
+    tandem: Tandem.OPT_OUT
+  } );
 }
 
 shred.register( 'AtomViewProperties', AtomViewProperties );
