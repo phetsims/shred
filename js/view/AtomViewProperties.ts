@@ -14,7 +14,7 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import shred from '../shred.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import StringUnionIO from '../../../tandem/js/types/StringUnionIO.js';
-import { ElectronShellDepiction, ElectronShellDepictionValues } from './AtomNode.js';
+import ElectronShellDepiction, { ElectronShellDepictionValues } from './ElectronShellDepiction.js';
 
 type SelfOptions = {
   elementNameVisibleInitialValue?: boolean;

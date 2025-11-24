@@ -37,6 +37,7 @@ import ShredStrings from '../ShredStrings.js';
 import AtomViewProperties from './AtomViewProperties.js';
 import ElectronCloudKeyboardListener from './ElectronCloudKeyboardListener.js';
 import ElectronCloudView from './ElectronCloudView.js';
+import ElectronShellDepiction from './ElectronShellDepiction.js';
 import ElectronShellView from './ElectronShellView.js';
 import ParticleView from './ParticleView.js';
 
@@ -56,8 +57,6 @@ const DISTANCE_TESTING_TOLERANCE = 1e-6;
 // value can be adjusted.
 const MAX_NUMBER_OF_PARTICLE_LAYERS = 20;
 
-export const ElectronShellDepictionValues = [ 'shells', 'cloud' ] as const;
-export type ElectronShellDepiction = typeof ElectronShellDepictionValues[number];
 export type FocusUpdateDirection = 'forward' | 'backward';
 
 type SelfOptions = {
@@ -72,7 +71,7 @@ type SelfOptions = {
   // Options for adding descriptions to the particles comprising the atom.
   particlesAccessibleParagraph?: PDOMValueType;
 
-  // Wether the particles layer is visible in pdom
+  // whether the particles layer is visible in pdom
   particlesPDOMVisible?: boolean;
 };
 
