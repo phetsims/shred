@@ -171,8 +171,8 @@ class PeriodicTableNode extends Node {
         const elementIndex = PeriodicTableNode.protonCountToElementIndex( protonCount );
         highlightedCell = this.cells[ elementIndex ];
         highlightedCell.moveToFront();
-        highlightedCell.setHighlighted( true );
         highlightedCell.pdomVisible = true;
+        highlightedCell.setHighlighted( true );
         highlightedCell.focus();
       }
     };
