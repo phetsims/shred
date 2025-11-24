@@ -61,7 +61,7 @@ type SelfOptions = {
   cellAriaRoleDescription?: PDOMValueType;
 };
 
-type PeriodicTableNodeOptions = SelfOptions & NodeOptions;
+export type PeriodicTableNodeOptions = SelfOptions & NodeOptions;
 
 class PeriodicTableNode extends Node {
 
@@ -134,10 +134,6 @@ class PeriodicTableNode extends Node {
           length: options.cellDimension,
           tandem: Tandem.OPT_OUT,
 
-          tagName: 'div',
-          ariaRole: 'figure',
-          accessibleRoleDescription: 'selected element',
-          focusable: true,
           pdomVisible: false,
           accessibleName: AtomIdentifier.getSpokenSymbol( protonCount )
         } );

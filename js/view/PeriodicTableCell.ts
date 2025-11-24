@@ -7,7 +7,8 @@
  */
 
 import TProperty from '../../../axon/js/TProperty.js';
-import optionize from '../../../phet-core/js/optionize.js';
+import { optionize4 } from '../../../phet-core/js/optionize.js';
+import AccessibleInteractiveOptions from '../../../scenery-phet/js/accessibility/AccessibleInteractiveOptions.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import InteractiveHighlighting from '../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -63,21 +64,28 @@ class PeriodicTableCell extends InteractiveHighlighting( Rectangle ) {
                       cellColor: CellColor,
                       providedOptions?: PeriodicTableCellOptions ) {
 
-    const options = optionize<PeriodicTableCellOptions, SelfOptions, RectangleOptions>()( {
-      length: 25, // width and height of cell (cells are square)
-      showLabels: true,
-      strokeHighlightWidth: 2,
-      strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
-      labelTextHighlightFill: 'black', // fill of label text when highlighted
-      protonCountProperty: null,
+    const options = optionize4<PeriodicTableCellOptions, SelfOptions, RectangleOptions>()(
+      {},
+      AccessibleInteractiveOptions,
+      {
+        length: 25, // width and height of cell (cells are square)
+        showLabels: true,
+        strokeHighlightWidth: 2,
+        strokeHighlightColor: PhetColorScheme.RED_COLORBLIND,
+        labelTextHighlightFill: 'black', // fill of label text when highlighted
+        protonCountProperty: null,
 
-      stroke: 'black',
-      lineWidth: 1,
-      fill: providedOptions && providedOptions.protonCountProperty ? cellColor.enabled : cellColor.disabled,
-      cursor: providedOptions && providedOptions.protonCountProperty ? 'pointer' : null,
+        stroke: 'black',
+        lineWidth: 1,
+        fill: providedOptions && providedOptions.protonCountProperty ? cellColor.enabled : cellColor.disabled,
+        cursor: providedOptions && providedOptions.protonCountProperty ? 'pointer' : null,
 
-      soundPlayer: sharedSoundPlayers.get( 'generalSoftClick' ) // sound to play when cell is clicked
-    }, providedOptions );
+        // pdom
+        ariaRole: 'figure', // role is part of the aria specification, not translatable
+        accessibleRoleDescription: 'selected element', // TODO: i18n, see https://github.com/phetsims/build-an-atom/issues/408
+
+        soundPlayer: sharedSoundPlayers.get( 'generalSoftClick' ) // sound to play when cell is clicked
+      }, providedOptions );
 
     const normalFill = options.protonCountProperty ? cellColor.enabled : cellColor.disabled;
 
