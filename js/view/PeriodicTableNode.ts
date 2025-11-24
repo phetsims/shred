@@ -91,7 +91,8 @@ class PeriodicTableNode extends Node {
       disabledCellColor: DISABLED_CELL_COLOR,
       selectedCellColor: SELECTED_CELL_COLOR,
       pdomVisible: false,
-      cellAriaRoleDescription: null
+      cellAriaRoleDescription: null,
+      groupFocusHighlight: true
     }, providedOptions );
 
     affirm( options.interactiveMax === 0 || isTProperty<number>( protonCountProperty ),
