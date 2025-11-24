@@ -81,7 +81,6 @@ class PeriodicTableCell extends InteractiveHighlighting( Rectangle ) {
         cursor: providedOptions && providedOptions.protonCountProperty ? 'pointer' : null,
 
         // pdom
-        ariaRole: 'figure', // role is part of the aria specification, not translatable
         accessibleRoleDescription: 'selected element', // TODO: i18n, see https://github.com/phetsims/build-an-atom/issues/408
 
         soundPlayer: sharedSoundPlayers.get( 'generalSoftClick' ) // sound to play when cell is clicked
