@@ -10,6 +10,7 @@
 import createObservableArray, { ObservableArray } from '../../../axon/js/createObservableArray.js';
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import DerivedStringProperty from '../../../axon/js/DerivedStringProperty.js';
+import Property from '../../../axon/js/Property.js';
 import ReadOnlyProperty from '../../../axon/js/ReadOnlyProperty.js';
 import TProperty from '../../../axon/js/TProperty.js';
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
@@ -96,6 +97,10 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
   // Set the default electron add/remove mode.
   private readonly electronAddMode: ElectronAddMode = 'proximal';
   private readonly electronShellPositions: ElectronShellPosition[];
+
+  // Flag that will notify the view when electrons are being replaced into the
+  // inner orbit, in order to trigger the accessibleContextRespose
+  public readonly isMovingElectronInwardsProperty: TProperty<boolean>;
 
   public constructor( providedOptions: ParticleAtomOptions ) {
 
@@ -216,6 +221,8 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
       angle += 2 * Math.PI / numSlotsInOuterShell;
     }
 
+    this.isMovingElectronInwardsProperty = new Property<boolean>( false );
+
     // When an electron is removed, clear the corresponding shell position.
     this.electrons.addItemRemovedListener( electron => {
       this.electronShellPositions.forEach( electronShellPosition => {
@@ -236,11 +243,15 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
               return occupiedShellPosition.position.distance( electronShellPosition.position );
             } );
             if ( occupiedOuterShellPositions.length > 0 ) {
+              // Notify that we're moving the electron inwards.
+              this.isMovingElectronInwardsProperty.value = true;
 
               // Move outer electron to inner spot.
               electronShellPosition.electron = occupiedOuterShellPositions[ 0 ].electron;
               occupiedOuterShellPositions[ 0 ].electron = null;
               electronShellPosition.electron!.destinationProperty.set( electronShellPosition.position );
+
+              this.isMovingElectronInwardsProperty.value = false;
             }
           }
         }

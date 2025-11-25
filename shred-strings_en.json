@@ -440,40 +440,26 @@
       "accessibleName": {
         "value": "{{particle}}, in {{location}}"
       },
-      "accessibleHeading": {
-        "value": "Particles"
-      },
       "overNucleus": {
-        "value": "Over nucleus."
+        "value": "over nucleus"
       },
       "overInnerShell": {
-        "value": "Over inner shell."
+        "value": "over inner shell"
       },
       "overOuterShell": {
-        "value": "Over outer shell."
+        "value": "over outer shell"
       },
       "nearBuckets": {
-        "value": "Near buckets."
+        "value": "near buckets"
       },
       "overAtom": {
-        "value": "Over atom."
+        "value": "over atom"
       },
-      "particleAddedTo": {
-        "value": "Particle added to {{location}}."
+      "outerElectronMovedToInnerShell": {
+        "value": "Outer Electron moved to inner shell."
       },
       "location": {
-        "value": "{ $location ->\n  [nucleus] nucleus\n  [innerShell] inner shell\n  [outerShell] outer shell\n  [cloud] cloud\n  *[bucket] bucket\n}"
-      },
-      "bucketEmpty": {
-        "value": "Bucket empty."
-      }
-    },
-    "buckets": {
-      "emptyName": {
-        "value": "Empty {{particle}} Bucket"
-      },
-      "emptyHelpText": {
-        "value": "Disabled when bucket is empty."
+        "value": "{ $location ->\n  [nucleus] Nucleus\n  [innerShell] Inner Shell\n  [outerShell] Outer Shell\n  [cloud] Cloud\n  *[bucket] Bucket\n}"
       }
     }
   }

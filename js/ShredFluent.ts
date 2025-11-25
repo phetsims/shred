@@ -5,10 +5,10 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
+import {TReadOnlyProperty} from '../../axon/js/TReadOnlyProperty.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -168,15 +168,13 @@ addToMapIfDefined( 'a11y_particles_protons', 'a11y.particles.protonsStringProper
 addToMapIfDefined( 'a11y_particles_neutrons', 'a11y.particles.neutronsStringProperty' );
 addToMapIfDefined( 'a11y_particles_electrons', 'a11y.particles.electronsStringProperty' );
 addToMapIfDefined( 'a11y_particles_electronInCloud', 'a11y.particles.electronInCloudStringProperty' );
-addToMapIfDefined( 'a11y_particles_accessibleHeading', 'a11y.particles.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_particles_overNucleus', 'a11y.particles.overNucleusStringProperty' );
 addToMapIfDefined( 'a11y_particles_overInnerShell', 'a11y.particles.overInnerShellStringProperty' );
 addToMapIfDefined( 'a11y_particles_overOuterShell', 'a11y.particles.overOuterShellStringProperty' );
 addToMapIfDefined( 'a11y_particles_nearBuckets', 'a11y.particles.nearBucketsStringProperty' );
 addToMapIfDefined( 'a11y_particles_overAtom', 'a11y.particles.overAtomStringProperty' );
+addToMapIfDefined( 'a11y_particles_outerElectronMovedToInnerShell', 'a11y.particles.outerElectronMovedToInnerShellStringProperty' );
 addToMapIfDefined( 'a11y_particles_location', 'a11y.particles.locationStringProperty' );
-addToMapIfDefined( 'a11y_particles_bucketEmpty', 'a11y.particles.bucketEmptyStringProperty' );
-addToMapIfDefined( 'a11y_buckets_emptyHelpText', 'a11y.buckets.emptyHelpTextStringProperty' );
 
 // A function that creates contents for a new Fluent file, which will be needed if any string changes.
 const createFluentFile = (): string => {
@@ -341,19 +339,13 @@ const ShredFluent = {
       electronsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_electrons', _.get( ShredStrings, 'a11y.particles.electronsStringProperty' ) ),
       electronInCloudStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_electronInCloud', _.get( ShredStrings, 'a11y.particles.electronInCloudStringProperty' ) ),
       accessibleNameStringProperty: _.get( ShredStrings, 'a11y.particles.accessibleNameStringProperty' ),
-      accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_accessibleHeading', _.get( ShredStrings, 'a11y.particles.accessibleHeadingStringProperty' ) ),
       overNucleusStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_overNucleus', _.get( ShredStrings, 'a11y.particles.overNucleusStringProperty' ) ),
       overInnerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_overInnerShell', _.get( ShredStrings, 'a11y.particles.overInnerShellStringProperty' ) ),
       overOuterShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_overOuterShell', _.get( ShredStrings, 'a11y.particles.overOuterShellStringProperty' ) ),
       nearBucketsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_nearBuckets', _.get( ShredStrings, 'a11y.particles.nearBucketsStringProperty' ) ),
       overAtomStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_overAtom', _.get( ShredStrings, 'a11y.particles.overAtomStringProperty' ) ),
-      particleAddedToStringProperty: _.get( ShredStrings, 'a11y.particles.particleAddedToStringProperty' ),
-      location: new FluentPattern<{ location: 'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket' | TReadOnlyProperty<'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket'> }>( fluentSupport.bundleProperty, 'a11y_particles_location', _.get( ShredStrings, 'a11y.particles.locationStringProperty' ), [{"name":"location","variants":["nucleus","innerShell","outerShell","cloud","bucket"]}] ),
-      bucketEmptyStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_bucketEmpty', _.get( ShredStrings, 'a11y.particles.bucketEmptyStringProperty' ) )
-    },
-    buckets: {
-      emptyNameStringProperty: _.get( ShredStrings, 'a11y.buckets.emptyNameStringProperty' ),
-      emptyHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_buckets_emptyHelpText', _.get( ShredStrings, 'a11y.buckets.emptyHelpTextStringProperty' ) )
+      outerElectronMovedToInnerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_outerElectronMovedToInnerShell', _.get( ShredStrings, 'a11y.particles.outerElectronMovedToInnerShellStringProperty' ) ),
+      location: new FluentPattern<{ location: 'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket' | TReadOnlyProperty<'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket'> }>( fluentSupport.bundleProperty, 'a11y_particles_location', _.get( ShredStrings, 'a11y.particles.locationStringProperty' ), [{"name":"location","variants":["nucleus","innerShell","outerShell","cloud","bucket"]}] )
     }
   }
 };

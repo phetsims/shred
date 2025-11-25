@@ -308,8 +308,6 @@ type StringsType = {
       'electronInCloudStringProperty': LocalizedStringProperty;
       'accessibleName': string;
       'accessibleNameStringProperty': LocalizedStringProperty;
-      'accessibleHeading': string;
-      'accessibleHeadingStringProperty': LocalizedStringProperty;
       'overNucleus': string;
       'overNucleusStringProperty': LocalizedStringProperty;
       'overInnerShell': string;
@@ -320,18 +318,10 @@ type StringsType = {
       'nearBucketsStringProperty': LocalizedStringProperty;
       'overAtom': string;
       'overAtomStringProperty': LocalizedStringProperty;
-      'particleAddedTo': string;
-      'particleAddedToStringProperty': LocalizedStringProperty;
+      'outerElectronMovedToInnerShell': string;
+      'outerElectronMovedToInnerShellStringProperty': LocalizedStringProperty;
       'location': string;
       'locationStringProperty': LocalizedStringProperty;
-      'bucketEmpty': string;
-      'bucketEmptyStringProperty': LocalizedStringProperty;
-    };
-    'buckets': {
-      'emptyName': string;
-      'emptyNameStringProperty': LocalizedStringProperty;
-      'emptyHelpText': string;
-      'emptyHelpTextStringProperty': LocalizedStringProperty;
     }
   }
 };

@@ -166,22 +166,16 @@ a11y:
     electrons: Electrons
     electronInCloud: Electron, in cloud
     accessibleName: "{{particle}}, in {{location}}"
-    accessibleHeading: Particles
-    overNucleus: Over nucleus.
-    overInnerShell: Over inner shell.
-    overOuterShell: Over outer shell.
-    nearBuckets: Near buckets.
-    overAtom: Over atom.
-    particleAddedTo: Particle added to {{location}}.
+    overNucleus: over nucleus
+    overInnerShell: over inner shell
+    overOuterShell: over outer shell
+    nearBuckets: near buckets
+    overAtom: over atom
+    outerElectronMovedToInnerShell: Outer Electron moved to inner shell.
     location:
       select_location:
-        nucleus: nucleus
-        innerShell: inner shell
-        outerShell: outer shell
-        cloud: cloud
-        bucket: bucket
-    bucketEmpty: Bucket empty.
-
-  buckets:
-    emptyName: Empty {{particle}} Bucket
-    emptyHelpText: Disabled when bucket is empty.
+        nucleus: Nucleus
+        innerShell: Inner Shell
+        outerShell: Outer Shell
+        cloud: Cloud
+        bucket: Bucket

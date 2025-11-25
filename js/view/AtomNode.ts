@@ -488,6 +488,12 @@ class AtomNode extends Node {
     } );
     this.addChild( particlesDescriber );
 
+    this.atom.isMovingElectronInwardsProperty.link( isMovingInwards => {
+      if ( isMovingInwards ) {
+        this.addAccessibleContextResponse( ShredStrings.a11y.particles.outerElectronMovedToInnerShell );
+      }
+    } );
+
     this.pdomOrder = [
       options.atomDescriber || new Node(),
       particlesDescriber,
