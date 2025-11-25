@@ -135,7 +135,7 @@ class PeriodicTableNode extends Node {
           tandem: Tandem.OPT_OUT,
 
           pdomVisible: false,
-          accessibleName: AtomIdentifier.getSpokenSymbol( protonCount )
+          accessibleName: AtomIdentifier.getSpokenSymbol( protonCount, true )
         } );
         cell.focusHighlight = new HighlightFromNode( cell );
         cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );

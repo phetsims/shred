@@ -132,7 +132,8 @@ unstable: Unstable
 periodicTable: Periodic Table
 
 a11y:
-  spokenSymbol: "upper {{symbol}}"
+  spokenSymbol: "upper { $symbol }"
+  spokenSymbolUppercase: "Upper { $symbol }"
   particleCounts:
     accessibleListNode:
       protons: |-
@@ -164,7 +165,7 @@ a11y:
     protons: Protons
     neutrons: Neutrons
     electrons: Electrons
-    electronInCloud: Electron, in cloud
+    electronInCloud: Electron, in Cloud
     accessibleName: "{{particle}}, in {{location}}"
     overNucleus: over nucleus
     overInnerShell: over inner shell

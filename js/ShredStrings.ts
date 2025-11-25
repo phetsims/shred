@@ -279,6 +279,8 @@ type StringsType = {
   'a11y': {
     'spokenSymbol': string;
     'spokenSymbolStringProperty': LocalizedStringProperty;
+    'spokenSymbolUppercase': string;
+    'spokenSymbolUppercaseStringProperty': LocalizedStringProperty;
     'particleCounts': {
       'accessibleListNode': {
         'protons': string;

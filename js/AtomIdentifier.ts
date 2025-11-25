@@ -12,9 +12,9 @@
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import Utils from '../../dot/js/Utils.js';
-import StringUtils from '../../phetcommon/js/util/StringUtils.js';
 import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
 import shred from './shred.js';
+import ShredFluent from './ShredFluent.js';
 import ShredStrings from './ShredStrings.js';
 
 // An arbitrary value used to signify a 'trace' abundance, meaning that a very small amount of this isotope is
@@ -14293,12 +14293,18 @@ const AtomIdentifier = {
   // Formats the chemical symbol so a screen reader can read it properly. For example "He" becomes "upper H e"
   // It's important to note that this function uses the StringProperty value directly, so it will not update
   // automatically with locale changes. It should be called again to get the updated value.
-  getSpokenSymbol: function( protonCount: number ): string {
-    const symbol = AtomIdentifier.getSymbol( protonCount );
-    return StringUtils.fillIn(
-      ShredStrings.a11y.spokenSymbolStringProperty.value,
-      { symbol: symbol.split( '' ).join( ' ' ) }
-    );
+  getSpokenSymbol: function( protonCount: number, uppercase = false ): string {
+    const symbol = AtomIdentifier.getSymbol( protonCount ).split( '' ).join( ' ' );
+    if ( uppercase ) {
+      return ShredFluent.a11y.spokenSymbolUppercase.format( {
+        symbol: symbol
+      } );
+    }
+    else {
+      return ShredFluent.a11y.spokenSymbol.format( {
+        symbol: symbol
+      } );
+    }
   },
 
   // Identifies whether a given atomic nucleus is stable.

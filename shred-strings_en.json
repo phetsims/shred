@@ -397,7 +397,10 @@
   },
   "a11y": {
     "spokenSymbol": {
-      "value": "upper {{symbol}}"
+      "value": "upper { $symbol }"
+    },
+    "spokenSymbolUppercase": {
+      "value": "Upper { $symbol }"
     },
     "particleCounts": {
       "accessibleListNode": {
@@ -435,7 +438,7 @@
         "value": "Electrons"
       },
       "electronInCloud": {
-        "value": "Electron, in cloud"
+        "value": "Electron, in Cloud"
       },
       "accessibleName": {
         "value": "{{particle}}, in {{location}}"
