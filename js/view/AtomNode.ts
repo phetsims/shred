@@ -839,7 +839,7 @@ class AtomNode extends Node {
    * Get the shell number (0 for inner, 1 for outer) for the provided electron.  If the electron is not in the atom,
    * or if it is not in either shell, -1 is returned.
    */
-  private getElectronShellNumber( electron: Particle ): number {
+  public getElectronShellNumber( electron: Particle ): number {
     affirm( electron.type === 'electron', 'The provided particle must be an electron' );
     let electronShellNumber = -1;
     if ( this.atom.electrons.includes( electron ) ) {
