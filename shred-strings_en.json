@@ -412,14 +412,14 @@
         }
       },
       "accessibleHeading": {
-        "value": "Particle Counts in Atom"
+        "value": "Particle Counts"
       }
     },
     "grabbed": {
-      "value": "Grabbed."
+      "value": "grabbed"
     },
     "released": {
-      "value": "Released."
+      "value": "released"
     },
     "particles": {
       "type": {

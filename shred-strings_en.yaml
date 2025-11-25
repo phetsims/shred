@@ -150,10 +150,10 @@ a11y:
           [one] { $count } Electron
          *[other] { $count } Electrons
         }
-    accessibleHeading: Particle Counts in Atom
+    accessibleHeading: Particle Counts
 
-  grabbed: Grabbed.
-  released: Released.
+  grabbed: grabbed
+  released: released
 
   particles:
     type:
