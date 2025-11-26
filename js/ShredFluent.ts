@@ -5,11 +5,11 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import type { FluentVariable } from '../../chipper/js/browser/FluentPattern.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
+import {TReadOnlyProperty} from '../../axon/js/TReadOnlyProperty.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
+import type {FluentVariable} from '../../chipper/js/browser/FluentPattern.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -166,6 +166,7 @@ addToMapIfDefined( 'a11y_particleCounts_accessibleListNode_electrons', 'a11y.par
 addToMapIfDefined( 'a11y_particleCounts_accessibleHeading', 'a11y.particleCounts.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_grabbed', 'a11y.grabbedStringProperty' );
 addToMapIfDefined( 'a11y_released', 'a11y.releasedStringProperty' );
+addToMapIfDefined( 'a11y_selectedElement', 'a11y.selectedElementStringProperty' );
 addToMapIfDefined( 'a11y_particles_type', 'a11y.particles.typeStringProperty' );
 addToMapIfDefined( 'a11y_particles_protons', 'a11y.particles.protonsStringProperty' );
 addToMapIfDefined( 'a11y_particles_neutrons', 'a11y.particles.neutronsStringProperty' );
@@ -336,6 +337,7 @@ const ShredFluent = {
     },
     grabbedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_grabbed', _.get( ShredStrings, 'a11y.grabbedStringProperty' ) ),
     releasedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_released', _.get( ShredStrings, 'a11y.releasedStringProperty' ) ),
+    selectedElementStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_selectedElement', _.get( ShredStrings, 'a11y.selectedElementStringProperty' ) ),
     particles: {
       type: new FluentPattern<{ type: 'proton' | 'neutron' | 'electron' | TReadOnlyProperty<'proton' | 'neutron' | 'electron'> }>( fluentSupport.bundleProperty, 'a11y_particles_type', _.get( ShredStrings, 'a11y.particles.typeStringProperty' ), [{"name":"type","variants":["proton","neutron","electron"]}] ),
       protonsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_protons', _.get( ShredStrings, 'a11y.particles.protonsStringProperty' ) ),

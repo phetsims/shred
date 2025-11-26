@@ -424,6 +424,9 @@
     "released": {
       "value": "released"
     },
+    "selectedElement": {
+      "value": "selected element"
+    },
     "particles": {
       "type": {
         "value": "{ $type ->\n  [proton] Proton\n  [neutron] Neutron\n  *[electron] Electron\n}"

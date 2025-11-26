@@ -297,6 +297,8 @@ type StringsType = {
     'grabbedStringProperty': LocalizedStringProperty;
     'released': string;
     'releasedStringProperty': LocalizedStringProperty;
+    'selectedElement': string;
+    'selectedElementStringProperty': LocalizedStringProperty;
     'particles': {
       'type': string;
       'typeStringProperty': LocalizedStringProperty;

@@ -155,6 +155,7 @@ a11y:
 
   grabbed: grabbed
   released: released
+  selectedElement: selected element
 
   particles:
     type:

@@ -21,6 +21,7 @@ import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
+import ShredStrings from '../ShredStrings.js';
 
 // constants
 const NOMINAL_CELL_DIMENSION = 25;
@@ -81,7 +82,7 @@ class PeriodicTableCell extends InteractiveHighlighting( Rectangle ) {
         cursor: providedOptions && providedOptions.protonCountProperty ? 'pointer' : null,
 
         // pdom
-        accessibleRoleDescription: 'selected element', // TODO: i18n, see https://github.com/phetsims/build-an-atom/issues/408
+        accessibleRoleDescription: ShredStrings.a11y.selectedElementStringProperty,
 
         soundPlayer: sharedSoundPlayers.get( 'generalSoftClick' ) // sound to play when cell is clicked
       }, providedOptions );
