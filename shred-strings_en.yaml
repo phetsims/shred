@@ -175,8 +175,8 @@ a11y:
     outerElectronMovedToInnerShell: Outer Electron moved to inner shell.
     location:
       select_location:
-        nucleus: Nucleus
-        innerShell: Inner Shell
-        outerShell: Outer Shell
-        cloud: Cloud
-        bucket: Bucket
+        nucleus: nucleus
+        innerShell: inner Shell
+        outerShell: outer Shell
+        cloud: cloud
+        bucket: bucket
