@@ -176,7 +176,7 @@ a11y:
     location:
       select_location:
         nucleus: nucleus
-        innerShell: inner Shell
-        outerShell: outer Shell
+        innerShell: inner shell
+        outerShell: outer shell
         cloud: cloud
         bucket: bucket

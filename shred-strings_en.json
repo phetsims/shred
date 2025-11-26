@@ -462,7 +462,7 @@
         "value": "Outer Electron moved to inner shell."
       },
       "location": {
-        "value": "{ $location ->\n  [nucleus] nucleus\n  [innerShell] inner Shell\n  [outerShell] outer Shell\n  [cloud] cloud\n  *[bucket] bucket\n}"
+        "value": "{ $location ->\n  [nucleus] nucleus\n  [innerShell] inner shell\n  [outerShell] outer shell\n  [cloud] cloud\n  *[bucket] bucket\n}"
       }
     }
   }
