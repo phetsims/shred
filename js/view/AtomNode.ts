@@ -72,7 +72,7 @@ type SelfOptions = {
   particlesAccessibleParagraph?: PDOMValueType;
 
   // whether the particles layer is visible in pdom
-  particlesPDOMVisible?: boolean;
+  particlesAccessibleVisible?: boolean;
 };
 
 export type AtomNodeOptions = SelfOptions & NodeOptions;
@@ -114,7 +114,7 @@ class AtomNode extends Node {
       atomViewProperties: null,
       atomDescriber: null,
       particlesAccessibleParagraph: null,
-      particlesPDOMVisible: true
+      particlesAccessibleVisible: true
     }, providedOptions );
 
     let isAtomViewPropertiesLocallyCreated = false;
@@ -341,7 +341,7 @@ class AtomNode extends Node {
     // Layer 0 is the front layer, and is reserved for particles that are being dragged and electrons.  The other layers
     // are used for the nucleons to create the depth effect.
     _.times( INITIAL_NUMBER_OF_PARTICLE_LAYERS, () => {
-      const nucleonLayer = new Node( { pdomVisible: options.particlesPDOMVisible } );
+      const nucleonLayer = new Node( { accessibleVisible: options.particlesAccessibleVisible } );
       this.particleLayers.push( nucleonLayer );
       this.addChild( nucleonLayer );
     } );
@@ -398,7 +398,7 @@ class AtomNode extends Node {
         // Make sure individual electrons are not PDOM visible.
         this.getAllParticleViews().forEach( pv => {
           if ( pv.particle.type === 'electron' ) {
-            pv.pdomVisible = false;
+            pv.accessibleVisible = false;
           }
         } );
       }
@@ -650,18 +650,18 @@ class AtomNode extends Node {
       const nucleonViews = allParticleViews.filter(
         pv => pv.particle.type === nucleonType && this.atom.containsParticle( pv.particle )
       );
-      const numberOfPdomVisibleNucleonViews = nucleonViews.filter( pv => pv.pdomVisible ).length;
-      if ( nucleonViews.length > 0 && numberOfPdomVisibleNucleonViews !== 1 ) {
+      const numberOfAccessibleVisibleNucleonViews = nucleonViews.filter( pv => pv.accessibleVisible ).length;
+      if ( nucleonViews.length > 0 && numberOfAccessibleVisibleNucleonViews !== 1 ) {
 
         // The most common case for this is that a nucleon was just added so now there are two visible.  In that case,
         // keep only the one that has focus visible in the PDOM.
         const focusedNucleonView = nucleonViews.find( pv => pv.focused );
-        if ( numberOfPdomVisibleNucleonViews === 2 && focusedNucleonView ) {
+        if ( numberOfAccessibleVisibleNucleonViews === 2 && focusedNucleonView ) {
 
           // Find the unfocused nucleon that is currently PDOM visible and make it not PDOM visible.
-          const unfocusedPdomVisibleNucleonView = nucleonViews.find( pv => !pv.focused && pv.pdomVisible );
-          affirm( unfocusedPdomVisibleNucleonView, 'There should be an unfocused PDOM visible nucleon view' );
-          unfocusedPdomVisibleNucleonView.pdomVisible = false;
+          const unfocusedAccessibleVisibleNucleonView = nucleonViews.find( pv => !pv.focused && pv.accessibleVisible );
+          affirm( unfocusedAccessibleVisibleNucleonView, 'There should be an unfocused PDOM visible nucleon view' );
+          unfocusedAccessibleVisibleNucleonView.accessibleVisible = false;
         }
         else {
 
@@ -671,7 +671,7 @@ class AtomNode extends Node {
           const particleView = this.getParticleView( sortedParticles[ 0 ] );
           affirm( particleView, 'There should be a particle view for this nucleon' );
           nucleonViews.forEach( pv => {
-            pv.pdomVisible = pv === particleView;
+            pv.accessibleVisible = pv === particleView;
           } );
         }
       }
@@ -689,8 +689,8 @@ class AtomNode extends Node {
                 this.atom.containsParticle( pv.particle ) &&
                 this.getElectronShellNumber( pv.particle ) === shellNumber
         );
-        const numberOfPdomVisibleElectronViews = electronViewsInShell.filter( pv => pv.pdomVisible ).length;
-        if ( electronViewsInShell.length > 0 && numberOfPdomVisibleElectronViews !== 1 ) {
+        const numberOfAccessibleVisibleElectronViews = electronViewsInShell.filter( pv => pv.accessibleVisible ).length;
+        if ( electronViewsInShell.length > 0 && numberOfAccessibleVisibleElectronViews !== 1 ) {
 
           // Sort the electrons by their X position, but if any of them is focused, that trumps everything.
           electronViewsInShell.sort( ( ev1, ev2 ) => {
@@ -706,30 +706,30 @@ class AtomNode extends Node {
           } );
 
           electronViewsInShell.forEach( ( ev, index ) => {
-            ev.pdomVisible = index === 0;
+            ev.accessibleVisible = index === 0;
           } );
         }
       } );
 
       // Make sure the electron cloud is not PDOM visible.
-      this.electronCloud.pdomVisible = false;
+      this.electronCloud.accessibleVisible = false;
     }
     else {
 
       // The electrons are currently being represented as a cloud.  The individual electron views won't show up in the
       // PDOM since they are made invisible by other portions of the code, so we don't need to worry about them here.
       // We *do* need to set the PDOM visibility of the electron cloud.
-      this.electronCloud.pdomVisible = this.atom.electrons.length > 0;
+      this.electronCloud.accessibleVisible = this.atom.electrons.length > 0;
     }
 
     // Update the focusable state of the particle views and electron cloud.
     if ( !focusedAndDraggingParticleView ) {
 
       // Make a list of all particle views that are currently visible in the PDOM.
-      const pdomVisibleParticleViews = allParticleViews.filter( pv => pv.pdomVisible );
+      const accessibleVisibleParticleViews = allParticleViews.filter( pv => pv.accessibleVisible );
 
       // Of these, are any currently focusable?
-      const focusableParticleViews = pdomVisibleParticleViews.filter( pv => pv.focusable );
+      const focusableParticleViews = accessibleVisibleParticleViews.filter( pv => pv.focusable );
 
       // Count the number of focusable nodes, potentially including the electron cloud.
       const numberOfFocusableNodes = focusableParticleViews.length + ( this.electronCloud.focusable ? 1 : 0 );
@@ -739,23 +739,23 @@ class AtomNode extends Node {
 
         // Decide which Node should be focusable based on designed priority.
         const particleNodesInPriorityOrder: ( ParticleView | ElectronCloudView )[] = [];
-        const protonView = pdomVisibleParticleViews.find( pv => pv.particle.type === 'proton' );
+        const protonView = accessibleVisibleParticleViews.find( pv => pv.particle.type === 'proton' );
         protonView && particleNodesInPriorityOrder.push( protonView );
-        const neutronView = pdomVisibleParticleViews.find( pv => pv.particle.type === 'neutron' );
+        const neutronView = accessibleVisibleParticleViews.find( pv => pv.particle.type === 'neutron' );
         neutronView && particleNodesInPriorityOrder.push( neutronView );
         this.electronCloud.focusable = false; // will be set true below if needed
         if ( this.electronShellDepictionProperty.value === 'shells' ) {
-          const innerShellElectronView = pdomVisibleParticleViews.find(
+          const innerShellElectronView = accessibleVisibleParticleViews.find(
             pv => pv.particle.type === 'electron' && this.getElectronShellNumber( pv.particle ) === 0
           );
           innerShellElectronView && particleNodesInPriorityOrder.push( innerShellElectronView );
-          const outerShellElectronView = pdomVisibleParticleViews.find(
+          const outerShellElectronView = accessibleVisibleParticleViews.find(
             pv => pv.particle.type === 'electron' && this.getElectronShellNumber( pv.particle ) === 1
           );
           outerShellElectronView && particleNodesInPriorityOrder.push( outerShellElectronView );
         }
         else {
-          if ( this.electronCloud.pdomVisible ) {
+          if ( this.electronCloud.accessibleVisible ) {
             particleNodesInPriorityOrder.push( this.electronCloud );
           }
         }
@@ -986,7 +986,7 @@ class AtomNode extends Node {
 
       // Set focus to the new node.
       const focusedParticleView = focusOrder[ newIndex ];
-      focusedParticleView.pdomVisible = true;
+      focusedParticleView.accessibleVisible = true;
       focusedParticleView.focusable = true;
       focusedParticleView.focus();
 

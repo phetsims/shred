@@ -67,7 +67,7 @@ class ElectronCloudKeyboardListener extends KeyboardListener<OneKeyStroke[]> {
           const electronView = mapElectronsToViews.get( electron );
           affirm( electronView, 'Missing ParticleView for electron' );
           electronView.visible = true;
-          electronView.pdomVisible = true;
+          electronView.accessibleVisible = true;
           electronView.focusable = true;
           electronView.focus();
           atomNode.electronCloud.focusable = false;

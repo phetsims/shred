@@ -90,7 +90,7 @@ class PeriodicTableNode extends Node {
       enabledCellColor: ENABLED_CELL_COLOR,
       disabledCellColor: DISABLED_CELL_COLOR,
       selectedCellColor: SELECTED_CELL_COLOR,
-      pdomVisible: false,
+      accessibleVisible: false,
       cellAriaRoleDescription: null,
       groupFocusHighlight: true
     }, providedOptions );
@@ -134,7 +134,7 @@ class PeriodicTableNode extends Node {
           length: options.cellDimension,
           tandem: Tandem.OPT_OUT,
 
-          pdomVisible: false,
+          accessibleVisible: false,
           accessibleName: AtomIdentifier.getSpokenSymbol( protonCount, true )
         } );
         cell.focusHighlight = new HighlightFromNode( cell );
@@ -165,13 +165,13 @@ class PeriodicTableNode extends Node {
     const updateHighlightedCell = ( protonCount: number ) => {
       if ( highlightedCell !== null ) {
         highlightedCell.setHighlighted( false );
-        highlightedCell.pdomVisible = false;
+        highlightedCell.accessibleVisible = false;
       }
       if ( protonCount !== 0 ) {
         const elementIndex = PeriodicTableNode.protonCountToElementIndex( protonCount );
         highlightedCell = this.cells[ elementIndex ];
         highlightedCell.moveToFront();
-        highlightedCell.pdomVisible = true;
+        highlightedCell.accessibleVisible = true;
         highlightedCell.setHighlighted( true );
         highlightedCell.focus();
       }
