@@ -466,6 +466,9 @@
       },
       "location": {
         "value": "{ $location ->\n  [nucleus] nucleus\n  [innerShell] inner shell\n  [outerShell] outer shell\n  [cloud] cloud\n  *[bucket] bucket\n}"
+      },
+      "locationCapitalized": {
+        "value": "{ $location ->\n  [nucleus] Nucleus\n  [innerShell] Inner Shell\n  [outerShell] Outer Shell\n  [cloud] Cloud\n  *[bucket] Bucket\n}"
       }
     }
   }

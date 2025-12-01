@@ -326,6 +326,8 @@ type StringsType = {
       'outerElectronMovedToInnerShellStringProperty': LocalizedStringProperty;
       'location': string;
       'locationStringProperty': LocalizedStringProperty;
+      'locationCapitalized': string;
+      'locationCapitalizedStringProperty': LocalizedStringProperty;
     }
   }
 };

@@ -181,3 +181,10 @@ a11y:
         outerShell: outer shell
         cloud: cloud
         bucket: bucket
+    locationCapitalized:
+      select_location:
+        nucleus: Nucleus
+        innerShell: Inner Shell
+        outerShell: Outer Shell
+        cloud: Cloud
+        bucket: Bucket
