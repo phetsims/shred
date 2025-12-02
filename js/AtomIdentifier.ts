@@ -11,7 +11,7 @@
 
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
-import Utils from '../../dot/js/Utils.js';
+import { toFixedNumber } from '../../dot/js/util/toFixedNumber.js';
 import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
 import shred from './shred.js';
 import ShredFluent from './ShredFluent.js';
@@ -14354,7 +14354,7 @@ const AtomIdentifier = {
          ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ] !== undefined ) {
 
       // the configuration is in the table, get it and round it to the needed number of decimal places
-      abundanceProportion = Utils.toFixedNumber(
+      abundanceProportion = toFixedNumber(
         ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ].abundance,
         numDecimalPlaces
       );
