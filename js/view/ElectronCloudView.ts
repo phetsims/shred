@@ -4,7 +4,7 @@
  * Node that represents the electron shell in an atom as a "cloud" that grows and shrinks depending on the number of
  * electrons it contains.  This has also been referred to as the "Schrodinger model" representation.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';

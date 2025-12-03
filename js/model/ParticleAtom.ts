@@ -4,7 +4,7 @@
  * A model element that represents an atom that is composed of a set of modeled subatomic particles. This model element
  * manages the positions and motion of all particles that are a part of the atom.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import createObservableArray, { ObservableArray } from '../../../axon/js/createObservableArray.js';

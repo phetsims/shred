@@ -3,7 +3,7 @@
 /**
  * Model representation of a subatomic particle, such as a proton.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import BooleanProperty from '../../../axon/js/BooleanProperty.js';

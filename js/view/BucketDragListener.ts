@@ -5,7 +5,7 @@
  * manages it as though the user had clicked directly on the particle. This exists to make it easier for the users to
  * get particles out of the buckets when using a touch-based device.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Vector2 from '../../../dot/js/Vector2.js';

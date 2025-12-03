@@ -2,7 +2,7 @@
 
 /**
  * Scenery node that defines a single cell in a periodic table.
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Aadish Gupta
  */
 

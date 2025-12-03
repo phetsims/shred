@@ -4,7 +4,7 @@
  * View representation of the atom. Mostly, this is responsible for displaying and updating the labels, since the atom
  * itself is represented by particles, which take care of themselves in the view.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import DerivedProperty from '../../../axon/js/DerivedProperty.js';

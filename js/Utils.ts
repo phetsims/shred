@@ -3,7 +3,7 @@
 /**
  * Collection of utility functions used in multiple places within the sim.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import shred from './shred.js';

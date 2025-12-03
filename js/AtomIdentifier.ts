@@ -4,7 +4,7 @@
  * AtomIdentifier is an object that can be used to identify various things about an atom given its configuration, such
  * as its name, chemical symbols, and stable isotopes.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Jesse Greenberg
  * @author Luisa Vargas
  */

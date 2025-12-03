@@ -4,7 +4,7 @@
  * A node that presents a graphical representation of an atom's configuration. It looks somewhat like a bar graph that
  * grows to the right except that the "bars" are actually lines of particles.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Aadish Gupta
  */
 

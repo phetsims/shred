@@ -4,7 +4,7 @@
  * Node that represents an atomic symbol, meaning that it shows the symbol text, the proton count, and the
  * atomic number. It also optionally shows the charge.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Luisa Vargas
  */
 

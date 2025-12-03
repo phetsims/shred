@@ -5,7 +5,7 @@
  * of electrons that it contains.  This particular class implements behavior needed for the Isotopes simulation, which
  * is somewhat different from that needed for Build an Atom.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  * @author Jesse Greenberg
  * @author Aadish Gupta
  */

@@ -3,7 +3,7 @@
 /**
  * Shared constants used in various places in both 'Build an Atom' and 'Isotopes and Atomic Mass'.
  *
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Vector2 from '../../dot/js/Vector2.js';
