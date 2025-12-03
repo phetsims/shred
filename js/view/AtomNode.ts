@@ -669,7 +669,15 @@ class AtomNode extends Node {
           const particles = nucleonType === 'proton' ? this.atom.protons : this.atom.neutrons;
           const sortedParticles = [ ...particles ].sort( nucleonSortingFunction );
           const particleView = this.getParticleView( sortedParticles[ 0 ] );
-          affirm( particleView, 'There should be a particle view for this nucleon' );
+
+          // During steady state operation, the particle view should always be found.  However, during construction in
+          // cases where there are initially particles in the atom, the particle views may not yet be available here.
+          // Hence, the additional logic.
+          if ( phet.joist.sim?.isConstructionCompleteProperty?.value ) {
+            affirm( particleView, 'There should be a particle view for this nucleon' );
+          }
+
+          // Update the PDOM visibility.
           nucleonViews.forEach( pv => {
             pv.accessibleVisible = pv === particleView;
           } );
