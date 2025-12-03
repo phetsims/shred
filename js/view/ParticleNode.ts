@@ -8,6 +8,7 @@
  */
 
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
+import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import Color from '../../../scenery/js/util/Color.js';
@@ -29,7 +30,7 @@ class ParticleNode extends Circle {
 
     // Get the color to use as the basis for the gradients, fills, strokes and such.
     const baseColorProperty = new ColorProperty( PARTICLE_COLORS[ particleType ] );
-    assert && assert( baseColorProperty, `Unrecognized particle type: ${particleType}` );
+    affirm( baseColorProperty, `Unrecognized particle type: ${particleType}` );
 
     const ownsColorProperty = providedOptions && !providedOptions.colorProperty;
 
@@ -45,8 +46,8 @@ class ParticleNode extends Circle {
       stroke: providedOptions?.colorProperty || baseColorProperty
     }, providedOptions );
 
-    assert && assert( options.fill === undefined, 'fill will be set programmatically and should not be specified' );
-    assert && assert( options.lineWidth === undefined, 'line width will be set programmatically and should not be specified' );
+    affirm( options.fill === undefined, 'fill will be set programmatically and should not be specified' );
+    affirm( options.lineWidth === undefined, 'line width will be set programmatically and should not be specified' );
 
     super( radius, options );
 

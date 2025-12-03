@@ -12,6 +12,7 @@
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import { toFixedNumber } from '../../dot/js/util/toFixedNumber.js';
+import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
 import shred from './shred.js';
 import ShredFluent from './ShredFluent.js';
@@ -14243,21 +14244,23 @@ const HalfLifeConstants: HalfLifeConstantsType = {
   }
 };
 
-if ( assert ) {
-  for ( const halfLifeProtonNumber in HalfLifeConstants ) {
-    for ( const halfLifeNeutronNumber in HalfLifeConstants[ halfLifeProtonNumber ] ) {
-      assert && assert( DECAYS_INFO_TABLE.hasOwnProperty( halfLifeProtonNumber ) &&
+for ( const halfLifeProtonNumber in HalfLifeConstants ) {
+  for ( const halfLifeNeutronNumber in HalfLifeConstants[ halfLifeProtonNumber ] ) {
+    affirm(
+      DECAYS_INFO_TABLE.hasOwnProperty( halfLifeProtonNumber ) &&
       DECAYS_INFO_TABLE[ halfLifeProtonNumber ].hasOwnProperty( halfLifeNeutronNumber ),
-        `DECAYS missing entry from HalfLifeConstants for p${halfLifeProtonNumber}, n${halfLifeNeutronNumber}` );
-    }
+      `DECAYS missing entry from HalfLifeConstants for p${halfLifeProtonNumber}, n${halfLifeNeutronNumber}`
+    );
   }
+}
 
-  for ( const decayProtonNumber in DECAYS_INFO_TABLE ) {
-    for ( const decayNeutronNumber in DECAYS_INFO_TABLE[ decayProtonNumber ] ) {
-      assert && assert( HalfLifeConstants.hasOwnProperty( decayProtonNumber ) &&
+for ( const decayProtonNumber in DECAYS_INFO_TABLE ) {
+  for ( const decayNeutronNumber in DECAYS_INFO_TABLE[ decayProtonNumber ] ) {
+    affirm(
+      HalfLifeConstants.hasOwnProperty( decayProtonNumber ) &&
       HalfLifeConstants[ decayProtonNumber ].hasOwnProperty( decayNeutronNumber ),
-        `HalfLifeConstants missing entry from HalfLifeConstants for p${decayProtonNumber}, n${decayNeutronNumber}` );
-    }
+      `HalfLifeConstants missing entry from HalfLifeConstants for p${decayProtonNumber}, n${decayNeutronNumber}`
+    );
   }
 }
 
@@ -14348,7 +14351,7 @@ const AtomIdentifier = {
    * percentage) with the specified number of decimal places.
    */
   getNaturalAbundance: function( isotope: TReadOnlyNumberAtom, numDecimalPlaces: number ): number {
-    assert && assert( numDecimalPlaces !== undefined, 'must specify number of decimal places for proportion' );
+    affirm( numDecimalPlaces !== undefined, 'must specify number of decimal places for proportion' );
     let abundanceProportion = 0;
     if ( isotope.protonCountProperty.get() > 0 &&
          ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ] !== undefined ) {
