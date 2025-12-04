@@ -395,7 +395,7 @@ class AtomNode extends Node {
           this.electronCloud.focusable = false;
         }
 
-        // Make sure individual electrons are not PDOM visible.
+        // Make sure individual electrons are not visible in the accessibility PDOM.
         this.getAllParticleViews().forEach( pv => {
           if ( pv.particle.type === 'electron' ) {
             pv.accessibleVisible = false;
@@ -617,13 +617,13 @@ class AtomNode extends Node {
   }
 
   /**
-   * Update the PDOM visibility and focusability of the particles that comprise the atom based on the current model and
-   * view state.  The main things we are trying to accomplish here are:
+   * Update the accessible visibility and focusability of the particles that comprise the atom based on the current
+   * model and view state.  The main things we are trying to accomplish here are:
    * 1.  Make sure that at least one particle in the atom is focusable, so that the tab order has something to land on.
    * 2.  Make sure that only one particle is focusable at a time so that there is a single tab stop for the atom.
-   * 3.  Make sure that only a small number of particles are PDOM visible at a time, so that the PDOM is not
-   *     overwhelming.  There should be at max one proton, one neutron, and one electron from each shell visible in the
-   *     PDOM, plus the particle being dragged if there is one.
+   * 3.  Make sure that only a small number of particles are visible in the accessibility PDOM at a time, so that the
+   *     PDOM is not overwhelming.  There should be at max one proton, one neutron, and one electron from each shell
+   *     visible in the accessibility PDOM, plus the particle being dragged if there is one.
    */
   public updateParticleViewAltInputState(): void {
 
@@ -644,7 +644,7 @@ class AtomNode extends Node {
       return p1Distance - p2Distance;
     };
 
-    // Handle PDOM visibility for the nucleons (i.e. protons and neutrons).
+    // Handle accessible visibility for the nucleons (i.e. protons and neutrons).
     const nucleonTypes = [ 'proton', 'neutron' ] as ParticleType[];
     nucleonTypes.forEach( nucleonType => {
       const nucleonViews = allParticleViews.filter(
@@ -658,14 +658,14 @@ class AtomNode extends Node {
         const focusedNucleonView = nucleonViews.find( pv => pv.focused );
         if ( numberOfAccessibleVisibleNucleonViews === 2 && focusedNucleonView ) {
 
-          // Find the unfocused nucleon that is currently PDOM visible and make it not PDOM visible.
+          // Find the unfocused nucleon that is currently visible in the PDOM and make it not visible.
           const unfocusedAccessibleVisibleNucleonView = nucleonViews.find( pv => !pv.focused && pv.accessibleVisible );
-          affirm( unfocusedAccessibleVisibleNucleonView, 'There should be an unfocused PDOM visible nucleon view' );
+          affirm( unfocusedAccessibleVisibleNucleonView, 'There should be an unfocused accessible visible nucleon view' );
           unfocusedAccessibleVisibleNucleonView.accessibleVisible = false;
         }
         else {
 
-          // Otherwise, just make the closest nucleon to the center of the atom PDOM visible.
+          // Otherwise, just make the closest nucleon to the center of the atom visible in the accessibility PDOM.
           const particles = nucleonType === 'proton' ? this.atom.protons : this.atom.neutrons;
           const sortedParticles = [ ...particles ].sort( nucleonSortingFunction );
           const particleView = this.getParticleView( sortedParticles[ 0 ] );
@@ -677,7 +677,7 @@ class AtomNode extends Node {
             affirm( particleView, 'There should be a particle view for this nucleon' );
           }
 
-          // Update the PDOM visibility.
+          // Update the accessible visibility.
           nucleonViews.forEach( pv => {
             pv.accessibleVisible = pv === particleView;
           } );
@@ -685,7 +685,7 @@ class AtomNode extends Node {
       }
     } );
 
-    // Handle PDOM visibility for the electrons.
+    // Handle accessible visibility for the electrons.
     if ( this.electronShellDepictionProperty.value === 'shells' ) {
 
       // For each of the electron shells, make sure that only one electron in that shell is PDOM visible, but take care
@@ -719,21 +719,21 @@ class AtomNode extends Node {
         }
       } );
 
-      // Make sure the electron cloud is not PDOM visible.
+      // Make sure the electron cloud is not accessible visible.
       this.electronCloud.accessibleVisible = false;
     }
     else {
 
       // The electrons are currently being represented as a cloud.  The individual electron views won't show up in the
       // PDOM since they are made invisible by other portions of the code, so we don't need to worry about them here.
-      // We *do* need to set the PDOM visibility of the electron cloud.
+      // We *do* need to set the accessible-PDOM visibility of the electron cloud.
       this.electronCloud.accessibleVisible = this.atom.electrons.length > 0;
     }
 
     // Update the focusable state of the particle views and electron cloud.
     if ( !focusedAndDraggingParticleView ) {
 
-      // Make a list of all particle views that are currently visible in the PDOM.
+      // Make a list of all particle views that are currently visible in the accessibility PDOM.
       const accessibleVisibleParticleViews = allParticleViews.filter( pv => pv.accessibleVisible );
 
       // Of these, are any currently focusable?
@@ -1002,7 +1002,7 @@ class AtomNode extends Node {
       this.makeAllOtherParticleViewsNotFocusable( focusedParticleView );
     }
 
-    // Update the PDOM visibility of the particles in the atom.
+    // Update the accessible visibility of the particles in the atom.
     this.updateParticleViewAltInputState();
   }
 
