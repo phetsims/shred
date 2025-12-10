@@ -470,6 +470,16 @@
       "locationCapitalized": {
         "value": "{ $location ->\n  [nucleus] Nucleus\n  [innerShell] Inner Shell\n  [outerShell] Outer Shell\n  [cloud] Cloud\n  *[bucket] Bucket\n}"
       }
+    },
+    "keyboardHelpDialog": {
+      "periodicTableNode": {
+        "navigation": {
+          "value": "Periodic Table Navigation"
+        },
+        "selectChemicalSymbol": {
+          "value": "Select chemical symbol"
+        }
+      }
     }
   }
 }

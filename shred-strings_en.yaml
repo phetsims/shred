@@ -188,3 +188,7 @@ a11y:
         outerShell: Outer Shell
         cloud: Cloud
         bucket: Bucket
+  keyboardHelpDialog:
+    periodicTableNode:
+      navigation: Periodic Table Navigation
+      selectChemicalSymbol: Select chemical symbol

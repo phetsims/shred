@@ -180,6 +180,8 @@ addToMapIfDefined( 'a11y_particles_overAtom', 'a11y.particles.overAtomStringProp
 addToMapIfDefined( 'a11y_particles_outerElectronMovedToInnerShell', 'a11y.particles.outerElectronMovedToInnerShellStringProperty' );
 addToMapIfDefined( 'a11y_particles_location', 'a11y.particles.locationStringProperty' );
 addToMapIfDefined( 'a11y_particles_locationCapitalized', 'a11y.particles.locationCapitalizedStringProperty' );
+addToMapIfDefined( 'a11y_keyboardHelpDialog_periodicTableNode_navigation', 'a11y.keyboardHelpDialog.periodicTableNode.navigationStringProperty' );
+addToMapIfDefined( 'a11y_keyboardHelpDialog_periodicTableNode_selectChemicalSymbol', 'a11y.keyboardHelpDialog.periodicTableNode.selectChemicalSymbolStringProperty' );
 
 // A function that creates contents for a new Fluent file, which will be needed if any string changes.
 const createFluentFile = (): string => {
@@ -354,6 +356,12 @@ const ShredFluent = {
       outerElectronMovedToInnerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_outerElectronMovedToInnerShell', _.get( ShredStrings, 'a11y.particles.outerElectronMovedToInnerShellStringProperty' ) ),
       location: new FluentPattern<{ location: 'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket' | TReadOnlyProperty<'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket'> }>( fluentSupport.bundleProperty, 'a11y_particles_location', _.get( ShredStrings, 'a11y.particles.locationStringProperty' ), [{"name":"location","variants":["nucleus","innerShell","outerShell","cloud","bucket"]}] ),
       locationCapitalized: new FluentPattern<{ location: 'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket' | TReadOnlyProperty<'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket'> }>( fluentSupport.bundleProperty, 'a11y_particles_locationCapitalized', _.get( ShredStrings, 'a11y.particles.locationCapitalizedStringProperty' ), [{"name":"location","variants":["nucleus","innerShell","outerShell","cloud","bucket"]}] )
+    },
+    keyboardHelpDialog: {
+      periodicTableNode: {
+        navigationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_periodicTableNode_navigation', _.get( ShredStrings, 'a11y.keyboardHelpDialog.periodicTableNode.navigationStringProperty' ) ),
+        selectChemicalSymbolStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_periodicTableNode_selectChemicalSymbol', _.get( ShredStrings, 'a11y.keyboardHelpDialog.periodicTableNode.selectChemicalSymbolStringProperty' ) )
+      }
     }
   }
 };

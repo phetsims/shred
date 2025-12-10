@@ -14,6 +14,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import PhetColorScheme from '../../../scenery-phet/js/PhetColorScheme.js';
 import HighlightFromNode from '../../../scenery/js/accessibility/HighlightFromNode.js';
 import ParallelDOM, { PDOMValueType } from '../../../scenery/js/accessibility/pdom/ParallelDOM.js';
+import HotkeyData from '../../../scenery/js/input/HotkeyData.js';
 import { OneKeyStroke } from '../../../scenery/js/input/KeyDescriptor.js';
 import KeyboardListener from '../../../scenery/js/listeners/KeyboardListener.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
@@ -23,13 +24,13 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
+import ShredFluent from '../ShredFluent.js';
 import PeriodicTableCell, { CellColor } from './PeriodicTableCell.js';
 
 // constants
 const ENABLED_CELL_COLOR = ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR;
 const DISABLED_CELL_COLOR = '#EEEEEE';
 const SELECTED_CELL_COLOR = '#FA8072'; //salmon
-const NAVIGATION_KEYS: OneKeyStroke[] = [ 'arrowRight', 'arrowLeft', 'arrowDown', 'arrowUp', 'w', 'a', 's', 'd' ];
 const MAX_PROTON_COUNT = 118;
 
 // 2D array that defines the table structure.
@@ -193,7 +194,7 @@ class PeriodicTableNode extends Node {
 
       // Add a keyboard listener that will allow users to navigate the table with arrow keys.
       this.addInputListener( new KeyboardListener<OneKeyStroke[]>( {
-        keys: NAVIGATION_KEYS,
+        keyStringProperties: PeriodicTableNode.NAVIGATION_HOTKEY_DATA.keyStringProperties,
         fire: ( event, keysPressed ) => {
           if ( protonCountProperty.value === 0 ) {
 
@@ -321,6 +322,12 @@ class PeriodicTableNode extends Node {
     }
     return elementIndex;
   }
+
+  public static readonly NAVIGATION_HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'arrowRight', 'arrowLeft', 'arrowDown', 'arrowUp', 'w', 'a', 's', 'd' ],
+    keyboardHelpDialogLabelStringProperty: ShredFluent.a11y.keyboardHelpDialog.periodicTableNode.selectChemicalSymbolStringProperty,
+    repoName: shred.name
+  } );
 }
 
 shred.register( 'PeriodicTableNode', PeriodicTableNode );

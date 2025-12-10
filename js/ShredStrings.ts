@@ -328,6 +328,14 @@ type StringsType = {
       'locationStringProperty': LocalizedStringProperty;
       'locationCapitalized': string;
       'locationCapitalizedStringProperty': LocalizedStringProperty;
+    };
+    'keyboardHelpDialog': {
+      'periodicTableNode': {
+        'navigation': string;
+        'navigationStringProperty': LocalizedStringProperty;
+        'selectChemicalSymbol': string;
+        'selectChemicalSymbolStringProperty': LocalizedStringProperty;
+      }
     }
   }
 };
