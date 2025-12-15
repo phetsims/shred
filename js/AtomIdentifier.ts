@@ -9,8 +9,11 @@
  * @author Luisa Vargas
  */
 
+import DynamicProperty from '../../axon/js/DynamicProperty.js';
+import Property from '../../axon/js/Property.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
+import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import { toFixedNumber } from '../../dot/js/util/toFixedNumber.js';
 import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
@@ -14282,6 +14285,22 @@ const AtomIdentifier = {
    */
   getName: function( numProtons: number ): TProperty<string> {
     return nameTable[ numProtons ];
+  },
+
+  /**
+   * Creates a property that listens both to the protonCount (updates element name when a proton is added/removed)
+   * but also listens to the locale (updates when Hydrogen goes to Hidrógeno).
+   */
+  createDynamicNameProperty: function( protonCountProperty: TReadOnlyProperty<number> ): DynamicProperty<string, number, TReadOnlyProperty<string>> {
+    const currentElementStringProperty = new Property( AtomIdentifier.getName( protonCountProperty.value ), { reentrant: true } );
+    const elementDynamicStringProperty = new DynamicProperty<string, number, TReadOnlyProperty<string>>( currentElementStringProperty );
+
+    // Update the element name based on the proton count.
+    protonCountProperty.link( protonCount => {
+      currentElementStringProperty.value = AtomIdentifier.getName( protonCount );
+    } );
+
+    return elementDynamicStringProperty;
   },
 
   /**
