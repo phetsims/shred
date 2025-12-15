@@ -167,7 +167,10 @@ a11y:
     neutrons: Neutrons
     electrons: Electrons
     electronInCloud: Electron, in Cloud
-    accessibleName: "{{particle}}, in {{location}}"
+    accessibleName:
+      select_pattern:
+        withLocation: "{ $particle }, in { $location }"
+        withoutLocation: "{ $particle }"
     overNucleus: over nucleus
     overInnerShell: over inner shell
     overOuterShell: over outer shell

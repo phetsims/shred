@@ -5,11 +5,11 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import type { FluentVariable } from '../../chipper/js/browser/FluentPattern.js';
-import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
+import {TReadOnlyProperty} from '../../axon/js/TReadOnlyProperty.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
+import type {FluentVariable} from '../../chipper/js/browser/FluentPattern.js';
+import FluentPattern from '../../chipper/js/browser/FluentPattern.js';
 import shred from './shred.js';
 import ShredStrings from './ShredStrings.js';
 
@@ -172,6 +172,7 @@ addToMapIfDefined( 'a11y_particles_protons', 'a11y.particles.protonsStringProper
 addToMapIfDefined( 'a11y_particles_neutrons', 'a11y.particles.neutronsStringProperty' );
 addToMapIfDefined( 'a11y_particles_electrons', 'a11y.particles.electronsStringProperty' );
 addToMapIfDefined( 'a11y_particles_electronInCloud', 'a11y.particles.electronInCloudStringProperty' );
+addToMapIfDefined( 'a11y_particles_accessibleName', 'a11y.particles.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_particles_overNucleus', 'a11y.particles.overNucleusStringProperty' );
 addToMapIfDefined( 'a11y_particles_overInnerShell', 'a11y.particles.overInnerShellStringProperty' );
 addToMapIfDefined( 'a11y_particles_overOuterShell', 'a11y.particles.overOuterShellStringProperty' );
@@ -347,7 +348,7 @@ const ShredFluent = {
       neutronsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_neutrons', _.get( ShredStrings, 'a11y.particles.neutronsStringProperty' ) ),
       electronsStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_electrons', _.get( ShredStrings, 'a11y.particles.electronsStringProperty' ) ),
       electronInCloudStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_electronInCloud', _.get( ShredStrings, 'a11y.particles.electronInCloudStringProperty' ) ),
-      accessibleNameStringProperty: _.get( ShredStrings, 'a11y.particles.accessibleNameStringProperty' ),
+      accessibleName: new FluentPattern<{ location: FluentVariable, particle: FluentVariable, pattern: 'withLocation' | 'withoutLocation' | TReadOnlyProperty<'withLocation' | 'withoutLocation'> }>( fluentSupport.bundleProperty, 'a11y_particles_accessibleName', _.get( ShredStrings, 'a11y.particles.accessibleNameStringProperty' ), [{"name":"location"},{"name":"particle"},{"name":"pattern","variants":["withLocation","withoutLocation"]}] ),
       overNucleusStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_overNucleus', _.get( ShredStrings, 'a11y.particles.overNucleusStringProperty' ) ),
       overInnerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_overInnerShell', _.get( ShredStrings, 'a11y.particles.overInnerShellStringProperty' ) ),
       overOuterShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_overOuterShell', _.get( ShredStrings, 'a11y.particles.overOuterShellStringProperty' ) ),

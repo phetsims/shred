@@ -444,7 +444,7 @@
         "value": "Electron, in Cloud"
       },
       "accessibleName": {
-        "value": "{{particle}}, in {{location}}"
+        "value": "{ $pattern ->\n  [withLocation] { $particle }, in { $location }\n  *[withoutLocation] { $particle }\n}"
       },
       "overNucleus": {
         "value": "over nucleus"
