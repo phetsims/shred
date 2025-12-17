@@ -33,7 +33,7 @@ import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredColors from '../ShredColors.js';
 import ShredConstants from '../ShredConstants.js';
-import ShredStrings from '../ShredStrings.js';
+import ShredFluent from '../ShredFluent.js';
 import AtomViewProperties from './AtomViewProperties.js';
 import ElectronCloudKeyboardListener from './ElectronCloudKeyboardListener.js';
 import ElectronCloudView from './ElectronCloudView.js';
@@ -41,11 +41,11 @@ import ElectronShellDepiction from './ElectronShellDepiction.js';
 import ElectronShellView from './ElectronShellView.js';
 import ParticleView from './ParticleView.js';
 
-const minusSignIonStringProperty = ShredStrings.minusSignIonStringProperty;
-const neutralAtomStringProperty = ShredStrings.neutralAtomStringProperty;
-const positiveSignIonStringProperty = ShredStrings.positiveSignIonStringProperty;
-const stableStringProperty = ShredStrings.stableStringProperty;
-const unstableStringProperty = ShredStrings.unstableStringProperty;
+const minusSignIonStringProperty = ShredFluent.minusSignIonStringProperty;
+const neutralAtomStringProperty = ShredFluent.neutralAtomStringProperty;
+const positiveSignIonStringProperty = ShredFluent.positiveSignIonStringProperty;
+const stableStringProperty = ShredFluent.stableStringProperty;
+const unstableStringProperty = ShredFluent.unstableStringProperty;
 
 // constants
 const ELEMENT_NAME_FONT_SIZE = 22;
@@ -490,7 +490,7 @@ class AtomNode extends Node {
 
     this.atom.isMovingElectronInwardsProperty.link( isMovingInwards => {
       if ( isMovingInwards ) {
-        this.addAccessibleContextResponse( ShredStrings.a11y.particles.outerElectronMovedToInnerShell );
+        this.addAccessibleContextResponse( ShredFluent.a11y.particles.outerElectronMovedToInnerShellStringProperty );
       }
     } );
 

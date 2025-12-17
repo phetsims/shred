@@ -23,7 +23,7 @@ import Particle from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
-import ShredStrings from '../ShredStrings.js';
+import ShredFluent from '../ShredFluent.js';
 import ParticleView from './ParticleView.js';
 
 type SelfOptions = EmptySelfOptions;
@@ -61,7 +61,7 @@ class ElectronCloudView extends InteractiveHighlighting( Node ) {
         cursor: 'pointer',
         focusHighlight: focusHighlight,
         focusable: false, // initially not focusable, set to true when there are electrons
-        accessibleName: ShredStrings.a11y.particles.electronInCloudStringProperty,
+        accessibleName: ShredFluent.a11y.particles.electronInCloudStringProperty,
         phetioVisiblePropertyInstrumented: false // Don't allow phet-io users to hide this.
       },
       providedOptions

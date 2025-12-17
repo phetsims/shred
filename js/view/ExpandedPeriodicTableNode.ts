@@ -21,7 +21,7 @@ import AtomIdentifier from '../AtomIdentifier.js';
 import NumberAtom from '../model/NumberAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
-import ShredStrings from '../ShredStrings.js';
+import ShredFluent from '../ShredFluent.js';
 import PeriodicTableNode from './PeriodicTableNode.js';
 
 // constants
@@ -103,7 +103,9 @@ class ExpandedPeriodicTableNode extends Node {
       expandedRowsNode.right, expandedRowsNode.top, connectingLineOptions );
     this.addChild( rightConnectingLine );
 
-    const periodicTableTitle = new Text( ShredStrings.periodicTable, { font: new PhetFont( { size: 16, weight: 'bold' } ) } );
+    const periodicTableTitle = new Text( ShredFluent.periodicTableStringProperty, {
+      font: new PhetFont( { size: 16, weight: 'bold' } )
+    } );
     periodicTableTitle.bottom = periodicTableNode.top - 5;
     periodicTableTitle.centerX = periodicTableNode.centerX;
     this.addChild( periodicTableTitle );

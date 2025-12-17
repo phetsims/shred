@@ -19,7 +19,7 @@ import { TReadOnlyNumberAtom } from '../model/NumberAtom.js';
 import { ParticleType } from '../model/Particle.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
-import ShredStrings from '../ShredStrings.js';
+import ShredFluent from '../ShredFluent.js';
 import ParticleNode from './ParticleNode.js';
 
 // constants
@@ -52,9 +52,9 @@ class ParticleCountDisplay extends Panel {
 
     // Create label Text nodes, with an AlignGroup so their right edges align
     const titleAlignGroup = new AlignGroup( { matchVertical: true } );
-    const protonTitleText = new Text( ShredStrings.protonsColonStringProperty, TEXT_OPTIONS );
-    const neutronTitleText = new Text( ShredStrings.neutronsColonStringProperty, TEXT_OPTIONS );
-    const electronTitleText = new Text( ShredStrings.electronsColonStringProperty, TEXT_OPTIONS );
+    const protonTitleText = new Text( ShredFluent.protonsColonStringProperty, TEXT_OPTIONS );
+    const neutronTitleText = new Text( ShredFluent.neutronsColonStringProperty, TEXT_OPTIONS );
+    const electronTitleText = new Text( ShredFluent.electronsColonStringProperty, TEXT_OPTIONS );
 
     const nucleonRadius = 5; // Determined empirically
     const electronRadius = nucleonRadius * 0.6;
