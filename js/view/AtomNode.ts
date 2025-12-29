@@ -670,10 +670,11 @@ class AtomNode extends Node {
           const sortedParticles = [ ...particles ].sort( nucleonSortingFunction );
           const particleView = this.getParticleView( sortedParticles[ 0 ] );
 
-          // During steady state operation, the particle view should always be found.  However, during construction in
-          // cases where there are initially particles in the atom, the particle views may not yet be available here.
-          // Hence, the additional logic.
-          if ( phet.joist.sim?.isConstructionCompleteProperty?.value ) {
+          // During steady state operation, a particle view should always be found for the chosen particle.  However,
+          // during construction in cases where there are initially particles in the atom model - such as when using
+          // query parameters or phet-io state - the particle views may not yet be available here. Hence, the additional
+          // logic that accompanies this state check.
+          if ( phet.joist.sim?.isConstructionCompleteProperty?.value && !isSettingPhetioStateProperty.value ) {
             affirm( particleView, 'There should be a particle view for this nucleon' );
           }
 
