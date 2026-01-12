@@ -46,7 +46,7 @@ const POPULATED_CELLS = [
 
 type SelfOptions = {
 
-  // Atomic number of the heaviest element that should be interactive
+  // Atomic number of the heaviest element that should be interactive. If 0, the table is non-interactive.
   interactiveMax?: number;
 
   cellDimension?: number;
@@ -91,9 +91,12 @@ class PeriodicTableNode extends Node {
       enabledCellColor: ENABLED_CELL_COLOR,
       disabledCellColor: DISABLED_CELL_COLOR,
       selectedCellColor: SELECTED_CELL_COLOR,
-      accessibleVisible: false,
       cellAriaRoleDescription: null,
-      groupFocusHighlight: true
+      groupFocusHighlight: true,
+
+      // TODO: Fill in and move to translatable strings files, see https://github.com/phetsims/build-an-atom/issues/471
+      accessibleHeading: 'Periodic Table of Elements',
+      descriptionContent: '(TBD) Description content...'
     }, providedOptions );
 
     affirm( options.interactiveMax === 0 || isTProperty<number>( protonCountProperty ),
@@ -102,9 +105,12 @@ class PeriodicTableNode extends Node {
 
     super( options );
 
+    const isTableInteractive = options.interactiveMax > 0;
+
+    // Create a Node just for the accessibleHelpText, so that it can be placed in the correct location in the DOM.
+    // Then, we forward the help text from this Node to the helpTextNode, so that when it is set here,
     const helpTextNode = new Node();
     this.addChild( helpTextNode );
-
     ParallelDOM.forwardHelpText( this, helpTextNode );
 
     let protonCount = 1;
@@ -172,9 +178,13 @@ class PeriodicTableNode extends Node {
         const elementIndex = PeriodicTableNode.protonCountToElementIndex( protonCount );
         highlightedCell = this.cells[ elementIndex ];
         highlightedCell.moveToFront();
-        highlightedCell.accessibleVisible = true;
         highlightedCell.setHighlighted( true );
-        highlightedCell.focus();
+
+        // If table is not interactive, do not display any accessibility for the interactive cell.
+        if ( isTableInteractive ) {
+          highlightedCell.accessibleVisible = true;
+          highlightedCell.focus();
+        }
       }
     };
     protonCountProperty.link( updateHighlightedCell );
@@ -185,7 +195,8 @@ class PeriodicTableNode extends Node {
       this.cells.forEach( cell => { !cell.isDisposed && cell.dispose();} );
     };
 
-    if ( options.interactiveMax > 0 ) {
+    // If this table is interactive at all, add keyboard navigation and accessible PDOM structure for screen readers.
+    if ( isTableInteractive ) {
 
       affirm(
         isTProperty<number>( protonCountProperty ),
@@ -214,6 +225,31 @@ class PeriodicTableNode extends Node {
             else if ( keysPressed === 'arrowUp' || keysPressed === 'w' ) {
               protonCountProperty.value = PeriodicTableNode.move( protonCountProperty.value, 0, -1 );
             }
+          }
+        }
+      } ) );
+
+      // An accessible button, that will either focus the currently highlighted cell, or set the selection to the
+      // first one.
+      const interactiveButtonNode = new Node( {
+        tagName: 'button',
+        accessibleName: 'Activate Periodic Table'
+      } );
+      this.addChild( interactiveButtonNode );
+
+      // The accessible Node has no bounds, so this highlights the entire table when it has focus.
+      interactiveButtonNode.focusHighlight = new HighlightFromNode( this );
+
+      interactiveButtonNode.addInputListener( new KeyboardListener( {
+        fireOnClick: true,
+        fire: () => {
+          if ( protonCountProperty.value === 0 ) {
+
+            // Nothing is selected, so set it to Hydrogen regardless of what key was pressed.
+            protonCountProperty.value = 1;
+          }
+          else {
+            highlightedCell && highlightedCell.focus();
           }
         }
       } ) );
