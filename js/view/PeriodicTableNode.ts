@@ -93,10 +93,8 @@ class PeriodicTableNode extends Node {
       selectedCellColor: SELECTED_CELL_COLOR,
       cellAriaRoleDescription: null,
       groupFocusHighlight: true,
-
-      // TODO: Fill in and move to translatable strings files, see https://github.com/phetsims/build-an-atom/issues/471
-      accessibleHeading: 'Periodic Table of Elements',
-      descriptionContent: '(TBD) Description content...'
+      accessibleHeading: ShredFluent.a11y.periodicTableNode.accessibleHeadingStringProperty,
+      descriptionContent: ShredFluent.a11y.periodicTableNode.descriptionContentStringProperty
     }, providedOptions );
 
     affirm( options.interactiveMax === 0 || isTProperty<number>( protonCountProperty ),

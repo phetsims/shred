@@ -182,6 +182,8 @@ addToMapIfDefined( 'a11y_particles_overAtom', 'a11y.particles.overAtomStringProp
 addToMapIfDefined( 'a11y_particles_outerElectronMovedToInnerShell', 'a11y.particles.outerElectronMovedToInnerShellStringProperty' );
 addToMapIfDefined( 'a11y_particles_location', 'a11y.particles.locationStringProperty' );
 addToMapIfDefined( 'a11y_particles_locationCapitalized', 'a11y.particles.locationCapitalizedStringProperty' );
+addToMapIfDefined( 'a11y_periodicTableNode_accessibleHeading', 'a11y.periodicTableNode.accessibleHeadingStringProperty' );
+addToMapIfDefined( 'a11y_periodicTableNode_descriptionContent', 'a11y.periodicTableNode.descriptionContentStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_periodicTableNode_navigation', 'a11y.keyboardHelpDialog.periodicTableNode.navigationStringProperty' );
 addToMapIfDefined( 'a11y_keyboardHelpDialog_periodicTableNode_selectChemicalSymbol', 'a11y.keyboardHelpDialog.periodicTableNode.selectChemicalSymbolStringProperty' );
 
@@ -358,6 +360,10 @@ const ShredFluent = {
       outerElectronMovedToInnerShellStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particles_outerElectronMovedToInnerShell', _.get( ShredStrings, 'a11y.particles.outerElectronMovedToInnerShellStringProperty' ) ),
       location: new FluentPattern<{ location: 'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket' | TReadOnlyProperty<'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket'> }>( fluentSupport.bundleProperty, 'a11y_particles_location', _.get( ShredStrings, 'a11y.particles.locationStringProperty' ), [{"name":"location","variants":["nucleus","innerShell","outerShell","cloud","bucket"]}] ),
       locationCapitalized: new FluentPattern<{ location: 'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket' | TReadOnlyProperty<'nucleus' | 'innerShell' | 'outerShell' | 'cloud' | 'bucket'> }>( fluentSupport.bundleProperty, 'a11y_particles_locationCapitalized', _.get( ShredStrings, 'a11y.particles.locationCapitalizedStringProperty' ), [{"name":"location","variants":["nucleus","innerShell","outerShell","cloud","bucket"]}] )
+    },
+    periodicTableNode: {
+      accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_accessibleHeading', _.get( ShredStrings, 'a11y.periodicTableNode.accessibleHeadingStringProperty' ) ),
+      descriptionContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_descriptionContent', _.get( ShredStrings, 'a11y.periodicTableNode.descriptionContentStringProperty' ) )
     },
     keyboardHelpDialog: {
       periodicTableNode: {

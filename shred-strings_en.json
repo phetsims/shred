@@ -471,6 +471,14 @@
         "value": "{ $location ->\n  [nucleus] Nucleus\n  [innerShell] Inner Shell\n  [outerShell] Outer Shell\n  [cloud] Cloud\n  *[bucket] Bucket\n}"
       }
     },
+    "periodicTableNode": {
+      "accessibleHeading": {
+        "value": "Periodic Table of Elements"
+      },
+      "descriptionContent": {
+        "value": "(TBD) Description content..."
+      }
+    },
     "keyboardHelpDialog": {
       "periodicTableNode": {
         "navigation": {

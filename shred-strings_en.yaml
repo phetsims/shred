@@ -191,6 +191,9 @@ a11y:
         outerShell: Outer Shell
         cloud: Cloud
         bucket: Bucket
+  periodicTableNode:
+    accessibleHeading: Periodic Table of Elements
+    descriptionContent: (TBD) Description content...
   keyboardHelpDialog:
     periodicTableNode:
       navigation: Periodic Table Navigation

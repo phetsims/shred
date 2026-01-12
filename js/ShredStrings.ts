@@ -329,6 +329,12 @@ type StringsType = {
       'locationCapitalized': string;
       'locationCapitalizedStringProperty': LocalizedStringProperty;
     };
+    'periodicTableNode': {
+      'accessibleHeading': string;
+      'accessibleHeadingStringProperty': LocalizedStringProperty;
+      'descriptionContent': string;
+      'descriptionContentStringProperty': LocalizedStringProperty;
+    };
     'keyboardHelpDialog': {
       'periodicTableNode': {
         'navigation': string;
