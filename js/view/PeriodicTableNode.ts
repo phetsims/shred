@@ -231,7 +231,8 @@ class PeriodicTableNode extends Node {
       // first one.
       const interactiveButtonNode = new Node( {
         tagName: 'button',
-        accessibleName: 'Activate Periodic Table'
+        accessibleName: ShredFluent.a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty,
+        accessibleHelpText: ShredFluent.a11y.periodicTableNode.interactiveButton.accessibleHelpTextStringProperty
       } );
       this.addChild( interactiveButtonNode );
 

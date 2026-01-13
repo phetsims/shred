@@ -334,6 +334,12 @@ type StringsType = {
       'accessibleHeadingStringProperty': LocalizedStringProperty;
       'descriptionContent': string;
       'descriptionContentStringProperty': LocalizedStringProperty;
+      'interactiveButton': {
+        'accessibleName': string;
+        'accessibleNameStringProperty': LocalizedStringProperty;
+        'accessibleHelpText': string;
+        'accessibleHelpTextStringProperty': LocalizedStringProperty;
+      };
       'keyboardHelpDialog': {
         'navigation': string;
         'navigationStringProperty': LocalizedStringProperty;

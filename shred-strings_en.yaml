@@ -194,6 +194,9 @@ a11y:
   periodicTableNode:
     accessibleHeading: Periodic Table of Elements
     descriptionContent: Meaningfully organizes the chemical symbols of its 91 elements. The upper 3 rows have several empty cells creating a u-shaped appearance for the table.
+    interactiveButton:
+      accessibleName: Activate Periodic Table
+      accessibleHelpText: Look for button to activate periodic table and its elements. Once activated, use keyboard shortcuts to find and auto-select the matching chemical symbol.
     keyboardHelpDialog:
       navigation: Periodic Table Navigation
       selectChemicalSymbol: Select chemical symbol
