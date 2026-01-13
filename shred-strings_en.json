@@ -476,11 +476,9 @@
         "value": "Periodic Table of Elements"
       },
       "descriptionContent": {
-        "value": "(TBD) Description content..."
-      }
-    },
-    "keyboardHelpDialog": {
-      "periodicTableNode": {
+        "value": "Meaningfully organizes the chemical symbols of its 91 elements. The upper 3 rows have several empty cells creating a u-shaped appearance for the table."
+      },
+      "keyboardHelpDialog": {
         "navigation": {
           "value": "Periodic Table Navigation"
         },

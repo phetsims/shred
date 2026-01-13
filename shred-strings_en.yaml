@@ -193,8 +193,7 @@ a11y:
         bucket: Bucket
   periodicTableNode:
     accessibleHeading: Periodic Table of Elements
-    descriptionContent: (TBD) Description content...
-  keyboardHelpDialog:
-    periodicTableNode:
+    descriptionContent: Meaningfully organizes the chemical symbols of its 91 elements. The upper 3 rows have several empty cells creating a u-shaped appearance for the table.
+    keyboardHelpDialog:
       navigation: Periodic Table Navigation
       selectChemicalSymbol: Select chemical symbol

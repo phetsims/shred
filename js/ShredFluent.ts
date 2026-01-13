@@ -184,8 +184,8 @@ addToMapIfDefined( 'a11y_particles_location', 'a11y.particles.locationStringProp
 addToMapIfDefined( 'a11y_particles_locationCapitalized', 'a11y.particles.locationCapitalizedStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_accessibleHeading', 'a11y.periodicTableNode.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_descriptionContent', 'a11y.periodicTableNode.descriptionContentStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_periodicTableNode_navigation', 'a11y.keyboardHelpDialog.periodicTableNode.navigationStringProperty' );
-addToMapIfDefined( 'a11y_keyboardHelpDialog_periodicTableNode_selectChemicalSymbol', 'a11y.keyboardHelpDialog.periodicTableNode.selectChemicalSymbolStringProperty' );
+addToMapIfDefined( 'a11y_periodicTableNode_keyboardHelpDialog_navigation', 'a11y.periodicTableNode.keyboardHelpDialog.navigationStringProperty' );
+addToMapIfDefined( 'a11y_periodicTableNode_keyboardHelpDialog_selectChemicalSymbol', 'a11y.periodicTableNode.keyboardHelpDialog.selectChemicalSymbolStringProperty' );
 
 // A function that creates contents for a new Fluent file, which will be needed if any string changes.
 const createFluentFile = (): string => {
@@ -363,12 +363,10 @@ const ShredFluent = {
     },
     periodicTableNode: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_accessibleHeading', _.get( ShredStrings, 'a11y.periodicTableNode.accessibleHeadingStringProperty' ) ),
-      descriptionContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_descriptionContent', _.get( ShredStrings, 'a11y.periodicTableNode.descriptionContentStringProperty' ) )
-    },
-    keyboardHelpDialog: {
-      periodicTableNode: {
-        navigationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_periodicTableNode_navigation', _.get( ShredStrings, 'a11y.keyboardHelpDialog.periodicTableNode.navigationStringProperty' ) ),
-        selectChemicalSymbolStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_keyboardHelpDialog_periodicTableNode_selectChemicalSymbol', _.get( ShredStrings, 'a11y.keyboardHelpDialog.periodicTableNode.selectChemicalSymbolStringProperty' ) )
+      descriptionContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_descriptionContent', _.get( ShredStrings, 'a11y.periodicTableNode.descriptionContentStringProperty' ) ),
+      keyboardHelpDialog: {
+        navigationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_keyboardHelpDialog_navigation', _.get( ShredStrings, 'a11y.periodicTableNode.keyboardHelpDialog.navigationStringProperty' ) ),
+        selectChemicalSymbolStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_keyboardHelpDialog_selectChemicalSymbol', _.get( ShredStrings, 'a11y.periodicTableNode.keyboardHelpDialog.selectChemicalSymbolStringProperty' ) )
       }
     }
   }

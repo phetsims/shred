@@ -17,7 +17,7 @@ export default class PeriodicTableControlsKeyboardHelpSection extends KeyboardHe
 
   public constructor( providedOptions?: KeyboardHelpSectionOptions ) {
     super(
-      ShredFluent.a11y.keyboardHelpDialog.periodicTableNode.navigationStringProperty,
+      ShredFluent.a11y.periodicTableNode.keyboardHelpDialog.navigationStringProperty,
       [ KeyboardHelpSectionRow.fromHotkeyData( PeriodicTableNode.NAVIGATION_HOTKEY_DATA ) ],
       providedOptions
     );

@@ -359,7 +359,7 @@ class PeriodicTableNode extends Node {
 
   public static readonly NAVIGATION_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'arrowRight', 'arrowLeft', 'arrowDown', 'arrowUp', 'w', 'a', 's', 'd' ],
-    keyboardHelpDialogLabelStringProperty: ShredFluent.a11y.keyboardHelpDialog.periodicTableNode.selectChemicalSymbolStringProperty,
+    keyboardHelpDialogLabelStringProperty: ShredFluent.a11y.periodicTableNode.keyboardHelpDialog.selectChemicalSymbolStringProperty,
     repoName: shred.name
   } );
 }

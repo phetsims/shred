@@ -334,9 +334,7 @@ type StringsType = {
       'accessibleHeadingStringProperty': LocalizedStringProperty;
       'descriptionContent': string;
       'descriptionContentStringProperty': LocalizedStringProperty;
-    };
-    'keyboardHelpDialog': {
-      'periodicTableNode': {
+      'keyboardHelpDialog': {
         'navigation': string;
         'navigationStringProperty': LocalizedStringProperty;
         'selectChemicalSymbol': string;
