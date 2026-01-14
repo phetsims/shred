@@ -183,7 +183,6 @@ addToMapIfDefined( 'a11y_particles_outerElectronMovedToInnerShell', 'a11y.partic
 addToMapIfDefined( 'a11y_particles_location', 'a11y.particles.locationStringProperty' );
 addToMapIfDefined( 'a11y_particles_locationCapitalized', 'a11y.particles.locationCapitalizedStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_accessibleHeading', 'a11y.periodicTableNode.accessibleHeadingStringProperty' );
-addToMapIfDefined( 'a11y_periodicTableNode_descriptionContent', 'a11y.periodicTableNode.descriptionContentStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleName', 'a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleHelpText', 'a11y.periodicTableNode.interactiveButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_activation', 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.activationStringProperty' );
@@ -367,7 +366,6 @@ const ShredFluent = {
     },
     periodicTableNode: {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_accessibleHeading', _.get( ShredStrings, 'a11y.periodicTableNode.accessibleHeadingStringProperty' ) ),
-      descriptionContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_descriptionContent', _.get( ShredStrings, 'a11y.periodicTableNode.descriptionContentStringProperty' ) ),
       interactiveButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleName', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty' ) ),
         accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleHelpText', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleHelpTextStringProperty' ) ),

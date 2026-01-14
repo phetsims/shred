@@ -332,8 +332,6 @@ type StringsType = {
     'periodicTableNode': {
       'accessibleHeading': string;
       'accessibleHeadingStringProperty': LocalizedStringProperty;
-      'descriptionContent': string;
-      'descriptionContentStringProperty': LocalizedStringProperty;
       'interactiveButton': {
         'accessibleName': string;
         'accessibleNameStringProperty': LocalizedStringProperty;

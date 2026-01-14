@@ -475,9 +475,6 @@
       "accessibleHeading": {
         "value": "Periodic Table of Elements"
       },
-      "descriptionContent": {
-        "value": "Meaningfully organizes the chemical symbols of its 91 elements. The upper 3 rows have several empty cells creating a u-shaped appearance for the table."
-      },
       "interactiveButton": {
         "accessibleName": {
           "value": "Activate Periodic Table"
@@ -490,7 +487,7 @@
             "value": "Periodic table activated."
           },
           "selection": {
-            "value": "Use WASD or Arrow keys to select element."
+            "value": "Use WASD keys to select element."
           }
         }
       },

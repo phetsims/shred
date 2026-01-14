@@ -98,7 +98,6 @@ class PeriodicTableNode extends Node {
       cellAriaRoleDescription: null,
       groupFocusHighlight: true,
       accessibleHeading: ShredFluent.a11y.periodicTableNode.accessibleHeadingStringProperty,
-      descriptionContent: ShredFluent.a11y.periodicTableNode.descriptionContentStringProperty,
       provideFullActivationContextResponseProperty: null
     }, providedOptions );
 
