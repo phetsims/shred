@@ -4,6 +4,7 @@
  * Type that represents a subatomic particle in the view.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
+ * @author John Blanco (PhET Interactive Simulations)
  */
 
 import Property from '../../../axon/js/Property.js';
@@ -12,7 +13,8 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
 import { combineOptions, optionize4 } from '../../../phet-core/js/optionize.js';
 import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2.js';
-import AccessibleDraggableOptions from '../../../scenery-phet/js/accessibility/grab-drag/AccessibleDraggableOptions.js';
+import AccessibleInteractiveOptions from '../../../scenery-phet/js/accessibility/AccessibleInteractiveOptions.js';
+import SceneryPhetFluent from '../../../scenery-phet/js/SceneryPhetFluent.js';
 import SoundDragListener from '../../../scenery-phet/js/SoundDragListener.js';
 import HighlightPath from '../../../scenery/js/accessibility/HighlightPath.js';
 import InteractiveHighlighting from '../../../scenery/js/accessibility/voicing/InteractiveHighlighting.js';
@@ -47,13 +49,17 @@ class ParticleView extends InteractiveHighlighting( Node ) {
 
     const options = optionize4<ParticleViewOptions, SelfOptions, NodeOptions>()(
       {},
-      AccessibleDraggableOptions,
+      AccessibleInteractiveOptions,
       {
         dragBounds: Bounds2.EVERYTHING,
         tandem: Tandem.REQUIRED,
         touchOffset: null,
         isotopeNodeOptions: {},
-        focusHighlight: focusHighlight
+        focusHighlight: focusHighlight,
+
+        // The accessible role description is 'navigable' by default, and will be changed to 'movable' if and when it
+        // is being dragged.
+        accessibleRoleDescription: SceneryPhetFluent.a11y.groupSort.navigableStringProperty
       },
       providedOptions
     );
@@ -142,6 +148,14 @@ class ParticleView extends InteractiveHighlighting( Node ) {
 
         // Move the particle to the front of the z-order so that it is not obscured by other particles.
         particle.zLayerProperty.set( 0 );
+
+        // When this is dragging, update the accessible role description to indicate it is movable.
+        this.accessibleRoleDescription = SceneryPhetFluent.a11y.grabDrag.movableStringProperty;
+      }
+      else {
+
+        // When not dragging, set the role description back to navigable.
+        this.accessibleRoleDescription = SceneryPhetFluent.a11y.groupSort.navigableStringProperty;
       }
 
       // Update the focus highlight stroke based on the dragging state.
