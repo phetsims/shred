@@ -489,6 +489,9 @@
         }
       },
       "keyboardHelpDialog": {
+        "activation": {
+          "value": "Activate periodic table"
+        },
         "navigation": {
           "value": "Periodic Table Navigation"
         },

@@ -200,4 +200,5 @@ a11y:
         selection: Use WASD keys to select element.
     keyboardHelpDialog:
       navigation: Periodic Table Navigation
+      activation: Activate periodic table
       selectChemicalSymbol: Select chemical symbol

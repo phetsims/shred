@@ -380,6 +380,12 @@ class PeriodicTableNode extends Node {
     return elementIndex;
   }
 
+  public static readonly ACTIVATION_HOTKEY_DATA = new HotkeyData( {
+    keys: [ 'space', 'enter' ],
+    keyboardHelpDialogLabelStringProperty: ShredFluent.a11y.periodicTableNode.keyboardHelpDialog.activationStringProperty,
+    repoName: shred.name
+  } );
+
   public static readonly NAVIGATION_HOTKEY_DATA = new HotkeyData( {
     keys: [ 'arrowRight', 'arrowLeft', 'arrowDown', 'arrowUp', 'w', 'a', 's', 'd' ],
     keyboardHelpDialogLabelStringProperty: ShredFluent.a11y.periodicTableNode.keyboardHelpDialog.selectChemicalSymbolStringProperty,

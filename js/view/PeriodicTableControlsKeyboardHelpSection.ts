@@ -2,7 +2,7 @@
 
 /**
  * PeriodicTableControlsKeyboardHelpSection is the keyboard-help section that describes how to interact with
- * PeriodicTableNode.
+ * PeriodicTableNode.  Note that this is only relevant for interactive periodic tables.
  *
  * @author Jesse Greenberg (PhET Interactive Simulations)
  */
@@ -18,7 +18,10 @@ export default class PeriodicTableControlsKeyboardHelpSection extends KeyboardHe
   public constructor( providedOptions?: KeyboardHelpSectionOptions ) {
     super(
       ShredFluent.a11y.periodicTableNode.keyboardHelpDialog.navigationStringProperty,
-      [ KeyboardHelpSectionRow.fromHotkeyData( PeriodicTableNode.NAVIGATION_HOTKEY_DATA ) ],
+      [
+        KeyboardHelpSectionRow.fromHotkeyData( PeriodicTableNode.ACTIVATION_HOTKEY_DATA ),
+        KeyboardHelpSectionRow.fromHotkeyData( PeriodicTableNode.NAVIGATION_HOTKEY_DATA )
+      ],
       providedOptions
     );
   }

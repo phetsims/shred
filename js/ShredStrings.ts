@@ -343,6 +343,8 @@ type StringsType = {
         }
       };
       'keyboardHelpDialog': {
+        'activation': string;
+        'activationStringProperty': LocalizedStringProperty;
         'navigation': string;
         'navigationStringProperty': LocalizedStringProperty;
         'selectChemicalSymbol': string;
