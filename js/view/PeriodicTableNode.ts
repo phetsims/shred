@@ -60,6 +60,10 @@ type SelfOptions = {
 
   // Accessibility
   cellAriaRoleDescription?: PDOMValueType;
+
+  // This flag controls whether the full context response or a shortened version is provided when the periodic table is
+  // activated.  The is generally used to provide the longer version once per level, and the shorter version thereafter.
+  provideFullActivationContextResponseProperty?: null | TProperty<boolean>;
 };
 
 export type PeriodicTableNodeOptions = SelfOptions & NodeOptions;
@@ -94,7 +98,8 @@ class PeriodicTableNode extends Node {
       cellAriaRoleDescription: null,
       groupFocusHighlight: true,
       accessibleHeading: ShredFluent.a11y.periodicTableNode.accessibleHeadingStringProperty,
-      descriptionContent: ShredFluent.a11y.periodicTableNode.descriptionContentStringProperty
+      descriptionContent: ShredFluent.a11y.periodicTableNode.descriptionContentStringProperty,
+      provideFullActivationContextResponseProperty: null
     }, providedOptions );
 
     affirm( options.interactiveMax === 0 || isTProperty<number>( protonCountProperty ),
@@ -227,8 +232,8 @@ class PeriodicTableNode extends Node {
         }
       } ) );
 
-      // An accessible button, that will either focus the currently highlighted cell, or set the selection to the
-      // first one.
+      // An accessible button that will either focus the currently highlighted cell or set the selection to the first
+      // one in the table, i.e. hydrogen.  This is for a11y and does not affect visual interaction.
       const interactiveButtonNode = new Node( {
         tagName: 'button',
         accessibleName: ShredFluent.a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty,
@@ -239,6 +244,8 @@ class PeriodicTableNode extends Node {
       // The accessible Node has no bounds, so this highlights the entire table when it has focus.
       interactiveButtonNode.focusHighlight = new HighlightFromNode( this );
 
+      // When the button is "clicked" (pressed Enter or Space), either focus the currently highlighted cell, or
+      // select Hydrogen if nothing is selected.
       interactiveButtonNode.addInputListener( new KeyboardListener( {
         fireOnClick: true,
         fire: () => {
@@ -246,6 +253,23 @@ class PeriodicTableNode extends Node {
 
             // Nothing is selected, so set it to Hydrogen regardless of what key was pressed.
             protonCountProperty.value = 1;
+
+            let contextResponse = ShredFluent.a11y.periodicTableNode.interactiveButton.accessibleContextResponse.activationStringProperty.value;
+            if ( options.provideFullActivationContextResponseProperty ) {
+              if ( options.provideFullActivationContextResponseProperty.value ) {
+                contextResponse += ' ' + ShredFluent.a11y.periodicTableNode.interactiveButton.accessibleContextResponse.selectionStringProperty.value;
+
+                // Consume the flag so that full response is only provided once until reset.
+                options.provideFullActivationContextResponseProperty.value = false;
+              }
+            }
+            else {
+
+              // If no flag is provided, always give the full response.
+              contextResponse += ' ' + ShredFluent.a11y.periodicTableNode.interactiveButton.accessibleContextResponse.selectionStringProperty.value;
+            }
+
+            this.addAccessibleContextResponse( contextResponse );
           }
           else {
             highlightedCell && highlightedCell.focus();

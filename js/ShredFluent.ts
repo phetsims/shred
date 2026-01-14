@@ -186,6 +186,8 @@ addToMapIfDefined( 'a11y_periodicTableNode_accessibleHeading', 'a11y.periodicTab
 addToMapIfDefined( 'a11y_periodicTableNode_descriptionContent', 'a11y.periodicTableNode.descriptionContentStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleName', 'a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleHelpText', 'a11y.periodicTableNode.interactiveButton.accessibleHelpTextStringProperty' );
+addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_activation', 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.activationStringProperty' );
+addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_selection', 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.selectionStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_keyboardHelpDialog_navigation', 'a11y.periodicTableNode.keyboardHelpDialog.navigationStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_keyboardHelpDialog_selectChemicalSymbol', 'a11y.periodicTableNode.keyboardHelpDialog.selectChemicalSymbolStringProperty' );
 
@@ -368,7 +370,11 @@ const ShredFluent = {
       descriptionContentStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_descriptionContent', _.get( ShredStrings, 'a11y.periodicTableNode.descriptionContentStringProperty' ) ),
       interactiveButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleName', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty' ) ),
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleHelpText', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleHelpTextStringProperty' ) )
+        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleHelpText', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleHelpTextStringProperty' ) ),
+        accessibleContextResponse: {
+          activationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_activation', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.activationStringProperty' ) ),
+          selectionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_selection', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.selectionStringProperty' ) )
+        }
       },
       keyboardHelpDialog: {
         navigationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_keyboardHelpDialog_navigation', _.get( ShredStrings, 'a11y.periodicTableNode.keyboardHelpDialog.navigationStringProperty' ) ),
