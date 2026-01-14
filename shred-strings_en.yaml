@@ -199,7 +199,7 @@ a11y:
       accessibleHelpText: Look for button to activate periodic table and its elements. Once activated, use keyboard shortcuts to find and auto-select the matching chemical symbol.
       accessibleContextResponse:
         activation: Periodic table activated.
-        selection: Use WASD or Arrow keys to select element.
+        selection: Use WASD keys to select element.
     keyboardHelpDialog:
       navigation: Periodic Table Navigation
       selectChemicalSymbol: Select chemical symbol
