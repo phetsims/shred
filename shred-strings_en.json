@@ -479,9 +479,6 @@
         "accessibleName": {
           "value": "Activate Periodic Table"
         },
-        "accessibleHelpText": {
-          "value": "Look for button to activate periodic table and its elements. Once activated, use keyboard shortcuts to find and auto-select the matching chemical symbol."
-        },
         "accessibleContextResponse": {
           "activation": {
             "value": "Periodic table activated."

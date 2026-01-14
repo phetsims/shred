@@ -335,8 +335,6 @@ type StringsType = {
       'interactiveButton': {
         'accessibleName': string;
         'accessibleNameStringProperty': LocalizedStringProperty;
-        'accessibleHelpText': string;
-        'accessibleHelpTextStringProperty': LocalizedStringProperty;
         'accessibleContextResponse': {
           'activation': string;
           'activationStringProperty': LocalizedStringProperty;

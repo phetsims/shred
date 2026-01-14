@@ -235,8 +235,7 @@ class PeriodicTableNode extends Node {
       // one in the table, i.e. hydrogen.  This is for a11y and does not affect visual interaction.
       const interactiveButtonNode = new Node( {
         tagName: 'button',
-        accessibleName: ShredFluent.a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty,
-        accessibleHelpText: ShredFluent.a11y.periodicTableNode.interactiveButton.accessibleHelpTextStringProperty
+        accessibleName: ShredFluent.a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty
       } );
       this.addChild( interactiveButtonNode );
 

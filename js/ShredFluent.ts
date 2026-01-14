@@ -184,7 +184,6 @@ addToMapIfDefined( 'a11y_particles_location', 'a11y.particles.locationStringProp
 addToMapIfDefined( 'a11y_particles_locationCapitalized', 'a11y.particles.locationCapitalizedStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_accessibleHeading', 'a11y.periodicTableNode.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleName', 'a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty' );
-addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleHelpText', 'a11y.periodicTableNode.interactiveButton.accessibleHelpTextStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_activation', 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.activationStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_selection', 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.selectionStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_keyboardHelpDialog_navigation', 'a11y.periodicTableNode.keyboardHelpDialog.navigationStringProperty' );
@@ -368,7 +367,6 @@ const ShredFluent = {
       accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_accessibleHeading', _.get( ShredStrings, 'a11y.periodicTableNode.accessibleHeadingStringProperty' ) ),
       interactiveButton: {
         accessibleNameStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleName', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty' ) ),
-        accessibleHelpTextStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleHelpText', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleHelpTextStringProperty' ) ),
         accessibleContextResponse: {
           activationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_activation', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.activationStringProperty' ) ),
           selectionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_selection', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.selectionStringProperty' ) )
