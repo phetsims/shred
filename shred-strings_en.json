@@ -489,11 +489,11 @@
         }
       },
       "keyboardHelpDialog": {
-        "activation": {
-          "value": "Activate periodic table"
-        },
         "navigation": {
           "value": "Periodic Table Navigation"
+        },
+        "activation": {
+          "value": "Activate periodic table"
         },
         "selectChemicalSymbol": {
           "value": "Select chemical symbol"

@@ -343,10 +343,10 @@ type StringsType = {
         }
       };
       'keyboardHelpDialog': {
-        'activation': string;
-        'activationStringProperty': LocalizedStringProperty;
         'navigation': string;
         'navigationStringProperty': LocalizedStringProperty;
+        'activation': string;
+        'activationStringProperty': LocalizedStringProperty;
         'selectChemicalSymbol': string;
         'selectChemicalSymbolStringProperty': LocalizedStringProperty;
       }
