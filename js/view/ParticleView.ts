@@ -96,9 +96,9 @@ class ParticleView extends InteractiveHighlighting( Node ) {
     }
     this.addChild( particleNode );
 
-    particle.inputEnabledProperty.link( inputEnabled => {
-      this.inputEnabled = inputEnabled;
-    } );
+    // Listen to the model inputEnabled and update.
+    const inputEnabledListener = ( inputEnabled: boolean ) => { this.inputEnabled = inputEnabled; };
+    particle.inputEnabledProperty.link( inputEnabledListener );
 
     // Listen to the model position and update.
     const updateParticlePosition = ( position: Vector2 ) => {
@@ -143,7 +143,7 @@ class ParticleView extends InteractiveHighlighting( Node ) {
     this.addInputListener( this.dragListener );
 
     // Update some aspects of the model and view when the isDragging state changes.
-    this.particle.isDraggingProperty.link( isDragging => {
+    const isDraggingListener = ( isDragging: boolean ) => {
       if ( isDragging ) {
 
         // Move the particle to the front of the z-order so that it is not obscured by other particles.
@@ -160,12 +160,15 @@ class ParticleView extends InteractiveHighlighting( Node ) {
 
       // Update the focus highlight stroke based on the dragging state.
       focusHighlight.setDashed( isDragging );
-    } );
+    };
+    particle.isDraggingProperty.link( isDraggingListener );
 
     this.mutate( options );
 
     this.disposeParticleView = function() {
       particle.positionProperty.unlink( updateParticlePosition );
+      particle.isDraggingProperty.unlink( isDraggingListener );
+      particle.inputEnabledProperty.unlink( inputEnabledListener );
       particleNode.dispose();
       this.dragListener.dispose();
     };
