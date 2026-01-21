@@ -104,10 +104,13 @@ class ExpandedPeriodicTableNode extends Node {
     this.addChild( rightConnectingLine );
 
     const periodicTableTitle = new Text( ShredFluent.periodicTableStringProperty, {
-      font: new PhetFont( { size: 16, weight: 'bold' } )
+      font: new PhetFont( { size: 16, weight: 'bold' } ),
+      maxWidth: 200
     } );
     periodicTableTitle.bottom = periodicTableNode.top - 5;
-    periodicTableTitle.centerX = periodicTableNode.centerX;
+    periodicTableTitle.boundsProperty.link( () => {
+      periodicTableTitle.centerX = periodicTableNode.centerX;
+    } );
     this.addChild( periodicTableTitle );
 
     // Update the highlighted cell based on the number atom's proton count and the other parts of the NumberAtom.
