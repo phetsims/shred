@@ -1,4 +1,4 @@
-// Copyright 2014-2015, University of Colorado Boulder
+// Copyright 2014-2016, University of Colorado Boulder
 
 /**
  * A node that presents a graphical representation of an atom's configuration. It looks somewhat like a bar graph that
