@@ -1,4 +1,4 @@
-// Copyright 2015-2025, University of Colorado Boulder
+// Copyright 2015-2026, University of Colorado Boulder
 
 /**
  * ExpandedPeriodicTableNode is a Scenery Node that shows a fill periodic table with no element names, and below it
