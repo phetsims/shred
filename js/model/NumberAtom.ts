@@ -164,12 +164,6 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     return this.electronCountProperty.value;
   }
 
-  public set( otherAtom: NumberAtom ): void {
-    this.protonCountProperty.set( otherAtom.protonCount );
-    this.neutronCountProperty.set( otherAtom.neutronCount );
-    this.electronCountProperty.set( otherAtom.electronCount );
-  }
-
   /**
    * compare with another atom
    */
@@ -183,11 +177,22 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
   }
 
+  /**
+   * Sets the subatomic particle counts for this atom.  Fires the atomUpdated emitter after updating to support
+   * clients that want to listen for bulk updates.
+   */
   public setSubAtomicParticleCount( protonCount: number, neutronCount: number, electronCount: number ): void {
     this.protonCountProperty.set( protonCount );
     this.electronCountProperty.set( electronCount );
     this.neutronCountProperty.set( neutronCount );
     this.atomUpdated.emit();
+  }
+
+  /**
+   * Sets this atom's subatomic particle counts to be equal to the provided atom.
+   */
+  public set( otherAtom: NumberAtom ): void {
+    this.setSubAtomicParticleCount( otherAtom.protonCount, otherAtom.neutronCount, otherAtom.electronCount );
   }
 
   /**

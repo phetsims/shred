@@ -9,6 +9,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import TProperty from '../../../axon/js/TProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import optionize, { EmptySelfOptions } from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
@@ -18,7 +19,6 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
-import NumberAtom from '../model/NumberAtom.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredFluent from '../ShredFluent.js';
@@ -39,7 +39,7 @@ type ExpandedPeriodicTableNodeOptions = NodeOptions;
 
 class ExpandedPeriodicTableNode extends Node {
 
-  public constructor( numberAtom: NumberAtom,
+  public constructor( protonCountProperty: TProperty<number>,
                       interactiveMax: number,
                       providedOptions?: ExpandedPeriodicTableNodeOptions ) {
 
@@ -50,7 +50,7 @@ class ExpandedPeriodicTableNode extends Node {
     super();
 
     // A scaled down periodic table with element labels hidden.
-    const periodicTableNode = new PeriodicTableNode( numberAtom.protonCountProperty, {
+    const periodicTableNode = new PeriodicTableNode( protonCountProperty, {
       tandem: options.tandem && options.tandem.createTandem( 'periodicTable' ),
       interactiveMax: interactiveMax,
       showLabels: false
@@ -75,7 +75,7 @@ class ExpandedPeriodicTableNode extends Node {
       for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
         const protonCount = elementIndex;
         const button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
-          listener: () => { numberAtom.protonCountProperty.value = protonCount; },
+          listener: () => { protonCountProperty.value = protonCount; },
           baseColor: ENABLED_CELL_COLOR,
           cornerRadius: 0,
           minWidth: BUTTON_SIZE,
@@ -113,20 +113,19 @@ class ExpandedPeriodicTableNode extends Node {
     } );
     this.addChild( periodicTableTitle );
 
-    // Update the highlighted cell based on the number atom's proton count and the other parts of the NumberAtom.
+    // Update the highlighted cell based on the proton count and the other parts of the NumberAtom.
     let highlightedCell: TextPushButton | null = null;
-    numberAtom.protonCountProperty.link( protonCount => {
+    protonCountProperty.link( protonCount => {
+
+      // Reset the previously highlighted cell.
       if ( highlightedCell !== null ) {
         highlightedCell.baseColor = ENABLED_CELL_COLOR;
       }
+
+      // Highlight the new cell.
       if ( protonCount > 0 && protonCount <= cells.length ) {
         highlightedCell = cells[ protonCount - 1 ];
         highlightedCell.baseColor = SELECTED_CELL_COLOR;
-        numberAtom.setSubAtomicParticleCount(
-          protonCount,
-          AtomIdentifier.getNumNeutronsInMostCommonIsotope( protonCount ),
-          protonCount
-        );
       }
     } );
   }
