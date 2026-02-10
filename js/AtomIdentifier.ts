@@ -14269,8 +14269,8 @@ for ( const decayProtonNumber in DECAYS_INFO_TABLE ) {
 export type DecayTypeString = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DECAY' | 'PROTON_EMISSION' | 'NEUTRON_EMISSION';
 export type DecayPercentageTuple = readonly [ DecayTypeString, DecayAmount ];
 
+// Compact identifier for an isotope.  Order is [ number of protons, number of neutrons, number of electrons ].
 type IsotopeInfoIdentifier = [ number, number, number ];
-
 
 const AtomIdentifier = {
 

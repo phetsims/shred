@@ -11,7 +11,6 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
-import Color from '../../../scenery/js/util/Color.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import Particle from '../model/Particle.js';
@@ -19,7 +18,6 @@ import shred from '../shred.js';
 
 type SelfOptions = {
   showLabel?: boolean;
-  baseColor?: Color;
   protonCount?: number;
   massNumber?: number;
 };
@@ -31,7 +29,6 @@ class IsotopeNode extends Node {
 
     const options = optionize<IsotopeNodeOptions, SelfOptions, NodeOptions>()( {
       showLabel: true,
-      baseColor: Color.YELLOW,
       protonCount: 1,
       massNumber: 1
     }, providedOptions );
@@ -41,7 +38,7 @@ class IsotopeNode extends Node {
 
     // Create the node a circle with a gradient.
     const isotopeSphere = new Circle( radius, {
-      fill: options.baseColor,
+      fill: isotope.colorProperty,
       cursor: 'pointer'
     } );
     this.addChild( isotopeSphere );
@@ -52,7 +49,7 @@ class IsotopeNode extends Node {
 
       const label = new RichText( ` <sup>${options.massNumber}</sup>${symbol}`, {
         font: new PhetFont( 10 ),
-        // making sure that text doesn't go beyond the sphere boundaries, -2 is empirically determined
+        // Make sure the text doesn't go beyond the sphere boundaries. -2 is empirically determined.
         maxWidth: 2 * radius - 2
       } );
       label.centerX = isotopeSphere.centerX - 1; // empirically determined -1 to make it appear centered
@@ -67,7 +64,7 @@ class IsotopeNode extends Node {
         radius * 1.6
       )
         .addColorStop( 0, 'white' )
-        .addColorStop( 1, options.baseColor );
+        .addColorStop( 1, isotope.colorProperty );
     }
     else {
       isotopeSphere.stroke = 'black';
