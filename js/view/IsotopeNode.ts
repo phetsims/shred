@@ -1,4 +1,4 @@
-// Copyright 2015-2025, University of Colorado Boulder
+// Copyright 2015-2026, University of Colorado Boulder
 
 /**
  * Particle, represented as a circle with a gradient.  This type does not track a particle, use ParticleView for that.
