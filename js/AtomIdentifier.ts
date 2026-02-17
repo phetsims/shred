@@ -14415,9 +14415,8 @@ const AtomIdentifier = {
   },
 
   /**
-   * Get a list of all isotopes that are considered stable.  This is needed
-   * because the complete list of isotopes used by this class includes some
-   * that exist on earth but are not stable, such as carbon-14.
+   * Get a list of all isotopes that are considered stable.  This is needed because the complete list of isotopes used
+   * by this class includes some that exist on earth but are not stable, such as carbon-14.
    *
    * @param atomicNumber
    * @return
