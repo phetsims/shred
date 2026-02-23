@@ -17,6 +17,7 @@ import Line from '../../../scenery/js/nodes/Line.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
+import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
 import shred from '../shred.js';
@@ -82,7 +83,8 @@ class ExpandedPeriodicTableNode extends Node {
           maxWidth: BUTTON_SIZE,
           minHeight: BUTTON_SIZE,
           maxHeight: BUTTON_SIZE,
-          font: new PhetFont( 24 )
+          font: new PhetFont( 24 ),
+          soundPlayer: sharedSoundPlayers.get( 'generalBoundaryBoop' )
         } );
         button.translation = new Vector2( populatedCellsInRow[ j ] * BUTTON_SIZE, i * BUTTON_SIZE );
         cells.push( button );
