@@ -2,7 +2,7 @@
 /**
  * AccessibleListNode that displays the information on the particle counts panel.
  *
- * @author Agustín Vallejo
+ * @author Agustín Vallejo (PhET Interactive Simulations)
  */
 
 import Property from '../../../../axon/js/Property.js';
