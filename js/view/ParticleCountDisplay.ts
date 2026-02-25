@@ -34,10 +34,7 @@ type ParticleCountDisplayOptions = SelfOptions & PanelOptions;
 
 class ParticleCountDisplay extends Panel {
 
-  public constructor(
-    numberAtom: TReadOnlyNumberAtom,
-    providedOptions?: ParticleCountDisplayOptions
-  ) {
+  public constructor( numberAtom: TReadOnlyNumberAtom, providedOptions?: ParticleCountDisplayOptions ) {
 
     const options = optionize<ParticleCountDisplayOptions, SelfOptions, PanelOptions>()( {
       fill: ShredConstants.DISPLAY_PANEL_BACKGROUND_COLOR,
@@ -50,7 +47,7 @@ class ParticleCountDisplay extends Panel {
       }
     }, providedOptions );
 
-    // Create label Text nodes, with an AlignGroup so their right edges align
+    // Create label Text nodes, with an AlignGroup so their right edges align.
     const titleAlignGroup = new AlignGroup( { matchVertical: true } );
     const protonTitleText = new Text( ShredFluent.protonsColonStringProperty, TEXT_OPTIONS );
     const neutronTitleText = new Text( ShredFluent.neutronsColonStringProperty, TEXT_OPTIONS );
@@ -61,8 +58,7 @@ class ParticleCountDisplay extends Panel {
     const interParticleSpacing = nucleonRadius;
     const radiusDiff = nucleonRadius - electronRadius;
 
-
-    // Arrays to hold ParticleNode instances
+    // arrays to hold ParticleNode instances
     const protons: ParticleNode[] = [];
     const neutrons: ParticleNode[] = [];
     const electrons: ParticleNode[] = [];
@@ -103,7 +99,14 @@ class ParticleCountDisplay extends Panel {
     let electronDisplayCount = 0;
 
     // helper functions
-    function addParticle( array: ParticleNode[], bar: HBox, currentQuantity: number, particleType: ParticleType, radius: number ): number {
+    function addParticle(
+      array: ParticleNode[],
+      bar: HBox,
+      currentQuantity: number,
+      particleType: ParticleType,
+      radius: number
+    ): number {
+
       const newIndex = currentQuantity;
       if ( newIndex === array.length && newIndex < options.maxParticles ) {
         array.push( new ParticleNode( particleType, radius ) );
