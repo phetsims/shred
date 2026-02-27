@@ -7,25 +7,31 @@
 
 import Property from '../../../../axon/js/Property.js';
 import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
-import AccessibleListNode from '../../../../scenery-phet/js/accessibility/AccessibleListNode.js';
+import AccessibleList from '../../../../scenery-phet/js/accessibility/AccessibleList.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
 import NumberAtom, { TReadOnlyNumberAtom } from '../../model/NumberAtom.js';
 import shred from '../../shred.js';
 import ShredFluent from '../../ShredFluent.js';
 
-export default class ParticleCountsAccessibleListNode extends AccessibleListNode {
+export default class ParticleCountsAccessibleListNode extends Node {
   public constructor( atom: TReadOnlyNumberAtom | NumberAtom, visibleProperty: TReadOnlyProperty<boolean> = new Property<boolean>( true ) ) {
 
-    super( [
-      ShredFluent.a11y.particleCounts.accessibleListNode.protons.createProperty( {
-        count: atom.protonCountProperty
-      } ),
-      ShredFluent.a11y.particleCounts.accessibleListNode.neutrons.createProperty( {
-        count: atom.neutronCountProperty
-      } ),
-      ShredFluent.a11y.particleCounts.accessibleListNode.electrons.createProperty( {
-        count: atom.electronCountProperty
+    super( {
+      accessibleTemplate: AccessibleList.createTemplate( {
+        listItems: [
+          ShredFluent.a11y.particleCounts.accessibleListNode.protons.createProperty( {
+            count: atom.protonCountProperty
+          } ),
+          ShredFluent.a11y.particleCounts.accessibleListNode.neutrons.createProperty( {
+            count: atom.neutronCountProperty
+          } ),
+          ShredFluent.a11y.particleCounts.accessibleListNode.electrons.createProperty( {
+            count: atom.electronCountProperty
+          } )
+        ],
+        visibleProperty: visibleProperty
       } )
-    ], { visibleProperty: visibleProperty } );
+    } );
   }
 }
 
