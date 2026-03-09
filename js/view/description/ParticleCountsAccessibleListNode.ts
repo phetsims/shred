@@ -17,7 +17,7 @@ export default class ParticleCountsAccessibleListNode extends Node {
   public constructor( atom: TReadOnlyNumberAtom | NumberAtom, visibleProperty: TReadOnlyProperty<boolean> = new Property<boolean>( true ) ) {
 
     super( {
-      accessibleTemplate: AccessibleList.createTemplate( {
+      accessibleTemplate: AccessibleList.createTemplateProperty( {
         listItems: [
           ShredFluent.a11y.particleCounts.accessibleListNode.protons.createProperty( {
             count: atom.protonCountProperty
