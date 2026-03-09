@@ -17,15 +17,16 @@ export default class ParticleCountsDescriptionNode extends Node {
   public constructor( atom: TReadOnlyNumberAtom | NumberAtom, visibleProperty: TReadOnlyProperty<boolean> = new Property<boolean>( true ) ) {
 
     super( {
+      accessibleHeading: ShredFluent.a11y.particleCountsDescriptionNode.accessibleHeadingStringProperty,
       accessibleTemplate: AccessibleList.createTemplateProperty( {
         listItems: [
-          ShredFluent.a11y.particleCounts.accessibleListNode.protons.createProperty( {
+          ShredFluent.a11y.particleCountsDescriptionNode.protons.createProperty( {
             count: atom.protonCountProperty
           } ),
-          ShredFluent.a11y.particleCounts.accessibleListNode.neutrons.createProperty( {
+          ShredFluent.a11y.particleCountsDescriptionNode.neutrons.createProperty( {
             count: atom.neutronCountProperty
           } ),
-          ShredFluent.a11y.particleCounts.accessibleListNode.electrons.createProperty( {
+          ShredFluent.a11y.particleCountsDescriptionNode.electrons.createProperty( {
             count: atom.electronCountProperty
           } )
         ],

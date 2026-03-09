@@ -281,15 +281,13 @@ type StringsType = {
     'spokenSymbolStringProperty': LocalizedStringProperty;
     'spokenSymbolUppercase': string;
     'spokenSymbolUppercaseStringProperty': LocalizedStringProperty;
-    'particleCounts': {
-      'accessibleListNode': {
-        'protons': string;
-        'protonsStringProperty': LocalizedStringProperty;
-        'neutrons': string;
-        'neutronsStringProperty': LocalizedStringProperty;
-        'electrons': string;
-        'electronsStringProperty': LocalizedStringProperty;
-      };
+    'particleCountsDescriptionNode': {
+      'protons': string;
+      'protonsStringProperty': LocalizedStringProperty;
+      'neutrons': string;
+      'neutronsStringProperty': LocalizedStringProperty;
+      'electrons': string;
+      'electronsStringProperty': LocalizedStringProperty;
       'accessibleHeading': string;
       'accessibleHeadingStringProperty': LocalizedStringProperty;
     };

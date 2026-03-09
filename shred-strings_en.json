@@ -402,17 +402,15 @@
     "spokenSymbolUppercase": {
       "value": "Upper { $symbol }"
     },
-    "particleCounts": {
-      "accessibleListNode": {
-        "protons": {
-          "value": "{ $count ->\n  [one] { $count } Proton\n *[other] { $count } Protons\n}"
-        },
-        "neutrons": {
-          "value": "{ $count ->\n  [one] { $count } Neutron\n *[other] { $count } Neutrons\n}"
-        },
-        "electrons": {
-          "value": "{ $count ->\n  [one] { $count } Electron\n *[other] { $count } Electrons\n}"
-        }
+    "particleCountsDescriptionNode": {
+      "protons": {
+        "value": "{ $count ->\n  [one] { $count } Proton\n *[other] { $count } Protons\n}"
+      },
+      "neutrons": {
+        "value": "{ $count ->\n  [one] { $count } Neutron\n *[other] { $count } Neutrons\n}"
+      },
+      "electrons": {
+        "value": "{ $count ->\n  [one] { $count } Electron\n *[other] { $count } Electrons\n}"
       },
       "accessibleHeading": {
         "value": "Particle Counts"

@@ -161,10 +161,10 @@ addToMapIfDefined( 'unstable', 'unstableStringProperty' );
 addToMapIfDefined( 'periodicTable', 'periodicTableStringProperty' );
 addToMapIfDefined( 'a11y_spokenSymbol', 'a11y.spokenSymbolStringProperty' );
 addToMapIfDefined( 'a11y_spokenSymbolUppercase', 'a11y.spokenSymbolUppercaseStringProperty' );
-addToMapIfDefined( 'a11y_particleCounts_accessibleListNode_protons', 'a11y.particleCounts.accessibleListNode.protonsStringProperty' );
-addToMapIfDefined( 'a11y_particleCounts_accessibleListNode_neutrons', 'a11y.particleCounts.accessibleListNode.neutronsStringProperty' );
-addToMapIfDefined( 'a11y_particleCounts_accessibleListNode_electrons', 'a11y.particleCounts.accessibleListNode.electronsStringProperty' );
-addToMapIfDefined( 'a11y_particleCounts_accessibleHeading', 'a11y.particleCounts.accessibleHeadingStringProperty' );
+addToMapIfDefined( 'a11y_particleCountsDescriptionNode_protons', 'a11y.particleCountsDescriptionNode.protonsStringProperty' );
+addToMapIfDefined( 'a11y_particleCountsDescriptionNode_neutrons', 'a11y.particleCountsDescriptionNode.neutronsStringProperty' );
+addToMapIfDefined( 'a11y_particleCountsDescriptionNode_electrons', 'a11y.particleCountsDescriptionNode.electronsStringProperty' );
+addToMapIfDefined( 'a11y_particleCountsDescriptionNode_accessibleHeading', 'a11y.particleCountsDescriptionNode.accessibleHeadingStringProperty' );
 addToMapIfDefined( 'a11y_grabbed', 'a11y.grabbedStringProperty' );
 addToMapIfDefined( 'a11y_released', 'a11y.releasedStringProperty' );
 addToMapIfDefined( 'a11y_selectedElement', 'a11y.selectedElementStringProperty' );
@@ -337,13 +337,11 @@ const ShredFluent = {
   a11y: {
     spokenSymbol: new FluentPattern<{ symbol: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_spokenSymbol', _.get( ShredStrings, 'a11y.spokenSymbolStringProperty' ), [{"name":"symbol"}] ),
     spokenSymbolUppercase: new FluentPattern<{ symbol: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_spokenSymbolUppercase', _.get( ShredStrings, 'a11y.spokenSymbolUppercaseStringProperty' ), [{"name":"symbol"}] ),
-    particleCounts: {
-      accessibleListNode: {
-        protons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_protons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.protonsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
-        neutrons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_neutrons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.neutronsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
-        electrons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleListNode_electrons', _.get( ShredStrings, 'a11y.particleCounts.accessibleListNode.electronsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] )
-      },
-      accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particleCounts_accessibleHeading', _.get( ShredStrings, 'a11y.particleCounts.accessibleHeadingStringProperty' ) )
+    particleCountsDescriptionNode: {
+      protons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCountsDescriptionNode_protons', _.get( ShredStrings, 'a11y.particleCountsDescriptionNode.protonsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
+      neutrons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCountsDescriptionNode_neutrons', _.get( ShredStrings, 'a11y.particleCountsDescriptionNode.neutronsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
+      electrons: new FluentPattern<{ count: number | 'one' | number | 'other' | TReadOnlyProperty<number | 'one' | number | 'other'> }>( fluentSupport.bundleProperty, 'a11y_particleCountsDescriptionNode_electrons', _.get( ShredStrings, 'a11y.particleCountsDescriptionNode.electronsStringProperty' ), [{"name":"count","variants":[{"type":"number","value":"one"},{"type":"number","value":"other"}]}] ),
+      accessibleHeadingStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_particleCountsDescriptionNode_accessibleHeading', _.get( ShredStrings, 'a11y.particleCountsDescriptionNode.accessibleHeadingStringProperty' ) )
     },
     grabbedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_grabbed', _.get( ShredStrings, 'a11y.grabbedStringProperty' ) ),
     releasedStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_released', _.get( ShredStrings, 'a11y.releasedStringProperty' ) ),

@@ -134,23 +134,22 @@ periodicTable: Periodic Table
 a11y:
   spokenSymbol: "upper { $symbol }"
   spokenSymbolUppercase: "Upper { $symbol }"
-  particleCounts:
-    accessibleListNode:
-      protons: |-
-        { $count ->
-          [one] { $count } Proton
-         *[other] { $count } Protons
-        }
-      neutrons: |-
-        { $count ->
-          [one] { $count } Neutron
-         *[other] { $count } Neutrons
-        }
-      electrons: |-
-        { $count ->
-          [one] { $count } Electron
-         *[other] { $count } Electrons
-        }
+  particleCountsDescriptionNode:
+    protons: |-
+      { $count ->
+        [one] { $count } Proton
+       *[other] { $count } Protons
+      }
+    neutrons: |-
+      { $count ->
+        [one] { $count } Neutron
+       *[other] { $count } Neutrons
+      }
+    electrons: |-
+      { $count ->
+        [one] { $count } Electron
+       *[other] { $count } Electrons
+      }
     accessibleHeading: Particle Counts
 
   grabbed: grabbed
