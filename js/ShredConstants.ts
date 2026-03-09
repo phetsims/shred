@@ -30,7 +30,7 @@ const ShredConstants = {
   // Font used in accordion box titles throughout the sim.
   ACCORDION_BOX_TITLE_FONT: new PhetFont( 16 ),
 
-  ACCORDION_BOX_TITLE_MAX_WIDTH: 225, // empirically determined
+  ACCORDION_BOX_TITLE_MAX_WIDTH: 210, // empirically determined
 
   // Function for choosing text color based on charge value.
   CHARGE_TEXT_COLOR: function( charge: number ): TColor {
