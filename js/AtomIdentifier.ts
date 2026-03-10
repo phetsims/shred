@@ -14269,6 +14269,10 @@ for ( const decayProtonNumber in DECAYS_INFO_TABLE ) {
 export type DecayTypeString = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DECAY' | 'PROTON_EMISSION' | 'NEUTRON_EMISSION';
 export type DecayPercentageTuple = readonly [ DecayTypeString, DecayAmount ];
 
+// TODO REVIEW: It is not given that the order (p,n,e) will be necessarily respected, it feels like weak type safety.
+//  Why not have an explicit type interface form? Or a simple class with only those three properties? AtomConfig?
+//  I suspect there might be a good reason within the "Compact", so maybe elaborate on that reason in a comment here.
+//  https://github.com/phetsims/isotopes-and-atomic-mass/issues/103
 // Compact identifier for an isotope.  Order is [ number of protons, number of neutrons, number of electrons ].
 type IsotopeInfoIdentifier = [ number, number, number ];
 
