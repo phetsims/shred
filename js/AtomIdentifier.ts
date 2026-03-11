@@ -16,6 +16,7 @@ import TProperty from '../../axon/js/TProperty.js';
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import { toFixedNumber } from '../../dot/js/util/toFixedNumber.js';
 import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
+import AtomConfig from './model/AtomConfig.js';
 import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
 import shred from './shred.js';
 import ShredFluent from './ShredFluent.js';
@@ -14351,8 +14352,8 @@ const AtomIdentifier = {
   },
 
   /**
-   * Get the atomic mass of an isotope fom an isotope key.   Input parameters are the number of protons and neutrons
-   * which hold the information necessary to determine isotope information.
+   * Get the atomic mass of an isotope given its proton and neutron counts.   Input parameters are the number of protons
+   * and neutrons which hold the information necessary to determine isotope information.
    */
   getIsotopeAtomicMass: function( protons: number, neutrons: number ): number {
     if ( protons !== 0 ) {
@@ -14425,16 +14426,16 @@ const AtomIdentifier = {
    * @param atomicNumber
    * @return
    */
-  getStableIsotopesOfElement: function( atomicNumber: number ): IsotopeInfoIdentifier[] {
+  getStableIsotopesOfElement: function( atomicNumber: number ): AtomConfig[] {
     const isotopesList = this.getAllIsotopesOfElement( atomicNumber );
-    const stableIsotopesList: IsotopeInfoIdentifier[] = [];
+    const stableIsotopesList: AtomConfig[] = [];
 
     isotopesList.forEach( isotopeIdentifier => {
       const numProtons = isotopeIdentifier[ 0 ];
       const numNeutrons = isotopeIdentifier[ 1 ];
 
       if ( this.isStable( numProtons, numNeutrons ) ) {
-        stableIsotopesList.push( [ numProtons, numNeutrons, numProtons ] );
+        stableIsotopesList.push( new AtomConfig( numProtons, numNeutrons, numProtons ) );
       }
     } );
 
