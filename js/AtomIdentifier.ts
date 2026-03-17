@@ -9,6 +9,7 @@
  * @author Luisa Vargas
  */
 
+import DerivedProperty from '../../axon/js/DerivedProperty.js';
 import DynamicProperty from '../../axon/js/DynamicProperty.js';
 import Property from '../../axon/js/Property.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
@@ -14289,6 +14290,24 @@ const AtomIdentifier = {
    */
   getName: function( numProtons: number ): TProperty<string> {
     return nameTable[ numProtons ];
+  },
+
+  /**
+   * Get the name and mass string. i.e. Carbon-14 for Carbon with 6 protons and 8 neutrons.
+   */
+  getNameAndMass: function( numProtons: number, numNeutrons: number ): TReadOnlyProperty<string> {
+    const nameProperty = AtomIdentifier.getName( numProtons );
+    const massNumber = numProtons + numNeutrons;
+    return new DerivedProperty( [ nameProperty ], ( name: string ) => `${name}-${massNumber}` );
+  },
+
+  /**
+   * Get <sup>mass</sup> and symbol. i.e. <sup>14</sup>C for Carbon-14
+   */
+  getMassAndSymbol: function( numProtons: number, numNeutrons: number ): string {
+    const symbol = AtomIdentifier.getSymbol( numProtons );
+    const massNumber = numProtons + numNeutrons;
+    return `<sup>${massNumber}</sup>${symbol}`;
   },
 
   /**
