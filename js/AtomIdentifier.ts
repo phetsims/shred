@@ -16,10 +16,10 @@ import TProperty from '../../axon/js/TProperty.js';
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import { toFixedNumber } from '../../dot/js/util/toFixedNumber.js';
 import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
+import { DecayAmount, DECAYS_INFO_TABLE, englishNameTable, HalfLifeConstants, ISOTOPE_INFO_TABLE, mapElectronCountToRadius, nameTable, numNeutronsInMostStableIsotope, stableElementTable, standardMassTable, symbolTable, TRACE_ABUNDANCE } from './AtomData.js';
 import AtomConfig from './model/AtomConfig.js';
 import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
 import shred from './shred.js';
-import { DecayAmount, DECAYS_INFO_TABLE, englishNameTable, HalfLifeConstants, ISOTOPE_INFO_TABLE, mapElectronCountToRadius, nameTable, numNeutronsInMostStableIsotope, stableElementTable, standardMassTable, symbolTable, TRACE_ABUNDANCE } from './ShredData.js';
 import ShredFluent from './ShredFluent.js';
 
 // TODO REVIEW: It is not given that the order (p,n,e) will be necessarily respected, it feels like weak type safety.
