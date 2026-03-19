@@ -1,6 +1,6 @@
 // Copyright 2014-2026, University of Colorado Boulder
 /**
- * AtomIdentifier is an object that can be used to identify various things about an atom given its configuration, such
+ * AtomInfoUtils is an object that can be used to identify various things about an atom given its configuration, such
  * as its name, chemical symbols, and stable isotopes.
  *
  * @author John Blanco (PhET Interactive Simulations)
@@ -26,7 +26,7 @@ export type IsotopeInfoIdentifier = [ number, number, number ];
 export type DecayTypeString = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DECAY' | 'PROTON_EMISSION' | 'NEUTRON_EMISSION';
 export type DecayPercentageTuple = readonly [ DecayTypeString, DecayAmount ];
 
-class AtomIdentifier {
+class AtomInfoUtils {
 
   // Identifies whether a given atomic nucleus is stable.
   public static isStable( numProtons: number, numNeutrons: number ): boolean {
@@ -325,6 +325,6 @@ class AtomIdentifier {
   }
 }
 
-shred.register( 'AtomIdentifier', AtomIdentifier );
-export default AtomIdentifier;
+shred.register( 'AtomInfoUtils', AtomInfoUtils );
+export default AtomInfoUtils;
 

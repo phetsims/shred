@@ -19,7 +19,7 @@ import optionize from '../../../phet-core/js/optionize.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
-import AtomIdentifier from '../AtomIdentifier.js';
+import AtomInfoUtils from '../AtomInfoUtils.js';
 import AtomNameUtils from '../AtomNameUtils.js';
 import shred from '../shred.js';
 
@@ -139,7 +139,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     this.nucleusStableProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty ],
       ( protonCount, neutronCount ) => protonCount + neutronCount > 0 ?
-                                       AtomIdentifier.isStable( protonCount, neutronCount ) :
+                                       AtomInfoUtils.isStable( protonCount, neutronCount ) :
                                        true,
       {
         tandem: options.tandem?.createTandem( 'nucleusStableProperty' ),
@@ -175,7 +175,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
   }
 
   public getIsotopeAtomicMass(): number {
-    return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
+    return AtomInfoUtils.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
   }
 
   /**

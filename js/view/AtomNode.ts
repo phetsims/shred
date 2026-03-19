@@ -27,7 +27,7 @@ import Path from '../../../scenery/js/nodes/Path.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import isSettingPhetioStateProperty from '../../../tandem/js/isSettingPhetioStateProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import AtomIdentifier from '../AtomIdentifier.js';
+import AtomInfoUtils from '../AtomInfoUtils.js';
 import AtomNameUtils from '../AtomNameUtils.js';
 import Particle, { ParticleType } from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
@@ -316,7 +316,7 @@ class AtomNode extends Node {
     // Define the update function for the stability indicator.
     const updateStabilityIndicator = () => {
       if ( this.atom.protonCountProperty.get() > 0 ) {
-        if ( AtomIdentifier.isStable( this.atom.protonCountProperty.get(), this.atom.neutronCountProperty.get() ) ) {
+        if ( AtomInfoUtils.isStable( this.atom.protonCountProperty.get(), this.atom.neutronCountProperty.get() ) ) {
           this.stabilityIndicatorText.string = stableStringProperty.value;
         }
         else {

@@ -35,7 +35,7 @@ import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../tandem/js/types/ReferenceIO.js';
 import Animation from '../../../twixt/js/Animation.js';
 import Easing from '../../../twixt/js/Easing.js';
-import AtomIdentifier from '../AtomIdentifier.js';
+import AtomInfoUtils from '../AtomInfoUtils.js';
 import AtomNameUtils from '../AtomNameUtils.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
@@ -184,7 +184,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
     this.nucleusStableProperty = new DerivedProperty(
       [ this.protonCountProperty, this.neutronCountProperty ],
       ( protonCount, neutronCount ) => protonCount + neutronCount > 0 ?
-                                       AtomIdentifier.isStable( protonCount, neutronCount ) :
+                                       AtomInfoUtils.isStable( protonCount, neutronCount ) :
                                        true,
       {
         tandem: options.tandem.createTandem( 'nucleusStableProperty' ),
@@ -531,7 +531,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
   }
 
   public getIsotopeAtomicMass(): number {
-    return AtomIdentifier.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
+    return AtomInfoUtils.getIsotopeAtomicMass( this.protonCountProperty.get(), this.neutronCountProperty.get() );
   }
 
   /**

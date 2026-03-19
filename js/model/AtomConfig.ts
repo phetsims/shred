@@ -7,7 +7,7 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import AtomIdentifier from '../AtomIdentifier.js';
+import AtomInfoUtils from '../AtomInfoUtils.js';
 import shred from '../shred.js';
 import NumberAtom, { TReadOnlyNumberAtom } from './NumberAtom.js';
 
@@ -36,7 +36,7 @@ class AtomConfig {
    * Get the atomic mass for this nucleus configuration.
    */
   public getAtomicMass(): number {
-    return AtomIdentifier.getIsotopeAtomicMass( this.protonCount, this.neutronCount );
+    return AtomInfoUtils.getIsotopeAtomicMass( this.protonCount, this.neutronCount );
   }
 
   /**

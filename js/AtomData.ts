@@ -10420,8 +10420,7 @@ export const DECAYS_INFO_TABLE: DecaysInfo = {
 // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=html&isotype=some
 //
 // ...though manual post-processing was necessary to remove data and get it into the format below.  This table only
-// contains isotope data for the first eighteen elemtns.  The original csv of this data can be found in
-// buildanatom/model/AtomIdentifier.java.
+// contains isotope data for the first eighteen elements.
 //
 // This table has the following format:
 // keys of type atomic number
