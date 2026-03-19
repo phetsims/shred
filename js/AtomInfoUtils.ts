@@ -1,7 +1,7 @@
 // Copyright 2014-2026, University of Colorado Boulder
 /**
- * AtomInfoUtils is an object that can be used to identify various things about an atom given its configuration, such
- * as its name, chemical symbols, and stable isotopes.
+ * AtomInfoUtils is an object that can be used to provide various information about an atom given its configuration,
+ * such as its atomic mass, stable isotopes, and decay paths.
  *
  * @author John Blanco (PhET Interactive Simulations)
  * @author Jesse Greenberg
@@ -15,13 +15,6 @@ import { DecayAmount, DECAYS_INFO_TABLE, HalfLifeConstants, ISOTOPE_INFO_TABLE, 
 import AtomConfig from './model/AtomConfig.js';
 import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
 import shred from './shred.js';
-
-// TODO REVIEW: It is not given that the order (p,n,e) will be necessarily respected, it feels like weak type safety.
-//  Why not have an explicit type interface form? Or a simple class with only those three properties? AtomConfig?
-//  I suspect there might be a good reason within the "Compact", so maybe elaborate on that reason in a comment here.
-//  https://github.com/phetsims/isotopes-and-atomic-mass/issues/103
-// Compact identifier for an isotope.  Order is [ number of protons, number of neutrons, number of electrons ].
-export type IsotopeInfoIdentifier = [ number, number, number ];
 
 export type DecayTypeString = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DECAY' | 'PROTON_EMISSION' | 'NEUTRON_EMISSION';
 export type DecayPercentageTuple = readonly [ DecayTypeString, DecayAmount ];
@@ -52,7 +45,7 @@ class AtomInfoUtils {
    */
   public static getIsotopeAtomicMass( protons: number, neutrons: number ): number {
     if ( protons !== 0 ) {
-      const tableEntry = ISOTOPE_INFO_TABLE[ protons ][ protons + neutrons ];
+      const tableEntry = ISOTOPE_INFO_TABLE.get( protons )?.get( protons + neutrons );
       if ( typeof ( tableEntry ) === 'undefined' ) {
         // Atom defined by that number of protons and neutrons is not stable, so return -1.
         return -1;
@@ -65,18 +58,20 @@ class AtomInfoUtils {
   }
 
   /**
-   * Returns the natural abundance of the specified isotope on present day Earth (year 2018) as a proportion (NOT a
+   * Returns the natural abundance of the specified isotope on present day Earth (circa 2020) as a proportion (NOT a
    * percentage) with the specified number of decimal places.
    */
   public static getNaturalAbundance( isotope: TReadOnlyNumberAtom, numDecimalPlaces: number ): number {
     affirm( numDecimalPlaces !== undefined, 'must specify number of decimal places for proportion' );
     let abundanceProportion = 0;
+    const protonCount = isotope.protonCountProperty.get();
+    const massNumber = isotope.massNumberProperty.get();
     if ( isotope.protonCountProperty.get() > 0 &&
-         ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ] !== undefined ) {
+         ISOTOPE_INFO_TABLE.has( protonCount ) && ISOTOPE_INFO_TABLE.get( protonCount )!.has( massNumber ) ) {
 
-      // the configuration is in the table, get it and round it to the needed number of decimal places
+      // The configuration is in the table, so get it and round it to the needed number of decimal places.
       abundanceProportion = toFixedNumber(
-        ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ].abundance,
+        ISOTOPE_INFO_TABLE.get( protonCount )!.get( massNumber )!.abundance,
         numDecimalPlaces
       );
     }
@@ -90,8 +85,12 @@ class AtomInfoUtils {
    * https://en.wikipedia.org/wiki/Trace_radioisotope.
    */
   public static existsInTraceAmounts( isotope: TReadOnlyNumberAtom ): boolean {
-    const tableEntry = ISOTOPE_INFO_TABLE[ isotope.protonCountProperty.get() ][ isotope.massNumberProperty.get() ];
-    return tableEntry !== undefined && tableEntry.abundance === TRACE_ABUNDANCE;
+    const protonCount = isotope.protonCountProperty.get();
+    const massNumber = isotope.massNumberProperty.get();
+    return protonCount > 0 &&
+           ISOTOPE_INFO_TABLE.has( protonCount ) &&
+           ISOTOPE_INFO_TABLE.get( protonCount )!.has( massNumber ) &&
+           ISOTOPE_INFO_TABLE.get( protonCount )!.get( massNumber )!.abundance === TRACE_ABUNDANCE;
   }
 
   /**
@@ -100,15 +99,17 @@ class AtomInfoUtils {
    * @param atomicNumber
    * @return
    */
-  public static getAllIsotopesOfElement( atomicNumber: number ): IsotopeInfoIdentifier[] {
-    const isotopesList: IsotopeInfoIdentifier[] = [];
+  public static getAllIsotopesOfElement( atomicNumber: number ): AtomConfig[] {
+    const isotopesList: AtomConfig[] = [];
 
-    for ( const massNumber in ISOTOPE_INFO_TABLE[ atomicNumber ] ) {
+    const isotopeEntries = ISOTOPE_INFO_TABLE.get( atomicNumber );
+    if ( isotopeEntries ) {
+      for ( const [ massNumber ] of isotopeEntries ) {
+        const numNeutrons = massNumber - atomicNumber;
 
-      // parseInt was that best I could think of to support TypeScript
-      const numNeutrons = Number.parseInt( massNumber, 10 ) - atomicNumber; // eslint-disable-line phet/bad-sim-text
-
-      isotopesList.push( [ atomicNumber, numNeutrons, atomicNumber ] );
+        // Add the isotope, assuming a neutral atom (number of electrons = number of protons).
+        isotopesList.push( new AtomConfig( atomicNumber, numNeutrons, atomicNumber ) );
+      }
     }
 
     return isotopesList;
@@ -126,8 +127,8 @@ class AtomInfoUtils {
     const stableIsotopesList: AtomConfig[] = [];
 
     isotopesList.forEach( isotopeIdentifier => {
-      const numProtons = isotopeIdentifier[ 0 ];
-      const numNeutrons = isotopeIdentifier[ 1 ];
+      const numProtons = isotopeIdentifier.protonCount;
+      const numNeutrons = isotopeIdentifier.neutronCount;
 
       if ( this.isStable( numProtons, numNeutrons ) ) {
         stableIsotopesList.push( new AtomConfig( numProtons, numNeutrons, numProtons ) );

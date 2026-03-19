@@ -10430,221 +10430,221 @@ type IsotopeInfo = {
   atomicMass: number;
   abundance: number;
 };
-
-export const ISOTOPE_INFO_TABLE: Record<number, Record<number, IsotopeInfo>> = {
-  1: { // atomic number
-    1: { // massNumber
+type IsotopeInfoTable = Map<number, Map<number, IsotopeInfo>>;
+export const ISOTOPE_INFO_TABLE: IsotopeInfoTable = new Map( [
+  [ 1, new Map( [ // atomic number
+    [ 1, { // massNumber
       atomicMass: 1.00782503207,
       abundance: 0.999885
-    },
-    2: {
+    } ],
+    [ 2, {
       atomicMass: 2.0141017778,
       abundance: 0.000115
-    },
-    3: {
+    } ],
+    [ 3, {
       atomicMass: 3.0160492777,
       // Use trace abundance, since Wikipedia just says "trace" and the NIST table contained it but didn't state
       // abundance.
       abundance: TRACE_ABUNDANCE
-    }
-  },
-  2: {
-    3: {
+    } ]
+  ] ) ],
+  [ 2, new Map( [
+    [ 3, {
       atomicMass: 3.0160293191,
       abundance: 0.00000134
-    },
-    4: {
+    } ],
+    [ 4, {
       atomicMass: 4.00260325415,
       abundance: 0.99999866
-    }
-  },
-  3: {
-    6: {
+    } ]
+  ] ) ],
+  [ 3, new Map( [
+    [ 6, {
       atomicMass: 6.015122795,
       abundance: 0.0759
-    },
-    7: {
+    } ],
+    [ 7, {
       atomicMass: 7.01600455,
       abundance: 0.9241
-    }
-  },
-  4: {
-    7: {
+    } ]
+  ] ) ],
+  [ 4, new Map( [
+    [ 7, {
       atomicMass: 7.016929828,
       abundance: TRACE_ABUNDANCE
-    },
-    9: {
+    } ],
+    [ 9, {
       atomicMass: 9.0121822,
       abundance: 1.0000
-    },
-    10: {
+    } ],
+    [ 10, {
       atomicMass: 10.013533818,
       abundance: TRACE_ABUNDANCE
-    }
-  },
-  5: {
-    10: {
+    } ]
+  ] ) ],
+  [ 5, new Map( [
+    [ 10, {
       atomicMass: 10.0129370,
       abundance: 0.199
-    },
-    11: {
+    } ],
+    [ 11, {
       atomicMass: 11.0093054,
       abundance: 0.801
-    }
-  },
-  6: {
-    12: {
+    } ]
+  ] ) ],
+  [ 6, new Map( [
+    [ 12, {
       atomicMass: 12.0000000,
       abundance: 0.9893
-    },
-    13: {
+    } ],
+    [ 13, {
       atomicMass: 13.0033548378,
       abundance: 0.0107
-    },
-    14: {
+    } ],
+    [ 14, {
       atomicMass: 14.003241989,
       // Use trace abundance, since Wikipedia just says "trace" and the NIST table contained it but didn't state
       // abundance.
       abundance: TRACE_ABUNDANCE
-    }
-  },
-  7: {
-    14: {
+    } ]
+  ] ) ],
+  [ 7, new Map( [
+    [ 14, {
       atomicMass: 14.0030740048,
       abundance: 0.99636
-    },
-    15: {
+    } ],
+    [ 15, {
       atomicMass: 15.0001088982,
       abundance: 0.00364
-    }
-  },
-  8: {
-    16: {
+    } ]
+  ] ) ],
+  [ 8, new Map( [
+    [ 16, {
       atomicMass: 15.99491461956,
       abundance: 0.99757
-    },
-    17: {
+    } ],
+    [ 17, {
       atomicMass: 16.99913170,
       abundance: 0.00038
-    },
-    18: {
+    } ],
+    [ 18, {
       atomicMass: 17.9991610,
       abundance: 0.00205
-    }
-  },
-  9: {
-    18: {
+    } ]
+  ] ) ],
+  [ 9, new Map( [
+    [ 18, {
       atomicMass: 18.0009380,
       abundance: TRACE_ABUNDANCE
-    },
-    19: {
+    } ],
+    [ 19, {
       atomicMass: 18.99840322,
       abundance: 1.0000
-    }
-  },
-  10: {
-    20: {
+    } ]
+  ] ) ],
+  [ 10, new Map( [
+    [ 20, {
       atomicMass: 19.9924401754,
       abundance: 0.9048
-    },
-    21: {
+    } ],
+    [ 21, {
       atomicMass: 20.99384668,
       abundance: 0.0027
-    },
-    22: {
+    } ],
+    [ 22, {
       atomicMass: 21.991385114,
       abundance: 0.0925
-    }
-  },
-  11: {
-    23: {
+    } ]
+  ] ) ],
+  [ 11, new Map( [
+    [ 23, {
       atomicMass: 22.9897692809,
       abundance: 1.0000
-    }
-  },
-  12: {
-    24: {
+    } ]
+  ] ) ],
+  [ 12, new Map( [
+    [ 24, {
       atomicMass: 23.985041700,
       abundance: 0.7899
-    },
-    25: {
+    } ],
+    [ 25, {
       atomicMass: 24.98583692,
       abundance: 0.1000
-    },
-    26: {
+    } ],
+    [ 26, {
       atomicMass: 25.982592929,
       abundance: 0.1101
-    }
-  },
-  13: {
-    27: {
+    } ]
+  ] ) ],
+  [ 13, new Map( [
+    [ 27, {
       atomicMass: 26.98153863,
       abundance: 1.0000
-    }
-  },
-  14: {
-    28: {
+    } ]
+  ] ) ],
+  [ 14, new Map( [
+    [ 28, {
       atomicMass: 27.9769265325,
       abundance: 0.92223
-    },
-    29: {
+    } ],
+    [ 29, {
       atomicMass: 28.976494700,
       abundance: 0.04685
-    },
-    30: {
+    } ],
+    [ 30, {
       atomicMass: 29.97377017,
       abundance: 0.03092
-    }
-  },
-  15: {
-    31: {
+    } ]
+  ] ) ],
+  [ 15, new Map( [
+    [ 31, {
       atomicMass: 30.97376163,
       abundance: 1.0000
-    }
-  },
-  16: {
-    32: {
+    } ]
+  ] ) ],
+  [ 16, new Map( [
+    [ 32, {
       atomicMass: 31.97207100,
       abundance: 0.9499
-    },
-    33: {
+    } ],
+    [ 33, {
       atomicMass: 32.97145876,
       abundance: 0.0075
-    },
-    34: {
+    } ],
+    [ 34, {
       atomicMass: 33.96786690,
       abundance: 0.0425
-    },
-    36: {
+    } ],
+    [ 36, {
       atomicMass: 35.96708076,
       abundance: 0.0001
-    }
-  },
-  17: {
-    35: {
+    } ]
+  ] ) ],
+  [ 17, new Map( [
+    [ 35, {
       atomicMass: 34.96885268,
       abundance: 0.7576
-    },
-    37: {
+    } ],
+    [ 37, {
       atomicMass: 36.96590259,
       abundance: 0.2424
-    }
-  },
-  18: {
-    36: {
+    } ]
+  ] ) ],
+  [ 18, new Map( [
+    [ 36, {
       atomicMass: 35.967545106,
       abundance: 0.003365
-    },
-    38: {
+    } ],
+    [ 38, {
       atomicMass: 37.9627324,
       abundance: 0.000632
-    },
-    40: {
+    } ],
+    [ 40, {
       atomicMass: 39.9623831225,
       abundance: 0.996003
-    }
-  }
-};
+    } ]
+  ] ) ]
+] );
 
 // Table which maps atomic numbers to standard atomic mass (a.k.a. standard atomic weight).  This was obtained from
 // the URL below and subsequently post-processed to remove unneeded data:
