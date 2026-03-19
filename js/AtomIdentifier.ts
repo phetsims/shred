@@ -9,18 +9,12 @@
  * @author Agustín Vallejo
  */
 
-import DerivedProperty from '../../axon/js/DerivedProperty.js';
-import DynamicProperty from '../../axon/js/DynamicProperty.js';
-import Property from '../../axon/js/Property.js';
-import TProperty from '../../axon/js/TProperty.js';
-import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
 import { toFixedNumber } from '../../dot/js/util/toFixedNumber.js';
 import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
-import { DecayAmount, DECAYS_INFO_TABLE, englishNameTable, HalfLifeConstants, ISOTOPE_INFO_TABLE, mapElectronCountToRadius, nameTable, numNeutronsInMostStableIsotope, stableElementTable, standardMassTable, symbolTable, TRACE_ABUNDANCE } from './AtomData.js';
+import { DecayAmount, DECAYS_INFO_TABLE, HalfLifeConstants, ISOTOPE_INFO_TABLE, mapElectronCountToRadius, numNeutronsInMostStableIsotope, stableElementTable, standardMassTable, TRACE_ABUNDANCE } from './AtomData.js';
 import AtomConfig from './model/AtomConfig.js';
 import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
 import shred from './shred.js';
-import ShredFluent from './ShredFluent.js';
 
 // TODO REVIEW: It is not given that the order (p,n,e) will be necessarily respected, it feels like weak type safety.
 //  Why not have an explicit type interface form? Or a simple class with only those three properties? AtomConfig?
@@ -33,78 +27,6 @@ export type DecayTypeString = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DE
 export type DecayPercentageTuple = readonly [ DecayTypeString, DecayAmount ];
 
 class AtomIdentifier {
-
-  // Get the chemical symbol for an atom with the specified number of protons.
-  public static getSymbol( numProtons: number ): string {
-    return symbolTable[ numProtons ];
-  }
-
-  /**
-   * Get the internationalized element name for an atom with the specified number of protons.
-   */
-  public static getName( numProtons: number ): TProperty<string> {
-    return nameTable[ numProtons ];
-  }
-
-  /**
-   * Get the name and mass string. i.e. Carbon-14 for Carbon with 6 protons and 8 neutrons.
-   */
-  public static getNameAndMass( numProtons: number, numNeutrons: number ): TReadOnlyProperty<string> {
-    const nameProperty = AtomIdentifier.getName( numProtons );
-    const massNumber = numProtons + numNeutrons;
-    return new DerivedProperty( [ nameProperty ], ( name: string ) => `${name}-${massNumber}` );
-  }
-
-  /**
-   * Get <sup>mass</sup> and symbol. i.e. <sup>14</sup>C for Carbon-14
-   */
-  public static getMassAndSymbol( numProtons: number, numNeutrons: number ): string {
-    const symbol = AtomIdentifier.getSymbol( numProtons );
-    const massNumber = numProtons + numNeutrons;
-    return `<sup>${massNumber}</sup>${symbol}`;
-  }
-
-  /**
-   * Creates a property that listens both to the protonCount (updates element name when a proton is added/removed)
-   * but also listens to the locale (updates when Hydrogen goes to Hidrógeno).
-   */
-  public static createDynamicNameProperty( protonCountProperty: TReadOnlyProperty<number> ): DynamicProperty<string, number, TReadOnlyProperty<string>> {
-    const currentElementStringProperty = new Property( AtomIdentifier.getName( protonCountProperty.value ), { reentrant: true } );
-    const elementDynamicStringProperty = new DynamicProperty<string, number, TReadOnlyProperty<string>>( currentElementStringProperty );
-
-    // Update the element name based on the proton count.
-    protonCountProperty.link( protonCount => {
-      currentElementStringProperty.value = AtomIdentifier.getName( protonCount );
-    } );
-
-    return elementDynamicStringProperty;
-  }
-
-  /**
-   * Get the English name for an atom with the specified number of protons, lowercased with no whitespace and suitable
-   * for usage in PhET-iO data stream.
-   *
-   */
-  public static getNonLocalizedName( numProtons: number ): string {
-    return englishNameTable[ numProtons ];
-  }
-
-  // Formats the chemical symbol so a screen reader can read it properly. For example "He" becomes "upper H e"
-  // It's important to note that this function uses the StringProperty value directly, so it will not update
-  // automatically with locale changes. It should be called again to get the updated value.
-  public static getSpokenSymbol( protonCount: number, uppercase = false ): string {
-    const symbol = AtomIdentifier.getSymbol( protonCount ).split( '' ).join( ' ' );
-    if ( uppercase ) {
-      return ShredFluent.a11y.spokenSymbolUppercase.format( {
-        symbol: symbol
-      } );
-    }
-    else {
-      return ShredFluent.a11y.spokenSymbol.format( {
-        symbol: symbol
-      } );
-    }
-  }
 
   // Identifies whether a given atomic nucleus is stable.
   public static isStable( numProtons: number, numNeutrons: number ): boolean {

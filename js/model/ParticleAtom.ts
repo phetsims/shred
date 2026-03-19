@@ -36,6 +36,7 @@ import ReferenceIO, { ReferenceIOState } from '../../../tandem/js/types/Referenc
 import Animation from '../../../twixt/js/Animation.js';
 import Easing from '../../../twixt/js/Easing.js';
 import AtomIdentifier from '../AtomIdentifier.js';
+import AtomNameUtils from '../AtomNameUtils.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
@@ -175,7 +176,7 @@ class ParticleAtom extends PhetioObject implements TReadOnlyNumberAtom, Particle
     );
     this.elementNameStringProperty = new DerivedStringProperty(
       [ this.protonCountProperty ],
-      protonCount => AtomIdentifier.getNonLocalizedName( protonCount ),
+      protonCount => AtomNameUtils.getNonLocalizedName( protonCount ),
       {
         tandem: options.tandem.createTandem( 'elementNameStringProperty' )
       }

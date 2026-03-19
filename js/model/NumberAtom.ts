@@ -20,6 +20,7 @@ import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObje
 import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomIdentifier from '../AtomIdentifier.js';
+import AtomNameUtils from '../AtomNameUtils.js';
 import shred from '../shred.js';
 
 type SelfOptions = {
@@ -128,7 +129,7 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
     // The element name is derived from the proton count, since the number of protons determines the element.
     this.elementNameStringProperty = new DerivedStringProperty(
       [ this.protonCountProperty ],
-      protonCount => AtomIdentifier.getNonLocalizedName( protonCount ),
+      protonCount => AtomNameUtils.getNonLocalizedName( protonCount ),
       {
         tandem: options.tandem?.createTandem( 'elementNameStringProperty' )
       }

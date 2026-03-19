@@ -19,7 +19,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import AtomIdentifier from '../AtomIdentifier.js';
+import AtomNameUtils from '../AtomNameUtils.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredFluent from '../ShredFluent.js';
@@ -75,7 +75,7 @@ class ExpandedPeriodicTableNode extends Node {
 
       for ( let j = 0; j < populatedCellsInRow.length; j++ ) {
         const protonCount = elementIndex;
-        const button = new TextPushButton( AtomIdentifier.getSymbol( elementIndex ), {
+        const button = new TextPushButton( AtomNameUtils.getSymbol( elementIndex ), {
           listener: () => { protonCountProperty.value = protonCount; },
           baseColor: ENABLED_CELL_COLOR,
           cornerRadius: 0,

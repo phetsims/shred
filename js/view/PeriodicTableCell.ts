@@ -19,7 +19,7 @@ import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
-import AtomIdentifier from '../AtomIdentifier.js';
+import AtomNameUtils from '../AtomNameUtils.js';
 import shred from '../shred.js';
 import ShredFluent from '../ShredFluent.js';
 
@@ -100,7 +100,7 @@ class PeriodicTableCell extends InteractiveHighlighting( Rectangle ) {
     this.highlightedFill = cellColor.selected;
     this.labelText = null;
     if ( options.showLabels ) {
-      this.labelText = new Text( AtomIdentifier.getSymbol( atomicNumber ), {
+      this.labelText = new Text( AtomNameUtils.getSymbol( atomicNumber ), {
         font: new PhetFont( NOMINAL_FONT_SIZE * ( options.length / NOMINAL_CELL_DIMENSION ) ),
         center: this.center,
         maxWidth: options.length - 5

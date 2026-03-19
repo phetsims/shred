@@ -19,7 +19,7 @@ import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
-import AtomIdentifier from '../AtomIdentifier.js';
+import AtomNameUtils from '../AtomNameUtils.js';
 import { ChargeNotation } from '../model/ChargeNotation.js';
 import shred from '../shred.js';
 import ShredColors from '../ShredColors.js';
@@ -78,7 +78,7 @@ class SymbolNode extends Node {
     // Add the listener to update the symbol text.
     const textCenter = new Vector2( SYMBOL_BOX_WIDTH / 2, SYMBOL_BOX_HEIGHT / 2 );
     const updateSymbolText = ( protonCount: number ) => {
-      const symbol = AtomIdentifier.getSymbol( protonCount );
+      const symbol = AtomNameUtils.getSymbol( protonCount );
       this.symbolText.string = protonCount > 0 ? symbol : '-';
     };
     protonCountProperty.link( updateSymbolText );

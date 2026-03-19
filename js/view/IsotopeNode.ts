@@ -12,7 +12,7 @@ import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import RichText from '../../../scenery/js/nodes/RichText.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
-import AtomIdentifier from '../AtomIdentifier.js';
+import AtomNameUtils from '../AtomNameUtils.js';
 import Particle from '../model/Particle.js';
 import shred from '../shred.js';
 
@@ -45,7 +45,7 @@ class IsotopeNode extends Node {
 
     if ( options.showLabel ) {
 
-      const symbol = AtomIdentifier.getSymbol( options.protonCount );
+      const symbol = AtomNameUtils.getSymbol( options.protonCount );
 
       const label = new RichText( ` <sup>${options.massNumber}</sup>${symbol}`, {
         font: new PhetFont( 10 ),

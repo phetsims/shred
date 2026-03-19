@@ -21,7 +21,7 @@ import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import LinearGradient from '../../../scenery/js/util/LinearGradient.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import AtomIdentifier from '../AtomIdentifier.js';
+import AtomNameUtils from '../AtomNameUtils.js';
 import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredFluent from '../ShredFluent.js';
@@ -144,7 +144,7 @@ class PeriodicTableNode extends Node {
           tandem: Tandem.OPT_OUT,
 
           accessibleVisible: false,
-          accessibleName: AtomIdentifier.getSpokenSymbol( protonCount, true )
+          accessibleName: AtomNameUtils.getSpokenSymbol( protonCount, true )
         } );
         cell.focusHighlight = new HighlightFromNode( cell );
         cell.translation = new Vector2( populatedCellsInRow[ j ] * options.cellDimension, i * options.cellDimension );

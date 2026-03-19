@@ -28,6 +28,7 @@ import Text from '../../../scenery/js/nodes/Text.js';
 import isSettingPhetioStateProperty from '../../../tandem/js/isSettingPhetioStateProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomIdentifier from '../AtomIdentifier.js';
+import AtomNameUtils from '../AtomNameUtils.js';
 import Particle, { ParticleType } from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
 import shred from '../shred.js';
@@ -176,7 +177,7 @@ class AtomNode extends Node {
     ) );
 
     // Current string properties for the symbol text and element caption
-    const currentElementStringProperty = new Property( AtomIdentifier.getName( 0 ) );
+    const currentElementStringProperty = new Property( AtomNameUtils.getName( 0 ) );
     const elementDynamicStringProperty = new DynamicProperty( currentElementStringProperty );
 
     // Create the textual readout for the element name.
@@ -223,7 +224,7 @@ class AtomNode extends Node {
 
       if ( protonCount > 0 ) {
         // Update the string property for the element caption.
-        const elementNameProperty = AtomIdentifier.getName( protonCount );
+        const elementNameProperty = AtomNameUtils.getName( protonCount );
         currentElementStringProperty.value = elementNameProperty;
         this.elementNameText.string = elementNameProperty.value;
       }
