@@ -14,7 +14,6 @@ import affirm from '../../perennial-alias/js/browser-and-node/affirm.js';
 import { DecayAmount, DECAYS_INFO_TABLE, HalfLifeConstants, ISOTOPE_INFO_TABLE, mapElectronCountToRadius, numNeutronsInMostStableIsotope, stableElementTable, standardMassTable, TRACE_ABUNDANCE } from './AtomData.js';
 import AtomConfig from './model/AtomConfig.js';
 import type { TReadOnlyNumberAtom } from './model/NumberAtom.js';
-import shred from './shred.js';
 
 export type DecayTypeString = 'BETA_MINUS_DECAY' | 'BETA_PLUS_DECAY' | 'ALPHA_DECAY' | 'PROTON_EMISSION' | 'NEUTRON_EMISSION';
 export type DecayPercentageTuple = readonly [ DecayTypeString, DecayAmount ];
@@ -326,6 +325,4 @@ class AtomInfoUtils {
   }
 }
 
-shred.register( 'AtomInfoUtils', AtomInfoUtils );
 export default AtomInfoUtils;
-

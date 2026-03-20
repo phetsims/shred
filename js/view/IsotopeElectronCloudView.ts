@@ -17,7 +17,6 @@ import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import { TReadOnlyNumberAtom } from '../model/NumberAtom.js';
-import shred from '../shred.js';
 
 type IsotopeElectronCloudViewOptions = CircleOptions;
 
@@ -107,5 +106,4 @@ class IsotopeElectronCloudView extends Circle {
   }
 }
 
-shred.register( 'IsotopeElectronCloudView', IsotopeElectronCloudView );
 export default IsotopeElectronCloudView;

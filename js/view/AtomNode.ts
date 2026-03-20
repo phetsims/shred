@@ -31,7 +31,6 @@ import AtomInfoUtils from '../AtomInfoUtils.js';
 import AtomNameUtils from '../AtomNameUtils.js';
 import Particle, { ParticleType } from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
-import shred from '../shred.js';
 import ShredColors from '../ShredColors.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredFluent from '../ShredFluent.js';
@@ -1030,5 +1029,4 @@ class AtomNode extends Node {
 
 }
 
-shred.register( 'AtomNode', AtomNode );
 export default AtomNode;

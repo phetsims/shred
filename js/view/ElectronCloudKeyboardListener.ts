@@ -15,7 +15,6 @@ import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Particle from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
-import shred from '../shred.js';
 import AtomNode from './AtomNode.js';
 import ElectronCloudView from './ElectronCloudView.js';
 import ParticleView from './ParticleView.js';
@@ -96,5 +95,4 @@ class ElectronCloudKeyboardListener extends KeyboardListener<OneKeyStroke[]> {
   }
 }
 
-shred.register( 'ElectronCloudKeyboardListener', ElectronCloudKeyboardListener );
 export default ElectronCloudKeyboardListener;

@@ -21,7 +21,6 @@ import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import Particle from '../model/Particle.js';
 import ParticleAtom from '../model/ParticleAtom.js';
-import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredFluent from '../ShredFluent.js';
 import ParticleView from './ParticleView.js';
@@ -129,5 +128,4 @@ class ElectronCloudView extends InteractiveHighlighting( Node ) {
   }
 }
 
-shred.register( 'ElectronCloudView', ElectronCloudView );
 export default ElectronCloudView;

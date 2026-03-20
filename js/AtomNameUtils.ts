@@ -11,7 +11,6 @@ import Property from '../../axon/js/Property.js';
 import TinyProperty from '../../axon/js/TinyProperty.js';
 import TProperty from '../../axon/js/TProperty.js';
 import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
-import shred from './shred.js';
 import ShredFluent from './ShredFluent.js';
 
 
@@ -579,5 +578,4 @@ class AtomNameUtils {
 }
 
 
-shred.register( 'AtomNameUtils', AtomNameUtils );
 export default AtomNameUtils;

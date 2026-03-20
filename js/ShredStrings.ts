@@ -354,6 +354,4 @@ type StringsType = {
 
 const ShredStrings = getStringModule( 'SHRED' ) as StringsType;
 
-shred.register( 'ShredStrings', ShredStrings );
-
 export default ShredStrings;

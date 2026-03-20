@@ -9,7 +9,6 @@
 
 import KeyboardHelpSection, { KeyboardHelpSectionOptions } from '../../../scenery-phet/js/keyboard/help/KeyboardHelpSection.js';
 import KeyboardHelpSectionRow from '../../../scenery-phet/js/keyboard/help/KeyboardHelpSectionRow.js';
-import shred from '../shred.js';
 import ShredFluent from '../ShredFluent.js';
 import PeriodicTableNode from './PeriodicTableNode.js';
 
@@ -26,5 +25,3 @@ export default class PeriodicTableControlsKeyboardHelpSection extends KeyboardHe
     );
   }
 }
-
-shred.register( 'PeriodicTableControlsKeyboardHelpSection', PeriodicTableControlsKeyboardHelpSection );

@@ -10,7 +10,6 @@ import Vector2 from '../../dot/js/Vector2.js';
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
 import TColor from '../../scenery/js/util/TColor.js';
 import { PARTICLE_COLORS } from './model/Particle.js';
-import shred from './shred.js';
 
 const ShredConstants = {
 
@@ -40,5 +39,4 @@ const ShredConstants = {
   // an offset used by alt-input to position particles just below the nucleus
   BELOW_NUCLEUS_OFFSET: new Vector2( 0, -40 )
 };
-shred.register( 'ShredConstants', ShredConstants );
 export default ShredConstants;

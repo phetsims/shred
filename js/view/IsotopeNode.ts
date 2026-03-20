@@ -14,7 +14,6 @@ import RichText from '../../../scenery/js/nodes/RichText.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import AtomNameUtils from '../AtomNameUtils.js';
 import Particle from '../model/Particle.js';
-import shred from '../shred.js';
 
 type SelfOptions = {
   showLabel?: boolean;
@@ -72,5 +71,4 @@ class IsotopeNode extends Node {
   }
 }
 
-shred.register( 'IsotopeNode', IsotopeNode );
 export default IsotopeNode;

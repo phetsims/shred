@@ -54,6 +54,4 @@ const ShredColors = {
   } )
 };
 
-shred.register( 'ShredColors', ShredColors );
-
 export default ShredColors;

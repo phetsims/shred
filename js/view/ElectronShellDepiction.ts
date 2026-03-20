@@ -5,11 +5,9 @@
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
-import shred from '../shred.js';
 
 const ElectronShellDepictionValues = [ 'shells', 'cloud' ] as const;
 type ElectronShellDepiction = typeof ElectronShellDepictionValues[number];
 
-shred.register( 'ElectronShellDepictionValues', ElectronShellDepictionValues );
 export { ElectronShellDepictionValues };
 export default ElectronShellDepiction;

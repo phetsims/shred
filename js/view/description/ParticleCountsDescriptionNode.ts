@@ -10,7 +10,6 @@ import { TReadOnlyProperty } from '../../../../axon/js/TReadOnlyProperty.js';
 import AccessibleList from '../../../../scenery-phet/js/accessibility/AccessibleList.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import NumberAtom, { TReadOnlyNumberAtom } from '../../model/NumberAtom.js';
-import shred from '../../shred.js';
 import ShredFluent from '../../ShredFluent.js';
 
 export default class ParticleCountsDescriptionNode extends Node {
@@ -35,5 +34,3 @@ export default class ParticleCountsDescriptionNode extends Node {
     } );
   }
 }
-
-shred.register( 'ParticleCountsDescriptionNode', ParticleCountsDescriptionNode );

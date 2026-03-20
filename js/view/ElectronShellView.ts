@@ -12,7 +12,6 @@ import ModelViewTransform2 from '../../../phetcommon/js/view/ModelViewTransform2
 import Circle from '../../../scenery/js/nodes/Circle.js';
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import ParticleAtom from '../model/ParticleAtom.js';
-import shred from '../shred.js';
 
 // constants
 const LINE_DASH = [ 4, 5 ];
@@ -58,5 +57,4 @@ class ElectronShellView extends Node {
   }
 }
 
-shred.register( 'ElectronShellView', ElectronShellView );
 export default ElectronShellView;

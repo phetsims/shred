@@ -23,7 +23,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NullableIO from '../../../tandem/js/types/NullableIO.js';
 import ReferenceIO, { ReferenceIOState } from '../../../tandem/js/types/ReferenceIO.js';
-import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 
 // used to give each particle a unique ID
@@ -244,5 +243,4 @@ class Particle extends PhetioObject {
 }
 
 
-shred.register( 'Particle', Particle );
 export default Particle;

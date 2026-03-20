@@ -15,7 +15,6 @@ import Color from '../../../scenery/js/util/Color.js';
 import ColorProperty from '../../../scenery/js/util/ColorProperty.js';
 import RadialGradient from '../../../scenery/js/util/RadialGradient.js';
 import { PARTICLE_COLORS, ParticleType } from '../model/Particle.js';
-import shred from '../shred.js';
 
 type SelfOptions = {
   typeProperty?: TReadOnlyProperty<ParticleType> | null;
@@ -71,5 +70,4 @@ class ParticleNode extends Circle {
   }
 }
 
-shred.register( 'ParticleNode', ParticleNode );
 export default ParticleNode;

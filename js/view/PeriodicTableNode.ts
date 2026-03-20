@@ -393,5 +393,4 @@ class PeriodicTableNode extends Node {
   } );
 }
 
-shred.register( 'PeriodicTableNode', PeriodicTableNode );
 export default PeriodicTableNode;

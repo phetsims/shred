@@ -37,7 +37,6 @@ import Animation from '../../../twixt/js/Animation.js';
 import Easing from '../../../twixt/js/Easing.js';
 import AtomInfoUtils from '../AtomInfoUtils.js';
 import AtomNameUtils from '../AtomNameUtils.js';
-import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import Utils from '../Utils.js';
 import { TReadOnlyNumberAtom } from './NumberAtom.js';
@@ -782,5 +781,4 @@ type ParticleAtomState = {
   electronShellOccupantIDs: Array<ReferenceIOState | null>;
 };
 
-shred.register( 'ParticleAtom', ParticleAtom );
 export default ParticleAtom;

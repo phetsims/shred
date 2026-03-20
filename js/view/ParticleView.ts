@@ -22,7 +22,6 @@ import { PressListenerEvent } from '../../../scenery/js/listeners/PressListener.
 import Node, { NodeOptions } from '../../../scenery/js/nodes/Node.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import Particle from '../model/Particle.js';
-import shred from '../shred.js';
 import IsotopeNode, { IsotopeNodeOptions } from './IsotopeNode.js';
 import ParticleNode from './ParticleNode.js';
 
@@ -186,5 +185,4 @@ class ParticleView extends InteractiveHighlighting( Node ) {
   }
 }
 
-shred.register( 'ParticleView', ParticleView );
 export default ParticleView;

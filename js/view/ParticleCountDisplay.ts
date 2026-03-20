@@ -17,7 +17,6 @@ import Text, { TextOptions } from '../../../scenery/js/nodes/Text.js';
 import Panel, { PanelOptions } from '../../../sun/js/Panel.js';
 import { TReadOnlyNumberAtom } from '../model/NumberAtom.js';
 import { ParticleType } from '../model/Particle.js';
-import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredFluent from '../ShredFluent.js';
 import ParticleNode from './ParticleNode.js';
@@ -166,5 +165,4 @@ class ParticleCountDisplay extends Panel {
   }
 }
 
-shred.register( 'ParticleCountDisplay', ParticleCountDisplay );
 export default ParticleCountDisplay;

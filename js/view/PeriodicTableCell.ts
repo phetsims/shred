@@ -20,7 +20,6 @@ import TColor from '../../../scenery/js/util/TColor.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import TSoundPlayer from '../../../tambo/js/TSoundPlayer.js';
 import AtomNameUtils from '../AtomNameUtils.js';
-import shred from '../shred.js';
 import ShredFluent from '../ShredFluent.js';
 
 // constants
@@ -143,5 +142,4 @@ class PeriodicTableCell extends InteractiveHighlighting( Rectangle ) {
   }
 }
 
-shred.register( 'PeriodicTableCell', PeriodicTableCell );
 export default PeriodicTableCell;

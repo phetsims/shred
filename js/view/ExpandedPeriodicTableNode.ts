@@ -20,7 +20,6 @@ import TextPushButton from '../../../sun/js/buttons/TextPushButton.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import AtomNameUtils from '../AtomNameUtils.js';
-import shred from '../shred.js';
 import ShredConstants from '../ShredConstants.js';
 import ShredFluent from '../ShredFluent.js';
 import PeriodicTableNode from './PeriodicTableNode.js';
@@ -133,5 +132,4 @@ class ExpandedPeriodicTableNode extends Node {
   }
 }
 
-shred.register( 'ExpandedPeriodicTableNode', ExpandedPeriodicTableNode );
 export default ExpandedPeriodicTableNode;

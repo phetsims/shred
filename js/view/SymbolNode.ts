@@ -21,7 +21,6 @@ import Rectangle from '../../../scenery/js/nodes/Rectangle.js';
 import Text from '../../../scenery/js/nodes/Text.js';
 import AtomNameUtils from '../AtomNameUtils.js';
 import { ChargeNotation } from '../model/ChargeNotation.js';
-import shred from '../shred.js';
 import ShredColors from '../ShredColors.js';
 import ShredConstants from '../ShredConstants.js';
 
@@ -172,5 +171,4 @@ class SymbolNode extends Node {
   }
 }
 
-shred.register( 'SymbolNode', SymbolNode );
 export default SymbolNode;

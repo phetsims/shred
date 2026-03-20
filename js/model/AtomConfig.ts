@@ -8,7 +8,6 @@
  */
 
 import AtomInfoUtils from '../AtomInfoUtils.js';
-import shred from '../shred.js';
 import NumberAtom, { TReadOnlyNumberAtom } from './NumberAtom.js';
 
 class AtomConfig {
@@ -83,7 +82,5 @@ class AtomConfig {
     );
   }
 }
-
-shred.register( 'AtomConfig', AtomConfig );
 
 export default AtomConfig;

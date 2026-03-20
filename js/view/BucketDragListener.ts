@@ -17,7 +17,6 @@ import SoundDragListener, { SoundDragListenerOptions } from '../../../scenery-ph
 import nullSoundPlayer from '../../../tambo/js/nullSoundPlayer.js';
 import sharedSoundPlayers from '../../../tambo/js/sharedSoundPlayers.js';
 import Particle from '../model/Particle.js';
-import shred from '../shred.js';
 
 type SelfOptions = EmptySelfOptions;
 type BucketDragListenerOptions = SelfOptions & SoundDragListenerOptions;
@@ -90,5 +89,4 @@ class BucketDragListener extends SoundDragListener {
   }
 }
 
-shred.register( 'BucketDragListener', BucketDragListener );
 export default BucketDragListener;

@@ -21,7 +21,6 @@ import BooleanIO from '../../../tandem/js/types/BooleanIO.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomInfoUtils from '../AtomInfoUtils.js';
 import AtomNameUtils from '../AtomNameUtils.js';
-import shred from '../shred.js';
 
 type SelfOptions = {
   protonCount?: number;
@@ -221,5 +220,4 @@ class NumberAtom extends PhetioObject implements TNumberAtom {
   }
 }
 
-shred.register( 'NumberAtom', NumberAtom );
 export default NumberAtom;

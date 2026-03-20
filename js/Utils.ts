@@ -6,8 +6,6 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import shred from './shred.js';
-
 const Utils = {
 
   /**
@@ -18,5 +16,4 @@ const Utils = {
   }
 };
 
-shred.register( 'Utils', Utils );
 export default Utils;

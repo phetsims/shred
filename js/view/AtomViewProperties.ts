@@ -11,7 +11,6 @@ import Property from '../../../axon/js/Property.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PickRequired from '../../../phet-core/js/types/PickRequired.js';
 import Tandem from '../../../tandem/js/Tandem.js';
-import shred from '../shred.js';
 import { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import StringUnionIO from '../../../tandem/js/types/StringUnionIO.js';
 import ElectronShellDepiction, { ElectronShellDepictionValues } from './ElectronShellDepiction.js';
@@ -86,7 +85,5 @@ class AtomViewProperties {
     tandem: Tandem.OPT_OUT
   } );
 }
-
-shred.register( 'AtomViewProperties', AtomViewProperties );
 
 export default AtomViewProperties;
