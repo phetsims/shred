@@ -381,3 +381,5 @@ const ShredFluent = {
 };
 
 export default ShredFluent;
+
+shred.register('ShredFluent', ShredFluent);
