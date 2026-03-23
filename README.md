@@ -1,15 +1,13 @@
 shred
 ======
 
-Reusable components that are shared between sims related to atomics such as:
+Reusable components that are shared between simulations related to atomic structure.  Examples sims include:
 * Build an Atom
 * Build a Nucleus
 * Isotopes and Atomic Mass
 * Rutherford Scattering
-* (future, common repo) Nuclear Decay Common
-* (future) Alpha Decay
-* (future) Beta Decay
-* (future) Radioactive Dating Game
+* Alpha Decay
+* Nuclear Decay Common (common)
 
 By PhET Interactive Simulations
 https://phet.colorado.edu/
