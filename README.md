@@ -1,7 +1,15 @@
 shred
 ======
 
-Reusable components that are shared between isotopes-and-atomic-mass, build-a-nucleus and build-an-atom.
+Reusable components that are shared between sims related to atomics such as:
+* Build an Atom
+* Build a Nucleus
+* Isotopes and Atomic Mass
+* Rutherford Scattering
+* (future, common repo) Nuclear Decay Common
+* (future) Alpha Decay
+* (future) Beta Decay
+* (future) Radioactive Dating Game
 
 By PhET Interactive Simulations
 https://phet.colorado.edu/
