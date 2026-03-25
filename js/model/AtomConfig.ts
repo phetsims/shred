@@ -7,8 +7,16 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
+import IOType from '../../../tandem/js/types/IOType.js';
+import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import AtomInfoUtils from '../AtomInfoUtils.js';
 import NumberAtom, { TReadOnlyNumberAtom } from './NumberAtom.js';
+
+export type AtomConfigStateObject = {
+  protonCount: number;
+  neutronCount: number;
+  electronCount: number;
+};
 
 class AtomConfig {
 
@@ -81,6 +89,20 @@ class AtomConfig {
       atom.electronCountProperty.value
     );
   }
+
+
+  public static readonly AtomConfigIO = new IOType<AtomConfig, AtomConfigStateObject>( 'AtomConfigIO', {
+    valueType: AtomConfig,
+    stateSchema: {
+      protonCount: NumberIO,
+      neutronCount: NumberIO,
+      electronCount: NumberIO
+    },
+    fromStateObject: ( stateObject: AtomConfigStateObject ) => {
+      return new AtomConfig( stateObject.protonCount, stateObject.neutronCount, stateObject.electronCount );
+    }
+  } );
+
 }
 
 export default AtomConfig;
