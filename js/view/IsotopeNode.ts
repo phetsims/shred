@@ -6,6 +6,7 @@
  * @author Aadish Gupta
  */
 
+import DerivedProperty from '../../../axon/js/DerivedProperty.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import PhetFont from '../../../scenery-phet/js/PhetFont.js';
 import Circle, { CircleOptions } from '../../../scenery/js/nodes/Circle.js';
@@ -38,6 +39,8 @@ class IsotopeNode extends Node {
     // Create the node a circle with a gradient.
     const isotopeSphere = new Circle( radius, {
       fill: isotope.colorProperty,
+      stroke: new DerivedProperty( [ isotope.colorProperty ], color => color.colorUtilsDarker( 0.5 ) ),
+      lineWidth: 0.5,
       cursor: 'pointer'
     } );
     this.addChild( isotopeSphere );
@@ -48,10 +51,11 @@ class IsotopeNode extends Node {
 
       const label = new RichText( ` <sup>${options.massNumber}</sup>${symbol}`, {
         font: new PhetFont( 10 ),
-        // Make sure the text doesn't go beyond the sphere boundaries. -2 is empirically determined.
-        maxWidth: 2 * radius - 2
+
+        // Make sure the text doesn't go beyond the sphere boundaries. The multiplier is empirically determined.
+        maxWidth: 2 * radius * 0.85
       } );
-      label.centerX = isotopeSphere.centerX - 1; // empirically determined -1 to make it appear centered
+      label.centerX = isotopeSphere.centerX;
       label.centerY = isotopeSphere.centerY;
       isotopeSphere.addChild( label );
       isotopeSphere.fill = new RadialGradient(
