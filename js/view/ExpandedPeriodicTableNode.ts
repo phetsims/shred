@@ -103,8 +103,9 @@ class ExpandedPeriodicTableNode extends Node {
       expandedRowsNode.right, expandedRowsNode.top, connectingLineOptions );
     this.addChild( rightConnectingLine );
 
-    const periodicTableTitle = new Text( ShredFluent.periodicTableStringProperty, {
-      font: new PhetFont( { size: 16, weight: 'bold' } )
+    const periodicTableTitle = new Text( ShredFluent.periodicTable.nameStringProperty, {
+      font: new PhetFont( { size: 16, weight: 'bold' } ),
+      maxWidth: 200
     } );
     periodicTableTitle.bottom = periodicTableNode.top - 5;
     periodicTableTitle.centerX = periodicTableNode.centerX;

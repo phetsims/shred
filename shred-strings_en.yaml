@@ -129,7 +129,12 @@ neutralAtom: Neutral Atom
 positiveSignIon: Positive Ion
 stable: Stable
 unstable: Unstable
-periodicTable: Periodic Table
+periodicTable:
+  name: Periodic Table
+  keyboardHelpDialog:
+    navigation: Periodic Table Navigation
+    activation: Activate periodic table
+    selectChemicalSymbol: Select chemical symbol
 
 a11y:
   spokenSymbol: "upper { $symbol }"
@@ -198,7 +203,3 @@ a11y:
       accessibleContextResponse:
         activation: Periodic table activated.
         selection: Use WASD keys to select element.
-    keyboardHelpDialog:
-      navigation: Periodic Table Navigation
-      activation: Activate periodic table
-      selectChemicalSymbol: Select chemical symbol

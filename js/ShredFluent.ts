@@ -5,7 +5,7 @@
 /* eslint-disable */
 /* @formatter:off */
 
-import { TReadOnlyProperty } from '../../axon/js/TReadOnlyProperty.js';
+import {TReadOnlyProperty} from '../../axon/js/TReadOnlyProperty.js';
 import FluentLibrary from '../../chipper/js/browser-and-node/FluentLibrary.js';
 import FluentConstant from '../../chipper/js/browser/FluentConstant.js';
 import FluentContainer from '../../chipper/js/browser/FluentContainer.js';
@@ -158,7 +158,10 @@ addToMapIfDefined( 'neutralAtom', 'neutralAtomStringProperty' );
 addToMapIfDefined( 'positiveSignIon', 'positiveSignIonStringProperty' );
 addToMapIfDefined( 'stable', 'stableStringProperty' );
 addToMapIfDefined( 'unstable', 'unstableStringProperty' );
-addToMapIfDefined( 'periodicTable', 'periodicTableStringProperty' );
+addToMapIfDefined( 'periodicTable_name', 'periodicTable.nameStringProperty' );
+addToMapIfDefined( 'periodicTable_keyboardHelpDialog_navigation', 'periodicTable.keyboardHelpDialog.navigationStringProperty' );
+addToMapIfDefined( 'periodicTable_keyboardHelpDialog_activation', 'periodicTable.keyboardHelpDialog.activationStringProperty' );
+addToMapIfDefined( 'periodicTable_keyboardHelpDialog_selectChemicalSymbol', 'periodicTable.keyboardHelpDialog.selectChemicalSymbolStringProperty' );
 addToMapIfDefined( 'a11y_spokenSymbol', 'a11y.spokenSymbolStringProperty' );
 addToMapIfDefined( 'a11y_spokenSymbolUppercase', 'a11y.spokenSymbolUppercaseStringProperty' );
 addToMapIfDefined( 'a11y_particleCounts_accessibleListNode_protons', 'a11y.particleCounts.accessibleListNode.protonsStringProperty' );
@@ -186,9 +189,6 @@ addToMapIfDefined( 'a11y_periodicTableNode_accessibleHeading', 'a11y.periodicTab
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleName', 'a11y.periodicTableNode.interactiveButton.accessibleNameStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_activation', 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.activationStringProperty' );
 addToMapIfDefined( 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_selection', 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.selectionStringProperty' );
-addToMapIfDefined( 'a11y_periodicTableNode_keyboardHelpDialog_navigation', 'a11y.periodicTableNode.keyboardHelpDialog.navigationStringProperty' );
-addToMapIfDefined( 'a11y_periodicTableNode_keyboardHelpDialog_activation', 'a11y.periodicTableNode.keyboardHelpDialog.activationStringProperty' );
-addToMapIfDefined( 'a11y_periodicTableNode_keyboardHelpDialog_selectChemicalSymbol', 'a11y.periodicTableNode.keyboardHelpDialog.selectChemicalSymbolStringProperty' );
 
 // A function that creates contents for a new Fluent file, which will be needed if any string changes.
 const createFluentFile = (): string => {
@@ -333,7 +333,14 @@ const ShredFluent = {
   positiveSignIonStringProperty: _.get( ShredStrings, 'positiveSignIonStringProperty' ),
   stableStringProperty: _.get( ShredStrings, 'stableStringProperty' ),
   unstableStringProperty: _.get( ShredStrings, 'unstableStringProperty' ),
-  periodicTableStringProperty: _.get( ShredStrings, 'periodicTableStringProperty' ),
+  periodicTable: {
+    nameStringProperty: _.get( ShredStrings, 'periodicTable.nameStringProperty' ),
+    keyboardHelpDialog: {
+      navigationStringProperty: _.get( ShredStrings, 'periodicTable.keyboardHelpDialog.navigationStringProperty' ),
+      activationStringProperty: _.get( ShredStrings, 'periodicTable.keyboardHelpDialog.activationStringProperty' ),
+      selectChemicalSymbolStringProperty: _.get( ShredStrings, 'periodicTable.keyboardHelpDialog.selectChemicalSymbolStringProperty' )
+    }
+  },
   a11y: {
     spokenSymbol: new FluentPattern<{ symbol: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_spokenSymbol', _.get( ShredStrings, 'a11y.spokenSymbolStringProperty' ), [{"name":"symbol"}] ),
     spokenSymbolUppercase: new FluentPattern<{ symbol: FluentVariable }>( fluentSupport.bundleProperty, 'a11y_spokenSymbolUppercase', _.get( ShredStrings, 'a11y.spokenSymbolUppercaseStringProperty' ), [{"name":"symbol"}] ),
@@ -372,11 +379,6 @@ const ShredFluent = {
           activationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_activation', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.activationStringProperty' ) ),
           selectionStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_interactiveButton_accessibleContextResponse_selection', _.get( ShredStrings, 'a11y.periodicTableNode.interactiveButton.accessibleContextResponse.selectionStringProperty' ) )
         }
-      },
-      keyboardHelpDialog: {
-        navigationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_keyboardHelpDialog_navigation', _.get( ShredStrings, 'a11y.periodicTableNode.keyboardHelpDialog.navigationStringProperty' ) ),
-        activationStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_keyboardHelpDialog_activation', _.get( ShredStrings, 'a11y.periodicTableNode.keyboardHelpDialog.activationStringProperty' ) ),
-        selectChemicalSymbolStringProperty: new FluentConstant( fluentSupport.bundleProperty, 'a11y_periodicTableNode_keyboardHelpDialog_selectChemicalSymbol', _.get( ShredStrings, 'a11y.periodicTableNode.keyboardHelpDialog.selectChemicalSymbolStringProperty' ) )
       }
     }
   }
