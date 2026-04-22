@@ -274,8 +274,18 @@ type StringsType = {
   'stableStringProperty': LocalizedStringProperty;
   'unstable': string;
   'unstableStringProperty': LocalizedStringProperty;
-  'periodicTable': string;
-  'periodicTableStringProperty': LocalizedStringProperty;
+  'periodicTable': {
+    'name': string;
+    'nameStringProperty': LocalizedStringProperty;
+    'keyboardHelpDialog': {
+      'navigation': string;
+      'navigationStringProperty': LocalizedStringProperty;
+      'activation': string;
+      'activationStringProperty': LocalizedStringProperty;
+      'selectChemicalSymbol': string;
+      'selectChemicalSymbolStringProperty': LocalizedStringProperty;
+    }
+  };
   'a11y': {
     'spokenSymbol': string;
     'spokenSymbolStringProperty': LocalizedStringProperty;
@@ -339,14 +349,6 @@ type StringsType = {
           'selection': string;
           'selectionStringProperty': LocalizedStringProperty;
         }
-      };
-      'keyboardHelpDialog': {
-        'navigation': string;
-        'navigationStringProperty': LocalizedStringProperty;
-        'activation': string;
-        'activationStringProperty': LocalizedStringProperty;
-        'selectChemicalSymbol': string;
-        'selectChemicalSymbolStringProperty': LocalizedStringProperty;
       }
     }
   }

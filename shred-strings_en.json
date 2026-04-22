@@ -393,7 +393,20 @@
     "value": "Unstable"
   },
   "periodicTable": {
-    "value": "Periodic Table"
+    "name": {
+      "value": "Periodic Table"
+    },
+    "keyboardHelpDialog": {
+      "navigation": {
+        "value": "Periodic Table Navigation"
+      },
+      "activation": {
+        "value": "Activate periodic table"
+      },
+      "selectChemicalSymbol": {
+        "value": "Select chemical symbol"
+      }
+    }
   },
   "a11y": {
     "spokenSymbol": {
@@ -484,17 +497,6 @@
           "selection": {
             "value": "Use WASD keys to select element."
           }
-        }
-      },
-      "keyboardHelpDialog": {
-        "navigation": {
-          "value": "Periodic Table Navigation"
-        },
-        "activation": {
-          "value": "Activate periodic table"
-        },
-        "selectChemicalSymbol": {
-          "value": "Select chemical symbol"
         }
       }
     }
