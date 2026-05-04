@@ -20,7 +20,11 @@ export type DecayPercentageTuple = readonly [ DecayTypeString, DecayAmount ];
 
 class AtomInfoUtils {
 
-  // Identifies whether a given atomic nucleus is stable.
+  /**
+   * Identify whether a given atomic nucleus is stable.
+   * @param numProtons
+   * @param numNeutrons
+   */
   public static isStable( numProtons: number, numNeutrons: number ): boolean {
     const tableEntry = stableElementTable[ numProtons ];
     if ( typeof ( tableEntry ) === 'undefined' ) {
@@ -30,10 +34,17 @@ class AtomInfoUtils {
     return tableEntry.includes( numNeutrons );
   }
 
+  /**
+   * Get the number of neutrons in the most common isotope of an element given its atomic number.
+   */
   public static getNumNeutronsInMostCommonIsotope( atomicNumber: number ): number {
     return numNeutronsInMostStableIsotope[ atomicNumber ] || 0;
   }
 
+  /**
+   * Get the standard atomic mass of an element given its atomic number.  This is the average atomic mass of all
+   * stable isotopes for the provided number weighted by their prevalence. 
+   */
   public static getStandardAtomicMass( numProtons: number ): number {
     return standardMassTable[ numProtons ];
   }
@@ -57,7 +68,7 @@ class AtomInfoUtils {
   }
 
   /**
-   * Returns the natural abundance of the specified isotope on present day Earth (circa 2020) as a proportion (NOT a
+   * Get the natural abundance of the specified isotope on present day Earth (circa 2020) as a proportion (NOT a
    * percentage) with the specified number of decimal places.
    */
   public static getNaturalAbundance( isotope: TReadOnlyNumberAtom, numDecimalPlaces: number ): number {
@@ -93,10 +104,7 @@ class AtomInfoUtils {
   }
 
   /**
-   * Get a list of all isotopes for the given atomic number.
-   *
-   * @param atomicNumber
-   * @return
+   * Get a list of all stable isotopes for the given atomic number.
    */
   public static getAllIsotopesOfElement( atomicNumber: number ): AtomConfig[] {
     const isotopesList: AtomConfig[] = [];
@@ -117,9 +125,6 @@ class AtomInfoUtils {
   /**
    * Get a list of all isotopes that are considered stable.  This is needed because the complete list of isotopes used
    * by this class includes some that exist on earth but are not stable, such as carbon-14.
-   *
-   * @param atomicNumber
-   * @return
    */
   public static getStableIsotopesOfElement( atomicNumber: number ): AtomConfig[] {
     const isotopesList = this.getAllIsotopesOfElement( atomicNumber );
@@ -137,9 +142,11 @@ class AtomInfoUtils {
     return stableIsotopesList;
   }
 
-  // Get the half-life of a nuclide in seconds with the specified number of protons and neutrons.
-  // Return -1 if the half-life data is unknown.
-  // Return null if there does not exist an entry in HalfLifeConstants for a given proton or neutron number.
+  /**
+   * Get the half-life of a nuclide with the specified number of protons and neutrons. Return -1 if the half-life data
+   * is unknown. Return null if there does not exist an entry in our data for the provided configuration.
+   * @returns half-life in seconds
+   */
   public static getNuclideHalfLife( numProtons: number, numNeutrons: number ): number | null {
     if ( !HalfLifeConstants.hasOwnProperty( numProtons ) || !HalfLifeConstants[ numProtons ].hasOwnProperty( numNeutrons ) ) {
       return null;
@@ -150,64 +157,79 @@ class AtomInfoUtils {
     return HalfLifeConstants[ numProtons ][ numNeutrons ];
   }
 
-  // Identifies whether a given nuclide exists
+  /**
+   * Identify whether a given nuclide exists.
+   */
   public static doesExist( numProtons: number, numNeutrons: number ): boolean {
     const isStable = this.isStable( numProtons, numNeutrons );
     const halfLife = this.getNuclideHalfLife( numProtons, numNeutrons );
     return !( !isStable && halfLife === null );
   }
 
-  // Return if the next isotope of the given nuclide exists
+  /**
+   * Return a boolean indicating whether the next nuclide in terms of the number of neutrons exists.
+   */
   public static doesNextIsotopeExist( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons, numNeutrons + 1 ) !== null ||
            this.isStable( numProtons, numNeutrons + 1 );
-
   }
 
-  // Return if the previous isotope of the given nuclide exists
+  /**
+   * Return if the previous isotope of the given nuclide exists.
+   */
   public static doesPreviousIsotopeExist( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons, numNeutrons - 1 ) !== null ||
            this.isStable( numProtons, numNeutrons - 1 );
   }
 
-  // Return if the next isotone of the given nuclide exists
+  /**
+   * Return if the next isotone of the given nuclide exists.
+   */
   public static doesNextIsotoneExist( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons + 1, numNeutrons ) !== null ||
            this.isStable( numProtons + 1, numNeutrons );
   }
 
-  // Return if the previous isotone of the given nuclide exists
+  /**
+   * Return if the previous isotone of the given nuclide exists.
+   */
   public static doesPreviousIsotoneExist( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons - 1, numNeutrons ) !== null ||
            this.isStable( numProtons - 1, numNeutrons );
   }
 
-  // Return if the nuclide of the given nuclide plus one proton and plus one neutron exists
+  /**
+   * Return if the nuclide of the given nuclide plus one proton and plus one neutron exists.
+   */
   public static doesNextNuclideExist( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons + 1, numNeutrons + 1 ) !== null ||
            this.isStable( numProtons + 1, numNeutrons + 1 );
   }
 
-  // Return if the nuclide of the given nuclide minus one proton and minus one neutron exists
+  /**
+   * Return if the nuclide of the given nuclide minus one proton and minus one neutron exists.
+   */
   public static doesPreviousNuclideExist( numProtons: number, numNeutrons: number ): boolean {
     return this.getNuclideHalfLife( numProtons - 1, numNeutrons - 1 ) !== null ||
            this.isStable( numProtons - 1, numNeutrons - 1 );
   }
 
-  // Get the available decays, and likelihood percents of those decays, for an unstable nuclide. Returns an empty array
-  // if the decays are unknown or if the nuclide does not exist or is stable.
-  // The first value in the map is the most likely decay (has a decay likelihood of 100%).
-  // Please note that you could end up with 2 entries for the same DecayTypeString where one is null and the other is a percent
+  /**
+   * Get the available decays and likelihood percents for an unstable nuclide. Returns an empty array if the decays are
+   * unknown or if the nuclide does not exist or is stable. The first value in the map is the most likely decay (has a
+   * decay likelihood of 100%). Please note that you could end up with 2 entries for the same DecayTypeString where one
+   * is null and the other is a percent.
+   */
   public static getAvailableDecaysAndPercents( numProtons: number, numNeutrons: number ): DecayPercentageTuple[] {
     const allDecaysAndPercents = DECAYS_INFO_TABLE[ numProtons ][ numNeutrons ];
 
-    // undefined means the nuclide is stable or does not exist, meaning there are no available decays
-    // null the nuclide is unstable and the available decays are unknown
     if ( allDecaysAndPercents === undefined || allDecaysAndPercents === null ) {
+
+      // No decay paths exist for the provided nucleus configuration.
       return [];
     }
 
-    // the nuclide is unstable and the available decays are known
+    // The nuclide is unstable and the available decays are known.
     else {
       const allDecays = Object.keys( allDecaysAndPercents );
       const basicDecays: DecayPercentageTuple[] = [];
