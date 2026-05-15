@@ -40,7 +40,8 @@ export const PARTICLE_COLORS: Record<ParticleType, Color> = {
 
 // ParticleType is a list of all the particle types supported in the shred library.  These types are used to for things
 // like particle color, particle behavior in the model, error checking, and so forth.
-export type ParticleType = 'proton' | 'neutron' | 'electron' | 'positron' | 'isotope' | 'alpha';
+export const ParticleTypeValues = [ 'proton', 'neutron', 'electron', 'positron', 'isotope', 'alpha' ] as const;
+export type ParticleType = ( typeof ParticleTypeValues )[ number ];
 
 type SelfOptions = {
   maxZLayer?: number;
