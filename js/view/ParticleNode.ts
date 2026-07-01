@@ -36,9 +36,7 @@ class ParticleNode extends Circle {
     const options = optionize<ParticleNodeOptions, SelfOptions, CircleOptions>()( {
 
       cursor: 'pointer',
-
       typeProperty: null,
-
       colorProperty: baseColorProperty,
 
       // Since we're doing a radial gradient, we found that using the same base color as stroke works best for contrast
@@ -46,7 +44,6 @@ class ParticleNode extends Circle {
     }, providedOptions );
 
     affirm( options.fill === undefined, 'fill will be set programmatically and should not be specified' );
-    affirm( options.lineWidth === undefined, 'line width will be set programmatically and should not be specified' );
 
     super( radius, options );
 
@@ -57,7 +54,6 @@ class ParticleNode extends Circle {
       .addColorStop( 0, 'white' )
       .addColorStop( 1, options.colorProperty );
     this.stroke = options.stroke;
-    this.lineWidth = 1;
 
     this.disposeParticleNode = () => {
       ownsColorProperty && options.colorProperty.dispose();
