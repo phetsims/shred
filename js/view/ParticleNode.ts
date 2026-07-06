@@ -25,6 +25,10 @@ type ParticleNodeOptions = SelfOptions & CircleOptions;
 class ParticleNode extends Circle {
   private readonly disposeParticleNode: VoidFunction;
 
+  // The color that the radius-dependent gradient fill is built from. Assigned in the constructor body, so it is
+  // undefined while the Circle super-constructor sets the initial radius (see setRadius).
+  private readonly fillBaseColorProperty: TReadOnlyProperty<Color>;
+
   public constructor( particleType: ParticleType, radius: number, providedOptions?: ParticleNodeOptions ) {
 
     // Get the color to use as the basis for the gradients, fills, strokes and such.
@@ -47,17 +51,42 @@ class ParticleNode extends Circle {
 
     super( radius, options );
 
+    this.fillBaseColorProperty = options.colorProperty;
+
     // Create the fill that will be used to make the particles look 3D when not in high-contrast mode.
-    this.fill = new RadialGradient(
-      -radius * 0.4, -radius * 0.4, 0,
-      -radius * 0.4, -radius * 0.4, radius * 1.6 )
-      .addColorStop( 0, 'white' )
-      .addColorStop( 1, options.colorProperty );
+    this.updateFill();
     this.stroke = options.stroke;
 
     this.disposeParticleNode = () => {
       ownsColorProperty && options.colorProperty.dispose();
     };
+  }
+
+  /**
+   * Builds the radial-gradient fill that makes the particle look 3D. It is sized relative to the current radius, so it
+   * must be rebuilt whenever the radius changes (see setRadius).
+   */
+  private updateFill(): void {
+    const radius = this.radius;
+    this.fill = new RadialGradient(
+      -radius * 0.4, -radius * 0.4, 0,
+      -radius * 0.4, -radius * 0.4, radius * 1.6 )
+      .addColorStop( 0, 'white' )
+      .addColorStop( 1, this.fillBaseColorProperty );
+  }
+
+  /**
+   * Override so that changing the radius also rebuilds the fill, whose gradient is scaled to the radius.
+   */
+  public override setRadius( radius: number ): this {
+    super.setRadius( radius );
+
+    // Guard against the call the Circle super-constructor makes before fillBaseColorProperty is assigned; the
+    // constructor builds the initial fill itself once everything is set up.
+    if ( this.fillBaseColorProperty ) {
+      this.updateFill();
+    }
+    return this;
   }
 
   public override dispose(): void {
